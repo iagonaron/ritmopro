@@ -85,12 +85,16 @@ details.selector[open]>summary .chev{transform:rotate(90deg);}
 .pulse-toggle.on .sw{background:rgba(220,38,38,.25);border-color:var(--pulse);}
 .pulse-toggle.on .sw::after{left:18px;background:var(--pulse);}
 .pulse-toggle .tick{color:var(--pulse);font-weight:800;}
-.gen{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,var(--gold1),var(--gold2));color:#231807;border:none;border-radius:12px;padding:13px 22px;font-family:inherit;font-size:15px;font-weight:800;letter-spacing:.01em;cursor:pointer;box-shadow:0 8px 24px rgba(212,175,55,.22);transition:transform .08s,box-shadow .2s;}
+.gen{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--gold1),var(--gold2));color:#231807;border:none;border-radius:11px;padding:9px;width:42px;height:40px;cursor:pointer;box-shadow:0 8px 24px rgba(212,175,55,.22);transition:transform .08s,box-shadow .2s;}
+.gen svg{width:22px;height:22px;}
 .gen:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(212,175,55,.34);}
 .gen svg{width:22px;height:22px;display:block;}
 
 /* ---- lección ---- */
 #lessonArea{display:none;}#lessonArea.show{display:block;animation:fade .35s ease;}
+#phaseBannerHost{position:absolute;inset:0;z-index:40;pointer-events:none;}
+#phaseBannerHost>*{pointer-events:auto;}
+#prepHost{position:absolute;left:50%;top:16px;transform:translateX(-50%);width:92%;max-width:640px;}
 @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
 .lesson-tags{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:14px;justify-content:center;}
 .lesson-tags span{border:1px solid var(--line);border-radius:999px;padding:4px 13px;background:rgba(255,255,255,.02);}
@@ -117,6 +121,14 @@ footer .lock{color:var(--gold1);}
 .entry-card .lead b{color:var(--gold-soft);}
 .trim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;text-align:left;align-items:stretch;}
 @media(max-width:560px){.trim-grid{grid-template-columns:1fr;}}
+.course-grid{grid-template-columns:repeat(2,1fr);}
+@media(max-width:560px){.course-grid{grid-template-columns:1fr;}}
+.trim-pick.picked{border-color:var(--gold1);box-shadow:0 0 0 2px var(--gold1) inset,0 12px 28px rgba(212,175,55,.22);transform:translateY(-2px);}
+.trim-pick.picked .edge{opacity:1;}
+.course-back{margin-top:16px;font-family:inherit;font-size:13px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:9px;padding:8px 14px;cursor:pointer;transition:all .12s;}
+.course-back:hover{border-color:var(--gold1);color:var(--gold-soft);}
+.entry-count{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.7);font-size:140px;font-weight:900;color:var(--gold-soft);opacity:0;pointer-events:none;text-shadow:0 6px 30px rgba(0,0,0,.6);transition:opacity .12s,transform .25s;}
+.entry-count.show{opacity:1;transform:translate(-50%,-50%) scale(1);}
 .trim-pick{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:15px;padding:48px 22px 24px;cursor:pointer;transition:all .15s;font-family:inherit;color:var(--ink);min-height:230px;height:100%;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;}
 @media(max-width:560px){.trim-pick{min-height:auto;}}
 .trim-pick .edge{position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(var(--gold1),var(--gold2));opacity:.5;transition:opacity .15s;}
@@ -137,7 +149,9 @@ footer .lock{color:var(--gold1);}
 .lmpro-logo .pr{font-weight:900;font-size:9.5px;letter-spacing:.1em;color:#1a1407;background:linear-gradient(135deg,var(--gold1),var(--gold2));padding:1px 6px;border-radius:5px;}
 .lmpro-logo .ho{font-style:italic;font-family:Georgia,serif;font-size:11.5px;color:var(--gold-soft);}
 .lmpro-logo .arr{font-size:11px;color:var(--muted2);}
-.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap;}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px 18px;margin-bottom:18px;flex-wrap:wrap;}
+.topbar .tabs{margin-bottom:0;justify-content:flex-start;flex-wrap:nowrap;}
+.topbar .bar-right{gap:10px;}
 
 /* ====== modal de grupos (pantalla completa, 2º trimestre) ====== */
 .modal-scrim{position:fixed;inset:0;z-index:80;background:rgba(8,5,1,.72);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:32px 18px;}
@@ -191,30 +205,42 @@ footer .lock{color:var(--gold1);}
 .pop .pop-x{margin-top:14px;text-align:right;}
 .pop .pop-x button{font-family:inherit;font-weight:700;font-size:13px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:8px 16px;cursor:pointer;}
 
-/* ====== overlay de estudio guiado (fases) ====== */
-.study-btn{font-family:inherit;font-weight:800;font-size:14px;color:var(--gold-soft);background:rgba(212,175,55,.08);border:1px solid var(--gold2);border-radius:11px;padding:10px 18px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:all .14s;margin-left:8px;}
+/* ====== estudio guiado por fases (integrado en la página, no overlay) ====== */
+.study-btn{font-family:inherit;font-weight:800;font-size:13px;color:var(--gold-soft);background:rgba(212,175,55,.08);border:1px solid var(--gold2);border-radius:10px;padding:8px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .14s;white-space:nowrap;}
 .study-btn:hover{background:rgba(212,175,55,.16);transform:translateY(-1px);}
 .study-btn svg{width:17px;height:17px;}
-.phase-scrim{position:fixed;inset:0;z-index:70;background:linear-gradient(180deg,rgba(10,7,2,.5),rgba(10,7,2,.78));backdrop-filter:blur(2px);display:none;flex-direction:column;}
-.phase-scrim.show{display:flex;}
-.phase-top{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--line);background:rgba(22,15,4,.85);flex-wrap:wrap;}
-.phase-steps{display:flex;gap:6px;flex:1;flex-wrap:wrap;}
-.phase-step{font-size:11px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted2);white-space:nowrap;}
+.study-btn.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);}
+/* barra de pasos: ahora una tira integrada sobre la lección */
+.phase-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.phase-steps{display:flex;gap:6px;flex-wrap:wrap;}
+.phase-step{font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted2);white-space:nowrap;font-family:inherit;cursor:pointer;background:transparent;transition:all .12s;}
+.phase-step:hover{border-color:var(--gold2);color:var(--gold-soft);}
 .phase-step.done{border-color:var(--gold2);color:var(--gold-soft);background:rgba(212,175,55,.07);}
 .phase-step.cur{border-color:var(--gold1);color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));font-weight:800;}
-.phase-close{font-family:inherit;font-size:13px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:9px;padding:7px 14px;cursor:pointer;}
+.phase-close{font-family:inherit;font-size:14px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:9px;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
 .phase-close:hover{border-color:var(--red);color:var(--red);}
-.phase-body{flex:1;overflow-y:auto;padding:18px 22px;}
-.phase-banner{max-width:760px;margin:0 auto 16px;position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--gold2);border-left:5px solid var(--gold1);border-radius:14px;padding:16px 20px;box-shadow:var(--shadow);animation:bannerIn .3s ease;}
+.phase-banner{position:relative;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--gold2);border-left:5px solid var(--gold1);border-radius:14px;padding:18px 22px;box-shadow:0 18px 50px rgba(0,0,0,.55);animation:bannerIn .3s ease;max-width:640px;width:92%;}
+/* la tarjeta informativa se superpone a la lección (modal), con el botón "Entendido" para saltarla */
+.phase-cardscrim{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,7,2,.72),rgba(10,7,2,.86));backdrop-filter:blur(3px);border-radius:14px;padding:16px;}
+.pb-ok{margin-top:16px;display:flex;justify-content:flex-end;align-items:center;}
+.pb-x{position:absolute;top:10px;right:12px;background:transparent;border:none;color:var(--muted2);font-size:16px;cursor:pointer;line-height:1;padding:4px 6px;border-radius:6px;transition:color .12s;}
+.pb-x:hover{color:var(--red);}
+.pb-count{font-size:15px;font-weight:800;color:var(--gold-soft);min-width:24px;height:30px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--gold2);border-radius:999px;background:rgba(212,175,55,.08);}
+.phase-banner .pb-t2{font-size:15px;font-weight:800;color:var(--gold-soft);margin:14px 0 6px;}
+.phase-banner .vb-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.phase-banner .vb-btns button{font-family:inherit;font-size:13px;font-weight:700;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 16px;cursor:pointer;transition:all .12s;}
+.phase-banner .vb-btns button:hover{border-color:var(--gold2);}
+.phase-banner .vb-btns button.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);}
 .card-cd{position:absolute;top:12px;right:16px;font-size:11px;font-weight:700;color:var(--muted2);background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:999px;min-width:20px;height:20px;padding:0 6px;display:none;align-items:center;justify-content:center;}
 .card-cd.show{display:flex;}
 @keyframes bannerIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:none;}}
 .phase-banner.fade{transition:opacity .6s,max-height .6s,padding .6s,margin .6s;opacity:0;max-height:0;padding-top:0;padding-bottom:0;margin-bottom:0;overflow:hidden;}
 .phase-banner .pb-k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2);margin:0 0 4px;}
-.phase-banner .pb-t{font-size:18px;font-weight:900;color:var(--gold-soft);margin:0 0 6px;letter-spacing:-.3px;}
-.phase-banner .pb-d{font-size:14px;color:var(--muted);line-height:1.6;margin:0;}
-.phase-sheet{max-width:1084px;margin:0 auto;background:var(--paper);border-radius:14px;padding:14px 8px;box-shadow:0 12px 40px rgba(0,0,0,.4);overflow-x:auto;}
-.phase-controls{position:sticky;bottom:0;display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 22px;border-top:1px solid var(--line);background:rgba(22,15,4,.92);flex-wrap:wrap;}
+.phase-banner .pb-t{font-size:19px;font-weight:900;color:var(--gold-soft);margin:0 0 8px;letter-spacing:-.3px;}
+.phase-banner .pb-d{font-size:14.5px;color:var(--muted);line-height:1.65;margin:0;}
+/* barra de controles: una sola línea, compacta */
+.phase-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(22,15,4,.6);margin-top:16px;flex-wrap:wrap;overflow:visible;}
+.phase-controls .pc-btn{flex:none;}
 .pc-btn{font-family:inherit;font-weight:800;font-size:14px;border-radius:11px;padding:11px 20px;cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);display:inline-flex;align-items:center;gap:8px;transition:all .14s;}
 .pc-btn:hover{border-color:var(--gold1);}
 .pc-btn.primary{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border:none;box-shadow:0 8px 22px rgba(212,175,55,.26);}
@@ -223,9 +249,15 @@ footer .lock{color:var(--gold1);}
 .pc-btn:disabled{opacity:.4;cursor:not-allowed;}
 .tempo-ctl{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted2);}
 .tempo-ctl input{accent-color:var(--gold1);}
-.ref-ctl{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12px;color:var(--muted2);}
-.ref-ctl button{font-family:inherit;font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:5px 10px;cursor:pointer;}
+.ref-ctl{display:inline-flex;align-items:center;gap:4px;flex-wrap:nowrap;font-size:11px;color:var(--muted2);}
+.ref-ctl .ref-l{white-space:nowrap;}
+.ref-ctl button{font-family:inherit;font-size:11px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:5px 8px;cursor:pointer;white-space:nowrap;}
 .ref-ctl button.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);font-weight:700;}
+/* tooltip instantáneo (sin el retardo del title del navegador) */
+.tipw{position:relative;}
+.tipw::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1305;color:var(--ink);border:1px solid var(--gold2);border-radius:8px;padding:6px 10px;font-size:11.5px;font-weight:600;line-height:1.35;white-space:normal;width:max-content;max-width:200px;text-align:center;box-shadow:0 8px 22px rgba(0,0,0,.5);opacity:0;visibility:hidden;pointer-events:none;z-index:60;}
+.tipw::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--gold2);opacity:0;visibility:hidden;pointer-events:none;z-index:60;}
+.tipw:hover::after,.tipw:hover::before{opacity:1;visibility:visible;}
 .vf-gold path,.vf-gold rect{fill:var(--gold2)!important;stroke:var(--gold2)!important;}
 .prep-seq{max-width:640px;margin:0 auto;text-align:center;}
 .prep-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0;}
@@ -234,13 +266,15 @@ footer .lock{color:var(--gold1);}
 .countin{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:120px;font-weight:900;color:var(--gold-soft);opacity:0;pointer-events:none;z-index:5;text-shadow:0 6px 30px rgba(0,0,0,.5);}
 .countin.show{animation:cdpop .6s ease;}
 @keyframes cdpop{0%{opacity:0;transform:translate(-50%,-50%) scale(1.6);}30%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-50%) scale(.85);}}
-.velsub{display:inline-flex;gap:14px;align-items:center;flex-wrap:wrap;padding:4px 0;transition:box-shadow .2s,transform .2s;border-radius:12px;}
+.velsub{display:inline-flex;gap:10px;align-items:center;flex-wrap:nowrap;padding:4px 0;transition:box-shadow .2s,transform .2s;border-radius:12px;}
 .velsub.pulse{animation:vspulse 0.8s ease 2;}
 @keyframes vspulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0);}50%{box-shadow:0 0 0 3px rgba(212,175,55,.5);}}
 .seg{display:inline-flex;align-items:center;gap:6px;}
 .seg-l{font-size:11.5px;color:var(--muted2);letter-spacing:.04em;}
 .seg button{font-family:inherit;font-size:13px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer;transition:all .12s;}
 .seg button.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);font-weight:800;}
+.seg button.subsym{padding:5px 11px;min-width:34px;display:inline-flex;align-items:center;justify-content:center;}
+.seg button.subsym svg{display:block;}
 .velrow{gap:10px;}
 .velbar{display:inline-flex;align-items:center;gap:8px;padding:4px 8px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:opacity .2s,filter .2s;}
 .velbar.locked{opacity:.4;filter:grayscale(1);pointer-events:none;}
@@ -282,11 +316,25 @@ footer .lock{color:var(--gold1);}
   <div class="entry-card">
     <span class="home-pill">LM · at home · PRO</span>
     <h1 class="brand-title"><span class="a">RIT</span><span class="mo">MO</span><span class="h">at home</span><span class="pro">PRO</span></h1>
-    <p class="lead">Trabajo guiado por fases de ejercicios de ritmo para <b>2º de Grado Profesional</b>.<br>Para empezar, elige el <b>trimestre</b> que estás trabajando.</p>
-    <div class="trim-grid" id="trimGrid">
-      <button class="trim-pick" data-trim="t1"><span class="edge"></span><span class="tp-n">1º Trimestre</span><span class="tp-d">Compases irregulares (5/8, 7/8) garantizados, combinados con compuestos/simples.</span></button>
-      <button class="trim-pick" data-trim="t2"><span class="edge"></span><span class="tp-n">2º Trimestre</span><span class="tp-d">Grupos de valoración especial en uno o varios pulsos. Tú eliges cuáles.</span></button>
-      <button class="trim-pick" data-trim="t3"><span class="edge"></span><span class="tp-n">3º Trimestre</span><span class="tp-d">Subdivisión binaria, ternaria… con abundantes fusas en ambas claves.</span></button>
+
+    <!-- paso 1: elegir curso -->
+    <div id="courseStep">
+      <p class="lead">Trabajo guiado por fases de ejercicios de ritmo.<br>Para empezar, elige el <b>curso</b> que estás trabajando.</p>
+      <div class="trim-grid course-grid">
+        <button class="trim-pick" data-course="gp1"><span class="edge"></span><span class="tp-n">1º de Grado Profesional</span><span class="tp-d">Primer curso de Grado Profesional.</span></button>
+        <button class="trim-pick" data-course="gp2"><span class="edge"></span><span class="tp-n">2º de Grado Profesional</span><span class="tp-d">Segundo curso: compases irregulares, grupos de valoración especial y subdivisión con fusas.</span></button>
+      </div>
+    </div>
+
+    <!-- paso 2: elegir trimestre (solo 2º GP, de momento) -->
+    <div id="trimStep" style="display:none;">
+      <p class="lead">Trabajo guiado por fases de ejercicios de ritmo para <b>2º de Grado Profesional</b>.<br>Elige el <b>trimestre</b> que estás trabajando.</p>
+      <div class="trim-grid" id="trimGrid">
+        <button class="trim-pick" data-trim="t1"><span class="edge"></span><span class="tp-n">1º Trimestre</span><span class="tp-d">Compases irregulares (5/8, 7/8) garantizados, combinados con compuestos/simples.</span></button>
+        <button class="trim-pick" data-trim="t2"><span class="edge"></span><span class="tp-n">2º Trimestre</span><span class="tp-d">Grupos de valoración especial en uno o varios pulsos. Tú eliges cuáles.</span></button>
+        <button class="trim-pick" data-trim="t3"><span class="edge"></span><span class="tp-n">3º Trimestre</span><span class="tp-d">Subdivisión binaria, ternaria… con abundantes fusas en ambas claves.</span></button>
+      </div>
+      <button class="course-back" id="courseBack">← Cambiar de curso</button>
     </div>
   </div>
 </div>
@@ -303,14 +351,30 @@ footer .lock{color:var(--gold1);}
   <div class="brand-row">
     <h1 class="brand-title"><span class="a">RIT</span><span class="mo">MO</span><span class="h">at home</span><span class="pro">PRO</span></h1>
   </div>
-  <p class="sub">Lectura rítmico-melódica · generación de lecciones originales</p>
 </header>
 <div class="hairline"></div>
 
-<div class="tabs" role="tablist">
-<button class="tab" data-trim="t1" aria-selected="false">1º Trimestre</button>
-<button class="tab" data-trim="t2" aria-selected="false">2º Trimestre</button>
-<button class="tab" data-trim="t3" aria-selected="false">3º Trimestre</button>
+<!-- una sola fila: trimestres (izq) + acciones (der) -->
+<div class="topbar">
+  <div class="tabs" role="tablist">
+    <button class="tab" data-trim="t1" aria-selected="false">1T</button>
+    <button class="tab" data-trim="t2" aria-selected="false">2T</button>
+    <button class="tab" data-trim="t3" aria-selected="false">3T</button>
+  </div>
+  <!-- acciones normales (fuera del estudio) -->
+  <div class="bar-right" id="barActions">
+    <button class="study-btn" id="studyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Estudiar por fases</button>
+    <button class="study-btn" id="accompBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Prueba directa</button>
+    <label class="pulse-toggle on" id="pulseToggle"><span class="sw"></span><span><span class="tick">|</span> Rayitas</span></label>
+    <button class="gen" id="genBtn" title="Generar lección">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/><circle cx="16" cy="8" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="8" cy="16" r="1.6" fill="currentColor"/><circle cx="16" cy="16" r="1.6" fill="currentColor"/></svg>
+    </button>
+  </div>
+  <!-- barra de pasos del estudio (ocupa el hueco de las acciones cuando se estudia) -->
+  <div class="phase-top" id="phaseTop" style="display:none;">
+    <div class="phase-steps" id="phaseSteps"></div>
+    <button class="phase-close" id="phaseClose" title="Salir del estudio">✕</button>
+  </div>
 </div>
 
 <!-- cartel 2º trimestre -->
@@ -327,23 +391,16 @@ footer .lock{color:var(--gold1);}
   <span id="groupSummary" style="font-size:12.5px;color:var(--muted2);margin-left:10px;"></span>
 </div>
 
-<div class="bar">
-  <h2 id="trimName">·</h2>
-  <div class="bar-right">
-    <button class="study-btn" id="studyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Estudiar por fases</button>
-    <button class="study-btn" id="accompBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Prueba directa</button>
-    <label class="pulse-toggle on" id="pulseToggle"><span class="sw"></span><span><span class="tick">|</span> Rayitas de pulso</span></label>
-    <button class="gen" id="genBtn">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/><circle cx="16" cy="8" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="8" cy="16" r="1.6" fill="currentColor"/><circle cx="16" cy="16" r="1.6" fill="currentColor"/></svg>
-      Generar lección
-    </button>
-  </div>
-</div>
-
 <div id="lessonArea">
-<div class="lesson-tags" id="lessonTags"></div>
-<div class="sheet" id="score"></div>
+<div class="lesson-tags" id="lessonTags" style="display:none;"></div>
+<!-- zona de la lección; el modal de tarjeta se superpone solo aquí -->
+<div id="scoreWrap" style="position:relative;">
+  <div id="phaseBannerHost"></div>
+  <div class="sheet" id="score"></div>
+</div>
 <p class="sheet-cap" id="sheetCap">Las <span class="r">rayitas rojas</span> marcan dónde cae cada pulso dentro del grupo de valoración especial. · Desliza para ver el compás completo →</p>
+<!-- controles del estudio por fases (debajo de la lección; ocultos fuera del modo estudio) -->
+<div class="phase-controls" id="phaseControls" style="display:none;"></div>
 <div class="analysis" id="analysisBox"></div>
 </div>
 
@@ -382,15 +439,7 @@ footer .lock{color:var(--gold1);}
   </div>
 </div>
 
-<!-- ======= OVERLAY DE ESTUDIO POR FASES ======= -->
-<div class="phase-scrim" id="phaseScrim">
-  <div class="phase-top">
-    <div class="phase-steps" id="phaseSteps"></div>
-    <button class="phase-close" id="phaseClose">✕ Salir del estudio</button>
-  </div>
-  <div class="phase-body" id="phaseBody"></div>
-  <div class="phase-controls" id="phaseControls"></div>
-</div>
+<!-- (el estudio por fases ahora vive integrado dentro de #lessonArea, no en un overlay a pantalla completa) -->
 
 <script>
 /* RITMO at home PRO — MOTOR v6
@@ -1927,6 +1976,7 @@ let currentLesson=null;
 function useGroupsFor(trim){ return trim==='t2'?activeGroups:(trim==='rep'?REP_GROUPS:null); }
 
 function generateLesson(seed){
+  if(studyMode) closeStudy();   // si estábamos en estudio por fases, salir antes de regenerar
   if(currentTrim==='t2' && (!activeGroups||!activeGroups.length)){
     document.getElementById('score').innerHTML='<div style="color:#7a1407;padding:34px 18px;text-align:center;font-weight:600;">Marca al menos un grupo para generar la lección.</div>';
     document.getElementById('lessonArea').classList.add('show'); document.getElementById('analysisBox').innerHTML='';
@@ -2345,11 +2395,11 @@ let isPlaying=false, activePlayBtn=null;
 function setPlayState(p){ isPlaying=p; const b=activePlayBtn; if(!b) return;
   b.classList.toggle('stop',p); b.classList.toggle('play',!p);
   b.innerHTML = p ? '⏸ Pausa' : '▶ Reproducir'; }
-function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; document.getElementById('phaseScrim').appendChild(cd); } return cd; }
+function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; document.getElementById('lessonArea').appendChild(cd); } return cd; }
 function showCountdown(cd,n){ cd.textContent=n; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); }
 function hideCountdown(){ const cd=document.getElementById('countIn'); if(cd)cd.classList.remove('show'); }
 function stopPlayer(){ if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio();
-  document.querySelectorAll('.phase-sheet .vf-gold').forEach(e=>e.classList.remove('vf-gold')); setPlayState(false); }
+  document.querySelectorAll('#score .vf-gold').forEach(e=>e.classList.remove('vf-gold')); setPlayState(false); }
 function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, refSet, onEnd}
   stopPlayer(); const c=ac(); if(!c){ opts.onEnd&&opts.onEnd(); return; }
   const spq=60/opts.bpm; const t0=c.currentTime+0.18; const sched=opts.schedule;
@@ -2419,7 +2469,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   if(opts.gold && gEls.length){ const startPerf=performance.now()+ (t0+leadDur-c.currentTime)*1000;
     const loop=()=>{ const elapsed=(performance.now()-startPerf)/1000;
       gEv.forEach((nt,idx)=>{ const e=gEls[idx]; if(!e)return; const s=qToSec(nt.onsetQ), en=qToSec(nt.onsetQ+nt.durQ); const on=elapsed>=s-0.03&&elapsed<en; e.classList.toggle('vf-gold',on); });
-      if(performance.now()<startPerf+totalSec*1000+200) player.raf=requestAnimationFrame(loop); else { document.querySelectorAll('.phase-sheet .vf-gold').forEach(x=>x.classList.remove('vf-gold')); }
+      if(performance.now()<startPerf+totalSec*1000+200) player.raf=requestAnimationFrame(loop); else { document.querySelectorAll('#score .vf-gold').forEach(x=>x.classList.remove('vf-gold')); }
     }; player.raf=requestAnimationFrame(loop);
   }
   const tid=setTimeout(()=>{ opts.onEnd&&opts.onEnd(); },(endAt-c.currentTime)*1000+50);
@@ -2428,16 +2478,13 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
 
 /* ============================== FASES DE ESTUDIO ============================== */
 const PHASE_DEFS=[
-  {id:'analisis',name:'Análisis',banner:{k:'Fase 1',t:'Echa un vistazo general',d:'Estate aquí todo el tiempo que necesites antes de empezar. Mira la lección desde lejos para tener una idea general y luego ve al detalle, a lo que creas que es más delicado. Cuando estés listo, avanza a la siguiente fase.'},kind:'analisis'},
-  {id:'percu',name:'Ronda con percusión',banner:{k:'Fase 2',t:'Acompaña el ritmo',d:'Suena el ritmo de la lección y tú lo acompañas con percusión: lápiz en la mesa (recomendado), palmas, golpes alternando las dos manos si va muy rápido, o incluso tarareando sin decir notas. El objetivo es aislar solo la dificultad rítmica. Las figuras se iluminan en dorado al sonar.'},kind:'percussion'},
-  {id:'claqueta',name:'Lápiz con claqueta',banner:{k:'Fase 3',t:'Tú marcas el ritmo',d:'Ahora el ritmo no suena: solo la claqueta marca los pulsos (con cuenta atrás 3-2-1 para entrar). Reprodúcelo tú con percusión. Las figuras siguen iluminándose en dorado para guiarte.'},kind:'claqueta'},
-  {id:'solfeo',name:'Solfeando',banner:{k:'Fase 4',t:'Solfeando',d:'Di el nombre de las notas en su sitio, con la claqueta. Marca los pulsos con la mano; si te cuesta, hazlo todo percutiendo. Las notas se iluminan en dorado aunque su ritmo no suene.'},kind:'solfeo'},
-  {id:'entona',name:'Con entonación',banner:{k:'Fase 5',t:'Con entonación (doblado)',d:'La aplicación toca la melodía mientras tú la cantas, doblando. Apóyate en lo que suena.'},kind:'entonacion'},
-  {id:'solo',name:'Cantas solo',banner:{k:'Fase 6',t:'Cantas tú solo',d:'Solo claqueta y las notas de referencia que elijas. Elige cuántas referencias quieres y canta el resto por tu cuenta.'},kind:'solo'},
+  {id:'ritmo',name:'Ritmo aislado',banner:{k:'',t:'Antes de empezar',d:'Tómate tu tiempo para analizar la obra. Revísala desde lo general para situarte hasta lo particular para descifrar lo que veas más retador. Cuando estés listo/a, dale al play y empezamos aislando solo el ritmo: acompáñalo con percusión —lápiz en la mesa, palmas, o lo que prefieras—, sin necesidad de momento de preocuparte por el nombre de las notas. Las figuras se iluminan en dorado al sonar.'},kind:'ritmo'},
+  {id:'lectura',name:'Lectura',banner:{k:'',t:'Lectura',d:'Ahora sí que es turno de decir el nombre de las notas. Deja el lápiz, utiliza tu mano para marcar el pulso/subdivisión.'},kind:'lectura'},
+  {id:'entona',name:'Entonación',banner:{k:'',t:'Entonación',d:'Por último, canta la melodía. Abajo podrás elegir cuánta referencia de la melodía quieres oír.',tess:'Si tu voz es grave o aguda, ten en cuenta que el cambio de clave hace cambiar el registro. Escoge la opción que te venga mejor.'},kind:'entonacion'},
 ];
-function phasesFor(){ const arr=PHASE_DEFS.slice(); if(currentTrim==='t2'){ arr.unshift({id:'prep',name:'Preparar grupos',banner:{k:'Fase previa',t:'Prepara los grupos de valoración especial',d:'Antes de analizar, asienta los grupos que aparecen. Primero los toca la app marcando el orden de los pulsos; luego repítelo tú. Hazlo varias veces.'},kind:'prep'}); } return arr; }
+function phasesFor(){ const arr=PHASE_DEFS.slice(); if(currentTrim==='t2'){ arr.unshift({id:'prep',name:'Preparar grupos',banner:{k:'',t:'Prepara los grupos de valoración especial',d:'Antes de analizar, asienta los grupos que aparecen. Primero los toca la app marcando el orden de los pulsos; luego repítelo tú. Hazlo varias veces.'},kind:'prep'}); } return arr; }
 
-let phaseList=[], phaseIdx=0, refMode='compas';
+let phaseList=[], phaseIdx=0, refMode='compas', studyMode=false;
 let voiceBanner=null, voiceCdTimer=null, cardCdTimer=null;
 function startCardCountdown(card, badge, total, cdFrom){
   if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; }
@@ -2505,20 +2552,44 @@ function playScaleChords(){ stopPlayer(); const c=ac(); if(!c||!currentLesson)re
   const chordDur=1.05, gap=0.18;
   chords.forEach(ch=>{ ch.forEach(off=>synth(base+off,t,chordDur,0.10)); t+=chordDur+gap; });
 }
-function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac(); phaseList=phasesFor(); phaseIdx=0; document.getElementById('phaseScrim').classList.add('show'); showPhase(); }
-function closeStudy(){ stopPlayer(); document.getElementById('phaseScrim').classList.remove('show'); }
+function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
+  phaseList=phasesFor(); phaseIdx=0; studyMode=true;
+  document.getElementById('barActions').style.display='none';   // ocultar acciones; los pasos ocupan su hueco
+  document.getElementById('phaseTop').style.display='flex';
+  document.getElementById('phaseControls').style.display='flex';
+  showPhase();
+}
+function closeStudy(){ stopPlayer(); studyMode=false;
+  if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; }
+  if(voiceCdTimer){ clearInterval(voiceCdTimer); voiceCdTimer=null; }
+  document.getElementById('phaseTop').style.display='none';
+  document.getElementById('barActions').style.display='flex';   // restaurar acciones
+  document.getElementById('phaseControls').style.display='none';
+  document.getElementById('phaseControls').innerHTML='';
+  document.getElementById('phaseBannerHost').innerHTML='';
+  document.getElementById('studyBtn').classList.remove('on');
+  document.getElementById('accompBtn').classList.remove('on');
+  // quitar cualquier resto de iluminación dorada de la lección
+  document.querySelectorAll('#score .vf-gold').forEach(el=>el.classList.remove('vf-gold'));
+}
 /* BOTÓN "CON ACOMPAÑAMIENTO": realización directa de la lección sobre un pad de piano eléctrico (Rhodes).
    Reutiliza el overlay de estudio con una vista única. Cuenta atrás 3-2-1 dando la 1ª nota al piano; al
    arrancar SOLO suenan la claqueta (pulsos) y los acordes del acompañamiento — sin melodía ni percusión. */
 function openAccompaniment(){
   if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  const scrim=document.getElementById('phaseScrim'); scrim.classList.add('show');
+  studyMode=true;
+  document.getElementById('barActions').style.display='none';
+  document.getElementById('phaseTop').style.display='flex';
+  document.getElementById('phaseControls').style.display='flex';
+  document.getElementById('accompBtn').classList.add('on');
   document.getElementById('phaseSteps').innerHTML='<span class="phase-step cur">Prueba directa</span>';
-  const body=document.getElementById('phaseBody'); body.innerHTML='';
+  const host=document.getElementById('phaseBannerHost'); host.innerHTML='';
+  const scrim=document.createElement('div'); scrim.className='phase-cardscrim';
   const banner=document.createElement('div'); banner.className='phase-banner';
-  banner.innerHTML='<p class="pb-k">Prueba directa</p><p class="pb-t">Lee la lección con acompañamiento</p><p class="pb-d">Una base suave de piano sostiene la armonía y cambia de acorde cuando lo hace la armonía implícita. Tras la cuenta atrás 3-2-1 (que te da la primera nota con la claqueta), oirás la claqueta marcando los pulsos y los acordes: la melodía la lees y la cantas tú. Si quieres, el piano puede ayudarte dándote algunas notas de la melodía.</p>';
-  body.appendChild(banner);
-  body.appendChild(renderPhaseSheet());
+  banner.innerHTML='<button class="pb-x" title="Cerrar">✕</button><p class="pb-t">Lee la lección con acompañamiento</p><p class="pb-d">Una base suave de piano sostiene la armonía y cambia de acorde cuando lo hace la armonía implícita. Tras la cuenta atrás 3-2-1 (que te da la primera nota con la claqueta), oirás la claqueta marcando los pulsos y los acordes: la melodía la lees y la cantas tú. Si quieres, el piano puede ayudarte dándote algunas notas de la melodía.</p><div class="pb-ok"><span class="pb-count">5</span></div>';
+  banner.querySelector('.pb-x').onclick=()=>{ if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } scrim.remove(); };
+  { const cntEl=banner.querySelector('.pb-count'); let left=5; cardCdTimer=setInterval(()=>{ left--; if(left>=1){ cntEl.textContent=left; } else { clearInterval(cardCdTimer); cardCdTimer=null; scrim.remove(); } },1000); }
+  scrim.appendChild(banner); host.appendChild(scrim);
   const bar=document.getElementById('phaseControls'); bar.innerHTML='';
   const mk=(txt,cls,fn)=>{ const b=document.createElement('button'); b.className='pc-btn '+(cls||''); b.innerHTML=txt; b.onclick=fn; return b; };
   // botón único PLAY / PAUSA (medio y medio cuando suena)
@@ -2533,6 +2604,8 @@ function openAccompaniment(){
     setPlayState(true);
   };
   bar.appendChild(playBtn);
+  // botón de salir (igual que en el estudio por fases)
+  bar.appendChild(mk('✕ Salir','',closeStudy));
   bar.appendChild(velSubBlock());
   // ----- ¿Quieres ayuda del piano? Tres opciones directas (sin desplegar) -----
   const hg=document.createElement('div'); hg.className='seg pianohelp'; hg.innerHTML='<span class="seg-l">¿Quieres ayuda del piano?</span>';
@@ -2543,7 +2616,7 @@ function openAccompaniment(){
 }
 function renderPhaseSheet(){ const host=document.createElement('div'); host.className='phase-sheet'; renderLesson(host,currentLesson); return host; }
 function collectNoteEls(){ // alinea elementos SVG con buildSchedule (mismo orden de recorrido)
-  const svg=document.querySelector('.phase-sheet svg'); if(!svg||!currentLesson) return [];
+  const svg=document.querySelector('#score svg'); if(!svg||!currentLesson) return [];
   const groups=[...svg.querySelectorAll('g.vf-stavenote')];
   // VexFlow dibuja un g.vf-stavenote por CADA figura (también los silencios) y NO les pone clase de silencio,
   // así que reconstruimos la máscara de silencios desde el modelo (mismo orden) y nos quedamos con las sonantes.
@@ -2555,7 +2628,7 @@ function collectNoteEls(){ // alinea elementos SVG con buildSchedule (mismo orde
 }
 // TODOS los elementos (notas Y silencios) en orden, y su timeline (onset/dur en negras) para el dorado
 // que también recorre los silencios.
-function collectAllEls(){ const svg=document.querySelector('.phase-sheet svg'); if(!svg) return []; return [...svg.querySelectorAll('g.vf-stavenote')]; }
+function collectAllEls(){ const svg=document.querySelector('#score svg'); if(!svg) return []; return [...svg.querySelectorAll('g.vf-stavenote')]; }
 function allEvents(L){ const ev=[]; let base=0;
   L.phrases.forEach((p,pi)=>p.measures.forEach((m,mi)=>{
     const real=m.groupInfo?groupRealBeats(m.groupInfo):null; let gi=0,acc=0;
@@ -2568,36 +2641,55 @@ function allEvents(L){ const ev=[]; let base=0;
 function bpmNow(){ return basePulseBPMNow(); }   // pulso base por minuto del 1er compás (estándar ± nivel, o mitad si extrema)
 
 function showPhase(){ stopPlayer(); if(voiceCdTimer){ clearInterval(voiceCdTimer); voiceCdTimer=null; } if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } voiceBanner=null; const ph=phaseList[phaseIdx];
-  document.getElementById('phaseSteps').innerHTML=phaseList.map((p,i)=>`<span class="phase-step ${i<phaseIdx?'done':''} ${i===phaseIdx?'cur':''}">${i+1}. ${p.name}</span>`).join('');
-  const body=document.getElementById('phaseBody'); body.innerHTML='';
-  const isEntona=(ph.kind==='entonacion');
-  if(!isEntona){
-    const banner=document.createElement('div'); banner.className='phase-banner';
-    banner.innerHTML=`<span class="card-cd" id="cardCd"></span><p class="pb-k">${ph.banner.k}</p><p class="pb-t">${ph.banner.t}</p><p class="pb-d">${ph.banner.d}</p>`;
-    body.appendChild(banner);
-    if(ph.kind!=='analisis') startCardCountdown(banner, banner.querySelector('#cardCd'), 7, 5); // 7 s activa; cuenta atrás 5-4-3-2-1 (en análisis se queda)
-  } else {
-    // FASE 5: un ÚNICO cartel que explica la fase y a la vez pregunta cómo escucharla (12 s, cuenta atrás desde 10)
-    const vb=document.createElement('div'); vb.className='voice-banner'; voiceBanner=vb;
-    vb.innerHTML=`<button class="vb-x" title="Cerrar">✕</button>
-      <span class="voice-cd" id="voiceCd"></span>
-      <p class="pb-t">Con entonación · ¿cómo lo quieres escuchar?</p>
-      <p class="pb-d">La aplicación toca la melodía mientras tú la cantas, doblando. Cada voz es distinta y aquí cambias de clave a media lección: si no marcas ninguna opción sonará en su <b>tesitura real</b> (cada clave en su registro). Marca una opción solo si quieres acercar el sonido a tu voz —y aun así, haz al cantar los cambios de octava que necesites.</p>
+  renderPhaseSteps();
+  // limpiar iluminación dorada previa sobre la lección real
+  document.querySelectorAll('#score .vf-gold').forEach(el=>el.classList.remove('vf-gold'));
+  const host=document.getElementById('phaseBannerHost'); host.innerHTML='';
+  const scrim=document.createElement('div'); scrim.className='phase-cardscrim';
+  const card=document.createElement('div'); card.className='phase-banner';
+  // ✕ para cerrar la tarjeta antes de tiempo (común a todas)
+  const closeCard=()=>{ if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } scrim.remove(); };
+  if(ph.kind==='entonacion'){
+    // ENTONACIÓN: ventana con texto simple + elección de cómo suena. Al elegir, cuenta atrás 3-2-1 y desaparece.
+    card.innerHTML=`<button class="pb-x" title="Cerrar">✕</button>
+      <p class="pb-t">${ph.banner.t}</p><p class="pb-d">${ph.banner.d}</p>
+      <p class="pb-t2">¿Cómo quieres que suene?</p>
+      <p class="pb-d">${ph.banner.tess||''}</p>
       <div class="vb-btns">
-        <button data-v="real">En su tesitura real</button>
-        <button data-v="agudo">Todo agudo</button>
         <button data-v="grave">Todo grave</button>
+        <button data-v="real">Tesitura real</button>
+        <button data-v="agudo">Todo agudo</button>
       </div>`;
-    vb.querySelector('.vb-x').onclick=()=>dismissVoiceBanner();
-    vb.querySelectorAll('.vb-btns button').forEach(b=>b.onclick=()=>{ voiceMode=b.dataset.v; b.classList.add('flash'); setTimeout(()=>dismissVoiceBanner(),360); });
-    body.appendChild(vb);
-    let left=12; const cd=vb.querySelector('#voiceCd'); const upd=()=>{ if(cd) cd.textContent=(left<=10&&left>0)?`Se cierra en ${left} s`:''; }; upd();
-    voiceCdTimer=setInterval(()=>{ left--; if(left<=0){ dismissVoiceBanner(); } else upd(); },1000);
+    card.querySelector('.pb-x').onclick=closeCard;
+    card.querySelectorAll('.vb-btns button').forEach(b=>b.onclick=()=>{
+      voiceMode=b.dataset.v;
+      card.querySelectorAll('.vb-btns button').forEach(x=>x.classList.remove('on')); b.classList.add('on');
+      const cd=ensureCountdown(); let n=3; showCountdown(cd,n);
+      const iv=setInterval(()=>{ n--; if(n>=1){ showCountdown(cd,n); } else { clearInterval(iv); hideCountdown(); scrim.remove(); } },650);
+    });
+  } else {
+    // resto de fases: tarjeta informativa con ✕ arriba y CUENTA ATRÁS (donde antes iba "Entendido") que la
+    // cierra sola. Ritmo aislado: 5 s; las demás: 3 s.
+    const secs = (ph.kind==='ritmo') ? 5 : 3;
+    card.innerHTML=`<button class="pb-x" title="Cerrar">✕</button>${ph.banner.k?`<p class="pb-k">${ph.banner.k}</p>`:''}<p class="pb-t">${ph.banner.t}</p><p class="pb-d">${ph.banner.d}</p><div class="pb-ok"><span class="pb-count">${secs}</span></div>`;
+    card.querySelector('.pb-x').onclick=closeCard;
+    const cntEl=card.querySelector('.pb-count'); let left=secs;
+    cardCdTimer=setInterval(()=>{ left--; if(left>=1){ cntEl.textContent=left; } else { clearInterval(cardCdTimer); cardCdTimer=null; scrim.remove(); } },1000);
   }
-
-  if(ph.kind==='prep'){ body.appendChild(buildPrepUI()); }
-  else { body.appendChild(renderPhaseSheet()); }
+  scrim.appendChild(card); host.appendChild(scrim);
+  // la fase de preparar grupos muestra su secuenciador (encima de la lección); el resto usa la lección real
+  if(ph.kind==='prep'){ const pg=document.createElement('div'); pg.id='prepHost'; pg.appendChild(buildPrepUI()); host.appendChild(pg); }
   buildPhaseControls(ph);
+}
+function renderPhaseSteps(){
+  const cont=document.getElementById('phaseSteps'); cont.innerHTML='';
+  phaseList.forEach((p,i)=>{ const b=document.createElement('button');
+    b.className='phase-step '+(i<phaseIdx?'done':'')+(i===phaseIdx?'cur':'');
+    b.textContent=(i+1)+'. '+p.name;
+    b.title='Ir a esta fase';
+    b.onclick=()=>{ if(i!==phaseIdx){ stopPlayer(); phaseIdx=i; showPhase(); } };
+    cont.appendChild(b);
+  });
 }
 
 function buildPrepUI(){
@@ -2659,9 +2751,12 @@ function velSubBlock(){
   }
   wrap.appendChild(vg); refreshBar();
   // ----- Subdivisión: el PULSO ya lo da la claqueta (por defecto). Opcional: corchea / semicorchea -----
-  const sg=document.createElement('div'); sg.className='seg'; sg.innerHTML=`<span class="seg-l">¿Quieres subdivisión?</span>`;
-  [['corchea','Corchea'],['semicorchea','Semicorchea']].forEach(([v,t])=>{
-    const b=document.createElement('button'); b.dataset.s=v; b.className=(subMode===v?'on':''); b.textContent=t;
+  // símbolos dibujados: una corchea (un corchete) y una sola semicorchea (dos corchetes)
+  const svgEighth='<svg viewBox="0 0 24 36" width="13" height="20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="8" y1="6" x2="8" y2="28"/><path d="M8 6 C 15 8, 18 13, 16 20" fill="none"/></g><ellipse cx="6" cy="29" rx="5" ry="3.6" transform="rotate(-22 6 29)" fill="currentColor"/></svg>';
+  const svgSixteenth='<svg viewBox="0 0 24 36" width="13" height="20" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="8" y1="4" x2="8" y2="28"/><path d="M8 5 C 15 7, 18 12, 16 18"/><path d="M8 11 C 15 13, 18 18, 16 24"/></g><ellipse cx="6" cy="29" rx="5" ry="3.6" transform="rotate(-22 6 29)" fill="currentColor"/></svg>';
+  const sg=document.createElement('div'); sg.className='seg'; sg.innerHTML=`<span class="seg-l">Subdiv.</span>`;
+  [['corchea',svgEighth,'Subdivisión en corcheas'],['semicorchea',svgSixteenth,'Subdivisión en semicorcheas']].forEach(([v,sym,tit])=>{
+    const b=document.createElement('button'); b.dataset.s=v; b.className='subsym'+(subMode===v?' on':''); b.innerHTML=sym; b.title=tit;
     b.onclick=()=>{ if(subMode===v){ subMode='pulso'; b.classList.remove('on'); } else { subMode=v; sg.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); } };
     sg.appendChild(b);
   });
@@ -2669,49 +2764,48 @@ function velSubBlock(){
   return wrap;
 }
 function buildPhaseControls(ph){ const bar=document.getElementById('phaseControls'); bar.innerHTML='';
-  const mk=(txt,cls,fn)=>{ const b=document.createElement('button'); b.className='pc-btn '+(cls||''); b.innerHTML=txt; b.onclick=fn; return b; };
-  if(ph.kind==='analisis'){
-    bar.appendChild(mk('Pasar a la siguiente fase →','primary',nextPhase));
-  } else if(ph.kind==='prep'){
-    const pb=mk('▶ Escuchar el orden de pulsos','play',null); activePlayBtn=pb; isPlaying=false;
+  const mk=(txt,cls,fn,title)=>{ const b=document.createElement('button'); b.className='pc-btn '+(cls||''); b.innerHTML=txt; if(title)b.title=title; b.onclick=fn; return b; };
+  if(ph.kind==='prep'){
+    const pb=mk('▶','play',null,'Escuchar el orden de pulsos'); activePlayBtn=pb; isPlaying=false;
     pb.onclick=()=>{ if(isPlaying){ stopPlayer(); return; } playPrep(); setPlayState(true); };
-    bar.appendChild(pb); bar.appendChild(mk('Siguiente fase →','primary',nextPhase));
+    bar.appendChild(pb); bar.appendChild(mk('Siguiente','primary',nextPhase));
   } else {
-    bar.appendChild(velSubBlock());
     let opts={metronome:true,countIn:3};
-    if(ph.kind==='percussion'){ opts.rhythm=true; opts.gold=true; }
-    else if(ph.kind==='claqueta'){ opts.gold=true; }
-    else if(ph.kind==='solfeo'){ opts.gold=true; }
+    if(ph.kind==='ritmo'){ opts.rhythm=true; opts.gold=true; }       // ritmo aislado: suena el ritmo, dorado
+    else if(ph.kind==='lectura'){ opts.gold=true; }                  // lectura: solo claqueta + dorado
     else if(ph.kind==='entonacion'){ opts.melody=true; opts.gold=true; opts.tesitura=true; opts.startNote=true; }
-    else if(ph.kind==='solo'){ opts.gold=true; opts.tesitura=true; opts.startNote=true; }
-    const playBtn=mk('▶ Reproducir','play',null); activePlayBtn=playBtn; isPlaying=false;
+    const playBtn=mk('▶','play',null,'Reproducir'); activePlayBtn=playBtn; isPlaying=false;
     playBtn.onclick=()=>{
       if(isPlaying){ stopPlayer(); return; }
-      if(ph.kind==='entonacion') dismissVoiceBanner();           // al reproducir, el cartel de tesitura se esfuma
       const bpm=bpmNow(); const sched=buildSchedule(currentLesson,bpm); opts.schedule=sched; opts.bpm=bpm;
-      if(ph.kind==='solo')opts.refSet=refSet(sched);
-      if(ph.kind==='entonacion'||ph.kind==='solo'){ opts.accompaniment=buildAccompaniment(currentLesson); }
+      if(ph.kind==='entonacion'){ opts.refSet=refSet(sched); opts.accompaniment=buildAccompaniment(currentLesson);
+        // si se piden TODAS las referencias, suena la melodía entera doblando; si no, solo las notas de referencia
+        opts.melody = (refMode==='all'); }
       opts.elements=collectNoteEls();
-      // en las fases con acompañamiento (5 y 6), el dorado recorre también los silencios
       if(opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }
       play({...opts, onEnd:()=>setPlayState(false)});
       setPlayState(true);
     };
     bar.appendChild(playBtn);
-    if(ph.kind==='entonacion'){ const sc=mk('🔊 Escuchar escala y acordes','glow',()=>{ sc.classList.remove('glow'); playScaleChords(); }); bar.appendChild(sc); }
-    if(ph.kind==='solo'){ const ref=document.createElement('div'); ref.className='ref-ctl';
-      ref.innerHTML='Referencias: '; [['compas','1ª de cada compás'],['penta','1ª de cada pentagrama'],['una','solo la 1ª nota']].forEach(([v,l])=>{ const b=document.createElement('button'); b.className=(refMode===v?'on':''); b.textContent=l; b.onclick=()=>{ refMode=v; ref.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); }; ref.appendChild(b); });
+    bar.appendChild(mk('⟳','',()=>{ stopPlayer(); showPhase(); },'Repetir'));
+    if(ph.kind==='entonacion'){
+      const sc=mk('🔊','glow',()=>{ sc.classList.remove('glow'); playScaleChords(); }); sc.classList.add('tipw'); sc.setAttribute('data-tip','Escucha la escala y los acordes de la tonalidad para situar el oído'); bar.appendChild(sc);
+      const ref=document.createElement('div'); ref.className='ref-ctl';
+      ref.innerHTML='<span class="ref-l">Ref.:</span>';
+      const tips={none:'No suena ninguna nota de la melodía: cantas todo por tu cuenta',compas:'Suena la 1ª nota de cada compás como referencia',penta:'Suena la 1ª nota de cada frase como referencia',all:'Suena toda la melodía doblando tu voz'};
+      [['none','Ninguna'],['compas','Compás'],['penta','Frase'],['all','Toda']].forEach(([v,l])=>{ const b=document.createElement('button'); b.className='tipw'+(refMode===v?' on':''); b.textContent=l; b.setAttribute('data-tip',tips[v]); b.onclick=()=>{ refMode=v; ref.querySelectorAll('button').forEach(x=>{x.classList.remove('on');}); b.classList.add('on'); }; ref.appendChild(b); });
       bar.appendChild(ref);
     }
-    bar.appendChild(mk('↻ Repetir fase','',()=>{ stopPlayer(); showPhase(); }));
-    bar.appendChild(mk((phaseIdx<phaseList.length-1?'Siguiente fase →':'Terminar'),'primary',nextPhase));
-    // cue: el bloque velocidad/subdivisión parpadea al entrar en cada fase por si quieres cambiarlo
-    const vs=document.getElementById('velSub'); if(vs){ vs.classList.add('pulse'); setTimeout(()=>vs.classList.remove('pulse'),2400); }
+    bar.appendChild(velSubBlock());
+    // botón "Siguiente" solo si NO es la última fase (para terminar/salir está la ✕ de arriba)
+    if(phaseIdx<phaseList.length-1) bar.appendChild(mk('Siguiente','primary',nextPhase));
   }
 }
+
 function refSet(sched){ const set=new Set();
-  if(refMode==='una'){ if(sched.notes[0])set.add(sched.notes[0].onsetQ); return set; }
-  // 1ª nota de cada compás o de cada pentagrama
+  if(refMode==='none') return set;                       // sin referencias: no suena ninguna nota guía
+  if(refMode==='all'){ sched.notes.forEach(nt=>set.add(nt.onsetQ)); return set; }  // toda la melodía
+  // 1ª nota de cada compás o de cada frase (pentagrama)
   const seen=new Set();
   sched.notes.forEach(nt=>{ const key=refMode==='penta'?('p'+nt.pi):('m'+nt.pi+'_'+nt.mi); if(!seen.has(key)){ seen.add(key); set.add(nt.onsetQ); } });
   return set;
@@ -2720,7 +2814,7 @@ function nextPhase(){ stopPlayer(); if(phaseIdx<phaseList.length-1){ phaseIdx++;
 
 /* ============================== TRIMESTRE / WIRING ============================== */
 function applyTrimUI(){
-  document.getElementById('trimName').textContent=TRIMS[currentTrim].nombre;
+  const tn=document.getElementById('trimName'); if(tn) tn.textContent=TRIMS[currentTrim].nombre;
   const isT2=(currentTrim==='t2'); const groupy=(currentTrim==='t2'||currentTrim==='rep');
   document.getElementById('t2card').style.display=isT2?'block':'none';
   document.getElementById('groupBar').style.display=isT2?'block':'none';
@@ -2734,7 +2828,31 @@ function enterTrim(trim,fromEntry){
 }
 function enterApp(trim){ document.getElementById('entry').style.display='none'; document.getElementById('app').style.display='block'; enterTrim(trim,true); }
 
-document.querySelectorAll('.trim-pick').forEach(b=>b.onclick=()=>enterApp(b.dataset.trim));
+// cuenta atrás 3-2-1 sobre la pantalla de entrada (feedback al pulsar una tarjeta), luego ejecuta la acción
+function entryCountdown(done){
+  let ov=document.getElementById('entryCount');
+  if(!ov){ ov=document.createElement('div'); ov.id='entryCount'; ov.className='entry-count'; document.getElementById('entry').appendChild(ov); }
+  let n=3; ov.textContent=n; ov.classList.add('show');
+  const iv=setInterval(()=>{ n--; if(n>=1){ ov.textContent=n; ov.classList.remove('show'); void ov.offsetWidth; ov.classList.add('show'); } else { clearInterval(iv); ov.classList.remove('show'); done(); } },650);
+}
+
+// PASO 1 (curso): 2º GP -> muestra trimestres; 1º GP -> aviso (se desarrollará más adelante)
+document.querySelectorAll('.trim-pick[data-course]').forEach(b=>b.onclick=()=>{
+  b.classList.add('picked');
+  const course=b.dataset.course;
+  entryCountdown(()=>{
+    b.classList.remove('picked');
+    if(course==='gp2'){ document.getElementById('courseStep').style.display='none'; document.getElementById('trimStep').style.display='block'; }
+    else { alert('1º de Grado Profesional estará disponible próximamente.'); }
+  });
+});
+// volver del paso de trimestres al de curso
+const cb=document.getElementById('courseBack'); if(cb) cb.onclick=()=>{ document.getElementById('trimStep').style.display='none'; document.getElementById('courseStep').style.display='block'; };
+// PASO 2 (trimestre): cuenta atrás y entra a la app
+document.querySelectorAll('.trim-pick[data-trim]').forEach(b=>b.onclick=()=>{
+  b.classList.add('picked'); const trim=b.dataset.trim;
+  entryCountdown(()=>{ b.classList.remove('picked'); enterApp(trim); });
+});
 document.querySelectorAll('.tab').forEach(t=>{ t.onclick=()=>enterTrim(t.dataset.trim,false); });
 document.getElementById('genBtn').onclick=()=>generateLesson();
 document.getElementById('pulseToggle').onclick=()=>{ SHOW_PULSE=!SHOW_PULSE; document.getElementById('pulseToggle').classList.toggle('on',SHOW_PULSE); renderCurrent(); };
