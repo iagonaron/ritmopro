@@ -74,6 +74,10 @@ details.selector[open]>summary .chev{transform:rotate(90deg);}
 .bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:18px;}
 #trimName{font-size:18px;font-weight:800;letter-spacing:-.3px;color:var(--gold-soft);margin:0;}
 .bar-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+#gp1ChangeBar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+.gp1cb-left{display:flex;align-items:center;gap:0;flex:1 1 auto;min-width:0;}
+.gp1cb-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.gp1cb-right .pulse-toggle{display:none!important;}   /* sin rayitas en 1º GP */
 .diff-seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);}
 .diff-seg button{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted2);background:transparent;border:none;padding:8px 13px;cursor:pointer;transition:all .14s;border-right:1px solid var(--line);}
 .diff-seg button:last-child{border-right:none;}
@@ -135,6 +139,9 @@ footer .lock{color:var(--gold1);}
 .trim-pick:hover{border-color:var(--gold1);transform:translateY(-2px);box-shadow:0 12px 28px rgba(212,175,55,.16);}
 .trim-pick:hover .edge{opacity:1;}
 .trim-pick .tp-n{display:block;font-size:17px;font-weight:800;letter-spacing:-.3px;color:var(--gold-soft);}
+.trim-pick.course-big{justify-content:center;align-items:center;min-height:200px;padding:32px 22px;}
+.trim-pick.course-big .cb-n{display:block;font-size:54px;font-weight:900;letter-spacing:-1px;color:var(--gold-soft);line-height:1;}
+@media(max-width:560px){.trim-pick.course-big{min-height:130px;}.trim-pick.course-big .cb-n{font-size:40px;}}
 .trim-pick .tp-d{display:block;color:var(--muted);font-size:12.5px;margin-top:6px;line-height:1.45;}
 /* ====== marca refinada RIT/MO + at home + PRO ====== */
 .brand-title .a{color:var(--ink);font-weight:900;}
@@ -155,6 +162,20 @@ footer .lock{color:var(--gold1);}
 
 /* ====== modal de grupos (pantalla completa, 2º trimestre) ====== */
 .modal-scrim{position:fixed;inset:0;z-index:80;background:rgba(8,5,1,.72);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:32px 18px;}
+.gate-scrim{position:fixed;inset:0;z-index:90;background:rgba(8,5,1,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:24px;}
+.gate-scrim.show{display:flex;}
+.gate-card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--gold2);border-radius:18px;padding:30px 28px;max-width:440px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.gate-k{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted2);margin:0 0 8px;}
+.gate-t{font-size:22px;font-weight:900;color:var(--gold-soft);margin:0 0 12px;}
+.gate-d{font-size:14px;line-height:1.55;color:var(--muted);margin:0 0 18px;}
+.gate-input{width:100%;font-family:inherit;font-size:18px;text-align:center;letter-spacing:.3em;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0e0a03;color:var(--ink);outline:none;transition:border-color .14s;}
+.gate-input:focus{border-color:var(--gold1);}
+.gate-err{color:var(--red,#e87);font-size:13px;margin:10px 0 0;}
+.gate-btns{display:flex;gap:10px;justify-content:center;margin-top:18px;}
+.gate-cancel{font-family:inherit;font-size:14px;font-weight:700;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:11px;padding:11px 20px;cursor:pointer;}
+.gate-cancel:hover{border-color:var(--muted);color:var(--ink);}
+.gate-ok{font-family:inherit;font-size:14px;font-weight:800;color:#231807;background:linear-gradient(180deg,var(--gold1),var(--gold2));border:none;border-radius:11px;padding:11px 26px;cursor:pointer;}
+.gate-ok:hover{filter:brightness(1.05);}
 .modal-scrim.show{display:flex;}
 .gmodal{max-width:880px;width:100%;background:radial-gradient(900px 360px at 50% -10%,#4d3a0b 0%,transparent 62%),linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:22px;box-shadow:0 24px 70px rgba(0,0,0,.6);padding:30px 30px 26px;position:relative;}
 .gmodal .gm-kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted2);margin:0 0 6px;}
@@ -263,6 +284,27 @@ footer .lock{color:var(--gold1);}
 .prep-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0;}
 .prep-dot{width:46px;height:46px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:var(--muted);transition:all .12s;}
 .prep-dot.lit{border-color:var(--gold1);background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#1a1407;transform:scale(1.12);}
+.prep-grid-wrap{max-width:1100px;margin:0 auto;}
+.prep-intro{color:var(--muted);font-size:13.5px;text-align:center;line-height:1.5;margin:0 0 18px;}
+.prep-intro b{color:var(--gold-soft);}
+.prep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.prep-card{background:#120c03;border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;transition:border-color .14s;}
+.prep-card:has(.prep-play.on){border-color:var(--gold1);box-shadow:0 0 0 1px var(--gold1) inset,0 8px 22px rgba(212,175,55,.18);}
+.prep-card-head{display:flex;align-items:center;gap:10px;}
+.prep-play{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#231807;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:transform .1s;}
+.prep-play:hover{transform:scale(1.06);}
+.prep-play.on{background:linear-gradient(135deg,var(--gold1),var(--gold2));}
+.prep-card-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+.prep-ex{background:var(--paper);border-radius:10px;padding:14px 16px;min-height:118px;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.prep-ex svg{display:block;width:100%;height:auto;max-height:104px;}
+.prep-ex .pn.lit path,.prep-ex .pn.lit rect,.prep-ex .pn.lit ellipse,.prep-ex .pn.lit stem,.prep-ex .pn.lit .vf-notehead path{fill:var(--gold2)!important;stroke:var(--gold2)!important;}
+.prep-ex .pn.lit{fill:var(--gold2)!important;stroke:var(--gold2)!important;}
+.prep-vardots{display:flex;gap:7px;justify-content:center;margin-top:2px;}
+.prep-vardot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--line);background:transparent;cursor:pointer;padding:0;transition:all .12s;}
+.prep-vardot:hover{border-color:var(--gold-soft);}
+.prep-vardot.on{background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);}
+@media(max-width:1000px){.prep-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:680px){.prep-grid{grid-template-columns:1fr;}}
 .countin{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:120px;font-weight:900;color:var(--gold-soft);opacity:0;pointer-events:none;z-index:5;text-shadow:0 6px 30px rgba(0,0,0,.5);}
 .countin.show{animation:cdpop .6s ease;}
 @keyframes cdpop{0%{opacity:0;transform:translate(-50%,-50%) scale(1.6);}30%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-50%) scale(.85);}}
@@ -308,7 +350,92 @@ footer .lock{color:var(--gold1);}
 .voice-banner .vb-btns button.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);}
 .voice-banner .vb-x{position:absolute;top:10px;right:12px;background:transparent;border:none;color:var(--muted2);font-size:15px;cursor:pointer;}
 .voice-banner .vb-x:hover{color:var(--red);}
+/* ===== selector de mundos y cartas (1º GP) ===== */
+#gp1Bar{margin-bottom:16px;}
+.gp1-worlds{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.gp1-world{position:relative;display:flex;align-items:center;min-height:58px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:13px;padding:12px 14px 12px 18px;cursor:pointer;transition:all .14s;text-align:left;font-family:inherit;color:var(--ink);min-width:0;}
+.gp1-world .edge{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:13px 0 0 13px;background:linear-gradient(var(--gold1),var(--gold2));opacity:.45;transition:opacity .14s;}
+.gp1-world:hover{border-color:var(--gold1);transform:translateY(-1px);}
+.gp1-world .w-n{font-size:15px;font-weight:800;color:var(--gold-soft);letter-spacing:-.2px;line-height:1.2;display:block;}
+.gp1-world .w-glyph{color:var(--gold-soft);}
+.gp1-world .w-clef{font-size:30px;line-height:0;vertical-align:-8px;color:var(--gold-soft);}
+.gp1-world.on{border-color:var(--gold1);box-shadow:0 0 0 1px var(--gold1) inset,0 10px 26px rgba(212,175,55,.18);}
+.gp1-world.on .edge{opacity:1;}
+
+/* ====== PANTALLA DE CONFIGURACIÓN 1º GP (#gp1Step) ====== */
+/* cuando la config gp1 está activa, el contenedor se ensancha (referencia: iPad Air 5 horizontal ~1180pt) */
+.entry.gp1-wide .entry-card{max-width:1140px;}
+.entry.gp1-wide{align-items:flex-start;padding:20px 24px;overflow-y:auto;}
+#gp1Step{width:100%;max-width:1140px;margin:0 auto;text-align:left;}
+#gp1Step .lead{text-align:center;}
+.setup-mode{display:inline-flex;gap:0;margin:4px auto 18px;border:1px solid var(--line);border-radius:11px;padding:3px;background:#120c03;}
+.setup-mode-wrap{display:flex;justify-content:center;}
+.setup-tab{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;transition:all .12s;letter-spacing:.01em;}
+.setup-tab:hover{color:var(--gold-soft);}
+.setup-tab.on{color:#231807;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));}
+.setup-worlds{display:flex;flex-direction:column;gap:14px;margin-bottom:10px;}
+.setup-worldslot{display:flex;flex-direction:column;gap:8px;}
+.slot-label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);font-weight:700;}
+.slot-label.cards{margin:14px 0 2px;color:var(--gold-soft);}
+.setup-worldgrid{display:grid;grid-template-columns:repeat(var(--wcols,5),1fr);gap:10px;}
+.setup-hint{font-size:12px;color:var(--muted);line-height:1.5;margin:2px 0 8px;background:rgba(212,175,55,.05);border-left:2px solid var(--gold2);padding:8px 12px;border-radius:0 8px 8px 0;}
+.setup-hint b{color:var(--gold-soft);}
+.setup-desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin:10px 0 12px;}
+.setup-desc b{color:var(--gold-soft);}
+.setup-cards{margin-bottom:8px;}
+.setup-cardgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:6px;}
+.setup-card .w-badge,.gp1-world .w-badge{position:absolute;top:9px;right:10px;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#231807;}
+.slot-label .ab-tag{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;font-size:11px;font-weight:900;margin-right:8px;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#231807;}
+.setup-card{position:relative;display:flex;flex-direction:column;gap:10px;background:#120c03;border:1px solid var(--line);border-radius:14px;padding:14px 16px 14px;cursor:pointer;transition:all .14s;overflow:hidden;}
+.setup-card:hover{border-color:var(--gold1);transform:translateY(-1px);}
+.setup-card.on{border-color:var(--gold1);box-shadow:0 0 0 1px var(--gold1) inset,0 8px 22px rgba(212,175,55,.16);}
+.setup-card.base{cursor:default;}
+.setup-card.disabled{opacity:.4;pointer-events:none;filter:grayscale(.5);}
+.setup-card .sc-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.setup-card .c-chk{width:17px;height:17px;flex:0 0 17px;border:1.5px solid var(--line);border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all .12s;}
+.setup-card.on .c-chk{background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);color:#231807;}
+.setup-card.base .c-chk{background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:var(--gold1);color:#231807;opacity:.7;}
+.setup-card .c-n{font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+.setup-card.on .c-n{color:var(--gold-soft);}
+.setup-card .gp1-tag{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted2);background:rgba(212,175,55,.08);border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-weight:700;margin-left:auto;}
+.setup-card.multi .gp1-tag{color:var(--gold-soft);}
+.setup-card .sc-ex{background:var(--paper);border-radius:10px;padding:16px 18px;min-height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.setup-card .sc-ex svg{display:block;width:100%;height:auto;max-height:108px;}
+.setup-card .sc-ex .ex-empty{color:#9aa;font-size:12px;margin:auto;}
+.setup-card.playing{border-color:var(--gold-soft);}
+.setup-card.playing .sc-ex::after{content:'●●●●●';position:absolute;bottom:2px;right:6px;font-size:6px;letter-spacing:2px;color:var(--gold2);opacity:.6;}
+.setup-cardhint{font-size:11.5px;color:var(--muted2);line-height:1.5;margin:4px 0 0;}
+.setup-go-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;margin-top:22px;}
+.setup-toprow{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:6px 0 18px;}
+.setup-toprow .setup-mode{margin:0;}
+.setup-toprow .setup-go{width:auto;flex:0 0 auto;}
+.setup-lead{text-align:center;white-space:nowrap;font-size:15px;}
+@media(max-width:900px){.setup-lead{white-space:normal;}}
+.setup-go{font-family:inherit;font-size:15px;font-weight:800;color:#231807;background:linear-gradient(180deg,var(--gold1),var(--gold2));border:none;border-radius:12px;padding:13px 28px;cursor:pointer;box-shadow:0 10px 26px rgba(212,175,55,.24);transition:transform .08s,box-shadow .2s;letter-spacing:.01em;}
+.setup-go:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(212,175,55,.32);}
+.setup-go:active{transform:translateY(0);}
+@media(max-width:1000px){.setup-cardgrid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:680px){.setup-cardgrid{grid-template-columns:1fr;}.setup-worldgrid{grid-template-columns:repeat(2,1fr)!important;}.setup-card .c-n{font-size:14px;}.setup-go{width:100%;}.setup-go-row{flex-direction:column-reverse;}}
+.gp1-desc{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0 0 14px;max-width:780px;}
+.gp1-cards{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px;}
+.gp1-card{position:relative;display:flex;flex-direction:column;gap:3px;min-width:150px;background:#120c03;border:1px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;font-family:inherit;color:var(--muted);transition:all .12s;text-align:left;}
+.gp1-card:hover{color:var(--gold-soft);border-color:var(--gold1);}
+.gp1-card .c-n{font-size:13px;font-weight:700;}
+.gp1-card .c-s{font-size:10.5px;color:var(--muted2);letter-spacing:.02em;}
+.gp1-card .c-chk{position:absolute;top:9px;right:11px;font-size:12px;color:var(--gold-soft);opacity:0;}
+.gp1-card.on{border-color:var(--gold1);background:linear-gradient(180deg,var(--gold1),var(--gold2));color:#231807;}
+.gp1-card.on .c-s{color:#3a2a06;}
+.gp1-card.on .c-chk{opacity:1;color:#231807;}
+.gp1-card.base.on{cursor:default;}
+.gp1-card.multi{border-style:dashed;}
+.gp1-card.multi.on{border-style:solid;background:linear-gradient(135deg,#7a4b16,#a8761f);color:#fff3df;}
+.gp1-card.multi .c-s{color:#c79a5a;}
+.gp1-card.disabled{opacity:.32;pointer-events:none;filter:grayscale(.5);}
+.gp1-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:rgba(212,175,55,.18);color:var(--gold-soft);border-radius:5px;padding:1px 6px;margin-top:3px;width:max-content;}
+.gp1-card.on .gp1-tag{background:rgba(0,0,0,.22);color:#3a2a06;}
+.gp1-hint{font-size:11.5px;color:var(--muted2);margin:2px 0 0;}
 </style></head>
+
 <body>
 
 <!-- PANTALLA DE ENTRADA -->
@@ -321,8 +448,8 @@ footer .lock{color:var(--gold1);}
     <div id="courseStep">
       <p class="lead">Trabajo guiado por fases de ejercicios de ritmo.<br>Para empezar, elige el <b>curso</b> que estás trabajando.</p>
       <div class="trim-grid course-grid">
-        <button class="trim-pick" data-course="gp1"><span class="edge"></span><span class="tp-n">1º de Grado Profesional</span><span class="tp-d">Primer curso de Grado Profesional.</span></button>
-        <button class="trim-pick" data-course="gp2"><span class="edge"></span><span class="tp-n">2º de Grado Profesional</span><span class="tp-d">Segundo curso: compases irregulares, grupos de valoración especial y subdivisión con fusas.</span></button>
+        <button class="trim-pick course-big" data-course="gp1"><span class="edge"></span><span class="cb-n">1º GP</span></button>
+        <button class="trim-pick course-big" data-course="gp2"><span class="edge"></span><span class="cb-n">2º GP</span></button>
       </div>
     </div>
 
@@ -336,6 +463,30 @@ footer .lock{color:var(--gold1);}
       </div>
       <button class="course-back" id="courseBack">← Cambiar de curso</button>
     </div>
+
+    <!-- paso 2 (1º GP): configurar el reto ANTES de ver la partitura (el sitio de la partitura es sagrado) -->
+    <div id="gp1Step" style="display:none;">
+      <p class="lead setup-lead"><b>¿Qué quieres trabajar?</b> Elige un mundo (o combina varios) y marca las cartas. Pasa el ratón por cada carta para ver ejemplos.</p>
+
+      <div class="setup-toprow">
+        <div class="setup-mode">
+          <button class="setup-tab on" data-mode="uno">Un mundo</button>
+          <button class="setup-tab" data-mode="combina">Combina mundos</button>
+        </div>
+        <button class="setup-go" id="setupGo">Generar lectura →</button>
+      </div>
+
+      <div class="setup-worlds" id="setupWorlds"></div>
+      <p class="setup-hint" id="setupCombHint" style="display:none;">Combina dos mundos: las dos primeras frases irán en el <b>mundo A</b> y las dos últimas en el <b>mundo B</b>, con cambio de compás entre ellas. <b>Claves de Do</b> no se combina (su dificultad es la lectura, no el ritmo).</p>
+
+      <p class="setup-desc" id="setupDesc"></p>
+      <div class="setup-cards" id="setupCards"></div>
+      <p class="setup-cardhint" id="setupCardHint"></p>
+
+      <div class="setup-go-row">
+        <button class="course-back" id="gp1Back">← Cambiar de curso</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -345,7 +496,7 @@ footer .lock{color:var(--gold1);}
   <a class="lmpro-logo" href="https://iagonaron.github.io/lmpro/" target="_blank" rel="noopener" title="Ir al portal LMPRO at home">
     <span class="lm">LM</span><span class="pr">PRO</span><span class="ho">at home</span><span class="arr">↗</span>
   </a>
-  <span class="home-pill">2º GP</span>
+  <span class="home-pill" id="coursePill">2º GP</span>
 </div>
 <header>
   <div class="brand-row">
@@ -391,6 +542,15 @@ footer .lock{color:var(--gold1);}
   <span id="groupSummary" style="font-size:12.5px;color:var(--muted2);margin-left:10px;"></span>
 </div>
 
+<!-- 1º GP: el reto se configura en la pantalla previa. Aquí solo un acceso para cambiarlo, con las acciones a la derecha. -->
+<div id="gp1ChangeBar" style="display:none;">
+  <div class="gp1cb-left">
+    <button class="sel-mini" id="gp1ChangeBtn" style="font-size:13px;padding:9px 16px;">⚙ Cambiar mundo y cartas</button>
+    <span id="gp1ChangeSummary" style="font-size:12.5px;color:var(--muted2);margin-left:10px;"></span>
+  </div>
+  <div class="gp1cb-right" id="gp1Actions"></div>
+</div>
+
 <div id="lessonArea">
 <div class="lesson-tags" id="lessonTags" style="display:none;"></div>
 <!-- zona de la lección; el modal de tarjeta se superpone solo aquí -->
@@ -403,6 +563,8 @@ footer .lock{color:var(--gold1);}
 <div class="phase-controls" id="phaseControls" style="display:none;"></div>
 <div class="analysis" id="analysisBox"></div>
 </div>
+<!-- fase "Escucha las cartas": rejilla de cartas; vive FUERA de lessonArea para no ocultarse con la partitura -->
+<div id="prepArea" style="display:none;"></div>
 
 <footer><div><span class="lock">✦</span> RITMO at home PRO · LM at home · PRO</div>
 <p class="disclaimer">Material original generado proceduralmente, coherente con los contenidos del curso. No reproduce ninguna obra publicada; apoyo complementario al libro de texto del alumno.</p></footer>
@@ -471,7 +633,7 @@ const KEY_ACCIDENTALS={
 const IRREGULAR_TIMES=new Set(['5/8','7/8']);
 /* etiqueta bonita de la tónica para títulos/análisis: bb->Si♭, f#->Fa♯ ... */
 function tonicLabel(t){ const L=t[0].toUpperCase(); const acc=t.length>1?(t[1]==='#'?'♯':'♭'):''; return L+acc; }
-const RANGE={treble:{lo:57,hi:77},bass:{lo:40,hi:64}};
+const RANGE={treble:{lo:57,hi:77},bass:{lo:40,hi:64},alto:{lo:50,hi:70},tenor:{lo:46,hi:65}};
 
 const CATALOG={
   'tresillo_2p':      {label:'3 vs 2', occ:2, written:['q','q','q'],          ratioNum:3,ratioDen:2},
@@ -490,6 +652,27 @@ const CATALOG={
   'cinquillo_1p':     {label:'5',      occ:1, written:['16','16','16','16','16'], ratioNum:5,ratioDen:4},
   'seisillo_1p':      {label:'6',      occ:1, written:['16','16','16','16','16','16'], ratioNum:6,ratioDen:4},
   'septillo_1p':      {label:'7',      occ:1, written:['16','16','16','16','16','16','16'], ratioNum:7,ratioDen:4},
+  /* ===== células añadidas para 1º GP (Ritmo 5) ===== */
+  /* tresillo de FRACCIÓN: 3 semicorcheas sobre 1 corchea (ocupa media negra). Vale en simple y compuesto. */
+  'tresillo_fr':      {label:'3:2', occ:0.5, written:['16','16','16'],         ratioNum:3,ratioDen:2, frac:true},
+  /* grupos sobre el PULSO COMPUESTO (negra con puntillo = 1.5 negras): solo en 6/8, 9/8, 12/8 */
+  'dosillo_1pc':      {label:'2:3', occ:1.5, written:['qd','qd'],              ratioNum:2,ratioDen:3, comp:true},
+  'cuatrillo_1pc':    {label:'4:3', occ:1.5, written:['8','8','8','8'],        ratioNum:4,ratioDen:3, comp:true},
+  'septillo_1pc':     {label:'7',   occ:1.5, written:['16','16','16','16','16','16','16'], ratioNum:7,ratioDen:6, comp:true},
+  /* tresillo en pulso BINARIO de un compás disparejo (3 corcheas sobre un pulso de 2 corcheas = 1 negra) */
+  'tresillo_bin':     {label:'3:2', occ:1.0, written:['8','8','8'],            ratioNum:3,ratioDen:2, bin:true},
+  /* síncopa de FRACCIÓN ternaria (foto 1, "síncopas de fracción II"): corchea-negra-corchea-negra,
+     desplazando la negra a contratiempo a través del pulso compuesto. Ocupa 2 pulsos compuestos (3 negras).
+     No es grupo de valoración especial: es síncopa de la subdivisión. Solo en compases compuestos con ≥2 pulsos. */
+  /* SÍNCOPA DE FRACCIÓN (subdivisión ternaria): la fracción (corchea) se sincopa con semicorcheas en el borde.
+     Base = semicorchea·corchea·corchea·semicorchea (s-c-c-s) sobre UN pulso compuesto (3 corcheas = 1.5 negras).
+     Es síncopa de la SUBDIVISIÓN, no grupo de valoración especial. Solo en compases compuestos. */
+  'sincopa_fr_t':     {label:'s-c-c-s', occ:1.5, written:['16','8','8','16'],   synpat:true, comp:true,
+                       synVariants:[ ['16','8','8','16'], ['8','16','16','8'], ['16','16','8','16','16'] ]},
+  /* dosillo/cuatrillo sobre LOS 3 PULSOS COMPUESTOS de 9/8 (ocupan el compás entero = 3 negras c/puntillo).
+     Es un grupo de valoración especial: N figuras en el espacio de los 3 pulsos compuestos. */
+  'dosillo_3pc':      {label:'2:3', occ:4.5, written:['hd','hd'],              ratioNum:2,ratioDen:3, comp3:true},
+  'cuatrillo_3pc':    {label:'4:3', occ:4.5, written:['qd','qd','qd','qd'],    ratioNum:4,ratioDen:3, comp3:true},
 };
 const GROUP_NAMES={
   'tresillo_2p':'Tresillo en 2 pulsos','tresillo_4p':'Tresillo en 4 pulsos',
@@ -502,6 +685,83 @@ const GROUP_NAMES={
   'seisillo_1p':'Seisillo (1 pulso)','septillo_1p':'Septillo (1 pulso)'
 };
 const ALL_GROUPS=Object.keys(CATALOG);
+
+/* ===================================================================================
+   1º GRADO PROFESIONAL — MUNDOS Y CARTAS (basado en Ritmo 5, Tordesillas)
+   ===================================================================================
+   Modelo: 5 MUNDOS métricos EXCLUYENTES (eliges 1) + CARTAS de recurso combinables dentro.
+   Algunas cartas son MULTIPULSO: fuerzan el compás (al activarse, la lección usa solo ese compás).
+   M5 (claves de Do) capa el ritmo: solo figuración elemental.
+   Cada carta declara: id, name, sub (subtítulo corto), gid (célula del CATALOG o null para "base"),
+   y opcionalmente force (compás que fuerza), comp/disp/clavem (flags de mundo).
+   El mundo declara: id, name, desc, meterPool, basePulse (BPM de pulso), card list, defaultOn. */
+const GP1_WORLDS=[
+  {
+    id:'m1', name:'Compases simples', kicker:'El pulso se divide en dos',
+    desc:'2/4, 3/4 y 4/4. El pulso es la negra y se subdivide en dos. Aquí viven los tresillos y demás grupos sobre el pulso o sobre la fracción.',
+    meterPool:['2/4','3/4','4/4'], basePulse:48, basePulseComp:48,
+    cards:[
+      {id:'m1_base',    name:'Figuración base',     gid:null, base:true, hidden:true},
+      {id:'m1_tres_p',  name:'Tresillo de pulso',    gid:'tresillo_1p'},
+      {id:'m1_seis_p',  name:'Seisillo de pulso',    gid:'seisillo_1p'},
+      {id:'m1_tres_fr', name:'Tresillo de fracción', gid:'tresillo_fr'},
+      {id:'m1_cinq',    name:'Cinquillo',            gid:'cinquillo_1p', slow:true},
+      {id:'m1_sept',    name:'Septillo',             gid:'septillo_1p', slow:true},
+      {id:'m1_fusas',   name:'Fusas',                gid:null, dense:true, slow:true},
+      {id:'m1_tres_2p', name:'Tresillo en 2 pulsos', gid:'tresillo_2p', force:'2/4', multi:true},
+      {id:'m1_tres_4p', name:'Tresillo en 4 pulsos', gid:'tresillo_4p', force:'4/4', multi:true},
+    ]
+  },
+  {
+    id:'m2', name:'Compases compuestos', kicker:'El pulso se divide en tres',
+    desc:'3/8, 6/8, 9/8 y 12/8. El pulso es la negra con puntillo (en 3/8, una sola) y se subdivide en tres. Síncopas de fracción, dosillos y grupos sobre el pulso compuesto.',
+    meterPool:['3/8','6/8','9/8','12/8'], basePulse:40, basePulseComp:40,
+    cards:[
+      {id:'m2_base',    name:'Figuración base',      gid:null, base:true, hidden:true},
+      {id:'m2_sinc_fr', name:'Síncopa de fracción',  gid:'sincopa_fr_t'},
+      {id:'m2_tres_fr', name:'Tresillo de fracción', gid:'tresillo_fr'},
+      {id:'m2_dos_3p',  name:'Dosillo en 3 pulsos',  gid:'dosillo_3pc', force:'9/8', multi:true},
+      {id:'m2_cuat_3p', name:'Cuatrillo en 3 pulsos',gid:'cuatrillo_3pc', force:'9/8', multi:true},
+      {id:'m2_sept',    name:'Septillo',             gid:'septillo_1pc', slow:true},
+      {id:'m2_fusas',   name:'Fusas',                gid:null, dense:true, slow:true},
+    ]
+  },
+  {
+    id:'m3', name:'Pulso de', drawnDur:'hd', kicker:'Pulso = blanca con puntillo',
+    desc:'6/4, 9/4 y 12/4. La lectura es ancha: el pulso es la blanca con puntillo y la negra se agrupa de tres en tres. Tempo cómodo, sin fusas ni multipulso.',
+    meterPool:['6/4','9/4','12/4'], basePulse:50, basePulseComp:50, wide:true,
+    cards:[
+      {id:'m3_base',    name:'Figuración ancha',    gid:null, base:true, hidden:true},
+      {id:'m3_negras',  name:'Negras',               gid:null},
+      {id:'m3_corch',   name:'Corcheas',             gid:null, wideEighthCard:true},
+      {id:'m3_semi',    name:'Semicorcheas',         gid:null, S2:true},
+    ]
+  },
+  {
+    id:'m4', name:'Compases dispares', kicker:'Compases de pulso irregular',
+    desc:'5/8, 7/8 y 8/8. Los pulsos no son iguales: se agrupan en 2 y 3 (2+3, 3+2+2, 3+3+2…). Tempo estable por encima de la velocidad.',
+    meterPool:['5/8','7/8','8/8'], basePulse:40, basePulseComp:40, disp:true,
+    cards:[
+      {id:'m4_base',    name:'Figuración base',     gid:null, base:true, hidden:true},
+      {id:'m4_58',      name:'5/8',  force:'5/8', multi:true, dispMeter:true},
+      {id:'m4_78',      name:'7/8',  force:'7/8', multi:true, dispMeter:true},
+      {id:'m4_88',      name:'8/8',  force:'8/8', multi:true, dispMeter:true},
+      {id:'m4_tres_bin',name:'Tresillo en pulso binario', gid:'tresillo_bin'},
+    ]
+  },
+  {
+    id:'m5', name:'Clave de', drawnClef:'alto', kicker:'Lectura · capa el ritmo',
+    desc:'Clave de Do en 3ª y en 4ª. La dificultad está en la altura, así que el ritmo se mantiene elemental. Tempo de lectura.',
+    meterPool:['2/4','3/4','4/4'], basePulse:40, basePulseComp:40, clave:true,
+    cards:[
+      {id:'m5_do3',     name:'Clave de Do en 3ª',   clef:'alto', base:true, clavecard:true},
+      {id:'m5_do4',     name:'Clave de Do en 4ª',   clef:'tenor', clavecard:true},
+    ]
+  },
+];
+function gp1World(id){ return GP1_WORLDS.find(w=>w.id===id); }
+function gp1Card(world,cid){ return gp1World(world).cards.find(c=>c.id===cid); }
+
 
 function db(d){ return d.endsWith('d') ? DUR_BEATS[d.slice(0,-1)]*1.5 : DUR_BEATS[d]; }
 function meterInfo(t){const[n,d]=t.split('/').map(Number);return{num:n,den:d,capBeats:n*(4/d)};}
@@ -585,10 +845,41 @@ function ternaryPatterns(S,easier){
   if(S>=3&&!easier)b.push([['8'],['16'],['32'],['32'],['8']]);
   return b;
 }
-function dispairGroupings(t){return({'5/8':[[2,3],[3,2]],'7/8':[[2,2,3],[3,2,2],[2,3,2]]})[t]||null;}
+function dispairGroupings(t){return({'5/8':[[2,3],[3,2]],'7/8':[[2,2,3],[3,2,2],[2,3,2]],'8/8':[[3,3,2],[3,2,3],[2,3,3]]})[t]||null;}
+/* NEGRA TERNARIA (6/4, 9/4, 12/4): el pulso es la BLANCA CON PUNTILLO (3 negras). Lectura ANCHA.
+   Cada patrón rellena UN pulso (3 negras). withEighths añade subdivisión a la negra (carta m3_corch). */
+function wideTernaryPulse(withEighths, withSixteenths){
+  const b=[
+    [['hd']],                         // blanca con puntillo (pulso entero)
+    [['h'],['q']],                    // blanca + negra
+    [['q'],['h']],                    // negra + blanca
+    [['q'],['q'],['q']],              // tres negras
+    [['hd']],[['q'],['q'],['q']],     // (repetidas para sesgar hacia lo ancho)
+  ];
+  if(withEighths){
+    b.push([['q'],['q'],['8'],['8']]);
+    b.push([['8'],['8'],['q'],['q']]);
+    b.push([['q'],['8'],['8'],['q']]);
+    b.push([['qd'],['8'],['q']]);
+  }
+  if(withSixteenths){
+    b.push([['q'],['q'],['16'],['16'],['16'],['16']]);
+    b.push([['16'],['16'],['16'],['16'],['q'],['q']]);
+    b.push([['q'],['8'],['16'],['16'],['q']]);
+    b.push([['8'],['16'],['16'],['8'],['8'],['q']]);
+  }
+  return b;
+}
 
 function groupFitsTime(gid,time){
   const g=CATALOG[gid],{num,den,capBeats}=meterInfo(time);
+  // ----- células añadidas para 1º GP -----
+  if(g.frac){ return true; }                       // tresillo de fracción: cabe en cualquier compás
+  if(g.synpat){ return den===8 && num%3===0; }  // síncopa de fracción: cabe en cualquier compás compuesto
+  if(g.comp3){ return den===8 && num===9; }          // dosillo/cuatrillo sobre 3 pulsos compuestos: solo 9/8
+  if(g.comp){ return den===8 && num%3===0; }        // grupos sobre pulso compuesto: solo 6/8, 9/8, 12/8
+  if(g.bin){ return den===8 && (num===5||num===7||num===8); } // tresillo en pulso binario: solo dispares
+  // ----- catálogo original (2º GP) -----
   if(g.occ>capBeats) return false;
   // los grupos de UN PULSO simple (occ:1: tresillo/cinquillo de 1 pulso) asumen pulso = NEGRA, así que solo
   // caben en compases SIMPLES (den===4). En compases COMPUESTOS (6/8, 9/8…) el pulso es la negra con puntillo
@@ -603,7 +894,98 @@ function genMeasure(time,S,pick,opts={}){
   const{num,den,capBeats}=meterInfo(time);
   const notes=[],tuplets=[],beams=[];let groupInfo=null,grouping=null;const easier=!!opts.easier;
   if(opts.groupId&&CATALOG[opts.groupId]&&groupFitsTime(opts.groupId,time)){
-    const g=CATALOG[opts.groupId];const idx=[];
+    const g=CATALOG[opts.groupId];
+    // ===== dosillo/cuatrillo que ABARCA los 3 pulsos compuestos del 9/8: ocupa el compás entero =====
+    if(g.comp3){
+      const idx=[];
+      for(let i=0;i<g.written.length;i++){idx.push(notes.length);notes.push({dur:g.written[i],grp:true});}
+      tuplets.push({idx,group:g,gid:opts.groupId,fullBar:true});
+      groupInfo={idx,gid:opts.groupId,...g};
+      return{time,notes,tuplets,beams,groupInfo,grouping:null,cap:capBeats};
+    }
+    // ===== SÍNCOPA DE FRACCIÓN: patrón sincopado (s-c-c-s y variantes) en UN pulso compuesto =====
+    if(g.synpat){
+      const pulses=num/3;
+      const synP=Math.floor(pick([0,1,2,3].slice(0,pulses)));   // pulso compuesto que lleva la síncopa
+      const variants = g.synVariants || [g.written];
+      const pat = pick(variants);
+      for(let p=0;p<pulses;p++){
+        const bs=notes.length;
+        if(p===synP){
+          pat.forEach(d=>notes.push({dur:d}));
+          beams.push(range(bs,notes.length-1));   // todo el pulso compuesto bajo un corchete
+        } else {
+          pick(ternaryPatterns(S,easier)).flat().forEach(d=>notes.push({dur:d})); if(notes.length-1>bs)beams.push(range(bs,notes.length-1));
+        }
+      }
+      return{time,notes,tuplets,beams,groupInfo:null,grouping:null,cap:capBeats,synpat:true};
+    }
+    // ===== células nuevas de 1º GP: colocación específica que respeta el pulso =====
+    if(g.frac){
+      // tresillo de FRACCIÓN (media negra): va dentro de un pulso. En compuesto el pulso es 1.5 negras
+      // (cabe el tresillo de fracción + una corchea); en simple el pulso es 1 negra (tresillo de fracción + corchea).
+      const compound=(den===8&&num%3===0);
+      const pulseBeats=compound?1.5:1;
+      const pulses = compound ? num/3 : capBeats;     // nº de pulsos del compás
+      const fracPulse=Math.floor(pick([0,1,2,3].slice(0,pulses)));   // en qué pulso cae el grupo
+      for(let p=0;p<pulses;p++){
+        if(p===fracPulse){
+          const bs=notes.length; const idx=[];
+          for(let i=0;i<g.written.length;i++){idx.push(notes.length);notes.push({dur:g.written[i],grp:true});}
+          tuplets.push({idx,group:g,gid:opts.groupId});
+          groupInfo={idx,gid:opts.groupId,...g};
+          // completar el pulso tras el tresillo de fracción: una corchea (simple) o corchea+corchea (compuesto)
+          let rem=pulseBeats-g.occ;
+          while(rem>1e-9){notes.push({dur:'8'});rem-=0.5;}
+          beams.push(range(bs,notes.length-1));
+        } else {
+          const bs=notes.length;
+          (compound?pick(ternaryPatterns(S,easier)):pick(pulsePatterns(S,easier))).flat().forEach(d=>notes.push({dur:d}));
+          if(notes.length-1>bs)beams.push(range(bs,notes.length-1));
+        }
+      }
+      return{time,notes,tuplets,beams,groupInfo,grouping:null,cap:capBeats};
+    }
+    if(g.comp){
+      // grupo sobre el PULSO COMPUESTO (negra c/puntillo): ocupa un pulso entero; el resto, pulsos ternarios.
+      const pulses=num/3, gPulse=Math.floor(pick([0,1,2,3].slice(0,pulses)));
+      for(let p=0;p<pulses;p++){
+        if(p===gPulse){
+          const bs=notes.length,idx=[];
+          for(let i=0;i<g.written.length;i++){idx.push(notes.length);notes.push({dur:g.written[i],grp:true});}
+          tuplets.push({idx,group:g,gid:opts.groupId});
+          if(['8','16'].includes(g.written[0])) beams.push(idx.slice());
+          groupInfo={idx,gid:opts.groupId,...g};
+        } else {
+          const bs=notes.length; pick(ternaryPatterns(S,easier)).flat().forEach(d=>notes.push({dur:d})); if(notes.length-1>bs)beams.push(range(bs,notes.length-1));
+        }
+      }
+      return{time,notes,tuplets,beams,groupInfo,grouping:null,cap:capBeats};
+    }
+    if(g.bin){
+      // tresillo en PULSO BINARIO de un compás disparejo: 1 pulso de 2 corcheas (=1 negra) lleva el grupo;
+      // el resto del compás respeta la agrupación de pulsos (2+3, 3+2...).
+      grouping=pick(dispairGroupings(time));
+      let placed=false;
+      // elegir un pulso BINARIO (de 2 corcheas) para colocar el tresillo
+      const binPulses=grouping.map((gs,i)=>({gs,i})).filter(o=>o.gs===2);
+      const target= binPulses.length? pick(binPulses).i : -1;
+      grouping.forEach((gs,pi)=>{
+        if(pi===target && !placed){
+          const bs=notes.length,idx=[];
+          for(let i=0;i<g.written.length;i++){idx.push(notes.length);notes.push({dur:g.written[i],grp:true});}
+          tuplets.push({idx,group:g,gid:opts.groupId}); beams.push(idx.slice());
+          groupInfo={idx,gid:opts.groupId,...g}; placed=true;
+        } else {
+          const bs=notes.length; let rem=gs*0.5;
+          while(rem>1e-9){ if(rem>=0.5&&S>=1&&pick([true,false,false])){notes.push({dur:'16'},{dur:'16'});rem-=0.5;} else {notes.push({dur:'8'});rem-=0.5;} }
+          if(notes.length-1>bs)beams.push(range(bs,notes.length-1));
+        }
+      });
+      return{time,notes,tuplets,beams,groupInfo,grouping,cap:capBeats};
+    }
+    // ===== catálogo original (2º GP) =====
+    const idx=[];
     for(let i=0;i<g.written.length;i++){idx.push(notes.length);notes.push({dur:g.written[i],grp:true});}
     tuplets.push({idx,group:g,gid:opts.groupId});
     if(['8','16'].includes(g.written[0])) beams.push(idx.slice());
@@ -613,7 +995,23 @@ function genMeasure(time,S,pick,opts={}){
     while(rest>1e-9){notes.push({dur:'8'});rest-=0.5;}
     return{time,notes,tuplets,beams,groupInfo,cap:capBeats};
   }
-  if(den===8&&(num===5||num===7)){
+  // NEGRA TERNARIA (6/4, 9/4, 12/4): rellenar por pulsos de 3 negras (blanca c/puntillo), lectura ANCHA
+  if(opts.wide && den===4 && num%3===0 && num>=6){
+    const pulses=num/3;
+    for(let p=0;p<pulses;p++){
+      const pulse=pick(wideTernaryPulse(!!opts.wideEighths, !!opts.wideSixteenths)).flat();
+      let runStart=-1;
+      pulse.forEach(d=>{
+        const i=notes.length; notes.push({dur:d});
+        const isFlag=(d==='8'||d==='16');
+        if(isFlag){ if(runStart<0) runStart=i; }
+        else { if(runStart>=0 && i-1>runStart) beams.push(range(runStart,i-1)); runStart=-1; }
+      });
+      if(runStart>=0 && notes.length-1>runStart) beams.push(range(runStart,notes.length-1));
+    }
+    return{time,notes,tuplets,beams,groupInfo:null,grouping:null,cap:capBeats,wideTernary:true};
+  }
+  if(den===8&&(num===5||num===7||num===8)){
     grouping=pick(dispairGroupings(time));
     grouping.forEach(gs=>{const bs=notes.length;let rem=gs*0.5;
       while(rem>1e-9){
@@ -640,7 +1038,7 @@ function genMeasure(time,S,pick,opts={}){
 
 function validateMeasure(m){
   let sum=0;
-  if(m.groupInfo){
+  if(m.groupInfo && m.groupInfo.idx){
     const real=groupRealBeats(m.groupInfo);let gi=0;
     m.notes.forEach((n,i)=>{ if(m.groupInfo.idx.includes(i)){sum+=real[gi++];} else sum+=db(n.dur); });
   } else {
@@ -659,6 +1057,35 @@ function decompose(beats){
 function restFill(beats){ return decompose(beats).map(d=>({dur:d,rest:true})); }
 
 /* RESPIRO: convierte el último pulso del compás en silencio (no rompe grupos) */
+/* CIERRE 4/4 (segundo compás de una frase de 2): conserva los pulsos 1 y 2 tal cual se generaron,
+   fija el pulso 3 como FIGURA DE PULSO (negra melódica) y el pulso 4 como SILENCIO DE PULSO (silencio de negra).
+   Trabaja sobre un compás ya generado normalmente. Si un grupo cruza el límite del 2º pulso, no toca nada. */
+function applyFourFourClose(m){
+  const {num,den}=meterInfo(m.time);
+  if(!(den===4 && num===4)) return false;
+  // recorrer notas acumulando beats; cortar justo en el beat 2 (fin del pulso 2)
+  let acc=0, cut=-1;
+  for(let i=0;i<m.notes.length;i++){
+    const d=db(m.notes[i].dur);
+    // si una nota/grupo cruza el límite de 2 negras, no podemos cortar limpio -> abortar
+    if(acc<2-1e-9 && acc+d>2+1e-9){ return false; }
+    acc+=d;
+    if(Math.abs(acc-2)<1e-9){ cut=i; break; }
+  }
+  if(cut<0) return false;
+  const head=m.notes.slice(0,cut+1);     // pulsos 1 y 2 intactos
+  const n=cut+1;
+  // recolocar beams/tuplets que queden dentro de la cabeza
+  m.beams=(m.beams||[]).map(b=>b.filter(i=>i<n)).filter(b=>b.length>1);
+  m.tuplets=(m.tuplets||[]).filter(t=>t.idx.every(i=>i<n));
+  // pulso 3 = negra melódica (cad: la melodía le asigna grado de reposo); pulso 4 = silencio de negra
+  head.push({dur:'q',cad:true});
+  head.push({dur:'q',rest:true});
+  m.notes=head;
+  m.cap=4;
+  return true;
+}
+
 function applyRespiro(m){
   const{num,den}=meterInfo(m.time);
   let pulseBeats = (den===8&&num%3===0)?1.5:1; // compuesto: pulso = corchea con puntillo; resto: 1 negra
@@ -726,12 +1153,18 @@ function applyMidStop(m,atPulse){
 
 
 /* REPOSO: compás final de la lección = figura larga sobre la tónica (+ silencio si sobra) */
-function makeReposoMeasure(time,scale,tonicPc){
-  const{capBeats}=meterInfo(time);
+function makeReposoMeasure(time,scale,tonicPc,wide){
+  const{capBeats,num,den}=meterInfo(time);
   const tonicIdxs=scale.map((p,i)=>i).filter(i=>((scale[i].midi%12)-(tonicPc??(scale[0].midi%12))+12)%12===0);
   const center=Math.floor(scale.length/2);
   const tIdx=tonicIdxs.length?tonicIdxs.reduce((b,i)=>Math.abs(i-center)<Math.abs(b-center)?i:b,tonicIdxs[0]):center;
   const tn=scale[tIdx];
+  if(wide && den===4 && num%3===0 && num>=6){
+    // negra ternaria: reposo = blanca con puntillo en la tónica + silencios por pulsos de 3 negras
+    const notes=[{dur:'hd',key:tn.key,midi:tn.midi,fixed:true}];
+    restFill(capBeats-3).forEach(r=>notes.push(r));
+    return{time,notes,tuplets:[],beams:[],groupInfo:null,cap:capBeats,wideTernary:true};
+  }
   const tbl=[['w',4],['hd',3],['h',2],['qd',1.5],['q',1]];
   let longDur='q',longVal=1;
   for(const[dur,val]of tbl){ if(val<=capBeats+1e-9){longDur=dur;longVal=val;break;} }
@@ -742,8 +1175,14 @@ function makeReposoMeasure(time,scale,tonicPc){
 
 /* CIERRE de frase intermedia: nota larga de 1 pulso (la cadencia) + silencio hasta fin de compás.
    La nota NO es 'fixed': entra en 'assignable' para que la melodía le asigne el grado de reposo (cadDeg). */
-function makeCadenceMeasure(time){
+function makeCadenceMeasure(time,wide){
   const {capBeats,num,den}=meterInfo(time);
+  if(wide && den===4 && num%3===0 && num>=6){
+    // negra ternaria: cierre = blanca con puntillo (1 pulso) + resto en silencio por pulsos de 3 negras
+    const notes=[{dur:'hd',cad:true}];
+    restFill(capBeats-3).forEach(r=>notes.push(r));
+    return {time,notes,tuplets:[],beams:[],groupInfo:null,cap:capBeats,wideTernary:true};
+  }
   const pulseBeats=(den===8 && num%3===0)?1.5:1;            // 1 pulso (negra c/puntillo en compuesto; negra en el resto)
   const longDur=pulseBeats===1.5?'qd':'q';
   const notes=[{dur:longDur,cad:true}];
@@ -1795,13 +2234,159 @@ function genLesson(trimKey,seed,activeGroups,diff){
   return L;
 }
 
+/* =================================================================================
+   GENERADOR DE 1º GP — orquesta MUNDO + CARTAS reutilizando genPhrase/assignMelodyLesson.
+   world: id de mundo ('m1'..'m5'); cards: array de ids de carta activas.
+   Devuelve la misma estructura de lección que genLesson (para render/fases/audio comunes).
+   ================================================================================= */
+function gp1Config(worldId, cards){
+  const W=gp1World(worldId);
+  const active=cards.filter(c=>W.cards.some(k=>k.id===c));
+  const cardObjs=active.map(c=>gp1Card(worldId,c));
+  // multipulso fuerza compás (solo el primero que se encuentre)
+  const multi=cardObjs.find(c=>c.multi);
+  const forcedTime=multi?multi.force:null;
+  // pool de células (gid) de las cartas no-base y no-multipulso (esas van como "grupos" repartidos)
+  const groupGids=cardObjs.filter(c=>c.gid && !c.multi).map(c=>c.gid);
+  const multiGid=multi?multi.gid:null;
+  const dense=cardObjs.some(c=>c.dense);
+  const slow=cardObjs.some(c=>c.slow);
+  // S de figuración: base 1; +1 si hay carta S2 (M3 corcheas); 3 si fusas
+  let S=1; if(cardObjs.some(c=>c.S2)) S=2; if(dense) S=3;
+  if(W.clave) S=0;                       // claves: ritmo capado a elemental
+  // negra ternaria (M3): niveles según cartas (negras / corcheas / semicorcheas)
+  const wideEighths = W.wide && cardObjs.some(c=>c.wideEighthCard || c.S2);
+  const wideSixteenths = W.wide && cardObjs.some(c=>c.S2);
+  if(W.wide) S=Math.min(S,1);            // S no se usa para la subdivisión ancha; van wideEighths/wideSixteenths
+  // claves (pentagramas): por defecto sol/fa agrupadas 2+2; en M5 según cartas Do3/Do4
+  let clefMode='solfa';
+  if(W.clave){
+    const wantDo3=active.includes('m5_do3'), wantDo4=active.includes('m5_do4');
+    if(wantDo3 && wantDo4) clefMode='do3do4';
+    else if(wantDo4) clefMode='tenor';
+    else clefMode='alto';
+  }
+  return {W, forcedTime, groupGids, multiGid, dense, slow, S, clefMode, meterPool:W.meterPool, wideEighths, wideSixteenths};
+}
 
+function genLessonGP1(worldId, cards, seed, second){
+  const cfgA=gp1Config(worldId, cards);
+  const combine = !!second && second.worldId && second.worldId!==undefined;
+  // en modo combinar, claves de Do no participa (su dificultad es la lectura): si se cuela, se ignora el 2º mundo
+  const cfgB = combine ? gp1Config(second.worldId, second.cards) : null;
+  const useCombine = combine && !cfgA.W.clave && !(cfgB&&cfgB.W.clave);
+  const W=cfgA.W;
+  const rand=makeRand(seed), pick=pickF(rand);
+  const [keysig,tonic,modo]=pick(KEY_POOL_BASE);   // 1º GP: hasta 1 alteración
+  const modoNat = modo==='mayor'?'mayor':'menor_natural';
+
+  // claves de los 4 pentagramas
+  let clefs;
+  if(cfgA.clefMode==='do3do4'){ const a=rand()<0.5; clefs=a?['alto','alto','tenor','tenor']:['tenor','tenor','alto','alto']; }
+  else if(cfgA.clefMode==='alto') clefs=['alto','alto','alto','alto'];
+  else if(cfgA.clefMode==='tenor') clefs=['tenor','tenor','tenor','tenor'];
+  else { const solFirst=rand()<0.5; clefs=solFirst?['treble','treble','bass','bass']:['bass','bass','treble','treble']; }
+  const switchIdx=2;
+
+  // helper: elige el compás de un bloque a partir de su cfg
+  const pickMeter=(cfg)=>{ if(cfg.forcedTime) return cfg.forcedTime; return pick(cfg.meterPool); };
+
+  // compases A/B (uno por bloque de clave).
+  let timeA, timeB;
+  if(useCombine){
+    // bloque A = mundo A, bloque B = mundo B (cambio de compás entre mundos)
+    timeA=pickMeter(cfgA); timeB=pickMeter(cfgB);
+  } else if(cfgA.forcedTime){ timeA=timeB=cfgA.forcedTime; }
+  else {
+    timeA=pick(cfgA.meterPool);
+    timeB=pick(cfgA.meterPool); let g=0; while(timeB===timeA && g++<12) timeB=pick(cfgA.meterPool);
+    if(W.clave) timeB=timeA;   // claves: lectura estable, sin cambio de compás
+  }
+
+  const phrases=clefs.map((clef,i)=>{
+    const inB = (i>=switchIdx);
+    const cfg = (useCombine && inB) ? cfgB : cfgA;
+    const Wp  = cfg.W;
+    const time=inB?timeB:timeA;
+    const isLast=(i===clefs.length-1);
+    const dense3=cfg.dense;
+    const phEasier=false;
+    const useGroups = cfg.groupGids.length>0 || !!cfg.multiGid;
+    const groups = cfg.multiGid ? [cfg.multiGid] : cfg.groupGids;
+    // nº de compases por frase, según el compás (12/8,9/8→2; 6/8→3; 4/4→2 [máx 3]; fusas→3; resto→4)
+    const{num:tNum,den:tDen}=meterInfo(time);
+    const longCompound = (tDen===8 && (tNum===12 || tNum===9));
+    const sixEight     = (tDen===8 && tNum===6);
+    const fourFour     = (tDen===4 && tNum===4);
+    let mc;
+    if(dense3) mc=3;
+    else if(longCompound) mc=2;
+    else if(sixEight) mc=3;
+    else if(fourFour) mc=2;          // 4/4 (4 pulsos): frases cortas, 2 compases (máx 3)
+    else mc=4;
+    const pr=makeRand(seed+i*101+1);
+    const prPick=pickF(pr);
+    const measures=[];
+    for(let c=0;c<mc;c++){
+      const last=(c===mc-1);
+      if(last){ measures.push(makeReposoMeasure(time, buildScale(tonic,modoNat,clef,keysig), TONIC_PC[tonic], !!Wp.wide)); continue; }
+      let groupId=null;
+      if(useGroups){
+        const fits=groups.filter(gid=>groupFitsTime(gid,time));
+        if(fits.length){
+          const prob = cfg.multiGid ? [true,true,true,false] : (dense3?[false,true,false]:[true,true,false]);
+          if(prPick(prob)) groupId=prPick(fits);
+        }
+      }
+      let m,tries=0;
+      const wideOpts = Wp.wide ? {wide:true, wideEighths: cfg.wideEighths, wideSixteenths: cfg.wideSixteenths} : {};
+      do{ m=genMeasure(time,cfg.S,prPick,{groupId,easier:phEasier,dense3,rand:pr,...wideOpts}); tries++; }
+      while(!validateMeasure(m)&&tries<60);
+      measures.push(m);
+    }
+    if(!isLast){
+      measures[measures.length-1]=makeCadenceMeasure(time, !!Wp.wide);
+    }
+    // CIERRE 4/4: el último compás de la frase tiene pulsos 1-2 normales, pulso 3 = figura de pulso, pulso 4 = silencio.
+    {
+      const {num:cn,den:cd}=meterInfo(time);
+      if(cd===4 && cn===4 && measures.length>=1){
+        let chosen=null,tries=0;
+        while(!chosen && tries<60){
+          tries++;
+          const mm=genMeasure(time,cfg.S,prPick,{groupId:null,easier:phEasier,dense3,rand:pr,...(Wp.wide?{wide:true}:{})});
+          if(!validateMeasure(mm)) continue;
+          if(applyFourFourClose(mm) && validateMeasure(mm)) chosen=mm;
+        }
+        if(chosen) measures[measures.length-1]=chosen;
+      }
+    }
+    const ph={clef,keysig,time,measures,dense:dense3,nMeasures:mc,valid:measures.every(validateMeasure)};
+    ph.semiStop=null;
+    if(!dense3 && mc===4 && ph.measures.length>=2){
+      const nP=pulseOnsetsQ(ph.measures[1]).length; const stopPulse=Math.max(1,nP-1);
+      const idx=applyMidStop(ph.measures[1],stopPulse);
+      if(idx>=0){ ph.semiStop={measureIdx:1,noteIdx:idx}; ph.valid=ph.measures.every(validateMeasure); }
+    }
+    return ph;
+  });
+
+  const L={trimKey:'gp1', worldId, cards:cards.slice(), keysig,tonic,modo,phrases,timeA,timeB,switchIdx, gp1:true,
+           combine:useCombine, worldB:useCombine?second.worldId:null, cardsB:useCombine?second.cards.slice():null};
+  let melOk=false;
+  for(let a=0;a<40 && !melOk;a++){
+    assignMelodyLesson(L,tonic,modoNat,makeRand(seed*7+a*131+9),'medio');
+    melOk=phrases.every(p=>validateMelody(p.measures));
+  }
+  L.valid=phrases.every(p=>p.valid) && melOk;
+  return L;
+}
 
 /* ===================== RENDER CONTINUO + RAYITAS DE PULSO + UI ===================== */
 const VF=Vex.Flow;
 let currentTrim='t1';
 let SHOW_PULSE=true;
-const restCenter={treble:'b/4',bass:'d/3'};
+const restCenter={treble:'b/4',bass:'d/3',alto:'c/4',tenor:'a/3'};
 const PULSE_RED='#dc2626', PULSE_DX=5;
 
 /* grupos del 2º trimestre con sus parejas regular/irregular */
@@ -1944,7 +2529,7 @@ function buildAnalysis(L){
   L.phrases.forEach(p=>p.measures.forEach(m=>{allTimes.add(m.time);if(m.groupInfo){allGroups.add(m.groupInfo.label);allGids.add(m.groupInfo.gid);}}));
   const disp=[...allTimes].filter(t=>['5/8','7/8'].includes(t));
   if(L.trimKey==='t1'){
-    if(disp.length) items.push(`<b>Compás irregular</b> (${disp.join(', ')}): la lección incluye al menos un compás de amalgama, de pulsos desiguales. Marca la agrupación de corcheas (2+3 / 3+2) y siente los acentos antes de entonar.`);
+    if(disp.length) items.push(`<b>Compás disparejo</b> (${disp.join(', ')}): la lección incluye al menos un compás de pulso irregular, de pulsos desiguales. Marca la agrupación de corcheas (2+3 / 3+2) y siente los acentos antes de entonar.`);
     items.push(`<b>Dos claves:</b> dos frases en clave de sol y dos en clave de fa, agrupadas. Hay un único cambio de compás en toda la lección, justo en el cambio de clave.`);
   }
   if(L.trimKey==='t2'){
@@ -1973,10 +2558,24 @@ function buildAnalysis(L){
 
 /* ============================== ESTADO + RENDER ACTUAL ============================== */
 let currentLesson=null;
+let currentCourse='gp2';          // 'gp1' | 'gp2'
+let gp1WorldId='m1';              // mundo activo (o primer mundo en modo combinar)
+let gp1ActiveCards=['m1_base'];   // cartas activas del mundo
+let gp1Mode='uno';                // 'uno' | 'combina'
+let gp1WorldB='m2';               // segundo mundo (modo combinar)
+let gp1CardsB=['m2_base'];        // cartas del segundo mundo
 function useGroupsFor(trim){ return trim==='t2'?activeGroups:(trim==='rep'?REP_GROUPS:null); }
 
 function generateLesson(seed){
   if(studyMode) closeStudy();   // si estábamos en estudio por fases, salir antes de regenerar
+  if(currentCourse==='gp1'){
+    // exigir al menos una carta no-base (o que el mundo tenga material por defecto)
+    const sd = seed ?? (Date.now()&0x7fffffff);
+    const second = (gp1Mode==='combina' && gp1WorldB) ? {worldId:gp1WorldB, cards:gp1CardsB.slice()} : null;
+    currentLesson=genLessonGP1(gp1WorldId, gp1ActiveCards.slice(), sd, second);
+    renderCurrent();
+    return;
+  }
   if(currentTrim==='t2' && (!activeGroups||!activeGroups.length)){
     document.getElementById('score').innerHTML='<div style="color:#7a1407;padding:34px 18px;text-align:center;font-weight:600;">Marca al menos un grupo para generar la lección.</div>';
     document.getElementById('lessonArea').classList.add('show'); document.getElementById('analysisBox').innerHTML='';
@@ -1992,9 +2591,19 @@ function renderCurrent(){
   const totalM=L.phrases.reduce((a,p)=>a+p.measures.length,0);
   const timesTxt=L.phrases[0].time===L.phrases[L.phrases.length-1].time?L.phrases[0].time:`${L.phrases[0].time} → ${L.phrases[L.phrases.length-1].time}`;
   const hasGroups=L.phrases.some(p=>p.measures.some(m=>m.groupInfo));
-  document.getElementById('lessonTags').innerHTML=
-    `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>4 frases · ${totalM} compases</span><span>2 sol · 2 fa</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
-  document.getElementById('sheetCap').style.display=(hasGroups&&SHOW_PULSE)?'block':'none';
+  // descripción de claves
+  const clefSet=[...new Set(L.phrases.map(p=>p.clef))];
+  const clefName={treble:'Sol',bass:'Fa',alto:'Do 3ª',tenor:'Do 4ª'};
+  const clefTxt = clefSet.length===1 ? clefName[clefSet[0]] : clefSet.map(c=>clefName[c]).join(' · ');
+  if(L.gp1){
+    const W=gp1World(L.worldId);
+    document.getElementById('lessonTags').innerHTML=
+      `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>${W.name}</span><span>4 frases · ${totalM} compases</span><span>${clefTxt}</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
+  } else {
+    document.getElementById('lessonTags').innerHTML=
+      `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>4 frases · ${totalM} compases</span><span>2 sol · 2 fa</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
+  }
+  document.getElementById('sheetCap').style.display=(currentCourse!=='gp1' && hasGroups&&SHOW_PULSE)?'block':'none';
   document.getElementById('analysisBox').innerHTML=''; // (caja "qué practicas" retirada)
   document.getElementById('lessonArea').classList.add('show');
 }
@@ -2059,6 +2668,421 @@ function updateGroupSummary(){
   const s=document.getElementById('groupSummary');
   if(s) s.textContent = multi.length? ('Activos: '+multi.join(', ')+(prevOn?'  ·  + un pulso':'')) : (prevOn?'Solo grupos de un pulso (cursos anteriores)':'Sin grupos');
 }
+
+/* ============================== PANTALLA DE CONFIGURACIÓN (1º GP) ==============================
+   Vive ANTES de la partitura (el sitio de la partitura es sagrado). Elige mundo(s) + cartas.
+   Cada carta tiene un álbum de ejemplos que se anima al pasar el ratón. */
+
+// ---- estado por mundo: cartas activas de cada mundo (para conservar selección al cambiar de mundo) ----
+const gp1CardsByWorld={};
+GP1_WORLDS.forEach(W=>{ gp1CardsByWorld[W.id]=W.cards.filter(c=>c.base).map(c=>c.id); });
+
+function gp1SlotWorld(slot){ return slot==='B'?gp1WorldB:gp1WorldId; }
+function gp1SlotCards(slot){ return slot==='B'?gp1CardsB:gp1ActiveCards; }
+function gp1SetSlotWorld(slot,id){ if(slot==='B'){gp1WorldB=id;} else {gp1WorldId=id;} }
+function gp1SetSlotCards(slot,arr){ if(slot==='B'){gp1CardsB=arr;} else {gp1ActiveCards=arr;} }
+
+// ---- generador de EJEMPLOS de carta (mini-compás real producido por el motor, solo ritmo) ----
+/* construye un compás MÍNIMO de ejemplo para una carta:
+   la dificultad en el primer pulso (o los pulsos que ocupe) y una figura/silencio de pulso para completar.
+   variant alterna entre completar con NEGRA (figura de pulso) o SILENCIO de pulso. */
+function cardExampleMeasure(world, card, variant){
+  const W=gp1World(world);
+  const gid=card.gid||null;
+  const g=gid?CATALOG[gid]:null;
+  const notes=[], tuplets=[], beams=[];
+  const pushTuplet=(written,ratioNum,ratioDen,beamIt)=>{
+    const idx=[];
+    for(const d of written){ idx.push(notes.length); notes.push({dur:d}); }
+    tuplets.push({idx, group:{ratioNum,ratioDen}});
+    if(beamIt) beams.push(idx.slice());
+    return idx;
+  };
+  // patrones de relleno de un pulso SIMPLE (negra), variados
+  const simpleFills=[['q'],['8','8'],['16','16','16','16'],['8d','16'],['16','16','8'],['8','16','16']];
+  const fillSimple=(vi)=>{ const f=simpleFills[vi%simpleFills.length]; const bs=notes.length; f.forEach(d=>notes.push({dur:d})); if(notes.length-1>bs && f.every(d=>['8','16','8d'].includes(d))) beams.push(range(bs,notes.length-1)); };
+  // patrones de relleno de un pulso COMPUESTO (negra c/puntillo = 3 corcheas), variados
+  const compFills=[['8','8','8'],['qd'],['q','8'],['8','q'],['8','16','16','8'],['16','16','8','8'],['8','8','16','16']];
+  const fillComp=(vi)=>{ const f=compFills[vi%compFills.length]; const bs=notes.length; f.forEach(d=>notes.push({dur:d})); const beamRun=f.every(d=>['8','16'].includes(d)); if(notes.length-1>bs && beamRun) beams.push(range(bs,notes.length-1)); };
+
+  // ---- CLAVE de Do: lectura, 2/4 con negras (variar altura no aplica al ritmo) ----
+  if(W.clave){
+    if(variant%2===0){ notes.push({dur:'q'},{dur:'q'}); }
+    else { notes.push({dur:'h'}); }
+    return {time:'2/4', notes, tuplets:[], beams:[]};
+  }
+
+  // ---- COMPASES DISPARES (M4): agrupamiento real (2+3, 3+2+2, …), variando la agrupación ----
+  if(W.disp){
+    const meter = (card.dispMeter && card.force) ? card.force : ['5/8','7/8','8/8'][variant%3];
+    const groupings = dispairGroupings(meter) || [[2,3]];
+    const grp = groupings[variant%groupings.length];
+    const wantTres = !!(g && g.bin);
+    let placedTres=false;
+    grp.forEach(gs=>{
+      const bs=notes.length;
+      if(gs===2 && wantTres && !placedTres){
+        pushTuplet(['8','8','8'],3,2,true); placedTres=true;
+      } else {
+        for(let k=0;k<gs;k++) notes.push({dur:'8'});
+        if(notes.length-1>bs) beams.push(range(bs,notes.length-1));
+      }
+    });
+    return {time:meter, notes, tuplets, beams};
+  }
+
+  // ---- dosillo/cuatrillo sobre 3 pulsos compuestos: 9/8 entero ----
+  if(g && g.comp3){
+    pushTuplet(g.written, g.ratioNum, g.ratioDen, false);
+    return {time:'9/8', notes, tuplets, beams};
+  }
+
+  // ---- multipulso que ocupa 2 o 4 pulsos: el compás entero ----
+  if(card.multi && g && g.occ>=2){
+    const time = g.occ>=4 ? '4/4' : '2/4';
+    pushTuplet(g.written, g.ratioNum, g.ratioDen, false);
+    return {time, notes, tuplets, beams};
+  }
+
+  // ============ MUNDO COMPUESTO (M2): SIEMPRE en compás compuesto (por defecto 6/8) ============
+  if(W.id==='m2'){
+    const meter='6/8';                          // 2 pulsos compuestos
+    // SÍNCOPA DE FRACCIÓN: patrón sincopado (s-c-c-s y variantes) en un pulso compuesto + pulso compuesto de relleno
+    if(g && g.synpat){
+      const variants = g.synVariants || [g.written];
+      const pat = variants[variant%variants.length];
+      const synFirst = (Math.floor(variant/variants.length)%2===0);
+      const pushSyn=()=>{ const bs=notes.length; pat.forEach(d=>notes.push({dur:d})); beams.push(range(bs,notes.length-1)); };
+      if(synFirst){ pushSyn(); fillComp(variant+1); } else { fillComp(variant+1); pushSyn(); }
+      return {time:meter, notes, tuplets, beams};
+    }
+    // TRESILLO DE FRACCIÓN (semicorcheas dentro de una corchea): variantes = posición dentro del pulso
+    if(g && g.frac){
+      // pulso compuesto = corchea+corchea+corchea; el tresillo de fracción sustituye UNA corchea por 3 semicorcheas
+      // variantes: en qué corchea del pulso cae (1ª, 2ª o 3ª) → muestra la dificultad y su "contraria"
+      const posInPulse = variant%3;             // 0,1,2
+      const otherPulseFirst = (Math.floor(variant/3)%2===1);
+      const buildPulse=(withFrac)=>{
+        const bs=notes.length;
+        for(let c=0;c<3;c++){
+          if(withFrac && c===posInPulse){ pushTuplet(['16','16','16'],3,2,false); }
+          else { notes.push({dur:'8'}); }
+        }
+        beams.push(range(bs,notes.length-1));
+      };
+      if(otherPulseFirst){ buildPulse(false); buildPulse(true); }
+      else { buildPulse(true); buildPulse(false); }
+      return {time:meter, notes, tuplets, beams};
+    }
+    // SEPTILLO sobre el pulso compuesto (occ 1.5): célula + pulso compuesto de relleno
+    if(g && g.comp){
+      const firstFrac = (variant%2===0);
+      if(firstFrac){ pushTuplet(g.written, g.ratioNum, g.ratioDen, true); fillComp(Math.floor(variant/2)); }
+      else { fillComp(Math.floor(variant/2)); pushTuplet(g.written, g.ratioNum, g.ratioDen, true); }
+      return {time:meter, notes, tuplets, beams};
+    }
+    // FUSAS en compuesto: un pulso con subdivisión densa variada + otro pulso compuesto de relleno
+    if(card.dense){
+      const denseFirst=(variant%2===0);
+      // patrones densos que ocupan UN pulso compuesto (1.5 negras), como en el libro (subdivisión ternaria: fusas)
+      const densePat=[
+        ['8','32','32','32','32','8'],                                   // corchea + 4 fusas + corchea (el más típico, por defecto)
+        ['8','8','32','32','32','32'],                                   // corchea·corchea + 4 fusas
+        ['32','32','32','32','8','8'],                                   // 4 fusas + corchea·corchea
+        ['16','32','32','16','32','32','16','32','32'],                  // (semi + 2 fusas) ×3
+        ['8','32','32','32','32','16','16'],                             // corchea + 4 fusas + 2 semis
+        ['32','32','32','32','32','32','32','32','32','32','32','32']     // 12 fusas
+      ][Math.floor(variant/2)%6];
+      const pushDense=()=>{ const bs=notes.length; densePat.forEach(d=>notes.push({dur:d})); beams.push(range(bs,notes.length-1)); };
+      if(denseFirst){ pushDense(); fillComp(variant+1); } else { fillComp(variant+1); pushDense(); }
+      return {time:meter, notes, tuplets, beams};
+    }
+    // (resto de cartas compuestas) figuración compuesta variada en los 2 pulsos
+    fillComp(variant); fillComp(variant+3);
+    return {time:meter, notes, tuplets, beams};
+  }
+
+  // ============ NEGRA TERNARIA (M3): pulso = blanca c/puntillo (3 negras). 6/4 ============
+  if(W.wide){
+    // un pulso "trabajado" (variando la subdivisión de sus negras) + un pulso de relleno
+    const buildWidePulse=(mode)=>{
+      // mode 0: 3 negras | 1: negra+2corcheas (varía) | 2: semicorcheas en una negra
+      const bs=notes.length;
+      if(mode===0){ notes.push({dur:'q'},{dur:'q'},{dur:'q'}); }
+      else if(mode===1){ // negras y corcheas combinadas
+        const pats=[['q','8','8','q'],['8','8','q','q'],['q','q','8','8']][variant%3];
+        pats.forEach(d=>notes.push({dur:d}));
+        // beams sobre corcheas contiguas
+        let s=-1; for(let i=bs;i<notes.length;i++){ if(notes[i].dur==='8'){ if(s<0)s=i; } else { if(s>=0&&i-1>s)beams.push(range(s,i-1)); s=-1; } } if(s>=0&&notes.length-1>s)beams.push(range(s,notes.length-1));
+      } else { // semicorcheas en una de las negras
+        for(let i=0;i<4;i++)notes.push({dur:'16'}); beams.push(range(bs,bs+3));
+        notes.push({dur:'q'},{dur:'q'});
+      }
+    };
+    if(card.S2){ buildWidePulse(2); }           // carta "Semicorcheas"
+    else if(card.wideEighthCard){ buildWidePulse(1); } // carta "Corcheas y combinaciones"
+    else { buildWidePulse(0); }                 // carta "Negras y combinaciones"
+    notes.push({dur:(variant%2===1)?'hdr':'hd'});  // 2º pulso: blanca c/puntillo o silencio
+    return {time:'6/4', notes, tuplets, beams};
+  }
+
+  // ============ MUNDO SIMPLE (M1): SIEMPRE 2/4 ============
+  // célula de 1 pulso (tresillo, cinquillo, seisillo, septillo): variar posición y relleno
+  if(g && g.occ===1){
+    const cellFirst=(variant%2===0);
+    if(cellFirst){ pushTuplet(g.written, g.ratioNum, g.ratioDen, true); fillSimple(Math.floor(variant/2)+1); }
+    else { fillSimple(Math.floor(variant/2)+1); pushTuplet(g.written, g.ratioNum, g.ratioDen, true); }
+    return {time:'2/4', notes, tuplets, beams};
+  }
+  // tresillo de FRACCIÓN en simple (occ 0.5): la célula y su CONTRARIA dentro del pulso
+  if(g && g.frac){
+    // pulso de negra = corchea+corchea; el tresillo de fracción sustituye una corchea por 3 semicorcheas
+    const fracSecond=(variant%2===1);   // variante: 3 semis + corchea  /  corchea + 3 semis
+    const bs=notes.length;
+    if(fracSecond){ notes.push({dur:'8'}); const idx=pushTuplet(['16','16','16'],3,2,false); beams.push([bs,idx[0],idx[1],idx[2]]); }
+    else { const idx=pushTuplet(['16','16','16'],3,2,false); notes.push({dur:'8'}); beams.push([idx[0],idx[1],idx[2],notes.length-1]); }
+    fillSimple(Math.floor(variant/2)+1);   // 2º pulso variado
+    return {time:'2/4', notes, tuplets, beams};
+  }
+  // FUSAS en simple: distintas combinaciones densas + relleno variado
+  if(card.dense){
+    const denseFirst=(variant%2===0);
+    const densePat=[['32','32','32','32','32','32','32','32'],['8','32','32','32','32'],['32','32','32','32','8'],['16','32','32','16','32','32'],['32','32','16','32','32','16'],['16','16','32','32','32','32'],['32','32','32','32','16','16']][Math.floor(variant/2)%7];
+    const pushDense=()=>{ const bs=notes.length; densePat.forEach(d=>notes.push({dur:d})); beams.push(range(bs,notes.length-1)); };
+    if(denseFirst){ pushDense(); fillSimple(variant+1); } else { fillSimple(variant+1); pushDense(); }
+    return {time:'2/4', notes, tuplets, beams};
+  }
+
+  // ---- por defecto: dos pulsos simples variados (no debería llegar aquí en cartas visibles) ----
+  fillSimple(variant); fillSimple(variant+1);
+  return {time:'2/4', notes, tuplets, beams};
+}
+
+function cardExampleSVG(world, card, variant){
+  const W=gp1World(world);
+  const m=cardExampleMeasure(world, card, variant);
+  const time=m.time;
+  const clef = W.clave ? (card.clef||'alto') : 'treble';
+  const PAD_L=6, PAD_R=14, STAVE_W=Math.max(190, 72 + m.notes.length*28);
+  const CANVAS_W=PAD_L+STAVE_W+PAD_R, CANVAS_H=140, STAVE_Y=48;   // lienzo amplio; recortamos después
+  const host=document.createElement('div');
+  try{
+    const r=new VF.Renderer(host,VF.Renderer.Backends.SVG); r.resize(CANVAS_W,CANVAS_H); const ctx=r.getContext();
+    const st=new VF.Stave(PAD_L,STAVE_Y,STAVE_W); st.addClef(clef).addTimeSignature(time);
+    st.setEndBarType(VF.Barline.type.END); st.setContext(ctx); st.draw();
+    const key = clef==='bass'?'d/3' : clef==='tenor'?'a/3' : clef==='alto'?'c/4' : 'b/4';
+    const vf=m.notes.map(n=>{
+      const isRest=n.dur.endsWith('r');
+      const dur=n.dur.replace('d','').replace('r','')+(isRest?'r':'');
+      const sn=new VF.StaveNote({clef,keys:[key],duration:dur});
+      if(n.dur.replace('r','').endsWith('d'))VF.Dot.buildAndAttach([sn]);
+      return sn;
+    });
+    const beamable=d=>['8','16','32'].includes(d.replace('d','').replace('r',''));
+    const beams=[];
+    (m.beams||[]).forEach(idx=>{
+      let run=[];
+      idx.forEach(i=>{ if(vf[i]&&!m.notes[i].dur.endsWith('r')&&beamable(m.notes[i].dur)){ run.push(vf[i]); } else { if(run.length>1)beams.push(new VF.Beam(run)); run=[]; } });
+      if(run.length>1)beams.push(new VF.Beam(run));
+    });
+    const tups=(m.tuplets||[]).map(t=>new VF.Tuplet(t.idx.map(i=>vf[i]),{num_notes:t.group.ratioNum,notes_occupied:t.group.ratioDen,ratioed:false}));
+    const{num,den}=meterInfo(time);
+    const voice=new VF.Voice({num_beats:num,beat_value:den}).setStrict(false); voice.addTickables(vf);
+    // formatear dejando hueco tras clave/cifra y un margen GENEROSO antes de la barra final
+    new VF.Formatter().joinVoices([voice]).format([voice], STAVE_W-92); voice.draw(ctx,st);
+    beams.forEach(b=>b.setContext(ctx).draw()); tups.forEach(t=>t.setContext(ctx).draw());
+    const svg=host.querySelector('svg');
+    if(svg){
+      // recorte por coordenadas FIABLES (stave + posiciones de nota), no por getBoundingBox
+      const staveTop=st.getYForLine(0), staveBot=st.getYForLine(4);
+      const xs=vf.map(n=>{ try{return n.getAbsoluteX();}catch(e){return PAD_L;} });
+      const firstX=Math.min(st.getNoteStartX()-26, xs.length?Math.min(...xs)-8:PAD_L);  // incluye clave+cifra
+      const lastX = (st.getX()+st.getWidth())+4;                                        // hasta la barra final del compás
+      const hasTuplet=tups.length>0;
+      const topRoom = hasTuplet?34:22;        // hueco arriba: número de grupo / plicas
+      const botRoom = 26;                      // hueco abajo: plicas / corchetes
+      const vbX=Math.max(0, PAD_L-4), vbY=Math.max(0, staveTop-topRoom);
+      const vbW=Math.min(CANVAS_W-vbX, (lastX-vbX)+8);
+      const vbH=(staveBot+botRoom)-vbY;
+      svg.setAttribute('viewBox',`${vbX.toFixed(1)} ${vbY.toFixed(1)} ${vbW.toFixed(1)} ${vbH.toFixed(1)}`);
+      svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+      svg.removeAttribute('width'); svg.removeAttribute('height');
+    }
+    return svg?svg.outerHTML:'';
+  }catch(e){ return ''; }
+}
+
+// genera 4-5 ejemplos para una carta y los guarda como álbum
+function cardAlbum(world, card){
+  const n=5, out=[];
+  for(let v=0; v<n && out.length<5; v++){ const s=cardExampleSVG(world,card,v); if(s) out.push(s); }
+  if(!out.length) out.push('<div class="ex-empty">—</div>');
+  return out;
+}
+
+// ---- modo de configuración ----
+// figura de blanca con puntillo dibujada (para el título del mundo M3)
+function dottedHalfGlyph(){
+  return `<svg viewBox="0 0 26 26" width="20" height="20" style="vertical-align:-4px" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="currentColor" stroke-width="1.7">
+      <ellipse cx="8" cy="18" rx="6" ry="4.2" transform="rotate(-20 8 18)"/>
+      <line x1="13.4" y1="16.2" x2="13.4" y2="3"/>
+    </g>
+    <circle cx="19" cy="18" r="1.7" fill="currentColor"/>
+  </svg>`;
+}
+// símbolo de la clave de Do (carácter musical Unicode), limpio y sin pentagrama
+function cClefGlyph(){
+  return `<span class="w-clef">\uD834\uDD21</span>`;
+}
+function setGp1Mode(mode){
+  gp1Mode=mode;
+  if(mode==='combina'){
+    // empezar solo con Mundo A; el usuario toca otro mundo para añadir B
+    if(gp1World(gp1WorldId).clave){ gp1WorldId='m1'; gp1ActiveCards=gp1World('m1').cards.filter(c=>c.base).map(c=>c.id); }
+    gp1WorldB=null; gp1CardsB=[];
+  } else { gp1WorldB=null; gp1CardsB=[]; }
+  document.querySelectorAll('.setup-tab').forEach(t=>t.classList.toggle('on',t.dataset.mode===mode));
+  document.getElementById('setupCombHint').style.display = (mode==='combina')?'block':'none';
+  renderSetupWorlds();
+}
+
+// ---- render de mundos (en modo combinar se muestran dos selectores: A y B) ----
+function renderSetupWorlds(){
+  const host=document.getElementById('setupWorlds'); if(!host) return; host.innerHTML='';
+  const wrap=document.createElement('div'); wrap.className='setup-worldslot';
+  const grid=document.createElement('div'); grid.className='setup-worldgrid';
+  const shown=GP1_WORLDS.filter(Wd=>!(gp1Mode==='combina' && Wd.clave));
+  grid.style.setProperty('--wcols', shown.length);
+  GP1_WORLDS.forEach(Wd=>{
+    if(gp1Mode==='combina' && Wd.clave) return;
+    // badge: en "uno" el seleccionado; en "combina" A o B según el slot que ocupe
+    let badge='', on=false;
+    if(gp1Mode==='combina'){
+      if(Wd.id===gp1WorldId){ badge='A'; on=true; }
+      else if(Wd.id===gp1WorldB){ badge='B'; on=true; }
+    } else { on=(Wd.id===gp1WorldId); }
+    const b=document.createElement('button'); b.className='gp1-world'+(on?' on':''); b.dataset.world=Wd.id;
+    const drawn = Wd.drawnDur ? ` <span class="w-glyph">${dottedHalfGlyph()}</span>`
+                : Wd.drawnClef ? ` <span class="w-glyph">${cClefGlyph()}</span>` : '';
+    b.innerHTML=`<span class="edge"></span>${badge?`<span class="w-badge">${badge}</span>`:''}<span class="w-n">${Wd.name}${drawn}</span>`;
+    b.onclick=()=>pickSetupWorld(Wd.id);
+    grid.appendChild(b);
+  });
+  wrap.appendChild(grid); host.appendChild(wrap);
+  renderSetupCards();
+}
+
+// selección unificada:
+//  · modo "uno": el mundo tocado pasa a ser el activo.
+//  · modo "combina": el 1er toque asigna A; el 2º toque (otro mundo) asigna B.
+//    Tocar A lo libera (B asciende a A); tocar B lo libera; tocar un 3º reemplaza B.
+function pickSetupWorld(id){
+  if(gp1Mode!=='combina'){ if(id!==gp1WorldId) selectSetupWorld('A',id); return; }
+  if(id===gp1WorldId){           // liberar A → B asciende a A
+    if(gp1WorldB){ const oldB=gp1WorldB, oldBcards=gp1CardsB.slice();
+      gp1WorldId=oldB; gp1ActiveCards=oldBcards; gp1WorldB=null; gp1CardsB=[]; }
+    renderSetupWorlds(); return;
+  }
+  if(id===gp1WorldB){            // liberar B
+    gp1WorldB=null; gp1CardsB=[]; renderSetupWorlds(); return;
+  }
+  if(!gp1WorldId){ selectSetupWorld('A',id); return; }
+  // asignar/reemplazar B
+  selectSetupWorld('B',id);
+}
+
+function selectSetupWorld(slot,id){
+  if(gp1SlotWorld(slot)===id) return;
+  // guardar cartas del mundo anterior, restaurar las del nuevo (o base)
+  gp1CardsByWorld[gp1SlotWorld(slot)]=gp1SlotCards(slot).slice();
+  gp1SetSlotWorld(slot,id);
+  gp1SetSlotCards(slot, (gp1CardsByWorld[id]||gp1World(id).cards.filter(c=>c.base).map(c=>c.id)).slice());
+  renderSetupWorlds();
+}
+
+function setupActiveMulti(slot){
+  const w=gp1SlotWorld(slot);
+  return gp1SlotCards(slot).map(cid=>gp1Card(w,cid)).find(c=>c&&c.multi)||null;
+}
+
+// ---- render de cartas (con álbum de ejemplos en hover) ----
+function renderSetupCards(){
+  const host=document.getElementById('setupCards'); if(!host) return; host.innerHTML='';
+  const combina=(gp1Mode==='combina');
+  const hasB = combina && !!gp1WorldB;
+  const slots = combina ? (hasB?['A','B']:['A']) : ['A'];
+  // descripción
+  const descEl=document.getElementById('setupDesc');
+  if(combina){
+    descEl.innerHTML = hasB
+      ? `<b>Mundo A:</b> ${gp1World(gp1WorldId).name} &nbsp;·&nbsp; <b>Mundo B:</b> ${gp1World(gp1WorldB).name}`
+      : `<b>Mundo A:</b> ${gp1World(gp1WorldId).name}. Toca otro mundo para añadir el <b>Mundo B</b>.`;
+  } else descEl.textContent=gp1World(gp1WorldId).desc;
+
+  slots.forEach(slot=>{
+    const w=gp1SlotWorld(slot), Wd=gp1World(w), cards=gp1SlotCards(slot), multi=setupActiveMulti(slot);
+    if(combina){ const lab=document.createElement('div'); lab.className='slot-label cards'; lab.innerHTML=`<span class="ab-tag ${slot==='A'?'a':'b'}">${slot}</span>${Wd.name}`; host.appendChild(lab); }
+    const grid=document.createElement('div'); grid.className='setup-cardgrid';
+    Wd.cards.forEach(c=>{
+      if(c.hidden) return;   // la figuración base está siempre activa; no se muestra como carta
+      const on=cards.includes(c.id);
+      const disabled=(multi && c.multi && c.id!==multi.id);
+      const el=document.createElement('div');
+      el.className='setup-card'+(c.base?' base':'')+(c.multi?' multi':'')+(on?' on':'')+(disabled?' disabled':'');
+      el.innerHTML=`<div class="sc-head"><span class="c-chk">✓</span><span class="c-n">${c.name}</span></div>`+
+                   `<div class="sc-ex" aria-hidden="true"></div>`;
+      const exHost=el.querySelector('.sc-ex');
+      const album=cardAlbum(w,c);
+      let frame=0; exHost.innerHTML=album[0];
+      let timer=null;
+      el.addEventListener('mouseenter',()=>{ if(album.length<2) return; el.classList.add('playing');
+        timer=setInterval(()=>{ frame=(frame+1)%album.length; exHost.innerHTML=album[frame]; },1100); });
+      el.addEventListener('mouseleave',()=>{ if(timer){clearInterval(timer);timer=null;} el.classList.remove('playing'); frame=0; exHost.innerHTML=album[0]; });
+      el.onclick=()=>toggleSetupCard(slot,c.id);
+      grid.appendChild(el);
+    });
+    host.appendChild(grid);
+  });
+
+  const hint=document.getElementById('setupCardHint');
+  const multiA=setupActiveMulti('A');
+  if(multiA){ hint.textContent=`La carta «${multiA.name}» fija el compás en ${multiA.force}. Desactívala para volver a combinar compases del mundo.`; }
+  else if(gp1World(gp1WorldId).clave){ hint.textContent='Puedes activar una clave o ambas (se alternarán por bloques). El ritmo se mantiene elemental para centrar el trabajo en la lectura.'; }
+  else { hint.textContent='La figuración base siempre está activa. Pasa el ratón por una carta para ver ejemplos. Añade las que quieras combinar.'; }
+}
+
+function toggleSetupCard(slot,cid){
+  const w=gp1SlotWorld(slot); const c=gp1Card(w,cid); if(!c||c.base) return;
+  let arr=gp1SlotCards(slot).slice();
+  const idx=arr.indexOf(cid);
+  if(idx>=0){ arr.splice(idx,1); }
+  else {
+    if(c.multi){ arr=arr.filter(x=>{ const k=gp1Card(w,x); return !(k&&k.multi); }); }
+    arr.push(cid);
+  }
+  gp1SetSlotCards(slot,arr);
+  gp1CardsByWorld[w]=arr.slice();
+  renderSetupCards();
+}
+
+// ---- entrada a la pantalla de configuración ----
+function buildGp1Setup(){
+  setGp1Mode(gp1Mode||'uno');
+}
+
+// ---- resumen del reto actual (para la barra "Cambiar" dentro de la app) ----
+function gp1Summary(){
+  const a=gp1World(gp1WorldId);
+  if(gp1Mode==='combina'){ return gp1WorldB ? `${a.name} + ${gp1World(gp1WorldB).name}` : a.name; }
+  const extra=gp1ActiveCards.map(cid=>gp1Card(gp1WorldId,cid)).filter(c=>c&&!c.base).map(c=>c.name);
+  return a.name + (extra.length?(' · '+extra.join(', ')):'');
+}
+
+/* compat: algunas rutas viejas llaman buildGp1Worlds/buildGp1Cards */
+function buildGp1Worlds(){ /* la configuración vive ahora en la pantalla previa */ }
+function buildGp1Cards(){ }
+
 
 /* ============================== POPOVER DE AYUDA (irregular) ============================== */
 function openHelp(irrGid){
@@ -2159,6 +3183,7 @@ function knock(t0){ const c=ac(); if(!c)return; const m=master(); const len=Math
 
 function meterCapQ(time){ const [n,d]=time.split('/').map(Number); return n*4/d; }
 function pulseOnsetsQ(m){ const [n,d]=m.time.split('/').map(Number);
+  if(m.wideTernary) return Array.from({length:n/3},(_,i)=>i*3);   // negra ternaria: pulso = blanca c/puntillo (3 negras)
   if(d===4) return Array.from({length:n},(_,i)=>i);
   if(d===8 && n%3===0) return Array.from({length:n/3},(_,i)=>i*1.5);
   // dispares (5/8, 7/8): la agrupación de pulsos está en m.grouping (p.ej. [2,2,3] corcheas) -> onsets en negras
@@ -2180,7 +3205,8 @@ function pulseOnsetsQ(m){ const [n,d]=m.time.split('/').map(Number);
      resulta de agrupar corcheas).
    Devuelve, por compás (en orden global), {secPerQ, pulseDurQ, regular, equiv} donde equiv describe la
    anotación de equivalencia respecto al compás anterior ('pulse' | 'figure' | null). */
-function meterKind(time){ const [n,d]=time.split('/').map(Number);
+function meterKind(time, wide){ const [n,d]=time.split('/').map(Number);
+  if(wide && d===4 && n%3===0 && n>=6) return {regular:true, pulseDurQ:3};   // negra ternaria: pulso = blanca c/puntillo
   if(d===4) return {regular:true, pulseDurQ:1};                       // simple
   if(d===8 && n%3===0) return {regular:true, pulseDurQ:1.5};          // compuesto regular (6/8, 9/8, 12/8)
   return {regular:false, pulseDurQ:null};                            // irregular (5/8, 7/8)
@@ -2188,7 +3214,7 @@ function meterKind(time){ const [n,d]=time.split('/').map(Number);
 function tempoMap(L, basePulseBPM){
   const out=[]; let prev=null;
   L.phrases.forEach(ph=>ph.measures.forEach(m=>{
-    const k=meterKind(m.time); let secPerQ;
+    const k=meterKind(m.time, m.wideTernary); let secPerQ;
     if(!prev){
       // primer compás. Si es REGULAR, fija el pulso (negra o negra c/puntillo) a basePulseBPM.
       // Si es IRREGULAR (5/8, 7/8), NO hay pulso único: tomamos la NEGRA como referencia a basePulseBPM
@@ -2398,7 +3424,7 @@ function setPlayState(p){ isPlaying=p; const b=activePlayBtn; if(!b) return;
 function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; document.getElementById('lessonArea').appendChild(cd); } return cd; }
 function showCountdown(cd,n){ cd.textContent=n; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); }
 function hideCountdown(){ const cd=document.getElementById('countIn'); if(cd)cd.classList.remove('show'); }
-function stopPlayer(){ if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio();
+function stopPlayer(){ if(typeof stopPrepLoop==='function')stopPrepLoop(); if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio();
   document.querySelectorAll('#score .vf-gold').forEach(e=>e.classList.remove('vf-gold')); setPlayState(false); }
 function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, refSet, onEnd}
   stopPlayer(); const c=ac(); if(!c){ opts.onEnd&&opts.onEnd(); return; }
@@ -2482,7 +3508,21 @@ const PHASE_DEFS=[
   {id:'lectura',name:'Lectura',banner:{k:'',t:'Lectura',d:'Ahora sí que es turno de decir el nombre de las notas. Deja el lápiz, utiliza tu mano para marcar el pulso/subdivisión.'},kind:'lectura'},
   {id:'entona',name:'Entonación',banner:{k:'',t:'Entonación',d:'Por último, canta la melodía. Abajo podrás elegir cuánta referencia de la melodía quieres oír.',tess:'Si tu voz es grave o aguda, ten en cuenta que el cambio de clave hace cambiar el registro. Escoge la opción que te venga mejor.'},kind:'entonacion'},
 ];
-function phasesFor(){ const arr=PHASE_DEFS.slice(); if(currentTrim==='t2'){ arr.unshift({id:'prep',name:'Preparar grupos',banner:{k:'',t:'Prepara los grupos de valoración especial',d:'Antes de analizar, asienta los grupos que aparecen. Primero los toca la app marcando el orden de los pulsos; luego repítelo tú. Hazlo varias veces.'},kind:'prep'}); } return arr; }
+function gp1ActiveDifficultyCards(){
+  // cartas de dificultad activas en 1º GP (excluye base/ocultas); incluye las del mundo B si se combina
+  try{
+    if(currentCourse!=='gp1') return [];
+    const out=[];
+    const collect=(wid,cards)=>{ const W=gp1World(wid); if(!W)return; (cards||[]).forEach(cid=>{ const c=W.cards.find(x=>x.id===cid); if(c && !c.base && !c.hidden) out.push({world:wid, card:c}); }); };
+    collect(gp1WorldId, gp1ActiveCards);
+    if(gp1WorldB) collect(gp1WorldB, gp1CardsB);
+    return out;
+  }catch(e){ return []; }
+}
+function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
+function phasesFor(){ const arr=PHASE_DEFS.slice();
+  const wantPrep = (currentTrim==='t2') || (currentCourse==='gp1' && (gp1ActiveDifficultyCards().length>0 || lessonHasGroups()));
+  if(wantPrep){ arr.unshift({id:'prep',name:'Escucha las cartas',banner:{k:'',t:'Escucha las cartas',d:'Antes de leer, escucha cada dificultad de la lección. Pulsa ▶ en una carta: suena en bucle y se ilumina en dorado la figura que va sonando.'},kind:'prep'}); } return arr; }
 
 let phaseList=[], phaseIdx=0, refMode='compas', studyMode=false;
 let voiceBanner=null, voiceCdTimer=null, cardCdTimer=null;
@@ -2510,19 +3550,35 @@ const STD_COMPOUND  = 40;   // 1º/2º, compás compuesto (pulso = negra con pun
 const STD_SIMPLE_T3 = 40;   // 3º, compás simple
 const STD_COMPOUND_T3= 34;  // 3º, compás compuesto
 const VEL_STEP = 8;         // BPM por nivel del selector
-function firstMeasureCompound(){ const m0=currentLesson&&currentLesson.phrases&&currentLesson.phrases[0]&&currentLesson.phrases[0].measures[0]; if(!m0) return false; const [n,d]=m0.time.split('/').map(Number); return d===8 && n%3===0; }
-function stdPulseBPM(){ const t3=(currentTrim==='t3'); const comp=firstMeasureCompound();
+function firstMeasureCompound(){ const m0=currentLesson&&currentLesson.phrases&&currentLesson.phrases[0]&&currentLesson.phrases[0].measures[0]; if(!m0) return false; if(m0.wideTernary) return true; const [n,d]=m0.time.split('/').map(Number); return d===8 && n%3===0; }
+function stdPulseBPM(){
+  if(currentCourse==='gp1' && currentLesson && currentLesson.gp1){
+    const W=gp1World(currentLesson.worldId);
+    const cfg=gp1Config(currentLesson.worldId, currentLesson.cards||[]);
+    let bpm = firstMeasureCompound()? (W.basePulseComp||W.basePulse) : W.basePulse;
+    const comp=firstMeasureCompound();
+    if(cfg.dense){
+      // FUSAS: el pulso estándar es más lento de lo normal; en compuesto, todavía más
+      bpm = Math.max(8, bpm - (comp ? 16 : 10));
+    } else if(cfg.slow){
+      bpm = Math.max(8, bpm-8);   // subdivisión densa moderada (cinquillo/septillo) -> algo más lento
+    }
+    return bpm;
+  }
+  const t3=(currentTrim==='t3'); const comp=firstMeasureCompound();
   return t3 ? (comp?STD_COMPOUND_T3:STD_SIMPLE_T3) : (comp?STD_COMPOUND:STD_SIMPLE); }
-// pulso base por minuto: estándar ± nivel·8, o la mitad del estándar si "extremadamente lento" (t3)
+// pulso base por minuto: estándar ± nivel·8, o la mitad del estándar si "extremadamente lento"
 function basePulseBPMNow(){
   const std=stdPulseBPM();
-  if(velExtrema && currentTrim==='t3') return Math.round(std/2);
+  const gp1Dense = (currentCourse==='gp1') && (function(){ try{ return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
+  const allowExtrema = (currentTrim==='t3') || gp1Dense;
+  if(velExtrema && allowExtrema) return Math.round(std/2);
   return Math.max(8, std + velLevel*VEL_STEP);
 }
 function subStepQ(){ return subMode==='corchea'?0.5 : subMode==='semicorchea'?0.25 : null; }
 function phraseOct(pi){ if(voiceMode==='real'||!currentLesson) return 0; const clef=currentLesson.phrases[pi].clef;
-  if(voiceMode==='agudo') return clef==='bass'?12:0;   // sube la clave de fa a la zona aguda
-  return clef==='treble'?-12:0; }                       // grave: baja la clave de sol
+  if(voiceMode==='agudo') return (clef==='bass'||clef==='tenor')?12:0;   // sube las claves graves a la zona aguda
+  return (clef==='treble'||clef==='alto')?-12:0; }                       // grave: baja las claves agudas
 function subClicks(sched){
   const dset=new Set((sched.downbeats||[]).map(q=>Math.round(q*4)));     // tiempos fuertes (1er pulso de cada compás)
   const pset=new Set(sched.pulses.map(q=>Math.round(q*4)));              // todos los pulsos reales
@@ -2559,9 +3615,10 @@ function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson)
   document.getElementById('phaseControls').style.display='flex';
   showPhase();
 }
-function closeStudy(){ stopPlayer(); studyMode=false;
+function closeStudy(){ stopPlayer(); stopPrepLoop(); studyMode=false;
   if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; }
   if(voiceCdTimer){ clearInterval(voiceCdTimer); voiceCdTimer=null; }
+  const sw=document.getElementById('lessonArea'); if(sw) sw.style.display='';
   document.getElementById('phaseTop').style.display='none';
   document.getElementById('barActions').style.display='flex';   // restaurar acciones
   document.getElementById('phaseControls').style.display='none';
@@ -2649,8 +3706,10 @@ function showPhase(){ stopPlayer(); if(voiceCdTimer){ clearInterval(voiceCdTimer
   const card=document.createElement('div'); card.className='phase-banner';
   // ✕ para cerrar la tarjeta antes de tiempo (común a todas)
   const closeCard=()=>{ if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } scrim.remove(); };
-  if(ph.kind==='entonacion'){
-    // ENTONACIÓN: ventana con texto simple + elección de cómo suena. Al elegir, cuenta atrás 3-2-1 y desaparece.
+  const isPrep=(ph.kind==='prep');
+  if(isPrep){
+    // la fase "Escucha las cartas" no usa banner bloqueante: va directa a la rejilla
+  } else if(ph.kind==='entonacion'){
     card.innerHTML=`<button class="pb-x" title="Cerrar">✕</button>
       <p class="pb-t">${ph.banner.t}</p><p class="pb-d">${ph.banner.d}</p>
       <p class="pb-t2">¿Cómo quieres que suene?</p>
@@ -2676,9 +3735,22 @@ function showPhase(){ stopPlayer(); if(voiceCdTimer){ clearInterval(voiceCdTimer
     const cntEl=card.querySelector('.pb-count'); let left=secs;
     cardCdTimer=setInterval(()=>{ left--; if(left>=1){ cntEl.textContent=left; } else { clearInterval(cardCdTimer); cardCdTimer=null; scrim.remove(); } },1000);
   }
-  scrim.appendChild(card); host.appendChild(scrim);
-  // la fase de preparar grupos muestra su secuenciador (encima de la lección); el resto usa la lección real
-  if(ph.kind==='prep'){ const pg=document.createElement('div'); pg.id='prepHost'; pg.appendChild(buildPrepUI()); host.appendChild(pg); }
+  if(!isPrep){ scrim.appendChild(card); host.appendChild(scrim); }
+  // la fase "Dificultades" muestra una REJILLA DE CARTAS en su propio contenedor visible (#prepArea),
+  // ocultando solo la partitura (no toda la zona, para no esconder los controles ni el contenedor).
+  const scoreWrap=document.getElementById('scoreWrap');
+  const sheetCap=document.getElementById('sheetCap');
+  const prepArea=document.getElementById('prepArea');
+  if(ph.kind==='prep'){
+    if(scoreWrap) scoreWrap.style.display='none';
+    if(sheetCap) sheetCap.style.display='none';
+    if(prepArea){ prepArea.style.display='block'; prepArea.innerHTML=''; prepArea.appendChild(buildPrepUI()); }
+  } else {
+    if(scoreWrap) scoreWrap.style.display='';
+    if(sheetCap) sheetCap.style.display='';
+    if(prepArea){ prepArea.style.display='none'; prepArea.innerHTML=''; }
+    stopPrepLoop();
+  }
   buildPhaseControls(ph);
 }
 function renderPhaseSteps(){
@@ -2692,29 +3764,179 @@ function renderPhaseSteps(){
   });
 }
 
+/* nombre legible de un grupo para la carta de preparación:
+   1º busca el nombre de la carta de 1º GP que usa ese gid; 2º GROUP_NAMES; 3º un mapa de respaldo. */
+function prepGroupName(gid){
+  try{
+    for(const W of GP1_WORLDS){ const c=W.cards.find(x=>x.gid===gid); if(c) return c.name; }
+  }catch(e){}
+  if(typeof GROUP_NAMES!=='undefined' && GROUP_NAMES[gid]) return GROUP_NAMES[gid];
+  const fallback={tresillo_fr:'Tresillo de fracción', sincopa_fr_t:'Síncopa de fracción', septillo_1pc:'Septillo (compuesto)', dosillo_3pc:'Dosillo en 3 pulsos', cuatrillo_3pc:'Cuatrillo en 3 pulsos', tresillo_bin:'Tresillo en pulso binario'};
+  return fallback[gid] || (CATALOG[gid]&&CATALOG[gid].label) || gid;
+}
 function buildPrepUI(){
-  const wrap=document.createElement('div'); wrap.className='prep-seq';
-  const gids=[]; currentLesson.phrases.forEach(p=>p.measures.forEach(m=>{ if(m.groupInfo&&!gids.includes(m.groupInfo.gid))gids.push(m.groupInfo.gid); }));
-  if(!gids.length){ wrap.innerHTML='<p style="color:var(--muted)">Esta lección no tiene grupos de valoración especial. Puedes pasar a la siguiente fase.</p>'; return wrap; }
-  wrap.innerHTML='<p style="color:var(--muted);font-size:14px">Grupos de esta lección. Pulsa <b>Escuchar el orden de pulsos</b>: se irán encendiendo; luego repítelo tú dando golpes.</p>';
-  gids.forEach(gid=>{ const g=CATALOG[gid];
-    const block=document.createElement('div'); block.style.margin='16px 0';
-    block.innerHTML=`<div style="font-weight:800;color:var(--gold-soft);margin-bottom:4px">${CATALOG[gid].label} · ${GROUP_NAMES[gid]}</div><div style="background:var(--paper);border-radius:10px;padding:8px;display:inline-block">${renderGroupMini(gid)}</div>`;
-    const row=document.createElement('div'); row.className='prep-row'; row.dataset.gid=gid;
-    for(let i=0;i<g.occ;i++){ const dot=document.createElement('div'); dot.className='prep-dot'; dot.textContent=i+1; row.appendChild(dot); }
-    block.appendChild(row); wrap.appendChild(block);
+  const wrap=document.createElement('div'); wrap.className='prep-grid-wrap';
+  const intro=document.createElement('p'); intro.className='prep-intro';
+  intro.innerHTML='Escucha cada dificultad antes de empezar. Pulsa <b>▶</b> en una carta: suena en bucle y se ilumina en dorado la figura que va sonando. Usa los puntos para oír las <b>variantes</b>. Vuelve a pulsar para parar.';
+
+  // ---- 1º GP: una carta por dificultad ACTIVA, con sus VARIANTES ----
+  const gp1cards = gp1ActiveDifficultyCards();
+  if(currentCourse==='gp1' && gp1cards.length){
+    wrap.appendChild(intro);
+    const grid=document.createElement('div'); grid.className='prep-grid';
+    gp1cards.forEach(({world,card})=>{
+      const cardEl=document.createElement('div'); cardEl.className='prep-card';
+      const head=document.createElement('div'); head.className='prep-card-head';
+      head.innerHTML=`<button class="prep-play" title="Escuchar en bucle">▶</button><span class="prep-card-name">${card.name}</span>`;
+      const exHost=document.createElement('div'); exHost.className='prep-ex';
+      const dots=document.createElement('div'); dots.className='prep-vardots';
+      // nº de variantes a ofrecer (igual que el álbum del hover): hasta 4
+      const NVAR=4;
+      let curVar=0;
+      const clef = gp1World(world).clave ? (card.clef||'alto') : 'treble';
+      const renderVar=(v)=>{ const m=cardExampleMeasure(world, card, v); const r=renderPrepCardSVG(m,clef); exHost.innerHTML=r.svg; return m; };
+      let curMeasure=renderVar(0);
+      for(let v=0; v<NVAR; v++){ const d=document.createElement('button'); d.className='prep-vardot'+(v===0?' on':''); d.title='Variante '+(v+1);
+        d.onclick=()=>{ const playing=(prepLoop.card===cardEl); stopPrepLoop(); curVar=v;
+          dots.querySelectorAll('.prep-vardot').forEach(x=>x.classList.remove('on')); d.classList.add('on');
+          curMeasure=renderVar(v);
+          if(playing){ const pb=head.querySelector('.prep-play'); togglePrepLoop(cardEl,curMeasure,exHost,pb); }
+        };
+        dots.appendChild(d);
+      }
+      cardEl.appendChild(head); cardEl.appendChild(exHost); cardEl.appendChild(dots);
+      const playBtn=head.querySelector('.prep-play');
+      playBtn.onclick=()=>{ togglePrepLoop(cardEl, curMeasure, exHost, playBtn); };
+      grid.appendChild(cardEl);
+    });
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
+  // ---- 2º GP (o gp1 con groupInfo): una carta por GRUPO de la lección ----
+  const gids=[]; currentLesson.phrases.forEach(p=>p.measures.forEach(m=>{ if(m.groupInfo&&m.groupInfo.gid&&!gids.includes(m.groupInfo.gid))gids.push(m.groupInfo.gid); }));
+  if(!gids.length){
+    wrap.innerHTML='<p style="color:var(--muted);text-align:center;padding:20px">Esta lección no tiene dificultades que preparar. Puedes pasar a la siguiente fase.</p>';
+    return wrap;
+  }
+  wrap.appendChild(intro);
+  const grid=document.createElement('div'); grid.className='prep-grid';
+  gids.forEach(gid=>{
+    const card=document.createElement('div'); card.className='prep-card';
+    const name=prepGroupName(gid);
+    const m=prepCardMeasure(gid);
+    const head=document.createElement('div'); head.className='prep-card-head';
+    head.innerHTML=`<button class="prep-play" title="Escuchar en bucle">▶</button><span class="prep-card-name">${name}</span>`;
+    const exHost=document.createElement('div'); exHost.className='prep-ex';
+    const r=renderPrepCardSVG(m,'treble');
+    exHost.innerHTML=r.svg;
+    card.appendChild(head); card.appendChild(exHost);
+    const playBtn=head.querySelector('.prep-play');
+    playBtn.onclick=()=>{ togglePrepLoop(card, m, exHost, playBtn); };
+    grid.appendChild(card);
   });
+  wrap.appendChild(grid);
   return wrap;
 }
-function playPrep(){ stopPlayer(); const c=ac(); if(!c)return; const spq=60/bpmNow(); let t=c.currentTime+0.2;
-  const rows=[...document.querySelectorAll('.prep-row')];
-  rows.forEach(row=>{ const g=CATALOG[row.dataset.gid]; const dots=[...row.children];
-    for(let p=0;p<g.occ;p++){ const at=t+p*spq; click(at,p===0);
-      const delay=(at-c.currentTime)*1000; setTimeout(()=>{ dots.forEach(d=>d.classList.remove('lit')); dots[p].classList.add('lit'); },delay);
+
+/* compás de ejemplo para la carta de preparación: misma idea que las cartas del inicio
+   (dificultad + figura/silencio de pulso para completar). Reutiliza cardExampleMeasure con
+   un "mundo" sintético deducido del grupo. */
+function prepCardMeasure(gid){
+  const g=CATALOG[gid];
+  // construir un measure mínimo: el grupo en su(s) pulso(s) + completar con negra y silencio
+  const notes=[],tuplets=[],beams=[];
+  const pushTup=(written,rn,rd,beamIt)=>{ const idx=[]; for(const d of written){ idx.push(notes.length); notes.push({dur:d}); } tuplets.push({idx,group:{ratioNum:rn,ratioDen:rd}}); if(beamIt)beams.push(idx.slice()); return idx; };
+  if(g.synpat){ // síncopa de fracción: en 6/8, un pulso con la síncopa + pulso compuesto de relleno
+    const pat=(g.synVariants&&g.synVariants[0])||g.written; const bs=notes.length; pat.forEach(d=>notes.push({dur:d})); beams.push(range(bs,notes.length-1));
+    notes.push({dur:'qd'});  // 2º pulso compuesto = negra con puntillo (figura de pulso)
+    return {time:'6/8',notes,tuplets,beams};
+  }
+  if(g.comp3){ pushTup(g.written,g.ratioNum,g.ratioDen,false); return {time:'9/8',notes,tuplets,beams}; }
+  if(g.comp){ pushTup(g.written,g.ratioNum,g.ratioDen,true); notes.push({dur:'qd'}); return {time:'6/8',notes,tuplets,beams}; }
+  if(g.bin){ pushTup(g.written,g.ratioNum,g.ratioDen,true); notes.push({dur:'q'}); return {time:'2/4',notes,tuplets,beams}; }
+  if(g.frac){ const idx=pushTup(g.written,g.ratioNum,g.ratioDen,true); notes.push({dur:'8'}); beams.push([idx[0],idx[1],idx[2],notes.length-1]); notes.push({dur:'q'}); return {time:'2/4',notes,tuplets,beams}; }
+  if(g.occ>=4){ pushTup(g.written,g.ratioNum,g.ratioDen,false); return {time:'4/4',notes,tuplets,beams}; }
+  if(g.occ>=2){ pushTup(g.written,g.ratioNum,g.ratioDen,false); return {time:'2/4',notes,tuplets,beams}; }
+  // grupo de 1 pulso (tresillo, cinquillo, seisillo, septillo): célula + negra
+  pushTup(g.written,g.ratioNum,g.ratioDen,true); notes.push({dur:'q'});
+  return {time:'2/4',notes,tuplets,beams};
+}
+
+/* render del compás de la carta con cada CABEZA de nota marcable (clase .pn-<i>) para iluminar al sonar */
+function renderPrepCardSVG(m,clef){
+  const time=m.time;
+  const PAD_L=6,PAD_R=16,STAVE_W=Math.max(180,56+m.notes.length*26);
+  const CANVAS_W=PAD_L+STAVE_W+PAD_R,CANVAS_H=150,STAVE_Y=54;
+  const host=document.createElement('div'); const noteEls=[];
+  try{
+    const r=new VF.Renderer(host,VF.Renderer.Backends.SVG); r.resize(CANVAS_W,CANVAS_H); const ctx=r.getContext();
+    const st=new VF.Stave(PAD_L,STAVE_Y,STAVE_W); st.addClef(clef).addTimeSignature(time); st.setEndBarType(VF.Barline.type.END); st.setContext(ctx); st.draw();
+    const key=clef==='bass'?'d/3':clef==='tenor'?'a/3':clef==='alto'?'c/4':'b/4';
+    const vf=m.notes.map(n=>{ const isRest=n.dur.endsWith('r')||n.rest; const dur=n.dur.replace('d','').replace('r','')+(isRest?'r':''); const sn=new VF.StaveNote({clef,keys:[key],duration:dur}); if(n.dur.replace('r','').endsWith('d'))VF.Dot.buildAndAttach([sn]); return sn; });
+    const beamable=d=>['8','16','32'].includes(d.replace('d','').replace('r',''));
+    const beams=[]; (m.beams||[]).forEach(idx=>{ let run=[]; idx.forEach(i=>{ if(vf[i]&&!(m.notes[i].dur.endsWith('r')||m.notes[i].rest)&&beamable(m.notes[i].dur)){ run.push(vf[i]); } else { if(run.length>1)beams.push(new VF.Beam(run)); run=[]; } }); if(run.length>1)beams.push(new VF.Beam(run)); });
+    const tups=(m.tuplets||[]).map(t=>new VF.Tuplet(t.idx.map(i=>vf[i]),{num_notes:t.group.ratioNum,notes_occupied:t.group.ratioDen,ratioed:false}));
+    const{num,den}=meterInfo(time); const voice=new VF.Voice({num_beats:num,beat_value:den}).setStrict(false); voice.addTickables(vf);
+    new VF.Formatter().joinVoices([voice]).format([voice],STAVE_W-92); voice.draw(ctx,st);
+    beams.forEach(b=>b.setContext(ctx).draw()); tups.forEach(t=>t.setContext(ctx).draw());
+    // etiquetar cada nota por índice usando los <g class="vf-stavenote"> que crea VexFlow
+    const svg=host.querySelector('svg');
+    if(svg){
+      const gs=[...svg.querySelectorAll('g.vf-stavenote')];
+      gs.forEach((gEl,i)=>{ gEl.classList.add('pn','pn-'+i); });
     }
-    t+=g.occ*spq+spq; // hueco entre grupos
-  });
-  setTimeout(()=>{ document.querySelectorAll('.prep-dot').forEach(d=>d.classList.remove('lit')); setPlayState(false); }, (t-c.currentTime)*1000);
+    if(svg){
+      const staveTop=st.getYForLine(0),staveBot=st.getYForLine(4);
+      const hasT=tups.length>0; const topRoom=hasT?34:22, botRoom=26;
+      const vbX=Math.max(0,PAD_L-4), vbY=Math.max(0,staveTop-topRoom);
+      const lastX=(st.getX()+st.getWidth())+4;
+      const vbW=Math.min(CANVAS_W-vbX,(lastX-vbX)+8), vbH=(staveBot+botRoom)-vbY;
+      svg.setAttribute('viewBox',`${vbX.toFixed(1)} ${vbY.toFixed(1)} ${vbW.toFixed(1)} ${vbH.toFixed(1)}`);
+      svg.setAttribute('preserveAspectRatio','xMidYMid meet'); svg.removeAttribute('width'); svg.removeAttribute('height');
+    }
+    return {svg:svg?svg.outerHTML:'', n:vf.length};
+  }catch(e){ return {svg:'',n:0}; }
+}
+
+/* reproductor en bucle de una carta de preparación: suena cada nota (golpe), ilumina en dorado la que suena */
+let prepLoop={card:null, stop:null};
+function stopPrepLoop(){ if(prepLoop.stop){ try{prepLoop.stop();}catch(e){} } prepLoop.stop=null;
+  document.querySelectorAll('.prep-card .prep-play.on').forEach(b=>{ b.classList.remove('on'); b.textContent='▶'; });
+  document.querySelectorAll('.prep-ex .pn.lit').forEach(e=>e.classList.remove('lit'));
+  prepLoop.card=null;
+}
+function togglePrepLoop(card, m, exHost, btn){
+  const wasThis=(prepLoop.card===card);
+  stopPrepLoop();
+  if(wasThis) return;          // si estaba sonando esta, ya la hemos parado (pause)
+  const c=ac(); if(!c) return;
+  prepLoop.card=card; btn.classList.add('on'); btn.textContent='⏸';
+  // duraciones en negras de cada nota
+  const durs=m.notes.map(n=>{ const base=db(n.dur.replace('r','')); return base; });
+  const total=durs.reduce((a,b)=>a+b,0);
+  const spq=()=>60/Math.max(8,bpmNow());   // segundos por negra
+  let stopped=false; let timers=[];
+  const clearTimers=()=>{ timers.forEach(t=>clearTimeout(t)); timers=[]; };
+  const noteEls=()=>m.notes.map((n,i)=>exHost.querySelector('.pn-'+i));
+  function runOnce(startT){
+    let acc=0;
+    m.notes.forEach((n,i)=>{
+      const at=startT+acc*spq();
+      const isRest=n.rest||n.dur.endsWith('r');
+      const delay=(at-c.currentTime)*1000;
+      timers.push(setTimeout(()=>{ if(stopped)return;
+        noteEls().forEach(e=>e&&e.classList.remove('lit'));
+        const el=exHost.querySelector('.pn-'+i); if(el && !isRest) el.classList.add('lit');
+        if(!isRest) click(c.currentTime+0.001, acc===0);   // golpe (acento en el primer pulso)
+      }, Math.max(0,delay)));
+      acc+=durs[i];
+    });
+  }
+  function loop(){ if(stopped)return; const start=c.currentTime+0.06; runOnce(start);
+    timers.push(setTimeout(loop, total*spq()*1000)); }
+  loop();
+  prepLoop.stop=()=>{ stopped=true; clearTimers(); killAudio(); };
 }
 
 function velSubBlock(){
@@ -2722,7 +3944,10 @@ function velSubBlock(){
   // ----- Velocidad: barra deslizable minimalista de 5 niveles (centro = estándar), sin números ni nombres.
   // Dos franjas a cada lado (más lento ←  → más rápido). En 3er trimestre, botón "extremadamente lento"
   // (= mitad del estándar) que BLOQUEA la barra (gris). -----
-  const allowExtrema=(currentTrim==='t3');
+  // En gp1, el botón "extremadamente lento" SOLO aparece si hay fusas activas (densidad alta);
+  // en 2º GP se mantiene la regla de trimestre (t3).
+  const gp1Dense = (currentCourse==='gp1') && (function(){ try{ return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
+  const allowExtrema=(currentTrim==='t3')||gp1Dense;
   if(!allowExtrema) velExtrema=false;
   const vg=document.createElement('div'); vg.className='seg velrow';
   vg.innerHTML=`<span class="seg-l">Velocidad</span>`;
@@ -2766,9 +3991,8 @@ function velSubBlock(){
 function buildPhaseControls(ph){ const bar=document.getElementById('phaseControls'); bar.innerHTML='';
   const mk=(txt,cls,fn,title)=>{ const b=document.createElement('button'); b.className='pc-btn '+(cls||''); b.innerHTML=txt; if(title)b.title=title; b.onclick=fn; return b; };
   if(ph.kind==='prep'){
-    const pb=mk('▶','play',null,'Escuchar el orden de pulsos'); activePlayBtn=pb; isPlaying=false;
-    pb.onclick=()=>{ if(isPlaying){ stopPlayer(); return; } playPrep(); setPlayState(true); };
-    bar.appendChild(pb); bar.appendChild(mk('Siguiente','primary',nextPhase));
+    // cada carta tiene su propio play/pause en bucle; aquí solo el botón de avanzar
+    bar.appendChild(mk('Siguiente','primary',nextPhase));
   } else {
     let opts={metronome:true,countIn:3};
     if(ph.kind==='ritmo'){ opts.rhythm=true; opts.gold=true; }       // ritmo aislado: suena el ritmo, dorado
@@ -2793,7 +4017,7 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
       const ref=document.createElement('div'); ref.className='ref-ctl';
       ref.innerHTML='<span class="ref-l">Ref.:</span>';
       const tips={none:'No suena ninguna nota de la melodía: cantas todo por tu cuenta',compas:'Suena la 1ª nota de cada compás como referencia',penta:'Suena la 1ª nota de cada frase como referencia',all:'Suena toda la melodía doblando tu voz'};
-      [['none','Ninguna'],['compas','Compás'],['penta','Frase'],['all','Toda']].forEach(([v,l])=>{ const b=document.createElement('button'); b.className='tipw'+(refMode===v?' on':''); b.textContent=l; b.setAttribute('data-tip',tips[v]); b.onclick=()=>{ refMode=v; ref.querySelectorAll('button').forEach(x=>{x.classList.remove('on');}); b.classList.add('on'); }; ref.appendChild(b); });
+      [['none','Ninguna'],['penta','Frase'],['compas','Compás'],['all','Toda']].forEach(([v,l])=>{ const b=document.createElement('button'); b.className='tipw'+(refMode===v?' on':''); b.textContent=l; b.setAttribute('data-tip',tips[v]); b.onclick=()=>{ refMode=v; ref.querySelectorAll('button').forEach(x=>{x.classList.remove('on');}); b.classList.add('on'); }; ref.appendChild(b); });
       bar.appendChild(ref);
     }
     bar.appendChild(velSubBlock());
@@ -2814,6 +4038,25 @@ function nextPhase(){ stopPlayer(); if(phaseIdx<phaseList.length-1){ phaseIdx++;
 
 /* ============================== TRIMESTRE / WIRING ============================== */
 function applyTrimUI(){
+  if(currentCourse==='gp1'){
+    // 1º GP: ocultar UI de trimestres/grupos de 2º GP; mostrar selector de mundos
+    const tn=document.getElementById('trimName'); if(tn) tn.textContent='';
+    document.getElementById('t2card').style.display='none';
+    document.getElementById('groupBar').style.display='none';
+    const gb=document.getElementById('gp1Bar'); if(gb) gb.style.display='none';
+    const cr=document.getElementById('gp1ChangeBar'); if(cr) cr.style.display='flex';
+    // 1º GP: las acciones (Estudiar por fases, Prueba directa, dado) van a la derecha de la barra de cambiar
+    const acts=document.getElementById('barActions'), dest=document.getElementById('gp1Actions');
+    if(acts && dest && acts.parentElement!==dest){ dest.appendChild(acts); }
+    document.getElementById('pulseToggle').style.display='none';
+    document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected','false'));
+    return;
+  }
+  const gb2=document.getElementById('gp1Bar'); if(gb2) gb2.style.display='none';
+  const cr2=document.getElementById('gp1ChangeBar'); if(cr2) cr2.style.display='none';
+  // devolver las acciones a la topbar (si estaban en la barra de 1º GP)
+  const acts=document.getElementById('barActions'), phaseTop=document.getElementById('phaseTop');
+  if(acts && phaseTop && acts.nextElementSibling!==phaseTop){ phaseTop.parentElement.insertBefore(acts, phaseTop); }
   const tn=document.getElementById('trimName'); if(tn) tn.textContent=TRIMS[currentTrim].nombre;
   const isT2=(currentTrim==='t2'); const groupy=(currentTrim==='t2'||currentTrim==='rep');
   document.getElementById('t2card').style.display=isT2?'block':'none';
@@ -2821,12 +4064,35 @@ function applyTrimUI(){
   document.getElementById('pulseToggle').style.display=groupy?'inline-flex':'none';
   document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.trim===currentTrim?'true':'false'));
 }
+function setGp1Wide(on){ const e=document.getElementById('entry'); if(e) e.classList.toggle('gp1-wide',!!on); }
+function enterAppGP1(){
+  currentCourse='gp1';
+  document.getElementById('gp1Step').style.display='none';
+  setGp1Wide(false);
+  document.getElementById('entry').style.display='none';
+  document.getElementById('app').style.display='block';
+  const tabsRow=document.querySelector('#app .tabs'); if(tabsRow) tabsRow.style.display='none';
+  applyTrimUI();
+  const cp=document.getElementById('coursePill'); if(cp) cp.textContent='1º GP';
+  const s=document.getElementById('gp1ChangeSummary'); if(s) s.textContent=gp1Summary();
+  generateLesson();
+}
+function reopenGp1Setup(){
+  // volver a la pantalla de configuración SIN perder el estado actual
+  document.getElementById('app').style.display='none';
+  document.getElementById('entry').style.display='flex';
+  document.getElementById('courseStep').style.display='none';
+  document.getElementById('trimStep').style.display='none';
+  document.getElementById('gp1Step').style.display='block';
+  setGp1Wide(true);
+  buildGp1Setup();
+}
 function enterTrim(trim,fromEntry){
   currentTrim=trim; applyTrimUI();
   if(trim==='t2'){ openGroupModal(); if(fromEntry){ document.getElementById('lessonArea').classList.remove('show'); } }
   else generateLesson();
 }
-function enterApp(trim){ document.getElementById('entry').style.display='none'; document.getElementById('app').style.display='block'; enterTrim(trim,true); }
+function enterApp(trim){ currentCourse='gp2'; const cp=document.getElementById('coursePill'); if(cp) cp.textContent='2º GP'; document.getElementById('entry').style.display='none'; document.getElementById('app').style.display='block'; const tabsRow=document.querySelector('#app .tabs'); if(tabsRow) tabsRow.style.display=''; enterTrim(trim,true); }
 
 // cuenta atrás 3-2-1 sobre la pantalla de entrada (feedback al pulsar una tarjeta), luego ejecuta la acción
 function entryCountdown(done){
@@ -2836,22 +4102,63 @@ function entryCountdown(done){
   const iv=setInterval(()=>{ n--; if(n>=1){ ov.textContent=n; ov.classList.remove('show'); void ov.offsetWidth; ov.classList.add('show'); } else { clearInterval(iv); ov.classList.remove('show'); done(); } },650);
 }
 
-// PASO 1 (curso): 2º GP -> muestra trimestres; 1º GP -> aviso (se desarrollará más adelante)
+// PASO 1 (curso): 2º GP -> muestra trimestres (con cuenta atrás); 1º GP -> pantalla de configuración (sin cuenta atrás)
 document.querySelectorAll('.trim-pick[data-course]').forEach(b=>b.onclick=()=>{
-  b.classList.add('picked');
   const course=b.dataset.course;
-  entryCountdown(()=>{
-    b.classList.remove('picked');
-    if(course==='gp2'){ document.getElementById('courseStep').style.display='none'; document.getElementById('trimStep').style.display='block'; }
-    else { alert('1º de Grado Profesional estará disponible próximamente.'); }
-  });
+  if(course==='gp1'){
+    // 1º GP en construcción: puerta de contraseña antes de entrar
+    openGp1Gate();
+    return;
+  }
+  // 2º GP: al paso de trimestres SIN cuenta atrás
+  currentCourse='gp2'; document.getElementById('courseStep').style.display='none'; document.getElementById('trimStep').style.display='block';
 });
+function enterGp1(){
+  currentCourse='gp1';
+  document.getElementById('courseStep').style.display='none';
+  document.getElementById('gp1Step').style.display='block';
+  setGp1Wide(true);
+  buildGp1Setup();
+}
+function openGp1Gate(){
+  let scrim=document.getElementById('gp1Gate');
+  if(!scrim){
+    scrim=document.createElement('div'); scrim.id='gp1Gate'; scrim.className='gate-scrim';
+    scrim.innerHTML=`<div class="gate-card">
+      <p class="gate-k">1º de Grado Profesional</p>
+      <p class="gate-t">🚧 Curso en construcción</p>
+      <p class="gate-d">Este curso todavía está en desarrollo y aún falta bastante trabajo. De momento no está disponible al público. Si tienes la clave de acceso, introdúcela para continuar.</p>
+      <input type="password" class="gate-input" id="gp1GateInput" placeholder="Contraseña" autocomplete="off" inputmode="numeric" />
+      <p class="gate-err" id="gp1GateErr" style="display:none;">Contraseña incorrecta.</p>
+      <div class="gate-btns">
+        <button class="gate-cancel" id="gp1GateCancel">Volver</button>
+        <button class="gate-ok" id="gp1GateOk">Entrar</button>
+      </div>
+    </div>`;
+    document.body.appendChild(scrim);
+    const input=scrim.querySelector('#gp1GateInput');
+    const err=scrim.querySelector('#gp1GateErr');
+    const close=()=>{ scrim.classList.remove('show'); input.value=''; err.style.display='none'; };
+    const tryEnter=()=>{ if(input.value.trim()==='010513'){ close(); enterGp1(); } else { err.style.display='block'; input.value=''; input.focus(); } };
+    scrim.querySelector('#gp1GateOk').onclick=tryEnter;
+    scrim.querySelector('#gp1GateCancel').onclick=close;
+    input.addEventListener('keydown',e=>{ if(e.key==='Enter') tryEnter(); });
+    scrim.addEventListener('click',e=>{ if(e.target===scrim) close(); });
+  }
+  scrim.classList.add('show');
+  const inp=scrim.querySelector('#gp1GateInput'); inp.value=''; scrim.querySelector('#gp1GateErr').style.display='none';
+  setTimeout(()=>inp.focus(),50);
+}
 // volver del paso de trimestres al de curso
 const cb=document.getElementById('courseBack'); if(cb) cb.onclick=()=>{ document.getElementById('trimStep').style.display='none'; document.getElementById('courseStep').style.display='block'; };
-// PASO 2 (trimestre): cuenta atrás y entra a la app
+// ---- pantalla de configuración 1º GP ----
+document.querySelectorAll('.setup-tab').forEach(t=>{ t.onclick=()=>setGp1Mode(t.dataset.mode); });
+const gpb=document.getElementById('gp1Back'); if(gpb) gpb.onclick=()=>{ document.getElementById('gp1Step').style.display='none'; setGp1Wide(false); document.getElementById('courseStep').style.display='block'; };
+const sgo=document.getElementById('setupGo'); if(sgo) sgo.onclick=()=>{ enterAppGP1(); };
+const gcb=document.getElementById('gp1ChangeBtn'); if(gcb) gcb.onclick=()=>{ reopenGp1Setup(); };
+// PASO 2 (trimestre): entra a la app SIN cuenta atrás
 document.querySelectorAll('.trim-pick[data-trim]').forEach(b=>b.onclick=()=>{
-  b.classList.add('picked'); const trim=b.dataset.trim;
-  entryCountdown(()=>{ b.classList.remove('picked'); enterApp(trim); });
+  enterApp(b.dataset.trim);
 });
 document.querySelectorAll('.tab').forEach(t=>{ t.onclick=()=>enterTrim(t.dataset.trim,false); });
 document.getElementById('genBtn').onclick=()=>generateLesson();
@@ -2864,7 +4171,7 @@ document.getElementById('gmGo').onclick=()=>{ closeGroupModal(); generateLesson(
 document.getElementById('popClose').onclick=()=>document.getElementById('helpPop').classList.remove('show');
 document.getElementById('helpPop').onclick=(e)=>{ if(e.target.id==='helpPop')document.getElementById('helpPop').classList.remove('show'); };
 document.getElementById('phaseClose').onclick=()=>closeStudy();
-try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return activeGroups;}, buildSchedule, renderGroupMini, genLesson, renderLesson, chordDegsOf, pulseOnsetsQ, measureNoteBeats, degreeOf, ROMAN, TONIC_PC, buildScale, buildHarmonyPlan, CADENCES, buildAccompaniment, spanPCs}; }catch(e){}
+try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return activeGroups;}, buildSchedule, renderGroupMini, genLesson, genLessonGP1, gp1Config, GP1_WORLDS, renderLesson, chordDegsOf, pulseOnsetsQ, measureNoteBeats, degreeOf, ROMAN, TONIC_PC, buildScale, buildHarmonyPlan, CADENCES, buildAccompaniment, spanPCs}; }catch(e){}
 
 </script>
 </body></html>
