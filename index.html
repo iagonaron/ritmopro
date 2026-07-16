@@ -1253,7 +1253,7 @@ const GE_WORLDS=[
         {"ts":"7/8","notes":["8","8","8","8","8","8","8"],"beams":[[0,1,2],[3,4],[5,6]],"label":"3+2+2"},
         {"ts":"8/8","notes":["qd","qd","q"],"label":"3+3+2"}
       ] },
-      { id:"c1_2", atlasId:"1.2", name:"Tresillo y dosillo en pulsos dispares", ref:"págs. 13–14", lecs:"9–12", disp:true, note:"El tresillo ocupa un pulso BINARIO (2 corcheas) y el dosillo un pulso TERNARIO (3 corcheas) del compás dispar.",
+      { id:"c1_2", atlasId:"1.2", name:"Dosillo y tresillo", ref:"págs. 13–14", lecs:"9–12", disp:true, note:"El tresillo ocupa un pulso BINARIO (2 corcheas) y el dosillo un pulso TERNARIO (3 corcheas) del compás dispar.",
         cells:[
         {"ts":"5/8","notes":["8","8","8","qd"],"beams":[[0,1,2]],"tuplets":[{"idx":[0,1,2],"num":3,"occ":2}],"label":"tresillo en pulso binario"},
         {"ts":"5/8","notes":["qd","8","8","8"],"beams":[[1,2,3]],"tuplets":[{"idx":[1,2,3],"num":3,"occ":2}],"label":"tresillo al final"},
@@ -1261,7 +1261,7 @@ const GE_WORLDS=[
         {"ts":"7/8","notes":["8","8","8","8","8","qd"],"beams":[[0,1],[2,3,4]],"tuplets":[{"idx":[2,3,4],"num":3,"occ":2}],"label":"tresillo interior"},
         {"ts":"7/8","notes":["q","q","8","8"],"beams":[[2,3]],"tuplets":[{"idx":[2,3],"num":2,"occ":3}],"label":"dosillo"}
       ] },
-      { id:"c1_3", atlasId:"1.3", name:"Cinquillo y cuatrillo en pulso ternario", ref:"págs. 15–16", lecs:"13–16", disp:true, note:"Cinco semicorcheas en lugar de seis (5:6) y el cuatrillo en sus dos escrituras: valores reales (4 semicorcheas por 6) y excedentes (4 corcheas por 3).",
+      { id:"c1_3", atlasId:"1.3", name:"Cuatrillo y cinquillo", ref:"págs. 15–16", lecs:"13–16", disp:true, note:"Cinco semicorcheas en lugar de seis (5:6) y el cuatrillo en sus dos escrituras: valores reales (4 semicorcheas por 6) y excedentes (4 corcheas por 3).",
         cells:[
         {"ts":"5/8","notes":["q","16","16","16","16","16"],"beams":[[1,2,3,4,5]],"tuplets":[{"idx":[1,2,3,4,5],"num":5,"occ":6}],"label":"cinquillo (5 por 6)"},
         {"ts":"7/8","notes":["16","16","16","16","16","q","q"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2,3,4],"num":5,"occ":6}],"label":"cinquillo inicial"},
@@ -1369,11 +1369,12 @@ const GE_WORLDS=[
         cells:[
         {"ts":"3/4","notes":["8","8","8","8","8","8","8"],"beams":[[0,1,2,3,4,5,6]],"tuplets":[{"idx":[0,1,2,3,4,5,6],"num":7,"occ":6}],"label":"7:6"}
       ] },
-      { id:"c2_9", atlasId:"2.9", name:"8, 9 y 10 vs 1", ref:"págs. 70–72", lecs:"136–143", slow:true, note:"Los grupos grandes por pulso: 8, 9 y 10 notas. ⚙ Motor: conviene bajar el tempo.",
+      { id:"c2_9", atlasId:"2.9", name:"7, 8, 9, 10… vs 1", ref:"págs. 70–72", lecs:"136–143", slow:true, note:"Los grupos grandes en UN solo pulso: septillo, octillo, nonillo y de diez en adelante. Más fácil de lo que parece: solo hay una cosa que cuadrar. ⚙ Motor: conviene bajar el tempo.",
         cells:[
-        {"ts":"2/4","beats":1,"beat":4,"notes":["16","16","16","16","16","16","16","16"],"beams":[[0,1,2,3,4,5,6,7]],"tuplets":[{"idx":[0,1,2,3,4,5,6,7],"num":8,"occ":4}],"label":"8 por pulso"},
-        {"ts":"6/8","beats":3,"beat":8,"notes":["16","16","16","16","16","16","16","16","16"],"beams":[[0,1,2,3,4,5,6,7,8]],"tuplets":[{"idx":[0,1,2,3,4,5,6,7,8],"num":9,"occ":6}],"label":"9 por pulso"},
-        {"ts":"2/4","beats":1,"beat":4,"notes":["16","16","16","16","16","16","16","16","16","16"],"beams":[[0,1,2,3,4,5,6,7,8,9]],"tuplets":[{"idx":[0,1,2,3,4,5,6,7,8,9],"num":10,"occ":4}],"label":"10 por pulso"}
+        {"ts":"2/4","beats":1,"beat":4,"notes":["16","16","16","16","16","16","16"],"beams":[[0,1,2,3,4,5,6]],"tuplets":[{"idx":[0,1,2,3,4,5,6],"num":7,"occ":4}],"label":"7 por pulso"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","32","32","32","32","32","32"],"beams":[[0,1,2,3,4,5,6,7]],"tuplets":[],"label":"8 por pulso (fusas, sin cifra)"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","32","32","32","32","32","32","32"],"beams":[[0,1,2,3,4,5,6,7,8]],"tuplets":[{"idx":[0,1,2,3,4,5,6,7,8],"num":9,"occ":8}],"label":"9 por pulso"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","32","32","32","32","32","32","32","32"],"beams":[[0,1,2,3,4,5,6,7,8,9]],"tuplets":[{"idx":[0,1,2,3,4,5,6,7,8,9],"num":10,"occ":8}],"label":"10 por pulso"}
       ] },
     ]
   },
@@ -3877,7 +3878,8 @@ function renderMiniMeasure(m, clef){
       const xs=vf.map(n=>{ try{return n.getAbsoluteX();}catch(e){return PAD_L;} });
       const lastX = (st.getX()+st.getWidth())+4;
       const hasTuplet=tups.length>0;
-      const topRoom = hasTuplet?34:22, botRoom = 26;
+      const has32=m.notes.some(n=>String(n.dur).replace(/[dr]/g,'')==='32');
+      const topRoom = hasTuplet?(has32?54:34):(has32?34:22), botRoom = 26;
       const vbX=Math.max(0, PAD_L-4), vbY=Math.max(0, staveTop-topRoom);
       const vbW=Math.min(CANVAS_W-vbX, (lastX-vbX)+8);
       const vbH=(staveBot+botRoom)-vbY;
@@ -5956,8 +5958,9 @@ function buildOv(){
 }
 function closeIntro(){ if(cleanup){try{cleanup();}catch(e){}} cleanup=null; Loop.clear(); if(OV)OV.classList.remove('show'); }
 function paintDots(){ dotsEl.innerHTML=''; slides.forEach((s,i)=>{ const d=document.createElement('span'); d.className='idot'+(i===sIdx?' cur':(i<sIdx?' done':'')); d.onclick=()=>go(i); dotsEl.appendChild(d); });
-  OV.querySelector('#introPrev').style.visibility=sIdx>0?'visible':'hidden';
-  OV.querySelector('#introNext').textContent=(sIdx>=slides.length-1)?'Terminar ✓':'Siguiente →';
+  OV.querySelector('#introPrev').style.display='none';
+  const nbtn=OV.querySelector('#introNext'); const lastS=(sIdx>=slides.length-1);
+  nbtn.style.display=lastS?'none':''; nbtn.textContent=lastS?'Terminar ✓':'Siguiente →';
 }
 function go(i){
   if(i>=slides.length){ closeIntro(); return; }
@@ -7773,7 +7776,7 @@ function phase3(host){
    ============================================================ */
 window.CARD_INTROS={};
 (function(){
-  const cellSpec=(c)=>({notes:c.notes.slice(),beams:c.beams,ties:c.ties,tuplets:c.tuplets,label:c.label||''});
+  const cellSpec=(c)=>({notes:c.notes.slice(),beams:c.beams,ties:c.ties,tuplets:c.tuplets,label:c.label||'',ts:c.ts||''});
   const usable=(card)=>(card.cells||[]).filter(c=>c && !c.equiv && Array.isArray(c.notes) && c.notes.length
     && c.notes.every(n=>typeof n==='string' && n!=='|'));
   ((typeof GP1_WORLDS!=='undefined'&&GP1_WORLDS)||[]).forEach(W=>{ (W.cards||[]).forEach(card=>{
@@ -7786,4 +7789,1610 @@ window.CARD_INTROS={};
   }); });
 })();
 </script>
+<style id="gveCss">
+/* ===== INTRO GVE (mundo 2) — el MÉTODO, versión validada en el prototipo 2.5 ===== */
+.gvx-wrap{max-width:1060px;margin:0 auto;padding:26px 20px 10px;display:flex;flex-direction:column;gap:14px;align-items:center;}
+.gvx-cap{max-width:840px;text-align:center;}
+.gvx-cap .paso{display:inline-block;font-size:11px;font-weight:900;letter-spacing:.14em;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-radius:999px;padding:3px 12px;margin-bottom:8px;}
+.gvx-cap h2{margin:0 0 4px;font-size:22px;font-weight:900;color:var(--ink);}
+.gvx-stage{display:flex;flex-direction:column;gap:14px;align-items:center;width:100%;margin-top:6px;}
+.gvx-paper{position:relative;background:var(--paper);border-radius:14px;padding:10px 20px;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:96vw;overflow:visible;cursor:pointer;border:2px solid transparent;transition:border-color .2s, box-shadow .5s ease, opacity .4s, filter .55s ease;}
+.gvx-paper.playing{border-color:var(--gold1);box-shadow:0 0 22px rgba(212,175,55,.5);}
+.gvx-paper .gvx-pp{position:absolute;top:-11px;right:-11px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;letter-spacing:-1px;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));box-shadow:0 4px 12px rgba(0,0,0,.4);}
+.gvx-paper.model{border:2px solid var(--gold1);}
+.gvx-pp.attn{animation:gvxPpblink 1s ease-in-out infinite;}
+@keyframes gvxPpblink{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0);transform:scale(1);}50%{box-shadow:0 0 16px 6px rgba(212,175,55,.8);transform:scale(1.18);}}
+.gvx-ctr{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+.gvx-btn{font-family:inherit;border:none;border-radius:999px;padding:10px 22px;font-size:13.5px;font-weight:800;cursor:pointer;transition:transform .13s;}
+.gvx-btn:hover{transform:scale(1.05);}
+.gvx-btn.primary{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));box-shadow:0 6px 18px rgba(212,175,55,.3);}
+.gvx-btn.ghost{color:var(--ink);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);}
+.gvx-sdots{display:flex;gap:6px;justify-content:center;margin-top:8px;}
+.gvx-sdots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.16);cursor:pointer;}
+.gvx-sdots span.done{background:var(--gold2);}
+.gvx-sdots span.cur{background:var(--gold-soft);box-shadow:0 0 8px rgba(233,201,106,.8);}
+.gvx-sdots span.irr{border:1px solid #dc2626;background:rgba(220,38,38,.25);}
+.gvx-sdots span.irr.cur{background:#dc2626;box-shadow:0 0 8px rgba(220,38,38,.8);}
+.gvx-reto{position:fixed;top:64px;right:16px;z-index:10400;font-size:12px;font-weight:900;letter-spacing:.1em;color:var(--gold-soft);
+  border:1px solid var(--gold2);border-radius:999px;padding:5px 14px;background:rgba(20,13,3,.75);backdrop-filter:blur(4px);}
+.gvx-reto b{color:var(--ink);}
+/* portada */
+.gvx-cover{display:flex;flex-direction:column;align-items:center;padding-top:30px;}
+.gvx-cover .kicker{font-size:11.5px;font-weight:900;letter-spacing:.22em;color:var(--gold-soft);text-transform:uppercase;margin:0 0 10px;}
+.gvx-cover h1{margin:0 0 12px;font-size:52px;font-weight:900;letter-spacing:-.5px;color:var(--ink);}
+.gvx-cover .sub{max-width:640px;text-align:center;color:var(--muted);font-size:15.5px;margin:0 0 30px;}
+.gvx-cover .sub b{color:var(--gold-soft);}
+.gvx-float{display:flex;gap:26px;justify-content:center;align-items:center;flex-wrap:wrap;}
+.gvx-fcell{background:var(--paper);border-radius:16px;padding:12px 22px;box-shadow:0 18px 50px rgba(0,0,0,.5);animation:gvxFloaty 4.2s ease-in-out infinite;}
+.gvx-fcell.b{animation-delay:1.3s;}
+.gvx-fcell .lbl{text-align:center;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8a7a55;margin-top:2px;}
+.gvx-fcell .lbl.irr{color:#dc2626;}
+@keyframes gvxFloaty{0%,100%{transform:translateY(0) rotate(-.6deg);}50%{transform:translateY(-12px) rotate(.6deg);}}
+.gvx-ref{color:var(--muted2);font-size:12.5px;margin-top:30px;}
+/* tarjeta de texto protagonista */
+.gvx-veil{position:fixed;inset:0;z-index:10500;display:none;align-items:center;justify-content:center;background:rgba(5,3,1,.86);backdrop-filter:blur(3px);animation:gvxFadein .35s ease;}
+.gvx-veil.show{display:flex;}
+@keyframes gvxFadein{from{opacity:0;}to{opacity:1;}}
+.gvx-veil .card{position:relative;max-width:640px;margin:20px;background:linear-gradient(180deg,#241a06,#160f04);border:1px solid var(--gold1);border-radius:18px;padding:34px 38px;box-shadow:0 30px 90px rgba(0,0,0,.7);text-align:center;}
+.gvx-veil .vReto{position:absolute;top:14px;right:16px;font-size:15px;font-weight:900;letter-spacing:.08em;color:var(--gold-soft);border:1px solid var(--gold2);border-radius:999px;padding:4px 13px;}
+.gvx-veil .vReto b{font-weight:900;position:relative;display:inline-block;}
+.gvx-veil .vReto b.vhi{color:#fff;animation:gvxAuratxt .9s ease-in-out infinite;}
+@keyframes gvxAuratxt{0%,100%{text-shadow:0 0 0 rgba(233,201,106,0);}50%{text-shadow:0 0 14px rgba(233,201,106,1),0 0 5px rgba(233,201,106,.9);}}
+.gvx-veil .vReto b.vhi::before{content:'▼';position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:14px;color:var(--gold2);animation:gvxBlinkA .9s ease-in-out infinite;}
+.gvx-veil .paso{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.16em;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.gvx-veil h2{margin:0 0 12px;font-size:26px;font-weight:900;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
+.gvx-veil p{margin:0 0 24px;font-size:16.5px;line-height:1.65;color:var(--muted);}
+.gvx-veil p b{color:var(--gold-soft);}
+.gvx-veil p b.glow, .gvx-veil h2 .glow{animation:gvxAuratxt .9s ease-in-out infinite;}
+.gvx-veil .gvx-btn{font-size:15px;padding:12px 30px;}
+.gvx-stampSello{display:inline-block;font-size:15px;font-weight:900;letter-spacing:.3em;color:#dc2626;border:3px solid #dc2626;
+  border-radius:8px;padding:5px 16px;transform:rotate(-7deg);margin-bottom:14px;text-transform:uppercase;
+  box-shadow:0 0 0 1px rgba(220,38,38,.25) inset;opacity:.92;}
+.gvx-stampSello.stampin{animation:gvxStampin .55s cubic-bezier(.2,1.4,.4,1) both;}
+@keyframes gvxStampin{0%{transform:scale(3.2) rotate(-30deg);opacity:0;}55%{transform:scale(.92) rotate(-7deg);opacity:1;}75%{transform:scale(1.08) rotate(-7deg);}100%{transform:scale(1) rotate(-7deg);}}
+.gvx-smoke{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(205,195,175,.7),rgba(205,195,175,0));filter:blur(4px);pointer-events:none;animation:gvxSmokeup 1.15s ease-out both;z-index:3;}
+@keyframes gvxSmokeup{0%{opacity:0;transform:translate(0,0) scale(.4);}25%{opacity:.9;}100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(1.7);}}
+.gvx-img{display:flex;justify-content:center;margin:2px 0 14px;}
+.gvx-img .mini{background:var(--paper);border-radius:12px;padding:6px 14px;box-shadow:0 10px 26px rgba(0,0,0,.5);}
+.gvx-objetivo{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.gvx-objetivo .tag{font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#dc2626;}
+/* mini-tajo en bucle */
+.gvx-minitajo{position:relative;width:34px;height:44px;display:inline-block;}
+.gvx-minitajo::before{content:'';position:absolute;left:50%;width:3px;margin-left:-1.5px;border-radius:2px;background:var(--gold2);
+  animation:gvxMtajo 1.6s ease-in-out infinite;}
+@keyframes gvxMtajo{0%{top:0;height:0;opacity:0;}18%{top:0;height:44px;opacity:1;}45%{top:30px;height:14px;opacity:1;}80%{top:30px;height:14px;opacity:1;}100%{top:30px;height:14px;opacity:0;}}
+/* elementos sobre la partitura */
+.gvx-hh{opacity:0;}
+.gvx-hit,.gvx-hit *{fill:#b8860b !important;stroke:#b8860b !important;}
+.gvx-tie{fill:none;stroke:#111;stroke-width:1.6;}
+.gvx-slash{stroke:var(--gold2);stroke-width:3;stroke-linecap:round;}
+.gvx-ptick{stroke:var(--gold2);stroke-width:2.6;stroke-linecap:round;}
+.gvx-fuseout{transition:transform .7s ease,opacity .7s ease;}
+.gvx-parr{fill:var(--gold2);animation:gvxBlinkA 0.9s ease-in-out infinite;}
+@keyframes gvxBlinkA{0%,100%{opacity:1;}50%{opacity:.15;}}
+.gvx-aura{fill:rgba(212,175,55,.38);animation:gvxBlinkA 0.9s ease-in-out infinite;}
+.gvx-playhead{stroke:var(--gold1);stroke-width:2.4;stroke-linecap:round;opacity:.9;filter:drop-shadow(0 0 3px rgba(212,175,55,.8));}
+.gvx-whitefade{position:absolute;inset:0;border-radius:14px;background:radial-gradient(circle at 50% 46%, #ffffff 0%, #faf9f6 75%, #f2f0ea 100%);opacity:0;transition:opacity .65s ease;z-index:4;pointer-events:none;}
+.gvx-burst{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible;}
+.gvx-burst .bflash{position:absolute;left:50%;top:50%;width:46px;height:46px;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,#ffffff 0%,rgba(250,248,242,.9) 40%,rgba(250,248,242,0) 70%);animation:gvxBflash .85s ease-out both;}
+@keyframes gvxBflash{0%{opacity:0;transform:translate(-50%,-50%) scale(.4);}22%{opacity:1;}100%{opacity:0;transform:translate(-50%,-50%) scale(9);}}
+.gvx-burst .star{position:absolute;left:50%;top:50%;font-size:17px;color:#ffffff;text-shadow:0 0 10px rgba(255,255,255,.95);animation:gvxStarfly .95s ease-out both;}
+.gvx-postit{position:absolute;top:-16px;right:22px;max-width:250px;background:#fff8dc;color:#4d3a0b;font-size:10.5px;line-height:1.45;
+  padding:9px 12px;border-radius:9px;box-shadow:0 8px 22px rgba(0,0,0,.35);transform:rotate(2deg);z-index:6;}
+.gvx-postit b{color:#8a5a00;}
+.gvx-plusone{position:absolute;top:-6px;left:50%;transform:translate(-50%,0);font-size:30px;font-weight:900;color:var(--gold-soft);
+  text-shadow:0 0 14px rgba(233,201,106,.9);animation:gvxPlus .9s cubic-bezier(.2,1.4,.4,1) both;z-index:6;pointer-events:none;}
+@keyframes gvxPlus{0%{opacity:0;transform:translate(-50%,18px) scale(.4);}55%{opacity:1;transform:translate(-50%,-6px) scale(1.15);}100%{opacity:1;transform:translate(-50%,-2px) scale(1);}}
+.gvx-goldnote,.gvx-goldnote *{fill:#b8860b !important;stroke:#b8860b !important;}
+.gvx-syl{font-size:11px;font-weight:700;fill:#8a5a00;font-family:Georgia,serif;font-style:italic;}
+.gvx-plbl{position:absolute;top:7px;left:16px;font-size:9px;letter-spacing:.16em;font-weight:800;color:#a8966a;text-transform:uppercase;font-family:ui-sans-serif,system-ui,sans-serif;z-index:3;pointer-events:none;}
+.gvx-dim{filter:brightness(.42) saturate(.55);}
+.gvx-spot{box-shadow:0 0 0 1px rgba(212,175,55,.55),0 14px 44px rgba(212,175,55,.18) !important;}
+@keyframes gvxStarfly{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(0deg);}18%{opacity:1;}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.5) rotate(140deg);}}
+</style>
+<script id="introGVE">
+/* ============================================================
+   INTROs del MUNDO 2 (2.1–2.8) — «GVE en varios pulsos, el MÉTODO»
+   Versión definitiva validada con el prototipo de la 2.5:
+   texto protagonista → «Entendido» → animación; 6 pasos, y en las
+   cartas con IRREGULAR (2.1–2.4) el desvío sellado de 2 pasos más.
+   La 2.9 tendrá su propia intro (pendiente).
+   ============================================================ */
+(function(){
+'use strict';
+const S=window.__INTRO_SLIDE_TYPES; if(!S) return;
+const VFx=Vex.Flow;
+const SPQ=1.2;                                    /* negra = 50 */
+const TAJO_CADA_MS=2000;
+const NOTE_KEYS=['c/4','d/4','e/4','f/4','g/4','a/4','b/4'];
+const KEY2F={'c/4':261.63,'d/4':293.66,'e/4':329.63,'f/4':349.23,'g/4':392,'a/4':440,'b/4':493.88,'c/5':523.25,'d/5':587.33,'e/5':659.25,'f/5':698.46,'g/5':783.99};
+const PULSE_WORDS={2:'DOS',3:'TRES',4:'CUATRO'};
+
+/* ---------- definiciones por carta ---------- */
+const GDEFS={
+ '2.1':{n:3,m:2,ts:'2/4',sub:'8',subT:{num:3,occ:2},gname:'tresillo',gpl:'tresillos',
+   fin:{notes:['q','q','q'],t:{num:3,occ:2}},
+   irr:{chains:[[0,1],[4,5]],
+        fin:{notes:['q','8','8','q'],beams:[[1,2]],t:{num:3,occ:2}},
+        fkeys:['c/4','d/4','d/4','e/4']}},
+ '2.2':{n:3,m:4,ts:'4/4',sub:'8',subT:{num:3,occ:2},gname:'tresillo',gpl:'tresillos',
+   fin:{notes:['h','h','h'],t:{num:3,occ:2}},
+   irr:{chains:[[0,1,2,3],[4,5],[6,7],[8,9,10,11]],
+        fin:{notes:['h','q','q','h'],t:{num:3,occ:2}},
+        fkeys:['c/4','d/4','d/4','e/4']}},
+ '2.3':{n:2,m:3,ts:'3/4',sub:'8',subT:null,gname:'dosillo',gpl:'dosillos',
+   fin:{notes:['q','q'],t:{num:2,occ:3}},
+   irr:{chains:[[0,1,2,3,4,5],[6,7,8],[9,10,11]], bSub:'16', perPulse:4,
+        keys:['c/4','c/4','c/4','c/4','c/4','c/4','d/4','d/4','d/4','d/4','d/4','d/4'],
+        fin:{notes:['q','8','8'],beams:[[1,2]],t:{num:2,occ:3}},
+        fkeys:['c/4','d/4','d/4']}},
+ '2.4':{n:4,m:3,ts:'3/4',sub:'16',subT:null,gname:'cuatrillo',gpl:'cuatrillos',
+   fin:{notes:['q','q','q','q'],t:{num:4,occ:3}},
+   irr:{chains:[[0,1,2,3,4,5],[6,7,8],[9,10,11]],
+        keys:['c/4','c/4','c/4','c/4','c/4','c/4','d/4','d/4','d/4','e/4','e/4','e/4'],
+        fin:{notes:['h','q','q'],t:{num:4,occ:3}},
+        fkeys:['c/4','d/4','e/4']}},
+ '2.5':{n:5,m:2,ts:'2/4',sub:'16',subT:{num:5,occ:4},gname:'cinquillo',gpl:'cinquillos',
+   fin:{notes:['8','8','8','8','8'],t:{num:5,occ:4}}},
+ '2.6':{n:5,m:3,ts:'3/4',sub:'16',subT:{num:5,occ:4},gname:'cinquillo',gpl:'cinquillos',
+   fin:{notes:['8','8','8','8','8'],t:{num:5,occ:6}}},
+ '2.7':{n:7,m:2,ts:'2/4',sub:'16',subT:{num:7,occ:4},gname:'septillo',gpl:'septillos',
+   fin:{notes:['8','8','8','8','8','8','8'],t:{num:7,occ:4}}},
+ '2.8':{n:7,m:3,ts:'3/4',sub:'16',subT:{num:7,occ:4},gname:'septillo',gpl:'septillos',
+   fin:{notes:['8','8','8','8','8','8','8'],t:{num:7,occ:6}}},
+};
+
+/* ---------- audio propio (independiente del Loop de las intros de 4ºGE) ---------- */
+let AC=null; function ac(){ try{ if(window.ac) return window.ac(); }catch(e){}
+  if(!AC){ AC=new (window.AudioContext||window.webkitAudioContext)(); } if(AC.state==='suspended')AC.resume(); return AC; }
+let NOISE=null; function noiseBuf(c){ if(NOISE)return NOISE; const b=c.createBuffer(1,c.sampleRate*0.3,c.sampleRate); const d=b.getChannelData(0); for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1; NOISE=b; return b; }
+function envG(c,t,g,dec){ const gn=c.createGain(); gn.gain.setValueAtTime(g,t); gn.gain.exponentialRampToValueAtTime(0.001,t+dec); gn.connect(c.destination); return gn; }
+function oscHit(c,t,f0,f1,g,dec,type){ const o=c.createOscillator(); o.type=type||'sine'; o.frequency.setValueAtTime(f0,t); if(f1&&f1!==f0)o.frequency.exponentialRampToValueAtTime(f1,t+dec*0.7); o.connect(envG(c,t,g,dec)); o.start(t); o.stop(t+dec+0.05); }
+function noiseHit(c,t,fc,q,g,dec,type){ const s=c.createBufferSource(); s.buffer=noiseBuf(c); const f=c.createBiquadFilter(); f.type=type||'bandpass'; f.frequency.value=fc; f.Q.value=q||1; s.connect(f); f.connect(envG(c,t,g,dec)); s.start(t); s.stop(t+dec+0.05); }
+function drum(c,t,g){ oscHit(c,t,150,52,(g||1)*0.95,0.24,'sine'); noiseHit(c,t,220,0.8,(g||1)*0.16,0.05,'lowpass'); }
+function clave(c,t,g){ oscHit(c,t,2480,2380,(g||1)*0.5,0.05,'sine'); }
+function blip(c,t,g){ oscHit(c,t,660,640,(g||1)*0.45,0.09,'triangle'); }
+function tone(c,t,g,dur,f){ const o=c.createOscillator(); o.type='triangle'; o.frequency.value=f||523;
+  const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1900;
+  const gn=c.createGain(); gn.gain.setValueAtTime(0.0001,t); gn.gain.linearRampToValueAtTime(g,t+0.015);
+  gn.gain.setValueAtTime(g,Math.max(t+0.02,t+dur-0.07)); gn.gain.linearRampToValueAtTime(0.0001,t+dur);
+  o.connect(lp); lp.connect(gn); gn.connect(c.destination); o.start(t); o.stop(t+dur+0.06); }
+function slashSound(){ const c=ac(); const t=c.currentTime+0.01;
+  const s=c.createBufferSource(); s.buffer=noiseBuf(c);
+  const f=c.createBiquadFilter(); f.type='bandpass'; f.Q.value=1.1;
+  f.frequency.setValueAtTime(5200,t); f.frequency.exponentialRampToValueAtTime(650,t+0.17);
+  const g=c.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.55,t+0.02); g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+  s.connect(f); f.connect(g); g.connect(c.destination); s.start(t); s.stop(t+0.25); }
+function fusionSound(){ const c=ac(); const t=c.currentTime+0.01;
+  [[523,587],[659,587]].forEach(p=>{ const o=c.createOscillator(); o.type='sine';
+    o.frequency.setValueAtTime(p[0],t); o.frequency.exponentialRampToValueAtTime(p[1],t+0.45);
+    const g=c.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.15,t+0.12);
+    g.gain.setValueAtTime(0.15,t+0.4); g.gain.linearRampToValueAtTime(0.0001,t+0.66);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.72); });
+  noiseHit(ac(),t+0.34,6200,1.2,0.07,0.24,'highpass'); }
+function magicSound(){ const c=ac(); const t=c.currentTime+0.01;
+  [980,1470,1960,2940].forEach((f,i)=>oscHit(c,t+i*0.05,f,f,0.2,0.2,'sine'));
+  noiseHit(c,t,8500,1.5,0.1,0.28,'highpass'); }
+function thudSound(){ const c=ac(); const t=c.currentTime+0.01;
+  oscHit(c,t,110,38,1.1,0.32,'sine'); noiseHit(c,t,300,0.7,0.5,0.12,'lowpass'); noiseHit(c,t,1400,0.9,0.18,0.05,'bandpass'); }
+
+/* ---------- reproductor ---------- */
+const Player={
+  timer:null, raf:null, layers:[], t0:0, loopS:0, visQ:[], paper:null, onFrame:null,
+  start(paper,loopBeats,layers,onFrame){
+    this.stop();
+    const c=ac(); this.layers=layers; this.loopS=loopBeats*SPQ; this.t0=c.currentTime+0.1; this.onFrame=onFrame||null;
+    this.layers.forEach(L=>{ L.k=0; L.n=0; });
+    this.paper=paper;
+    if(paper){ paper.classList.add('playing'); const pp=paper.querySelector('.gvx-pp'); if(pp){ pp.textContent='❚❚'; pp.classList.remove('attn'); } }
+    this.timer=setInterval(()=>this.tick(),25);
+    const step=()=>{ const now=ac().currentTime;
+      while(this.visQ.length && this.visQ[0].t<=now+0.02){ const e=this.visQ.shift(); if(e.t<now-0.3)continue; if(e.fn)e.fn(); }
+      if(this.onFrame){ const ph=((now-this.t0)%this.loopS+this.loopS)%this.loopS; this.onFrame(ph/SPQ); }
+      this.raf=requestAnimationFrame(step); };
+    this.raf=requestAnimationFrame(step);
+  },
+  stop(){ if(this.timer){clearInterval(this.timer);this.timer=null;} if(this.raf){cancelAnimationFrame(this.raf);this.raf=null;}
+    this.visQ.length=0;
+    if(this.paper){ this.paper.classList.remove('playing'); const pp=this.paper.querySelector('.gvx-pp'); if(pp) pp.textContent='▶'; this.paper=null; }
+    if(this.onFrame){ try{this.onFrame(null);}catch(e){} this.onFrame=null; }
+    this.layers=[]; },
+  playing(){ return !!this.timer; },
+  tick(){ const c=ac(); const horizon=c.currentTime+0.14;
+    this.layers.forEach(L=>{
+      for(let guard=0;guard<80;guard++){
+        if(L.n>=L.onsets.length){ L.n=0; L.k++; }
+        const ev=L.onsets[L.n]; const t=this.t0+L.k*this.loopS+ev.t*SPQ;
+        if(t>horizon) break;
+        if(t>c.currentTime-0.05){
+          const g=(L.accent?L.accent(L.n,ev):1)*(L.gain||1);
+          const tt=Math.max(t,c.currentTime+0.001);
+          try{ L.hit(c,tt,g,ev); }catch(e){}
+          const nn=L.n;
+          if(L.flash) this.visQ.push({t:t,fn:()=>L.flash(nn,ev)});
+        }
+        L.n++;
+      }
+    });
+    this.visQ.sort((a,b)=>a.t-b.t);
+  }
+};
+function flashEls(els,cls){ els.forEach(el=>{ if(!el)return; el.classList.remove(cls||'gvx-hit'); void el.getBBox&&0; void el.clientWidth; el.classList.add(cls||'gvx-hit'); setTimeout(()=>{try{el.classList.remove(cls||'gvx-hit');}catch(e){}},170); }); }
+function animLine(el,from,to,ms,ease,cb){
+  const t0=performance.now();
+  const E=ease||(x=>x<0.5?2*x*x:1-Math.pow(-2*x+2,2)/2);
+  function fr(now){ let u=Math.min(1,(now-t0)/ms); const e=E(u);
+    el.setAttribute('y1', from.y1+(to.y1-from.y1)*e);
+    el.setAttribute('y2', from.y2+(to.y2-from.y2)*e);
+    if(u<1) requestAnimationFrame(fr); else if(cb) cb();
+  }
+  requestAnimationFrame(fr);
+}
+function arrowAt(svg,x,y){
+  const g=document.createElementNS('http://www.w3.org/2000/svg','path');
+  g.setAttribute('d','M '+x+' '+y+' l -7 -13 l 4.5 0 l 0 -12 l 5 0 l 0 12 l 4.5 0 z');
+  g.setAttribute('class','gvx-parr'); svg.appendChild(g); return g;
+}
+function sparkleBurst(paperEl){
+  const b=document.createElement('div'); b.className='gvx-burst';
+  const f=document.createElement('div'); f.className='bflash'; b.appendChild(f);
+  for(let i=0;i<16;i++){ const s=document.createElement('span'); s.className='star'; s.textContent=i%3?'✦':'✧';
+    const ang=Math.random()*Math.PI*2, r=60+Math.random()*150;
+    s.style.setProperty('--dx',(Math.cos(ang)*r).toFixed(0)+'px');
+    s.style.setProperty('--dy',(Math.sin(ang)*r*0.6).toFixed(0)+'px');
+    s.style.animationDelay=(Math.random()*0.18)+'s'; b.appendChild(s); }
+  paperEl.appendChild(b); setTimeout(()=>{try{b.remove();}catch(e){}},1300);
+}
+function stampSmoke(card,stamp){
+  const cr=card.getBoundingClientRect(), sr=stamp.getBoundingClientRect();
+  for(let i=0;i<9;i++){ const s=document.createElement('div'); s.className='gvx-smoke';
+    const sz=16+Math.random()*22; s.style.width=sz+'px'; s.style.height=sz+'px';
+    s.style.left=(sr.left-cr.left+Math.random()*sr.width-sz/2)+'px';
+    s.style.top=(sr.top-cr.top+sr.height*0.4-sz/2)+'px';
+    const ang=Math.PI*(0.9+Math.random()*1.2);
+    s.style.setProperty('--sx',(Math.cos(ang)*(30+Math.random()*40)).toFixed(0)+'px');
+    s.style.setProperty('--sy',(-24-Math.random()*36).toFixed(0)+'px');
+    s.style.animationDelay=(Math.random()*0.1)+'s';
+    card.appendChild(s); setTimeout(()=>{try{s.remove();}catch(e){}},1400); }
+}
+function shockwave(svg,x,y){
+  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',3);
+  c.setAttribute('fill','none'); c.setAttribute('stroke','#b8860b'); c.setAttribute('stroke-width',2.6); c.setAttribute('opacity','0.95');
+  svg.appendChild(c);
+  const t0=performance.now();
+  (function fr(now){ const u=Math.min(1,(now-t0)/380); c.setAttribute('r',(3+u*26).toFixed(1)); c.setAttribute('opacity',(0.95*(1-u)).toFixed(2));
+    if(u<1) requestAnimationFrame(fr); else { try{c.remove();}catch(e){} } })(performance.now());
+}
+function revealLTR(svg,parts,ms){
+  const NS='http://www.w3.org/2000/svg';
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  parts.forEach(e=>{ try{ const b=e.getBBox(); x0=Math.min(x0,b.x); x1=Math.max(x1,b.x+b.width); y0=Math.min(y0,b.y); y1=Math.max(y1,b.y+b.height);}catch(err){} });
+  if(x0>x1) return;
+  let defs=svg.querySelector('defs'); if(!defs){ defs=document.createElementNS(NS,'defs'); svg.insertBefore(defs,svg.firstChild); }
+  const id='gvxclip'+Math.floor(Math.random()*1e9);
+  const cp=document.createElementNS(NS,'clipPath'); cp.setAttribute('id',id);
+  const rc=document.createElementNS(NS,'rect');
+  rc.setAttribute('x',x0-3); rc.setAttribute('y',y0-16); rc.setAttribute('height',(y1-y0)+32); rc.setAttribute('width',0);
+  cp.appendChild(rc); defs.appendChild(cp);
+  parts.forEach(e=>e.setAttribute('clip-path','url(#'+id+')'));
+  const t0=performance.now(); const W=(x1-x0)+8;
+  (function fr(now){ const u=Math.min(1,(now-t0)/ms); rc.setAttribute('width',(W*u).toFixed(1));
+    if(u<1) requestAnimationFrame(fr); else parts.forEach(e=>e.removeAttribute('clip-path')); })(performance.now());
+}
+function lockSize(h){ const r=h.getBoundingClientRect();
+  h.style.width=r.width+'px'; h.style.minHeight=r.height+'px';
+  h.style.display='flex'; h.style.alignItems='center'; h.style.justifyContent='center'; }
+function ticksAt(svg,xs,yBot){ xs.forEach(x=>{ if(x==null)return; const tk=document.createElementNS('http://www.w3.org/2000/svg','line');
+  tk.setAttribute('x1',x); tk.setAttribute('x2',x);
+  tk.setAttribute('y1',yBot+18); tk.setAttribute('y2',yBot+34);
+  tk.setAttribute('class','gvx-ptick'); svg.appendChild(tk); }); }
+function tajoFluido(svg,x,yTop,yBot,cb){
+  slashSound();
+  const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+  ln.setAttribute('x1',x); ln.setAttribute('x2',x);
+  ln.setAttribute('y1',yTop-28); ln.setAttribute('y2',yTop-28);
+  ln.setAttribute('class','gvx-slash');
+  svg.appendChild(ln);
+  animLine(ln,{y1:yTop-28,y2:yTop-28},{y1:yTop-28,y2:yBot+34},260,x=>1-Math.pow(1-x,3),()=>{
+    animLine(ln,{y1:yTop-28,y2:yBot+34},{y1:yBot+18,y2:yBot+34},420,x=>x*x*(3-2*x),()=>{
+      ln.setAttribute('class','gvx-ptick'); if(cb)cb();
+    });
+  });
+}
+
+/* ---------- dibujo con cabezas reales ---------- */
+const IDBX={'w':4,'h':2,'q':1,'8':0.5,'16':0.25,'32':0.125};
+function tokX(t){ let rest=false,dot=false,s=''+t;
+  if(s.endsWith('r')){rest=true;s=s.slice(0,-1);}
+  if(s.endsWith('d')){dot=true;s=s.slice(0,-1);}
+  return {base:s,rest,dot,beats:IDBX[s]*(dot?1.5:1)}; }
+function gvxDraw(host,spec,o){
+  o=o||{}; host.innerHTML='';
+  const keys=o.keys||spec.notes.map(()=>'b/4');
+  const r=new VFx.Renderer(host,VFx.Renderer.Backends.SVG); const ctx=r.getContext();
+  const mk=()=> spec.notes.map((t,i)=>{ const p=tokX(t);
+    const sn=new VFx.StaveNote({clef:'treble',keys:[keys[i]],duration:p.base+(p.rest?'r':'')});
+    if(p.dot) VFx.Dot.buildAndAttach([sn]); return sn; });
+  let vf=mk(); let v=new VFx.Voice({num_beats:4,beat_value:4}).setStrict(false); v.addTickables(vf);
+  let minW=0; if(spec.notes.length){ try{ const f=new VFx.Formatter(); f.joinVoices([v]); minW=f.preCalculateMinTotalWidth([v]); }catch(e){ minW=44*spec.notes.length; } }
+  if(!isFinite(minW)) minW=44*Math.max(1,spec.notes.length);
+  const inner=Math.max(o.minInner||140, minW*(o.stretch||1.6)+24);
+  const W=Math.min(o.maxW||920, inner+60);
+  const H=o.height||150;
+  r.resize(W,H);
+  const stave=new VFx.Stave(8,H/2-56,W-16);
+  stave.setBegBarType(VFx.Barline.type.NONE); stave.setEndBarType(o.endBar?VFx.Barline.type.END:VFx.Barline.type.NONE);
+  if(o.ts){ try{ stave.addTimeSignature(o.ts); }catch(e){} }
+  stave.setContext(ctx).draw();
+  if(!spec.notes.length){ const svg0=host.querySelector('svg'); if(svg0){svg0.style.maxWidth='100%';svg0.style.height='auto';} return {svg:svg0,els:[],stave,heads:[],beamEls:[],tupEls:[]}; }
+  vf=mk(); v=new VFx.Voice({num_beats:4,beat_value:4}).setStrict(false); v.addTickables(vf);
+  const beams=[]; (spec.beams||[]).forEach(g=>{ const run=g.filter(k=>{ const p=tokX(spec.notes[k]); return !p.rest && p.beats<1; });
+    if(run.length>1){ const bm=new VFx.Beam(run.map(k=>vf[k])); try{ bm.render_options.flat_beams=true; }catch(e){} beams.push(bm); } });
+  const tups=[]; (spec.tuplets||[]).forEach(t=>{ try{ tups.push(new VFx.Tuplet(t.idx.map(k=>vf[k]),{num_notes:t.num,notes_occupied:t.occ,ratioed:false})); }catch(e){} });
+  const startX=stave.getNoteStartX();
+  new VFx.Formatter().joinVoices([v]).format([v],Math.max(70,(W-16)-(startX-8)-20));
+  v.draw(ctx,stave);
+  const beamEls=[],tupEls=[];
+  beams.forEach(b=>{ let g=null; try{ g=ctx.openGroup('gvxbeam'); }catch(e){} b.setContext(ctx).draw(); try{ ctx.closeGroup(); }catch(e){} beamEls.push(g); });
+  tups.forEach(t=>{ let g=null; try{ g=ctx.openGroup('gvxtup'); }catch(e){} t.setContext(ctx).draw(); try{ ctx.closeGroup(); }catch(e){} tupEls.push(g); });
+  const svg=host.querySelector('svg'); if(svg){ svg.style.maxWidth='100%'; svg.style.height='auto'; }
+  const els=vf.map(sn=>{ try{ const id='vf-'+sn.attrs.id; const e=svg&&svg.querySelector('[id="'+id+'"]'); if(e) return e;
+    return (sn.getSVGElement&&sn.getSVGElement())||null; }catch(e){ return null; } });
+  const heads=els.map(el=> el?el.querySelectorAll('.vf-notehead'):null);
+  return {svg,els,stave,heads,beamEls,tupEls};
+}
+function onsetsX(spec){
+  const notes=spec.notes||[]; const scale=notes.map(()=>1);
+  (spec.tuplets||[]).forEach(t=>{ const f=t.occ/t.num; t.idx.forEach(i=>scale[i]=f); });
+  const tied=new Set(); (spec.ties||[]).forEach(p=>{ for(let k=1;k<p.length;k++) tied.add(p[k]); });
+  let acc=0; const ons=[],starts=[]; const beats=notes.map((n,i)=>tokX(n).beats*scale[i]);
+  notes.forEach((n,i)=>{ starts.push(acc); const p=tokX(n);
+    if(!p.rest&&!tied.has(i)){ let d=beats[i]; for(let k=i+1;k<notes.length&&tied.has(k);k++)d+=beats[k]; ons.push({t:acc,i,d}); }
+    acc+=beats[i]; });
+  return {onsets:ons,total:acc,starts,beats};
+}
+function drawChainTies(d,svg,chains){
+  chains.forEach(ch=>{ for(let k=0;k+1<ch.length;k++){
+    const a=d.els[ch[k]], b=d.els[ch[k+1]]; if(!a||!b) continue;
+    const ha=a.querySelector('.vf-notehead'), hb=b.querySelector('.vf-notehead');
+    const ba=(ha||a).getBBox(), bb=(hb||b).getBBox();
+    const x1=ba.x+ba.width*0.7, x2=bb.x+bb.width*0.3, y=Math.max(ba.y+ba.height,bb.y+bb.height)+6;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M '+x1+' '+y+' Q '+((x1+x2)/2)+' '+(y+12)+' '+x2+' '+y);
+    path.setAttribute('class','gvx-tie'); svg.appendChild(path);
+  } });
+}
+
+/* ---------- specs por definición ---------- */
+function bSpec(def,irrMode){
+  const per=(irrMode&&def.irr&&def.irr.perPulse)?def.irr.perPulse:def.n;
+  const sub=(irrMode&&def.irr&&def.irr.bSub)?def.irr.bSub:def.sub;
+  const useT=(irrMode&&def.irr&&def.irr.bSub)?null:def.subT;
+  const notes=[],beams=[],tuplets=[];
+  for(let p=0;p<def.m;p++){ const b=notes.length;
+    for(let k=0;k<per;k++)notes.push(sub);
+    beams.push(Array.from({length:per},(_,k)=>b+k));
+    if(useT) tuplets.push({idx:Array.from({length:per},(_,k)=>b+k),num:useT.num,occ:useT.occ});
+  }
+  const spec={notes,beams,tuplets};
+  if(irrMode&&def.irr){ spec.ties=def.irr.chains.map(c=>c.slice()); }
+  return spec;
+}
+function bKeys(def,withNames,irrMode){
+  const per=(irrMode&&def.irr&&def.irr.perPulse)?def.irr.perPulse:def.n;
+  const total=per*def.m;
+  if(irrMode&&def.irr&&def.irr.keys) return def.irr.keys.slice();
+  const ks=[]; for(let i=0;i<total;i++) ks.push(withNames?NOTE_KEYS[Math.min(Math.floor(i/def.m),NOTE_KEYS.length-1)]:'b/4');
+  return ks;
+}
+function fSpec(def,irrMode){
+  const f=(irrMode&&def.irr)?def.irr.fin:def.fin;
+  const idx=f.notes.map((_,i)=>i);
+  const beamable=f.notes.every(n=>tokX(n).beats<1);
+  return {notes:f.notes.slice(),beams:f.beams?f.beams.map(b=>b.slice()):(beamable?[idx.slice()]:[]),tuplets:[{idx,num:f.t.num,occ:f.t.occ}]};
+}
+function fKeys(def,irrMode){
+  if(irrMode&&def.irr) return def.irr.fkeys.slice();
+  return def.fin.notes.map((_,i)=>NOTE_KEYS[Math.min(i,NOTE_KEYS.length-1)]);
+}
+function modeloSpec(def){ return {notes:[]}; }
+function pulseLayerX(def,extra){ const on=[]; for(let p=0;p<def.m;p++)on.push({t:p,i:p});
+  return Object.assign({onsets:on,hit:(c,t,g)=>drum(c,t,g),accent:k=>k===0?1.15:0.9,gain:1},extra||{}); }
+function nameLayersX(spec,keys,els){
+  const on=onsetsX(spec);
+  return on.onsets.map((o)=>{
+    const f=KEY2F[keys[o.i]]||329.63;
+    const same=els.filter((_,i)=>keys[i]===keys[o.i] && Math.abs(i-o.i)<=(spec.notes.length));
+    return {onsets:[o],gain:1,hit:(c,t,g2)=>tone(c,t,0.17*g2,Math.max(0.18,o.d*SPQ-0.06),f),flash:()=>flashEls([els[o.i]])};
+  });
+}
+function stretchFor(count){ return count>16?1.1:(count>11?1.3:1.6); }
+
+/* ---------- textos ---------- */
+function textsFor(def){
+  const N=def.n,M=def.m;
+  return {
+    1:{t:'Establece un compás MODELO', p:'El <b>'+N+' contra '+M+'</b> son <b>'+N+' sonidos iguales</b> en el tiempo de <b>'+M+' pulsos</b>. Así que elegimos un compás que tenga '+(PULSE_WORDS[M]||M)+' pulsos: por ejemplo, el <b>'+def.ts+'</b>.'},
+    2:{t:'Sitúa un GVE en cada pulso', p:'En este caso queremos <b class="glow">'+def.gpl+'</b>, ¿no? Pues ponemos un <b class="glow">mini-'+def.gname+' en cada pulso</b>.'},
+    3:{t:'Añade cabezas y cambia cada tantos pulsos', p:'En este caso tenemos <b class="glow">'+M+' pulsos</b>, pues cambiamos de nombre <b class="glow">cada '+M+' cabezas</b>.'},
+    4:{t:'Ligamos cabezas de nombre igual', p:'¡Así conseguiremos las <b class="glow">'+N+' notas objetivo</b>!'},
+    5:{t:'Traza las líneas de pulso', p:'Debajo de la <b>primera nota de cada pulso</b> cae un <b>tajo vertical</b> que deja su marca en la parte baja del pentagrama.', tajo:true},
+    6:{t:'La fusión: la grafía real', p:'<b>Ya lo tienes</b>: ahora tu mano marca el pulso en las líneas y tu voz canta las notas.'},
+    7:{t:'¿Y si es irregular?', p:'Regresamos al <b>paso 4</b>: ahora ponemos <b>solo las ligaduras que hacen falta</b>… para que suene igual.', stamp:true, img:true},
+    8:{t:'Trazamos las líneas de pulso y fusión', p:'Recuerda que la <b>subdivisión</b> es de <b>'+def.gname+'</b>, por lo que las figuras más rápidas tendrán esa proporción.', stamp:true},
+  };
+}
+
+/* ============ SLIDE: portada ============ */
+S.gvxCover=function(host,s){
+  const def=s.def, card=s.card;
+  const root=document.createElement('div'); root.className='gvx-cover';
+  root.innerHTML='<p class="kicker">INTRO · CARTA '+card.atlasId+' · EL MÉTODO</p>'+
+    '<h1>'+def.n+'vs'+def.m+'</h1>'+
+    '<p class="sub"><b>'+def.n+' sonidos iguales</b> en el tiempo de <b>'+def.m+' pulsos</b>.</p>'+
+    '<div class="gvx-float"></div>'+
+    '<p class="gvx-ref">📖 '+(card.ref||'')+(card.lecs?('  ·  lecciones '+card.lecs):'')+'</p>';
+  host.appendChild(root);
+  const fl=root.querySelector('.gvx-float');
+  const c1=document.createElement('div'); c1.className='gvx-fcell';
+  const h1=document.createElement('div'); c1.appendChild(h1);
+  c1.insertAdjacentHTML('beforeend','<div class="lbl">'+def.gname+' en '+def.ts+'</div>');
+  fl.appendChild(c1);
+  gvxDraw(h1,fSpec(def,false),{ts:def.ts,keys:fKeys(def,false),stretch:2.0,height:140,endBar:true});
+  if(def.irr){
+    const c2=document.createElement('div'); c2.className='gvx-fcell b';
+    const h2=document.createElement('div'); c2.appendChild(h2);
+    c2.insertAdjacentHTML('beforeend','<div class="lbl irr">irregular</div>');
+    fl.appendChild(c2);
+    gvxDraw(h2,fSpec(def,true),{ts:def.ts,keys:fKeys(def,true),stretch:1.8,height:140,endBar:true});
+  }
+  const badge=document.createElement('div'); badge.className='gvx-reto'; badge.innerHTML='RETO · <b>'+def.n+'vs'+def.m+'</b>';
+  document.body.appendChild(badge);
+  return function(){ try{badge.remove();}catch(e){} };
+};
+
+/* ============ SLIDE: el método ============ */
+S.gvxMetodo=function(host,s){
+  const def=s.def, card=s.card;
+  const TEXTS=textsFor(def);
+  const NP=def.irr?8:6;
+  const root=document.createElement('div'); root.className='gvx-wrap';
+  root.innerHTML='<div class="gvx-cap"></div><div class="gvx-stage"></div>'+
+    '<div class="gvx-ctr"><button class="gvx-btn ghost" data-r="prev">← Paso anterior</button>'+
+    '<button class="gvx-btn primary" data-r="next"></button></div>'+
+    '<div class="gvx-sdots"></div>';
+  host.appendChild(root);
+  const cap=root.querySelector('.gvx-cap'), stage=root.querySelector('.gvx-stage'),
+        ctr=root.querySelector('.gvx-ctr'), sdots=root.querySelector('.gvx-sdots'),
+        btnPrev=root.querySelector('[data-r="prev"]'), btnNext=root.querySelector('[data-r="next"]');
+  /* tarjeta de texto */
+  const veil=document.createElement('div'); veil.className='gvx-veil';
+  veil.innerHTML='<div class="card"><span class="vReto"><b class="r1">'+def.n+'</b>vs<b class="r2">'+def.m+'</b></span><br>'+
+    '<span class="gvx-stampSello" style="display:none;">IRREGULAR</span>'+
+    '<span class="paso"></span>'+
+    '<h2></h2><div class="gvx-img" style="display:none;"></div><p></p>'+
+    '<button class="gvx-btn primary vok">Entendido →</button></div>';
+  document.body.appendChild(veil);
+  const badge=document.createElement('div'); badge.className='gvx-reto'; badge.innerHTML='RETO · <b>'+def.n+'vs'+def.m+'</b>';
+  document.body.appendChild(badge);
+
+  let step=1, timers=[];
+  function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; }
+  function after(ms,fn){ timers.push(setTimeout(fn,ms)); }
+  function mdots(){ sdots.innerHTML='';
+    for(let i=1;i<=NP;i++){ const sp=document.createElement('span');
+      let cls=(i<step)?'done':(i===step?'cur':''); if(i>=7)cls=(cls?cls+' ':'')+'irr';
+      sp.className=cls; sp.onclick=()=>{ if(i!==step){ step=i; showVeil(); } }; sdots.appendChild(sp); } }
+  function setCap(n,t){ cap.innerHTML='<span class="paso">PASO '+n+'</span><h2>'+t+'</h2>'; }
+  function paper(cls){ const dv=document.createElement('div'); dv.className='gvx-paper'+(cls?' '+cls:'');
+    dv.insertAdjacentHTML('beforeend','<span class="gvx-pp">▶</span>'); return dv; }
+  function bindPlay(pp,loopBeats,layersFn,onFrameFn){
+    pp.onclick=()=>{ if(Player.playing() && Player.paper===pp){ Player.stop(); return; }
+      Player.stop(); Player.start(pp,loopBeats,layersFn(),onFrameFn?onFrameFn():null); };
+  }
+  function genBtn(){
+    const g=document.createElement('button'); g.className='gvx-btn primary'; g.dataset.r='gen';
+    g.textContent='🎼 Generar lectura →';
+    g.onclick=()=>{ try{ window.__gveGenerate(card); }catch(e){} };
+    return g;
+  }
+  function playheadFor(dObj,spec){
+    const on=onsetsX(spec);
+    const pts=[]; spec.notes.forEach((n,k)=>{ const e=dObj.els[k]; if(!e)return; const hb=(e.querySelector('.vf-notehead')||e).getBBox(); pts.push({b:on.starts[k],x:hb.x+hb.width/2}); });
+    pts.push({b:on.total,x:dObj.stave.getNoteEndX()-4});
+    const xAt=b=>{ for(let i=0;i<pts.length-1;i++){ if(b>=pts[i].b-1e-6&&b<=pts[i+1].b+1e-6){ const t=(b-pts[i].b)/((pts[i+1].b-pts[i].b)||1); return pts[i].x+t*(pts[i+1].x-pts[i].x);} } return pts[pts.length-1].x; };
+    const ph=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ph.setAttribute('class','gvx-playhead');
+    ph.setAttribute('y1',dObj.stave.getYForLine(0)-14); ph.setAttribute('y2',dObj.stave.getYForLine(4)+38);
+    ph.setAttribute('x1',-40); ph.setAttribute('x2',-40); ph.style.opacity='0';
+    dObj.svg.appendChild(ph);
+    return {xAt, fn:(beat)=>{ if(beat==null){ ph.style.opacity='0'; ph.setAttribute('x1',-40); ph.setAttribute('x2',-40); return; } ph.style.opacity=''; const x=xAt(beat); ph.setAttribute('x1',x); ph.setAttribute('x2',x); }};
+  }
+  /* fusión + fundido blanco + resultado con líneas (compartido por paso 6 y paso 8) */
+  function fuseAndReveal(p,h,d,chains,irrMode,tDelay){
+    let finalD=null, xs=[];
+    after(tDelay,()=>{
+      fusionSound();
+      chains.forEach((ch)=>{
+        const a=d.els[ch[0]];
+        ch.slice(1).forEach(i=>{ const b=d.els[i]; if(a&&b){ const bxa=a.getBBox(), bxb=b.getBBox();
+          b.classList.add('gvx-fuseout'); b.style.transform='translate('+((bxa.x-bxb.x)*0.6)+'px,0)'; b.style.opacity=0.15; } });
+        if(a){ a.classList.add('gvx-fuseout'); a.style.opacity=0.8; flashEls([a]); }
+      });
+    });
+    const wf=document.createElement('div'); wf.className='gvx-whitefade'; p.appendChild(wf);
+    after(tDelay+900,()=>{ magicSound(); wf.style.opacity='1'; });
+    after(tDelay+1450,()=>{ sparkleBurst(p); });
+    after(tDelay+1650,()=>{
+      lockSize(h);
+      const fs=fSpec(def,irrMode), fk=fKeys(def,irrMode);
+      finalD=gvxDraw(h,fs,{ts:def.ts,keys:fk,stretch:2.2,height:196,endBar:true});
+      const ph=playheadFor(finalD,fs); finalD._ph=ph;
+      const yB=finalD.stave.getYForLine(4);
+      xs.length=0; for(let pu=0;pu<def.m;pu++) xs.push(ph.xAt(pu));
+      ticksAt(finalD.svg,xs,yB); finalD._yB=yB;
+      state.finalD=finalD; state.xs=xs; state.irrMode=irrMode; state.fs=fs; state.fk=fk;
+    });
+    after(tDelay+2350,()=>{ wf.style.transition='opacity 1.6s ease'; wf.style.opacity='0'; magicSound(); });
+    after(tDelay+4050,()=>{ try{wf.remove();}catch(e){}
+      const ppEl=p.querySelector('.gvx-pp'); if(ppEl) ppEl.classList.add('attn'); });
+    const state={finalD:null,xs:xs};
+    bindPlay(p,def.m,()=>{
+      const fD=state.finalD; if(!fD) return [pulseLayerX(def)];
+      const on=onsetsX(state.fs);
+      return [pulseLayerX(def,{flash:(k)=>{ const tk=fD.svg.querySelectorAll('.gvx-ptick')[k]; if(tk) flashEls([tk]);
+          if(state.xs[k]!=null && fD._yB!=null) shockwave(fD.svg,state.xs[k],fD._yB+26); }})]
+        .concat(on.onsets.map((o,g)=>({onsets:[o],gain:1.05,
+          hit:(c,t,g2)=>tone(c,t,0.18*g2,Math.max(0.18,o.d*SPQ-0.06),KEY2F[state.fk[g]]||329.63),
+          flash:()=>flashEls([fD.els[g]])})));
+    },()=>{
+      const fD=state.finalD; if(!fD||!fD._ph) return null;
+      return fD._ph.fn;
+    });
+  }
+
+  function render(){
+    clearTimers(); Player.stop();
+    stage.innerHTML=''; mdots();
+    btnPrev.style.visibility = step<=1?'hidden':'visible';
+    const oldGen=ctr.querySelector('[data-r="gen"]'); if(oldGen) oldGen.remove();
+    if(step>=NP){ btnNext.style.display='none'; ctr.appendChild(genBtn()); }
+    else { btnNext.style.display='';
+      if(step===6 && def.irr){ btnNext.innerHTML='¿Y si es <span style="color:#dc2626;font-weight:900;">irregular</span>? →'; }
+      else if(step===7){ btnNext.textContent='Líneas y fusión →'; }
+      else { btnNext.textContent='Paso '+(step+1)+' →'; }
+    }
+
+    if(step===1){ setCap(1,'El compás modelo: por ejemplo, '+def.ts);
+      const p=paper('model'); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      gvxDraw(h,{notes:[]},{ts:def.ts,height:150,minInner:320,endBar:true});
+      bindPlay(p,def.m,()=>[pulseLayerX(def)]);
+      return; }
+
+    if(step===2){ setCap(2,'Un mini-'+def.gname+' en cada pulso');
+      const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const spec=bSpec(def,false);
+      const d=gvxDraw(h,spec,{ts:def.ts,stretch:stretchFor(spec.notes.length),height:150,endBar:true});
+      d.heads.forEach(hs=>{ if(hs) hs.forEach(x=>x.classList.add('gvx-hh')); });
+      const grupos=[];
+      for(let pu=0;pu<def.m;pu++){
+        const parts=d.els.slice(pu*def.n,(pu+1)*def.n).filter(Boolean);
+        if(d.beamEls&&d.beamEls[pu]) parts.push(d.beamEls[pu]);
+        if(d.tupEls&&d.tupEls[pu]) parts.push(d.tupEls[pu]);
+        grupos.push(parts);
+      }
+      grupos.forEach(parts=>parts.forEach(e=>{ e.style.opacity='0'; }));
+      grupos.forEach((parts,pu)=>{ after(600+pu*1300,()=>{
+        parts.forEach(e=>{ e.style.opacity='1'; });
+        revealLTR(d.svg,parts,700);
+        const c=ac(); clave(c,c.currentTime+0.01,0.7); clave(c,c.currentTime+0.12,0.4);
+      }); });
+      const on=onsetsX(spec);
+      bindPlay(p,def.m,()=>[pulseLayerX(def),{onsets:on.onsets,gain:0.9,hit:(c,t,g)=>clave(c,t,g),flash:(n,ev)=>flashEls([d.els[ev.i]])}]);
+      return; }
+
+    if(step===3){ setCap(3,'Las cabezas');
+      const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const spec=bSpec(def,false); const keys=bKeys(def,true,false);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length),height:180,endBar:true});
+      d.els.forEach(e=>{ if(e){ e.style.opacity='0'; e.style.transition='opacity .25s ease'; } });
+      d.els.forEach((e,i)=>{ after(350+i*220,()=>{ if(e) e.style.opacity='1';
+        const c=ac(); tone(c,c.currentTime+0.01,0.15,0.22,KEY2F[keys[i]]||329.63); }); });
+      bindPlay(p,def.m,()=>{ const on=onsetsX(spec);
+        return [pulseLayerX(def)].concat(on.onsets.map(o=>({onsets:[o],gain:1,
+          hit:(c,t,g)=>tone(c,t,0.17*g,0.18,KEY2F[keys[o.i]]||329.63),
+          flash:()=>flashEls([d.els[o.i]])})));
+      });
+      return; }
+
+    if(step===4){ setCap(4,'Ligamos cabezas de nombre igual');
+      const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const chains=[]; for(let g=0;g<def.n;g++) chains.push(Array.from({length:def.m},(_,k)=>g*def.m+k));
+      const spec=bSpec(def,false); spec.ties=chains.map(c=>c.slice());
+      const keys=bKeys(def,true,false);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length),height:180,endBar:true});
+      chains.forEach((ch,g)=>{
+        after(400+g*420,()=>{
+          drawChainTies(d,d.svg,[ch]);
+          const c=ac(); tone(c,c.currentTime+0.01,0.13,0.3,KEY2F[keys[ch[0]]]||329.63);
+          flashEls(ch.map(i=>d.els[i]));
+        });
+      });
+      bindPlay(p,def.m,()=>[pulseLayerX(def)].concat(nameLayersX(spec,keys,d.els)));
+      return; }
+
+    if(step===5){ setCap(5,'Traza las líneas de pulso');
+      const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const chains=[]; for(let g=0;g<def.n;g++) chains.push(Array.from({length:def.m},(_,k)=>g*def.m+k));
+      const spec=bSpec(def,false); spec.ties=chains.map(c=>c.slice());
+      const keys=bKeys(def,true,false);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length),height:196,endBar:true});
+      drawChainTies(d,d.svg,chains);
+      const yTop=d.stave.getYForLine(0), yBot=d.stave.getYForLine(4);
+      const tick5=[];
+      for(let pu=0;pu<def.m;pu++){
+        const elN=d.els[pu*def.n]; if(!elN){ tick5.push(null); continue; }
+        const hb=(elN.querySelector('.vf-notehead')||elN).getBBox();
+        const x=hb.x+hb.width/2; tick5.push(x);
+        after(600+pu*TAJO_CADA_MS,()=>{
+          const c=ac(); blip(c,c.currentTime+0.01,1);
+          flashEls([elN],'gvx-hit');
+          const ar=arrowAt(d.svg,x,hb.y-14);
+          after(900,()=>{ try{ar.remove();}catch(e){} });
+        });
+        after(600+pu*TAJO_CADA_MS+650,()=>tajoFluido(d.svg,x,yTop,yBot));
+      }
+      bindPlay(p,def.m,()=>[pulseLayerX(def,{flash:(k)=>{ flashEls([d.els[k*def.n]],'gvx-hit'); if(tick5[k]!=null) shockwave(d.svg,tick5[k],yBot+26); }})].concat(nameLayersX(spec,keys,d.els)));
+      return; }
+
+    if(step===6){ setCap(6,'La fusión: el '+def.n+'vs'+def.m+' con su estructura');
+      const p=paper('model'); const wrap=document.createElement('div'); wrap.style.transition='opacity .45s ease';
+      const h=document.createElement('div'); wrap.appendChild(h); p.appendChild(wrap); stage.appendChild(p);
+      const chains=[]; for(let g=0;g<def.n;g++) chains.push(Array.from({length:def.m},(_,k)=>g*def.m+k));
+      const spec=bSpec(def,false); spec.ties=chains.map(c=>c.slice());
+      const keys=bKeys(def,true,false);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length)*0.92,height:180,endBar:true});
+      drawChainTies(d,d.svg,chains);
+      const yB0=d.stave.getYForLine(4);
+      const xs0=[]; for(let pu=0;pu<def.m;pu++){ const e=d.els[pu*def.n]; if(e){ const hb=(e.querySelector('.vf-notehead')||e).getBBox(); xs0.push(hb.x+hb.width/2); } else xs0.push(null); }
+      ticksAt(d.svg,xs0,yB0);
+      fuseAndReveal(p,h,d,chains,false,900);
+      return; }
+
+    if(step===7){ setCap('IRREGULAR','Solo las ligaduras que hacen falta');
+      /* arriba: el objetivo (ejemplo) */
+      const obj=document.createElement('div'); obj.className='gvx-objetivo';
+      obj.innerHTML='<span class="tag">el objetivo (ejemplo)</span>';
+      const p2=document.createElement('div'); p2.className='gvx-paper'; p2.style.cursor='default';
+      const h2=document.createElement('div'); p2.appendChild(h2); obj.appendChild(p2); stage.appendChild(obj);
+      gvxDraw(h2,fSpec(def,true),{ts:def.ts,keys:fKeys(def,true),stretch:1.7,height:130,minInner:150,maxW:420,endBar:true});
+      /* debajo: el borrador con solo las ligaduras necesarias */
+      const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const spec=bSpec(def,true); const keys=bKeys(def,true,true);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length),height:180,endBar:true});
+      def.irr.chains.forEach((ch,g)=>{
+        after(400+g*520,()=>{
+          drawChainTies(d,d.svg,[ch]);
+          const c=ac(); tone(c,c.currentTime+0.01,0.13,0.3,KEY2F[keys[ch[0]]]||329.63);
+          flashEls(ch.map(i=>d.els[i]));
+        });
+      });
+      const on=onsetsX(spec);
+      bindPlay(p,def.m,()=>[pulseLayerX(def)].concat(on.onsets.map((o)=>({onsets:[o],gain:1.05,
+        hit:(c,t,g2)=>tone(c,t,0.17*g2,Math.max(0.18,o.d*SPQ-0.06),KEY2F[keys[o.i]]||329.63),
+        flash:()=>flashEls([d.els[o.i]])}))));
+      return; }
+
+    if(step===8){ setCap('IRREGULAR','Líneas de pulso… y fusión');
+      const p=paper('model'); const wrap=document.createElement('div');
+      const h=document.createElement('div'); wrap.appendChild(h); p.appendChild(wrap); stage.appendChild(p);
+      const spec=bSpec(def,true); const keys=bKeys(def,true,true);
+      const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length)*0.92,height:180,endBar:true});
+      drawChainTies(d,d.svg,def.irr.chains);
+      const per=(def.irr.perPulse||def.n);
+      const yT0=d.stave.getYForLine(0), yB0=d.stave.getYForLine(4);
+      for(let pu=0;pu<def.m;pu++){
+        const elN=d.els[pu*per]; if(!elN) continue;
+        const hb=(elN.querySelector('.vf-notehead')||elN).getBBox();
+        after(500+pu*1400,()=>{ const c=ac(); blip(c,c.currentTime+0.01,1); flashEls([elN],'gvx-hit'); });
+        after(500+pu*1400+500,()=>tajoFluido(d.svg,hb.x+hb.width/2,yT0,yB0));
+      }
+      fuseAndReveal(p,h,d,def.irr.chains,true,500+def.m*1400+400);
+      return; }
+  }
+
+  function showVeil(){
+    Player.stop(); clearTimers();
+    const tx=TEXTS[step];
+    const vp=veil.querySelector('.paso'), vs=veil.querySelector('.gvx-stampSello'), vi=veil.querySelector('.gvx-img');
+    if(tx.stamp){ vp.style.display='none'; vs.style.display='inline-block';
+      vs.classList.remove('stampin');
+      if(step===7){ vs.style.visibility='hidden';
+        setTimeout(()=>{ vs.style.visibility='visible'; void vs.offsetWidth; vs.classList.add('stampin');
+          setTimeout(()=>{ thudSound(); try{ stampSmoke(vs.closest('.card'),vs); }catch(e){} },300); },1000); }
+      else { vs.style.visibility='visible'; }
+    }
+    else { vp.style.display='inline-block'; vs.style.display='none'; vp.textContent='PASO '+step+' DE 6'; }
+    if(tx.img){ vi.style.display='flex'; vi.innerHTML='';
+      const mini=document.createElement('div'); mini.className='mini'; vi.appendChild(mini);
+      gvxDraw(mini,fSpec(def,true),{ts:def.ts,keys:fKeys(def,true),stretch:1.8,height:120,minInner:150,maxW:380,endBar:true});
+    } else { vi.style.display='none'; vi.innerHTML=''; }
+    veil.querySelector('h2').innerHTML=tx.t+(tx.tajo?' <span class="gvx-minitajo"></span>':'');
+    veil.querySelector('p').innerHTML=tx.p;
+    const r1=veil.querySelector('.r1'), r2=veil.querySelector('.r2');
+    r1.classList.toggle('vhi', step===2);
+    r2.classList.toggle('vhi', step===3);
+    veil.classList.add('show');
+  }
+  veil.querySelector('.vok').onclick=()=>{ veil.classList.remove('show'); render(); };
+  btnNext.onclick=()=>{ if(step<NP){ step++; showVeil(); } };
+  btnPrev.onclick=()=>{ if(step>1){ step--; showVeil(); } };
+
+  mdots(); showVeil();
+  return function(){ clearTimers(); Player.stop(); try{veil.remove();}catch(e){} try{badge.remove();}catch(e){} };
+};
+
+/* TODO MOTOR (pendiente, pedido por Iago):
+   - Plicas: toda figura por encima de la 3ª línea con plica hacia abajo; en grupos
+     barrados, dirección por MAYORÍA de las notas del corchete.
+   - Números de tuplet a veces demasiado separados del corchete (9, 10, 7). */
+/* ============ INTRO propia de la 2.9 — «7, 8, 9, 10… vs 1» ============ */
+const T9={
+  1:{t:'Esto es MÁS FÁCIL de lo que parece', p:'Que no te asusten los números altos: estos grupos solo ocupan <b>UN pulso</b> — solo hay <b>una cosa que cuadrar</b>. Empezamos por uno que <b>ya conoces</b>: el <b>seisillo</b>. Y a partir de ahí, cada paso es <b>añadir una</b>.'},
+  2:{t:'El septillo', p:'<b>Hazle hueco a una más</b>: las seis se acomodan, entra una más… el 6 se tacha y aparece el <b>7</b>. Un poco más rápido: ayúdate de una <b>palabra de siete sílabas</b> — la oirás al darle al play.'},
+  3:{t:'El octillo: un tajo a cada una', p:'Compáralo con <b>cuatro semicorcheas</b>… y dale <b>un tajo a cada una</b>: se duplican en <b>ocho fusas</b>.'},
+  4:{t:'El nonillo', p:'Una forma de pensarlo: parte de un <b>tresillo</b>… y deja que cada una de esas corcheas <b>se divida en 3</b>. Un <b>zarpazo</b> a cada corchea: 3 × 3 = <b>9</b>, y llegan <b>de tres en tres</b>.'},
+  5:{t:'10, 11, 12… ¡sálvese quien pueda!', p:'Seamos honestos: a partir de diez, piensa la nota en la que <b>EMPIEZAS</b>, la nota a la que <b>ATERRIZAS</b>… y muchísima suerte, crack: <b class="glow">aterriza en el lugar adecuado</b>.'},
+};
+function g9(n,fig,t){ const notes=[]; for(let k=0;k<n;k++)notes.push(fig);
+  const spec={notes:notes.concat(['q']),beams:[Array.from({length:n},(_,i)=>i)],tuplets:[]};
+  if(t) spec.tuplets.push({idx:Array.from({length:n},(_,i)=>i),num:t.num,occ:t.occ});
+  return spec; }
+const LAD9=['c/4','d/4','e/4','f/4','g/4','a/4','b/4','c/5','d/5','e/5','f/5','g/5'];
+function keys9(n){ return LAD9.slice(0,n).concat([LAD9[n]]); }   /* ascendente por grados conjuntos desde do4 · aterriza en el grado SIGUIENTE */
+function miniTajo(svg,x,yTop,yBot){ /* tajo DIAGONAL: que no se confunda con las marcas de pulso */
+  slashSound();
+  const xa=x-13, ya=yTop-16, xb=x+13, yb=yBot+12;
+  const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+  ln.setAttribute('x1',xa); ln.setAttribute('y1',ya);
+  ln.setAttribute('x2',xa); ln.setAttribute('y2',ya);
+  ln.setAttribute('class','gvx-slash');
+  svg.appendChild(ln);
+  (function(){ const t0=performance.now(), MS=200, E=t=>1-Math.pow(1-t,3);
+    function fr(now){ const u=Math.min(1,(now-t0)/MS), e=E(u);
+      ln.setAttribute('x2',xa+(xb-xa)*e); ln.setAttribute('y2',ya+(yb-ya)*e);
+      if(u<1) requestAnimationFrame(fr);
+      else { ln.style.transition='opacity .3s ease'; ln.style.opacity='0';
+        setTimeout(()=>{try{ln.remove();}catch(e2){}},340); } }
+    requestAnimationFrame(fr); })();
+}
+const G9S={ six:g9(6,'16',{num:6,occ:4}), siete:g9(7,'16',{num:7,occ:4}), cuatro:g9(4,'16',null),
+  ocho:g9(8,'32',null), tres:g9(3,'8',{num:3,occ:2}), nueve:g9(9,'32',{num:9,occ:8}), diez:g9(10,'32',{num:10,occ:8}) };
+function clawSwipe(svg,parts,triple,cb){
+  const NS='http://www.w3.org/2000/svg';
+  let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  parts.forEach(e=>{ try{ const b=e.getBBox(); x0=Math.min(x0,b.x); x1=Math.max(x1,b.x+b.width); y0=Math.min(y0,b.y); y1=Math.max(y1,b.y+b.height);}catch(err){} });
+  if(x0>x1){ if(cb)cb(); return; }
+  slashSound(); setTimeout(slashSound,110); if(triple) setTimeout(slashSound,220);
+  for(let k=0;k<3;k++){
+    const off=(k-1)*16;
+    const p=document.createElementNS(NS,'line');
+    p.setAttribute('x1',x0-14+off); p.setAttribute('y1',y0-18);
+    p.setAttribute('x2',x1+14+off); p.setAttribute('y2',y1+14);
+    p.setAttribute('class','gvx-slash');
+    const len=Math.hypot((x1-x0)+28,(y1-y0)+32);
+    p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
+    p.style.transition='stroke-dashoffset .26s ease '+(k*80)+'ms, opacity .4s ease '+(300+k*80)+'ms';
+    svg.appendChild(p);
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ p.style.strokeDashoffset=0; setTimeout(()=>{p.style.opacity=0;},340+k*80); }));
+    setTimeout(()=>{try{p.remove();}catch(e){}},900);
+  }
+  if(cb) setTimeout(cb,520);
+}
+S.gvx9Cover=function(host,s){
+  const card=s.card;
+  const root=document.createElement('div'); root.className='gvx-cover';
+  root.innerHTML='<p class="kicker">INTRO · CARTA 2.9</p>'+
+    '<h1>7 · 8 · 9 · 10<span style="color:var(--muted2)">…</span> vs 1</h1>'+
+    '<p class="sub">Que no te asusten los números: <b>solo ocupan UN pulso</b>.</p>'+
+    '<div class="gvx-float"></div>'+
+    '<p class="gvx-ref">📖 '+(card.ref||'')+(card.lecs?('  ·  lecciones '+card.lecs):'')+'</p>';
+  host.appendChild(root);
+  const fl=root.querySelector('.gvx-float');
+  [[G9S.siete,7,'el septillo · 7'],[G9S.ocho,8,'el octillo · 8 fusas'],[G9S.nueve,9,'el nonillo · 9'],[G9S.diez,10,'de 10 en adelante…']].forEach(function(it,ix){
+    var c1=document.createElement('div'); c1.className='gvx-fcell'; c1.style.animationDelay=(ix*0.7)+'s';
+    var h1=document.createElement('div'); c1.appendChild(h1);
+    c1.insertAdjacentHTML('beforeend','<div class="lbl">'+it[2]+'</div>');
+    fl.appendChild(c1);
+    gvxDraw(h1,it[0],{ts:'2/4',keys:keys9(it[1]),stretch:1.15,height:148,maxW:330,endBar:true});
+  });
+  const badge=document.createElement('div'); badge.className='gvx-reto'; badge.innerHTML='RETO · <b>…vs 1</b>';
+  document.body.appendChild(badge);
+  return function(){ try{badge.remove();}catch(e){} };
+};
+S.gvx9Metodo=function(host,s){
+  const card=s.card;
+  const NP=5;
+  const root=document.createElement('div'); root.className='gvx-wrap';
+  root.innerHTML='<div class="gvx-cap"></div><div class="gvx-stage"></div>'+
+    '<div class="gvx-ctr"><button class="gvx-btn ghost" data-r="prev">← Paso anterior</button>'+
+    '<button class="gvx-btn primary" data-r="next"></button></div>'+
+    '<div class="gvx-sdots"></div>';
+  host.appendChild(root);
+  const cap=root.querySelector('.gvx-cap'), stage=root.querySelector('.gvx-stage'),
+        ctr=root.querySelector('.gvx-ctr'), sdots=root.querySelector('.gvx-sdots'),
+        btnPrev=root.querySelector('[data-r="prev"]'), btnNext=root.querySelector('[data-r="next"]');
+  const veil=document.createElement('div'); veil.className='gvx-veil';
+  veil.innerHTML='<div class="card"><span class="vReto"><b>…</b>vs<b>1</b></span><br>'+
+    '<span class="paso"></span><h2></h2><p></p>'+
+    '<button class="gvx-btn primary vok">Entendido →</button></div>';
+  document.body.appendChild(veil);
+  const badge=document.createElement('div'); badge.className='gvx-reto'; badge.innerHTML='RETO · <b>…vs 1</b>';
+  document.body.appendChild(badge);
+  let step=1, timers=[];
+  function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; }
+  function after(ms,fn){ timers.push(setTimeout(fn,ms)); }
+  function mdots(){ sdots.innerHTML='';
+    for(let i=1;i<=NP;i++){ const sp=document.createElement('span'); sp.className=(i<step)?'done':(i===step?'cur':'');
+      sp.onclick=()=>{ if(i!==step){ step=i; showVeil(); } }; sdots.appendChild(sp); } }
+  function setCap(n,t){ cap.innerHTML='<span class="paso">'+n+'</span><h2>'+t+'</h2>'; }
+  function paper(cls){ const dv=document.createElement('div'); dv.className='gvx-paper'+(cls?' '+cls:'');
+    dv.insertAdjacentHTML('beforeend','<span class="gvx-pp">▶</span>'); return dv; }
+  function bindPlay(pp,layersFn){
+    pp.onclick=()=>{ if(Player.playing() && Player.paper===pp){ Player.stop(); return; }
+      Player.stop(); Player.start(pp,2,layersFn(),null); };
+  }
+  function marks(d,spec){
+    const yB=d.stave.getYForLine(4);
+    const li=spec.notes.length-1;
+    const xs=[0,li].map(i=>{ const e=d.els[i]; if(!e) return null; const hb=(e.querySelector('.vf-notehead')||e).getBBox(); return hb.x+hb.width/2; });
+    ticksAt(d.svg,xs,yB);
+    return {xs,yB};
+  }
+  function layers9(spec,dGet,mkGet,keys,onNote){
+    const on=onsetsX(spec); const li=spec.notes.length-1;
+    const ks=keys||spec.notes.map(()=>'b/4');
+    return [
+      {onsets:[{t:0,i:0},{t:1,i:1}],hit:(c,t,g)=>drum(c,t,g),accent:k=>k===0?1.2:0.95,gain:1,
+       flash:(k)=>{ const d=dGet(), mk=mkGet(); if(mk.xs[k]!=null) shockwave(d.svg,mk.xs[k],mk.yB+26); }},
+    ].concat(on.onsets.map((o)=>({onsets:[o],gain:1,
+      hit:(c,t,g2)=>{ if(o.i===li) tone(c,t,0.2*g2,0.5,KEY2F[ks[o.i]]||261.63); else tone(c,t,0.16*g2*(o.i===0?1.2:1),0.16,KEY2F[ks[o.i]]||329.63); },
+      flash:()=>{ const d=dGet(); flashEls([d.els[o.i]]); if(onNote) onNote(o.i); }})));
+  }
+  function swapTo(h,spec,o,then){
+    h.style.transition='opacity .3s ease'; h.style.opacity='0';
+    after(300,()=>{ const d2=gvxDraw(h,spec,o); h.style.opacity='1'; if(then) then(d2); });
+  }
+  function render(){
+    clearTimers(); Player.stop();
+    stage.innerHTML=''; mdots();
+    btnPrev.style.visibility = step<=1?'hidden':'visible';
+    const oldGen=ctr.querySelector('[data-r="gen"]'); if(oldGen) oldGen.remove();
+    if(step>=NP){ btnNext.style.display='none';
+      const g=document.createElement('button'); g.className='gvx-btn primary'; g.dataset.r='gen';
+      g.textContent='🎼 Generar lectura →';
+      g.onclick=()=>{ try{ window.__gveGenerate(card); }catch(e){} };
+      ctr.appendChild(g);
+    } else { btnNext.style.display='';
+      btnNext.textContent=['','El septillo →','El octillo →','El nonillo →','¿Y de 10 en adelante? →'][step]||'Siguiente →'; }
+
+    if(step===1){ setCap('PASO 1','El seisillo: ya lo conoces');
+      const p=paper('model'); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const ks=keys9(6);
+      const d=gvxDraw(h,G9S.six,{ts:'2/4',keys:ks,stretch:1.8,height:180,endBar:true});
+      const mk=marks(d,G9S.six);
+      bindPlay(p,()=>layers9(G9S.six,()=>d,()=>mk,ks));
+      return; }
+
+    if(step===2){ setCap('PASO 2','El septillo: hazle hueco a una más');
+      /* ARRIBA: el punto de partida, reproducible */
+      const pT=paper('model'); pT.insertAdjacentHTML('beforeend','<span class="gvx-plbl">punto de partida · el seisillo</span>');
+      const hT=document.createElement('div'); pT.appendChild(hT); stage.appendChild(pT);
+      const ksT=keys9(6);
+      const dT=gvxDraw(hT,G9S.six,{ts:'2/4',keys:ksT,stretch:1.7,height:150,endBar:true});
+      const mkT=marks(dT,G9S.six);
+      bindPlay(pT,()=>layers9(G9S.six,()=>dT,()=>mkT,ksT));
+      /* ABAJO: el que se transforma */
+      const p=paper(); p.insertAdjacentHTML('beforeend','<span class="gvx-plbl">el septillo</span>');
+      const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      let ks=keys9(6);
+      let d=gvxDraw(h,G9S.six,{ts:'2/4',keys:ks,stretch:1.7,height:160,endBar:true});
+      let mk=marks(d,G9S.six);
+      let cur={spec:G9S.six};
+      let sylEls=[];
+      const W6=parseFloat(d.svg.getAttribute('width'))||600;
+      const o7={ts:'2/4',keys:keys9(7),stretch:1.7,height:160,endBar:true,minInner:Math.max(140,W6-60),maxW:W6};
+      /* posiciones destino: prerender OCULTO del septillo en el MISMO ancho */
+      let xB=null;
+      try{
+        const meas=document.createElement('div'); meas.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;';
+        stage.appendChild(meas);
+        const d7=gvxDraw(meas,G9S.siete,o7);
+        xB=d7.els.slice(0,6).map(e=>{ const hb=(e.querySelector('.vf-notehead')||e).getBBox(); return hb.x+hb.width/2; });
+        meas.remove();
+      }catch(e){ xB=null; }
+      pT.classList.add('gvx-dim'); p.classList.add('gvx-spot');
+      after(900,()=>{
+        const c=ac(); clave(c,c.currentTime+0.01,0.6);
+        let f=1, tx=0;
+        if(xB){
+          const xA=d.els.slice(0,6).map(e=>{ const hb=(e.querySelector('.vf-notehead')||e).getBBox(); return hb.x+hb.width/2; });
+          f=(xB[5]-xB[0])/Math.max(1,(xA[5]-xA[0])); tx=xA[0]*(1-f)+(xB[0]-xA[0]);
+          const EASE='transform .7s cubic-bezier(.4,0,.2,1)';
+          /* CABEZAS: cada una viaja a su nueva posición */
+          for(let i=0;i<6;i++){ const eN=d.els[i]; if(!eN) continue;
+            const dx=(f*xA[i]+tx)-xA[i];
+            eN.style.transition=EASE; eN.style.transform='translateX('+dx.toFixed(1)+'px)'; }
+          /* PLICAS + corchete + cifra: el grupo entero se comprime con ellas */
+          (d.beamEls||[]).concat(d.tupEls||[]).forEach(g=>{ if(!g) return;
+            g.style.transition=EASE;
+            g.style.transform='translateX('+tx.toFixed(1)+'px) scaleX('+f.toFixed(4)+')'; });
+        }
+        /* el 6 se tacha (ya en su nuevo sitio) y aparece el 7 */
+        after(850,()=>{
+          const tp=d.tupEls&&d.tupEls[0];
+          if(tp){ try{
+            const bb=tp.getBBox(); const cx=f*(bb.x+bb.width/2)+tx, cy=bb.y+6;
+            const cross=document.createElementNS('http://www.w3.org/2000/svg','line');
+            cross.setAttribute('x1',cx-9); cross.setAttribute('y1',cy+7);
+            cross.setAttribute('x2',cx+9); cross.setAttribute('y2',cy-7);
+            cross.setAttribute('class','gvx-slash'); d.svg.appendChild(cross);
+            const t7=document.createElementNS('http://www.w3.org/2000/svg','text');
+            t7.setAttribute('x',cx+20); t7.setAttribute('y',cy+6); t7.setAttribute('text-anchor','middle');
+            t7.setAttribute('style','font-size:17px;font-weight:900;fill:#b8860b;font-family:Georgia,serif;');
+            t7.textContent='7'; d.svg.appendChild(t7);
+          }catch(e){} }
+          slashSound();
+        });
+        /* entra la séptima: se reescribe como septillo EN EL MISMO espacio */
+        after(1800,()=>{
+          ks=keys9(7);
+          swapTo(h,G9S.siete,o7,(d2)=>{
+            d=d2; mk=marks(d2,G9S.siete); cur.spec=G9S.siete; magicSound();
+            /* sílabas OCULTAS: aparecen al reproducir, nota a nota */
+            const SIL=['ma','ra','vi','llo','sa','men','te'];
+            sylEls=[];
+            for(let i=0;i<7;i++){ const e=d2.els[i]; if(!e){sylEls.push(null);continue;} const hb=(e.querySelector('.vf-notehead')||e).getBBox();
+              const txx=document.createElementNS('http://www.w3.org/2000/svg','text');
+              txx.setAttribute('x',hb.x+hb.width/2); txx.setAttribute('y',d2.stave.getYForLine(4)+30);
+              txx.setAttribute('text-anchor','middle'); txx.setAttribute('class','gvx-syl'); txx.textContent=SIL[i];
+              txx.style.opacity='0'; txx.style.transition='opacity .2s ease';
+              d2.svg.appendChild(txx); sylEls.push(txx); }
+            pT.classList.remove('gvx-dim'); p.classList.remove('gvx-spot');
+          });
+        });
+      });
+      bindPlay(p,()=>layers9(cur.spec,()=>d,()=>mk,ks,(i)=>{ const s=sylEls[i]; if(s) s.style.opacity='1'; }));
+      return; }
+
+    if(step===3){ setCap('PASO 3','El octillo: cuatro semicorcheas… duplicadas');
+      /* ancho de referencia: el del octillo final, para que nada salte de tamaño */
+      let W8=620;
+      try{
+        const meas=document.createElement('div'); meas.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;';
+        stage.appendChild(meas);
+        const dM=gvxDraw(meas,G9S.ocho,{ts:'2/4',keys:keys9(8),stretch:1.6,height:160,endBar:true});
+        W8=parseFloat(dM.svg.getAttribute('width'))||620; meas.remove();
+      }catch(e){}
+      const mi8=Math.max(140,W8-60);
+      /* ARRIBA: el punto de partida */
+      const pT=paper('model'); pT.insertAdjacentHTML('beforeend','<span class="gvx-plbl">punto de partida · 4 semicorcheas</span>');
+      const hT=document.createElement('div'); pT.appendChild(hT); stage.appendChild(pT);
+      const ksT=keys9(4);
+      const dT=gvxDraw(hT,G9S.cuatro,{ts:'2/4',keys:ksT,stretch:1.7,height:150,endBar:true,minInner:mi8,maxW:W8});
+      const mkT=marks(dT,G9S.cuatro);
+      bindPlay(pT,()=>layers9(G9S.cuatro,()=>dT,()=>mkT,ksT));
+      /* ABAJO: el que se transforma */
+      const p=paper(); p.insertAdjacentHTML('beforeend','<span class="gvx-plbl">el octillo</span>');
+      p.insertAdjacentHTML('beforeend','<div class="gvx-postit" style="top:auto;bottom:-14px;right:-6px;">Fíjate: el octillo, en este caso, <b>no necesita el número de GVE</b> — ocho fusas caben de forma legal. Pero no pasa nada: al fin y al cabo esto va de meter <b>OCHO cosas en un pulso</b>.</div>');
+      const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      let ks=keys9(4);
+      let d=gvxDraw(h,G9S.cuatro,{ts:'2/4',keys:ks,stretch:1.7,height:160,endBar:true,minInner:mi8,maxW:W8});
+      let mk=marks(d,G9S.cuatro);
+      let cur={spec:G9S.cuatro};
+      const o8={ts:'2/4',keys:keys9(8),stretch:1.6,height:160,endBar:true,minInner:mi8,maxW:W8};
+      pT.classList.add('gvx-dim'); p.classList.add('gvx-spot');
+      after(1100,()=>{
+        const yT=d.stave.getYForLine(0), yB=d.stave.getYForLine(4);
+        for(let i=0;i<4;i++){ const e=d.els[i]; if(!e) continue;
+          const hb=(e.querySelector('.vf-notehead')||e).getBBox(); const fq=KEY2F[ks[i]]||329.63;
+          after(i*460,()=>{ miniTajo(d.svg,hb.x+hb.width/2,yT,yB); });
+          /* la nota, DESPUÉS del tajo */
+          after(i*460+240,()=>{ const c=ac(); tone(c,c.currentTime+0.01,0.16,0.2,fq); flashEls([e]); });
+        }
+        after(4*460+380,()=>{
+          ks=keys9(8);
+          swapTo(h,G9S.ocho,o8,(d2)=>{
+            d=d2; mk=marks(d2,G9S.ocho); cur.spec=G9S.ocho; magicSound();
+            pT.classList.remove('gvx-dim'); p.classList.remove('gvx-spot');
+          });
+        });
+      });
+      bindPlay(p,()=>layers9(cur.spec,()=>d,()=>mk,ks));
+      return; }
+
+    if(step===4){ setCap('PASO 4','El nonillo: 3 × 3');
+      /* ancho de referencia: el del nonillo final */
+      let W9=620;
+      try{
+        const meas=document.createElement('div'); meas.style.cssText='position:absolute;left:-9999px;top:0;visibility:hidden;';
+        stage.appendChild(meas);
+        const dM=gvxDraw(meas,G9S.nueve,{ts:'2/4',keys:keys9(9),stretch:1.55,height:165,endBar:true});
+        W9=parseFloat(dM.svg.getAttribute('width'))||620; meas.remove();
+      }catch(e){}
+      const mi9=Math.max(140,W9-60);
+      /* ARRIBA: el punto de partida */
+      const pT=paper('model'); pT.insertAdjacentHTML('beforeend','<span class="gvx-plbl">punto de partida · el tresillo</span>');
+      const hT=document.createElement('div'); pT.appendChild(hT); stage.appendChild(pT);
+      const ksT=keys9(3);
+      const dT=gvxDraw(hT,G9S.tres,{ts:'2/4',keys:ksT,stretch:1.7,height:150,endBar:true,minInner:mi9,maxW:W9});
+      const mkT=marks(dT,G9S.tres);
+      bindPlay(pT,()=>layers9(G9S.tres,()=>dT,()=>mkT,ksT));
+      /* ABAJO: el que se transforma */
+      const p=paper(); p.insertAdjacentHTML('beforeend','<span class="gvx-plbl">el nonillo</span>');
+      const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      let ks=keys9(3);
+      let d=gvxDraw(h,G9S.tres,{ts:'2/4',keys:ks,stretch:1.7,height:165,endBar:true,minInner:mi9,maxW:W9});
+      let mk=marks(d,G9S.tres);
+      let cur={spec:G9S.tres};
+      const o9={ts:'2/4',keys:keys9(9),stretch:1.55,height:165,endBar:true,minInner:mi9,maxW:W9};
+      pT.classList.add('gvx-dim'); p.classList.add('gvx-spot');
+      after(1100,()=>{
+        /* un ZARPAZO a cada una de las tres corcheas */
+        for(let i=0;i<3;i++){ const e=d.els[i];
+          after(i*800,()=>{ if(e) clawSwipe(d.svg,[e],false,null); });
+        }
+        after(3*800+300,()=>{
+          ks=keys9(9);
+          swapTo(h,G9S.nueve,o9,(d2)=>{
+            d=d2; mk=marks(d2,G9S.nueve); cur.spec=G9S.nueve;
+            /* las nueve llegan DE TRES EN TRES */
+            d2.els.slice(0,9).forEach(e=>{ if(e){ e.style.opacity='0'; e.style.transition='opacity .3s ease'; } });
+            for(let g=0;g<3;g++){
+              after(300+g*520,()=>{
+                for(let k=0;k<3;k++){ const e=d2.els[g*3+k]; if(e) e.style.opacity='1'; }
+                const c=ac(); tone(c,c.currentTime+0.01,0.16,0.2,KEY2F[ks[g*3]]||329.63);
+              });
+            }
+            after(300+2*520+420,()=>{ pT.classList.remove('gvx-dim'); p.classList.remove('gvx-spot'); });
+          });
+        });
+      });
+      bindPlay(p,()=>layers9(cur.spec,()=>d,()=>mk,ks));
+      return; }
+
+    if(step===5){ setCap('10, 11, 12…','¡Sálvese quien pueda!');
+      const p=paper('model'); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
+      const ks=keys9(10);
+      const d=gvxDraw(h,G9S.diez,{ts:'2/4',keys:ks,stretch:1.5,height:200,endBar:true});
+      const mk=marks(d,G9S.diez);
+      if(d.els[0]) d.els[0].classList.add('gvx-goldnote');
+      if(d.els[10]) d.els[10].classList.add('gvx-goldnote');
+      bindPlay(p,()=>layers9(G9S.diez,()=>d,()=>mk,ks));
+      return; }
+  }
+  function showVeil(){
+    Player.stop(); clearTimers();
+    const tx=T9[step];
+    veil.querySelector('.paso').textContent = step===5 ? 'Y DE 10 EN ADELANTE…' : ('PASO '+step+' DE '+NP);
+    veil.querySelector('h2').innerHTML=tx.t;
+    veil.querySelector('p').innerHTML=tx.p;
+    veil.classList.add('show');
+  }
+  veil.querySelector('.vok').onclick=()=>{ veil.classList.remove('show'); render(); };
+  btnNext.onclick=()=>{ if(step<NP){ step++; showVeil(); } };
+  btnPrev.onclick=()=>{ if(step>1){ step--; showVeil(); } };
+  mdots(); showVeil();
+  return function(){ clearTimers(); Player.stop(); try{veil.remove();}catch(e){} try{badge.remove();}catch(e){} };
+};
+
+/* cerrar la intro, dejar SOLO esta carta activa y generar la lectura */
+window.__gveGenerate=function(card){
+  try{
+    const W=(typeof GP1_WORLDS!=='undefined'?GP1_WORLDS:[]).find(w=>(w.cards||[]).some(c=>c.id===card.id));
+    const x=document.getElementById('introClose'); if(x) x.click();
+    if(!W) return;
+    try{ gp1Mode='uno'; }catch(e){}
+    try{ gp1WorldId=W.id; gp1ActiveCards=[card.id]; gp1CardsByWorld[W.id]=[card.id]; gp1WorldB=null; gp1CardsB=[]; }catch(e){}
+    try{ renderSetupWorlds(); }catch(e){}
+    const go=document.getElementById('setupGo');
+    if(go) setTimeout(()=>go.click(),60);
+  }catch(e){}
+};
+
+/* registrar 2.1–2.8 (la 2.9 tendrá intro propia, pendiente) */
+Object.keys(GDEFS).forEach(aid=>{
+  window.CARD_INTROS[aid]={spq:SPQ, slides:function(card){ return [
+    {type:'gvxCover', card, def:GDEFS[aid]},
+    {type:'gvxMetodo', card, def:GDEFS[aid]}
+  ]; }};
+});
+window.CARD_INTROS['2.9']={spq:SPQ, slides:function(card){ return [
+  {type:'gvx9Cover', card},
+  {type:'gvx9Metodo', card}
+]; }};
+})();
+</script>
+
+<style id="m1Css">
+/* ===== INTRO mundo 1 (dispares) — validada en el prototipo de la 1.1 ===== */
+.m1x-row{display:flex;gap:26px;justify-content:center;align-items:stretch;flex-wrap:wrap;}
+.m1x-foot{text-align:center;font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--muted2);text-transform:uppercase;margin-top:6px;}
+.m1x-foot b{color:var(--gold1);display:inline-block;font-size:14.5px;letter-spacing:.1em;}
+.m1x-foot b.m1wf{animation:m1wpop .55s cubic-bezier(.2,1.3,.4,1);}
+@keyframes m1wpop{0%{transform:scale(1);}35%{transform:scale(1.28);color:#ffd76a;text-shadow:0 0 14px rgba(233,201,106,.9);}100%{transform:scale(1);}}
+.m1x-sel{display:flex;align-items:center;gap:10px;justify-content:center;}
+.m1x-sel .t{font-size:10.5px;font-weight:900;letter-spacing:.16em;color:var(--muted2);text-transform:uppercase;}
+.m1x-chip{font-family:inherit;font-size:12.5px;font-weight:800;color:var(--muted);background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 15px;cursor:pointer;transition:all .15s;}
+.m1x-chip.on{color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-color:transparent;box-shadow:0 4px 14px rgba(212,175,55,.3);}
+.m1x-chip.dis{opacity:.32;cursor:not-allowed;pointer-events:none;}
+.m1x-gold,.m1x-gold *{fill:#b8860b !important;stroke:#b8860b !important;}
+.m1x-now,.m1x-now *{fill:#d4af37 !important;stroke:#d4af37 !important;}
+.m1x-ptick{stroke:var(--gold2);stroke-width:2.6;stroke-linecap:round;}
+.m1x-grp{stroke:var(--gold2);stroke-width:1.8;fill:none;opacity:.85;}
+.m1x-grpn{font-size:12px;font-weight:900;fill:#b8860b;font-family:Georgia,serif;}
+.m1x-mlbl{font-size:12.5px;font-weight:900;fill:#b8860b;font-family:Georgia,serif;letter-spacing:1px;}
+.m1x-rvl{opacity:0;transition:opacity .6s ease;}
+.m1x-rvl.in{opacity:1;}
+.m1x-bshine .m1x-grp{stroke:#ffd76a;stroke-width:2.6;opacity:1;filter:drop-shadow(0 0 3px rgba(233,201,106,.9));}
+.m1x-bshine .m1x-grpn{fill:#d4af37;}
+.m1x-qtip{position:absolute;top:-44px;right:-10px;font-size:12px;font-weight:800;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));
+  border-radius:999px;padding:6px 14px;box-shadow:0 8px 20px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateY(4px);white-space:nowrap;z-index:5;}
+.gvx-paper.m1unrev:hover .m1x-qtip{opacity:1;transform:translateY(0);}
+/* el botón play PARPADEA para incitar a darle (mundos 1, 3 y 4) */
+.gvx-paper.m1blink:not(.playing) .gvx-pp{animation:m1ppb 1.5s ease-in-out infinite;}
+.gvx-paper.m1unrev .gvx-pp{font-size:15px;font-weight:900;letter-spacing:0;animation:m1ppb 1.4s ease-in-out infinite;}
+@keyframes m1ppb{0%,100%{transform:scale(1);}50%{transform:scale(1.16);box-shadow:0 0 16px rgba(233,201,106,.95);}}
+.m1x-limp{display:inline-block;animation:m1limp 1.3s ease-in-out infinite;}
+.m1x-notex{position:absolute;bottom:-60px;right:4px;max-width:290px;background:#fff8dc;color:#4d3a0b;font-size:11px;line-height:1.5;
+  padding:9px 13px;border-radius:9px;box-shadow:0 8px 22px rgba(0,0,0,.35);transform:rotate(1.5deg);z-index:6;}
+.m1x-notex b{color:#8a5a00;}
+@keyframes m1limp{0%,100%{transform:translateY(0);}30%{transform:translateY(-3px);}55%{transform:translateY(1px);}}
+</style>
+<script id="introM1">
+/* ============================================================
+   INTROs del MUNDO 1 — «Compases dispares» (1.1, 1.2, 1.3, 1.4)
+   Estructura validada en los prototipos:
+   paso 1 didáctico → paso 2 subdivisión → paso 3 patrón oculto ✦
+   ============================================================ */
+(function(){
+const S=window.__INTRO_SLIDE_TYPES; if(!S) return;
+const M1E8=60/140;                      /* corchea a 140 → negra = 70 · negra con puntillo ≈ 47 */
+const M1DUR={'8':1,'q':2,'qd':3,'16':0.5,'8r':1,'qr':2,'qdr':3};
+const M1PC={c:0,d:2,e:4,f:5,g:7,a:9,b:11};
+function m1Midi(k){ const p=k.split('/'); return (parseInt(p[1],10)+1)*12+M1PC[p[0]]; }
+function m1Tok(d){ let rest=false,dot=false,x=''+d;
+  if(x.endsWith('r')){rest=true;x=x.slice(0,-1);}
+  if(x.endsWith('d')){dot=true;x=x.slice(0,-1);}
+  return {base:x,rest,dot}; }
+function m1Eff(bar){ const eff=bar.notes.map(nt=>M1DUR[nt.d]);
+  (bar.tuplets||[]).forEach(t=>{ t.idx.forEach(i=>{ eff[i]=eff[i]*(t.occ/t.num); }); });
+  return eff; }
+const m1Near=(a,b)=>Math.abs(a-b)<0.01;
+
+function m1Draw(host,ph,opts){
+  opts=opts||{}; host.innerHTML='';
+  const r=new VF.Renderer(host,VF.Renderer.Backends.SVG); const ctx=r.getContext();
+  const n=ph.bars.length, EXTRA=86;
+  const W=opts.width||900, H=opts.height||132;
+  r.resize(W,H);
+  const base=(W-16-EXTRA)/n;
+  let x=8; const out={svg:null,bars:[]};
+  const restKey = ph.clef==='bass'?'d/3':'b/4';
+  ph.bars.forEach((bar,bi)=>{
+    const w=base+(bi===0?EXTRA:0);
+    const stave=new VF.Stave(x,H/2-52,w);
+    if(bi===0){ stave.addClef(ph.clef); stave.addTimeSignature(ph.ts); }
+    if(bi===n-1 && opts.endBar) stave.setEndBarType(VF.Barline.type.END);
+    stave.setContext(ctx).draw();
+    const vf=bar.notes.map(nt=>{ const p=m1Tok(nt.d);
+      const sn=new VF.StaveNote({clef:ph.clef,keys:[p.rest?restKey:nt.k],duration:p.base+(p.rest?'r':'')});
+      if(p.dot) VF.Dot.buildAndAttach([sn]);
+      return sn; });
+    const v=new VF.Voice({num_beats:4,beat_value:4}).setStrict(false); v.addTickables(vf);
+    const beams=(bar.beams||[]).map(g=>{ const bm=new VF.Beam(g.map(i=>vf[i])); try{bm.render_options.flat_beams=true;}catch(e){} return bm; });
+    const tups=(bar.tuplets||[]).map(t=>new VF.Tuplet(t.idx.map(i=>vf[i]),{num_notes:t.num,notes_occupied:t.occ,ratioed:false}));
+    new VF.Formatter().joinVoices([v]).format([v], w-(stave.getNoteStartX()-x)-16);
+    v.draw(ctx,stave);
+    beams.forEach(b=>b.setContext(ctx).draw());
+    tups.forEach(t=>t.setContext(ctx).draw());
+    const svg=host.querySelector('svg');
+    const els=vf.map(sn=>{ try{ return svg.querySelector('[id="vf-'+sn.attrs.id+'"]'); }catch(e){ return null; } });
+    out.bars.push({els,stave,x,w});
+    x+=w;
+  });
+  out.svg=host.querySelector('svg');
+  out.svg.style.maxWidth='100%'; out.svg.style.height='auto';
+  return out;
+}
+function m1HeadX(el){ const h=el.querySelector('.vf-notehead')||el; const b=h.getBBox(); return b.x+b.width/2; }
+function m1Ticks(d,ph){
+  d.bars.forEach((B,bi)=>{
+    const yB=B.stave.getYForLine(4);
+    let bounds=[]; let acc=0; ph.groups.forEach(g=>{ bounds.push(acc); acc+=g; });
+    const eff=m1Eff(ph.bars[bi]);
+    let cum=0;
+    ph.bars[bi].notes.forEach((nt,ni)=>{
+      if(bounds.some(b=>m1Near(b,cum)) && B.els[ni]){
+        const x=m1HeadX(B.els[ni]);
+        const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+        ln.setAttribute('x1',x); ln.setAttribute('x2',x);
+        ln.setAttribute('y1',yB+10); ln.setAttribute('y2',yB+22);
+        ln.setAttribute('class','m1x-ptick');
+        d.svg.appendChild(ln);
+      }
+      cum+=eff[ni];
+    });
+  });
+}
+function m1Brackets(d,ph){
+  const out=[];
+  d.bars.forEach((B,bi)=>{
+    const yB=B.stave.getYForLine(4)+14;
+    const eff=m1Eff(ph.bars[bi]);
+    let acc=0;
+    ph.groups.forEach((g,gi)=>{
+      const e0=acc, e1=acc+g; acc+=g;
+      let cum=0, i0=-1, i1=-1;
+      ph.bars[bi].notes.forEach((nt,ni)=>{
+        if(cum>=e0-0.01 && cum<e1-0.01){ if(i0<0)i0=ni; i1=ni; }
+        cum+=eff[ni];
+      });
+      if(i0<0||!B.els[i0]||!B.els[i1]) return;
+      const x1=m1HeadX(B.els[i0])-9, x2=m1HeadX(B.els[i1])+9;
+      const gEl=document.createElementNS('http://www.w3.org/2000/svg','g');
+      gEl.setAttribute('class','m1x-rvl');
+      const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d','M '+x1+' '+(yB)+' L '+x1+' '+(yB+6)+' L '+x2+' '+(yB+6)+' L '+x2+' '+yB);
+      p.setAttribute('class','m1x-grp');
+      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',(x1+x2)/2); t.setAttribute('y',yB+20); t.setAttribute('text-anchor','middle');
+      t.setAttribute('class','m1x-grpn'); t.textContent=g;
+      gEl.appendChild(p); gEl.appendChild(t); d.svg.appendChild(gEl);
+      out.push({el:gEl,bar:bi,e:e0,g});
+    });
+  });
+  return out;
+}
+function m1Label(d,txt){
+  const B=d.bars[0]; if(!B) return [];
+  const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',B.stave.getNoteStartX()-13); t.setAttribute('y',B.stave.getYForLine(0)-10);
+  t.setAttribute('text-anchor','middle'); t.setAttribute('class','m1x-mlbl m1x-rvl'); t.textContent=txt;
+  d.svg.appendChild(t);
+  return [t];
+}
+
+/* ============ DATOS POR CARTA ============ */
+/* comparativas del paso 1 */
+const CMP_54={ clef:'treble', ts:'5/4', e8:10, groups:[2,2,2,2,2], bars:[
+  {notes:[{k:'c/4',d:'q'},{k:'d/4',d:'q'},{k:'e/4',d:'q'},{k:'f/4',d:'q'},{k:'g/4',d:'q'}],beams:[]} ]};
+const CMP_58={ clef:'treble', ts:'5/8', e8:5, groups:[3,2], bars:[
+  {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2],[3,4]]} ]};
+const CMP_DOS={ clef:'treble', ts:'3/8', e8:3, groups:[3], bars:[
+  {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2]]},
+  {notes:[{k:'e/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1]],tuplets:[{idx:[0,1],num:2,occ:3}]} ]};
+const CMP_TRES={ clef:'treble', ts:'2/8', e8:2, groups:[2], bars:[
+  {notes:[{k:'e/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1]]},
+  {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2]],tuplets:[{idx:[0,1,2],num:3,occ:2}]} ]};
+const CMP_CUAT={ clef:'treble', ts:'3/8', e8:3, groups:[3], bars:[
+  {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2]]},
+  {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'}],beams:[[0,1,2,3]],tuplets:[{idx:[0,1,2,3],num:4,occ:3}]} ]};
+const CMP_CINQ6={ clef:'treble', ts:'3/8', e8:3, groups:[3], bars:[
+  {notes:[{k:'e/4',d:'16'},{k:'f/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'g/4',d:'16'},{k:'f/4',d:'16'}],beams:[[0,1,2,3,4,5]]},
+  {notes:[{k:'e/4',d:'16'},{k:'f/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'g/4',d:'16'}],beams:[[0,1,2,3,4]],tuplets:[{idx:[0,1,2,3,4],num:5,occ:6}]} ]};
+const CMP_CINQ4={ clef:'treble', ts:'2/8', e8:2, groups:[2], bars:[
+  {notes:[{k:'e/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1]]},
+  {notes:[{k:'e/4',d:'16'},{k:'f/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'}],beams:[[0,1,2,3]]},
+  {notes:[{k:'e/4',d:'16'},{k:'f/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'16'}],beams:[[0,1,2,3,4]],tuplets:[{idx:[0,1,2,3,4],num:5,occ:4}]} ]};
+
+/* ejercicios (fijos; las lecturas de verdad las pare el generador) */
+const EX11=[
+  { clef:'treble', ts:'5/8', e8:5, groups:[3,2], bars:[
+      {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2],[3,4]]},
+      {notes:[{k:'g/4',d:'qd'},{k:'e/4',d:'q'}],beams:[]},
+      {notes:[{k:'f/4',d:'q'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'b/4',d:'8'}],beams:[[2,3]]},
+      {notes:[{k:'g/4',d:'qd'},{d:'qr'}],beams:[]} ]},
+  { clef:'bass', ts:'7/8', e8:7, groups:[2,2,3], bars:[
+      {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[0,1],[2,3],[4,5,6]]},
+      {notes:[{k:'c/3',d:'q'},{k:'g/3',d:'q'},{k:'e/3',d:'qd'}],beams:[]},
+      {notes:[{k:'d/3',d:'q'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'qd'}],beams:[[1,2]]},
+      {notes:[{k:'c/3',d:'q'},{d:'qr'},{d:'qdr'}],beams:[]} ]}
+];
+const EX12=[
+  { clef:'treble', ts:'5/8', e8:5, groups:[3,2], bars:[
+      {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2],[3,4]]},
+      {notes:[{k:'g/4',d:'8'},{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1],[2,3]],tuplets:[{idx:[0,1],num:2,occ:3}]},
+      {notes:[{k:'a/4',d:'qd'},{k:'g/4',d:'8'},{k:'f/4',d:'8'},{k:'e/4',d:'8'}],beams:[[1,2,3]],tuplets:[{idx:[1,2,3],num:3,occ:2}]},
+      {notes:[{k:'g/4',d:'qd'},{d:'qr'}],beams:[]} ]},
+  { clef:'bass', ts:'7/8', e8:7, groups:[2,2,3], bars:[
+      {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[0,1],[2,3],[4,5,6]]},
+      {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'g/3',d:'q'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[0,1,2],[4,5]],tuplets:[{idx:[0,1,2],num:3,occ:2},{idx:[4,5],num:2,occ:3}]},
+      {notes:[{k:'d/3',d:'q'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'g/3',d:'qd'}],beams:[[1,2,3]],tuplets:[{idx:[1,2,3],num:3,occ:2}]},
+      {notes:[{k:'c/3',d:'q'},{d:'qr'},{d:'qdr'}],beams:[]} ]}
+];
+const EX13=[
+  { clef:'treble', ts:'5/8', e8:5, groups:[3,2], bars:[
+      {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2],[3,4]]},
+      {notes:[{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'},{k:'f/4',d:'8'},{k:'e/4',d:'8'},{k:'f/4',d:'8'}],beams:[[0,1,2,3],[4,5]],tuplets:[{idx:[0,1,2,3],num:4,occ:3}]},
+      {notes:[{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'16'},{k:'a/4',d:'16'},{k:'g/4',d:'16'},{k:'e/4',d:'q'}],beams:[[0,1,2,3,4]],tuplets:[{idx:[0,1,2,3,4],num:5,occ:6}]},
+      {notes:[{k:'g/4',d:'qd'},{d:'qr'}],beams:[]} ]},
+  { clef:'bass', ts:'7/8', e8:7, groups:[2,2,3], bars:[
+      {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[0,1],[2,3],[4,5,6]]},
+      {notes:[{k:'c/3',d:'q'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'},{k:'d/3',d:'8'}],beams:[[1,2],[3,4,5,6]],tuplets:[{idx:[3,4,5,6],num:4,occ:3}]},
+      {notes:[{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'f/3',d:'q'},{k:'g/3',d:'16'},{k:'f/3',d:'16'},{k:'e/3',d:'16'},{k:'f/3',d:'16'},{k:'g/3',d:'16'}],beams:[[0,1],[3,4,5,6,7]],tuplets:[{idx:[3,4,5,6,7],num:5,occ:6}]},
+      {notes:[{k:'c/3',d:'q'},{d:'qr'},{d:'qdr'}],beams:[]} ]}
+];
+const EX14=[
+  { clef:'treble', ts:'5/8', e8:5, groups:[3,2], bars:[
+      {notes:[{k:'e/4',d:'8'},{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'g/4',d:'8'}],beams:[[0,1,2],[3,4]]},
+      {notes:[{k:'g/4',d:'qd'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'16'},{k:'a/4',d:'16'},{k:'g/4',d:'16'}],beams:[[1,2,3,4,5]],tuplets:[{idx:[1,2,3,4,5],num:5,occ:4}]},
+      {notes:[{k:'f/4',d:'8'},{k:'g/4',d:'8'},{k:'a/4',d:'8'},{k:'b/4',d:'16'},{k:'a/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'16'}],beams:[[0,1,2],[3,4,5,6,7]],tuplets:[{idx:[3,4,5,6,7],num:5,occ:4}]},
+      {notes:[{k:'g/4',d:'qd'},{d:'qr'}],beams:[]} ]},
+  { clef:'bass', ts:'7/8', e8:7, groups:[2,2,3], bars:[
+      {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'8'},{k:'e/3',d:'8'},{k:'f/3',d:'8'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[0,1],[2,3],[4,5,6]]},
+      {notes:[{k:'c/3',d:'16'},{k:'d/3',d:'16'},{k:'e/3',d:'16'},{k:'d/3',d:'16'},{k:'c/3',d:'16'},{k:'g/3',d:'q'},{k:'e/3',d:'qd'}],beams:[[0,1,2,3,4]],tuplets:[{idx:[0,1,2,3,4],num:5,occ:4}]},
+      {notes:[{k:'d/3',d:'q'},{k:'e/3',d:'16'},{k:'f/3',d:'16'},{k:'g/3',d:'16'},{k:'f/3',d:'16'},{k:'e/3',d:'16'},{k:'g/3',d:'8'},{k:'f/3',d:'8'},{k:'e/3',d:'8'}],beams:[[1,2,3,4,5],[6,7,8]],tuplets:[{idx:[1,2,3,4,5],num:5,occ:4}]},
+      {notes:[{k:'c/3',d:'q'},{d:'qr'},{d:'qdr'}],beams:[]} ]}
+];
+
+const V2C={t:'Primero, la SUBDIVISIÓN', p:'Antes de cojear, camina: deja sonar un <b>motor constante de corcheas</b> y ve marcando <b>únicamente la subdivisión</b>. Nada de pulsos todavía.'};
+const V3C={t:'Ahora sí: PULSOS DESIGUALES', p:'La gracia del compás dispar es <b>pensar en pulsos desiguales</b>. Mira cada compás y piensa <b>cuál es su patrón</b>. Cuando lo sepas… <b>compruébalo ✦</b>.'};
+
+const M1DEFS={
+  '1.1':{
+    v1:{t:'¿Qué es un compás DISPAR?', p:'Un compás cuyos pulsos <b>NO duran lo mismo</b>. El objetivo de este mundo: <b>convivir con una <span class="m1x-limp">cojera</span> constante</b>. Eso sí: no lo confundas con <b>compases de amalgama</b>, donde hay muchos pulsos… pero <b>todos iguales</b>. Veamos la comparación.'},
+    cap1:['Pulsos iguales… o desiguales','El mismo «5»… y dos mundos distintos. Pulsa cada tarjeta y compara.'],
+    compare:[
+      {lbl:'5/4 · compás de amalgama',model:false,w:398,ph:CMP_54,foot:'5 pulsos · <b>todos iguales</b>'},
+      {lbl:'5/8 · compás DISPAR',model:true,w:398,ph:CMP_58,foot:'2 pulsos <b>desiguales</b>'}],
+    ex:EX11, notex:null},
+  '1.2':{
+    v1:{t:'Dosillo y tresillo', p:'Dos <b>grupos de valoración especial</b>… cruzados: el <b>dosillo</b> mete <b>2 notas</b> en un pulso de <b>3 corcheas</b>, y el <b>tresillo</b> mete <b>3</b> en un pulso de <b>2</b>. Cada uno se cuela en el pulso del otro. Veamos la comparación.'},
+    cap1:['Cada uno, en el pulso del otro','Primero la subdivisión natural del pulso… y después, el intruso. Pulsa cada tarjeta.'],
+    compare:[
+      {lbl:'el dosillo · pulso de 3 corcheas',model:true,w:398,ph:CMP_DOS,foot:'<b>2 notas</b> donde caben 3'},
+      {lbl:'el tresillo · pulso de 2 corcheas',model:true,w:398,ph:CMP_TRES,foot:'<b>3 notas</b> donde caben 2'}],
+    ex:EX12,
+    notex:'<b>Fíjate:</b> el <b>dosillo</b> ocupa siempre un pulso de <b>TRES</b>… y el <b>tresillo</b>, un pulso de <b>DOS</b>.'},
+  '1.3':{
+    v1:{t:'Cuatrillo y cinquillo', p:'Dos intrusos para el <b>pulso de 3 corcheas</b>: el <b>cuatrillo</b> mete <b>4 notas</b> donde caben 3, y el <b>cinquillo</b> mete <b>5 semicorcheas</b> donde caben 6. Veamos la comparación.'},
+    cap1:['Dos intrusos en el pulso de 3','Primero la subdivisión natural del pulso… y después, el intruso. Pulsa cada tarjeta.'],
+    compare:[
+      {lbl:'el cuatrillo · pulso de 3 corcheas',model:true,w:398,ph:CMP_CUAT,foot:'<b>4 notas</b> donde caben 3'},
+      {lbl:'el cinquillo · pulso de 3 corcheas',model:true,w:398,ph:CMP_CINQ6,foot:'<b>5 notas</b> donde caben 6'}],
+    ex:EX13,
+    notex:'<b>Fíjate:</b> aquí el <b>cuatrillo</b> y el <b>cinquillo</b> caen siempre en un pulso de <b>TRES</b>.'},
+  '1.4':{
+    v1:{t:'Cinquillo en pulso binario', p:'El <b>cinquillo</b> cambia de casa: ahora mete <b>5 semicorcheas</b> en un pulso de <b>2 corcheas</b>, donde caben 4. Veamos cómo suena.'},
+    cap1:['El intruso en el pulso de 2','El pulso, su subdivisión natural… y el cinquillo. Pulsa la tarjeta.'],
+    compare:[
+      {lbl:'el cinquillo · pulso de 2 corcheas',model:true,w:560,ph:CMP_CINQ4,foot:'<b>5 notas</b> donde caben 4'}],
+    ex:EX14,
+    notex:'<b>Fíjate:</b> aquí el <b>cinquillo</b> cae siempre en un pulso de <b>DOS</b>.'},
+};
+
+S.m1Metodo=function(host,s){
+  const card=s.card;
+  const D=M1DEFS[s.aid]||M1DEFS[card.atlasId]; if(!D) return;
+  try{ ensurePiano(); }catch(e){}
+  const NP=3;
+  const root=document.createElement('div'); root.className='gvx-wrap';
+  root.innerHTML='<div class="gvx-cap"></div><div class="gvx-stage"></div>'+
+    '<div class="gvx-ctr"><button class="gvx-btn ghost" data-r="prev">← Paso anterior</button>'+
+    '<button class="gvx-btn primary" data-r="next"></button></div>'+
+    '<div class="gvx-sdots"></div>';
+  host.appendChild(root);
+  const cap=root.querySelector('.gvx-cap'), stage=root.querySelector('.gvx-stage'),
+        ctr=root.querySelector('.gvx-ctr'), sdots=root.querySelector('.gvx-sdots'),
+        btnPrev=root.querySelector('[data-r="prev"]'), btnNext=root.querySelector('[data-r="next"]');
+  const veil=document.createElement('div'); veil.className='gvx-veil';
+  veil.innerHTML='<div class="card"><span class="vReto">'+(card.atlasId||'')+' · DISPARES</span><br>'+
+    '<span class="paso"></span><h2></h2><p></p>'+
+    '<button class="gvx-btn primary vok">Entendido →</button></div>';
+  document.body.appendChild(veil);
+  const badge=document.createElement('div'); badge.className='gvx-reto'; badge.innerHTML='MUNDO 1 · <b>DISPARES</b>';
+  document.body.appendChild(badge);
+  let step=1, timers=[], playing=null;
+
+  function clearTimers(){ timers.forEach(t=>clearTimeout(t)); timers=[]; }
+  function visAt(t,fn){ const c=ac(); timers.push(setTimeout(fn,Math.max(0,(t-c.currentTime)*1000))); }
+  function stopM1(){
+    clearTimers(); try{ killAudio(); }catch(e){}
+    root.querySelectorAll('.m1x-gold').forEach(e=>e.classList.remove('m1x-gold'));
+    root.querySelectorAll('.m1x-now').forEach(e=>e.classList.remove('m1x-now'));
+    root.querySelectorAll('.gvx-paper.playing').forEach(p=>{ p.classList.remove('playing'); const b=p.querySelector('.gvx-pp'); if(b&&b.textContent!=='✦')b.textContent='▶'; });
+    root.querySelectorAll('.m1x-bshine').forEach(b=>b.classList.remove('m1x-bshine'));
+    playing=null;
+  }
+  function flashWord(el){ if(!el) return; el.classList.remove('m1wf'); void el.offsetWidth; el.classList.add('m1wf'); }
+  function mdots(){ sdots.innerHTML='';
+    for(let i=1;i<=NP;i++){ const sp=document.createElement('span'); sp.className=(i<step)?'done':(i===step?'cur':'');
+      sp.onclick=()=>{ if(i!==step){ step=i; showVeil(); } }; sdots.appendChild(sp); } }
+  function setCap(n,t,sub){ cap.innerHTML='<span class="paso">'+n+'</span><h2>'+t+'</h2>'+(sub?('<p style="font-size:13px;color:var(--muted2);margin:0;">'+sub+'</p>'):''); }
+  function paper(lbl,model){
+    const dv=document.createElement('div'); dv.className='gvx-paper m1blink'+(model?' model':'');
+    dv.insertAdjacentHTML('beforeend','<span class="gvx-pp">▶</span>');
+    if(lbl) dv.insertAdjacentHTML('beforeend','<span class="gvx-plbl">'+lbl+'</span>');
+    return dv;
+  }
+  function bindPaper(p,startFn){
+    p.onclick=()=>{ if(playing===p){ stopM1(); return; } stopM1(); startFn(); };
+  }
+  function noteSound(midi,at,dur){ try{ pianoHit(midi,at,dur,0.15); }catch(e){ try{ synth(midi,at,dur,0.13); }catch(e2){} } }
+  /* también los SILENCIOS se iluminan en dorado cuando se producen */
+  function goldAt(el,at,keepNow){
+    if(!el) return;
+    visAt(at,()=>{ if(keepNow){ root.querySelectorAll('.m1x-now').forEach(x=>x.classList.remove('m1x-now')); el.classList.add('m1x-gold','m1x-now'); }
+      else { el.classList.add('m1x-gold'); } });
+  }
+
+  function playCmp(paperEl,d,ph,wordEl){
+    const c=ac(); if(!c) return;
+    const t0=c.currentTime+0.18; const LOOPS=2;
+    let tE=0;
+    for(let L=0;L<LOOPS;L++){
+      ph.bars.forEach((bar,bi)=>{
+        let acc=0;
+        ph.groups.forEach((g,gi)=>{
+          const at=t0+(tE+acc)*M1E8;
+          click(at,gi===0,1);
+          visAt(at,()=>flashWord(wordEl));
+          acc+=g;
+        });
+        const eff=m1Eff(bar);
+        let e=0;
+        bar.notes.forEach((nt,ni)=>{
+          const at=t0+(tE+e)*M1E8;
+          const el=d.bars[bi].els[ni];
+          if(el) visAt(at,()=>{ el.classList.add('m1x-gold'); timers.push(setTimeout(()=>el.classList.remove('m1x-gold'),eff[ni]*M1E8*1000*0.9)); });
+          if(!nt.d.endsWith('r')) noteSound(m1Midi(nt.k),at,Math.max(0.35,eff[ni]*M1E8*0.95));
+          e+=eff[ni];
+        });
+        tE+=ph.e8;
+      });
+    }
+    visAt(t0+tE*M1E8+0.3,()=>stopM1());
+    paperEl.classList.add('playing'); const b=paperEl.querySelector('.gvx-pp'); if(b)b.textContent='❚❚';
+    playing=paperEl;
+  }
+  function playEx(paperEl,draws,mode,brackets){
+    const c=ac(); if(!c) return;
+    const t0=c.currentTime+0.18;
+    let tE=0;
+    D.ex.forEach((ph,pi)=>{
+      ph.bars.forEach((bar,bi)=>{
+        const barE=tE;
+        if(mode==='sub'){
+          for(let e=0;e<ph.e8;e+=1) click(t0+(barE+e)*M1E8,false,0.5);
+        } else {
+          let acc=0;
+          ph.groups.forEach((g,gi)=>{
+            const at=t0+(barE+acc)*M1E8;
+            click(at,gi===0,1);
+            if(brackets){ const bk=brackets.find(b=>b.ph===pi&&b.bar===bi&&m1Near(b.e,acc));
+              if(bk) visAt(at,()=>{ bk.el.classList.add('m1x-bshine'); timers.push(setTimeout(()=>bk.el.classList.remove('m1x-bshine'), g*M1E8*1000*0.85)); }); }
+            acc+=g;
+          });
+        }
+        const eff=m1Eff(bar);
+        let e=0;
+        bar.notes.forEach((nt,ni)=>{
+          const at=t0+(barE+e)*M1E8;
+          goldAt(draws[pi].bars[bi].els[ni],at,true);
+          if(!nt.d.endsWith('r')) noteSound(m1Midi(nt.k),at,Math.max(0.35,eff[ni]*M1E8*0.95));
+          e+=eff[ni];
+        });
+        tE+=ph.e8;
+      });
+    });
+    visAt(t0+tE*M1E8+0.3,()=>stopM1());
+    paperEl.classList.add('playing'); const b=paperEl.querySelector('.gvx-pp'); if(b)b.textContent='❚❚';
+    playing=paperEl;
+  }
+
+  function render(){
+    stopM1(); stage.innerHTML=''; mdots();
+    btnPrev.style.visibility = step<=1?'hidden':'visible';
+    const oldGen=ctr.querySelector('[data-r="gen"]'); if(oldGen) oldGen.remove();
+    if(step>=NP){ btnNext.style.display='none';
+      const g=document.createElement('button'); g.className='gvx-btn primary'; g.dataset.r='gen';
+      g.textContent='🎼 Generar lectura →';
+      g.onclick=()=>{ try{ window.__gveGenerate(card); }catch(e){} };
+      ctr.appendChild(g);
+    } else { btnNext.style.display='';
+      btnNext.textContent=['','El ejercicio →','El patrón →'][step]||'Siguiente →'; }
+
+    if(step===1){
+      setCap('PASO 1',D.cap1[0],D.cap1[1]);
+      const row=document.createElement('div'); row.className='m1x-row'; stage.appendChild(row);
+      D.compare.forEach(cc=>{
+        const wrap=document.createElement('div');
+        const p=paper(cc.lbl,cc.model);
+        const h=document.createElement('div'); p.appendChild(h); wrap.appendChild(p);
+        wrap.insertAdjacentHTML('beforeend','<div class="m1x-foot">'+cc.foot+'</div>');
+        row.appendChild(wrap);
+        const d=m1Draw(h,cc.ph,{width:cc.w,height:132,endBar:true});
+        m1Ticks(d,cc.ph);
+        bindPaper(p,()=>playCmp(p,d,cc.ph,wrap.querySelector('.m1x-foot b')));
+      });
+      return; }
+
+    if(step===2){
+      setCap('PASO 2','El ejercicio, con motor de subdivisión','Déjate llevar por el motor. Sol arriba, fa abajo; el compás cambia entre frases.');
+      const sel=document.createElement('div'); sel.className='m1x-sel';
+      sel.innerHTML='<span class="t">Subdivisión</span>'+
+        '<button class="m1x-chip on">♪ corchea</button>'+
+        '<button class="m1x-chip dis" title="Disponible más adelante">♬ semicorchea</button>';
+      stage.appendChild(sel);
+      const p=paper('la lectura · 5/8 y luego 7/8');
+      const h1=document.createElement('div'), h2=document.createElement('div');
+      p.appendChild(h1); p.appendChild(h2); stage.appendChild(p);
+      const d1=m1Draw(h1,D.ex[0],{width:900,height:132,endBar:false});
+      const d2=m1Draw(h2,D.ex[1],{width:900,height:132,endBar:true});
+      bindPaper(p,()=>playEx(p,[d1,d2],'sub',null));
+      return; }
+
+    if(step===3){
+      setCap('PASO 3','¿Cuál es el patrón?','Piénsalo compás a compás… y cuando lo sepas, compruébalo con la ✦.');
+      const p=paper('la lectura · ahora, por pulsos');
+      p.classList.add('m1unrev'); p.classList.remove('m1blink');
+      p.querySelector('.gvx-pp').textContent='✦';
+      p.insertAdjacentHTML('beforeend','<span class="m1x-qtip">Revelar patrón</span>');
+      const h1=document.createElement('div'), h2=document.createElement('div');
+      p.appendChild(h1); p.appendChild(h2); stage.appendChild(p);
+      const d1=m1Draw(h1,D.ex[0],{width:900,height:172,endBar:false});
+      const d2=m1Draw(h2,D.ex[1],{width:900,height:172,endBar:true});
+      const bks=[];
+      m1Brackets(d1,D.ex[0]).forEach(b=>{ b.ph=0; bks.push(b); });
+      m1Brackets(d2,D.ex[1]).forEach(b=>{ b.ph=1; bks.push(b); });
+      const labs=m1Label(d1,'3+2').concat(m1Label(d2,'2+2+3'));
+      let notex=null;
+      if(D.notex){ p.insertAdjacentHTML('beforeend','<div class="m1x-notex m1x-rvl">'+D.notex+'</div>');
+        notex=p.querySelector('.m1x-notex'); }
+      let revealed=false;
+      p.onclick=()=>{
+        if(!revealed){
+          revealed=true; try{ magicSound(); }catch(e){}
+          const all=labs.concat(bks.map(b=>b.el));
+          all.forEach((el,i)=>{ el.style.transitionDelay=(i*45)+'ms'; el.classList.add('in'); });
+          if(notex){ notex.style.transitionDelay=(all.length*45+150)+'ms'; notex.classList.add('in'); }
+          p.classList.remove('m1unrev'); p.classList.add('m1blink');
+          p.querySelector('.gvx-pp').textContent='▶';
+          const tip=p.querySelector('.m1x-qtip'); if(tip)tip.remove();
+          return;
+        }
+        if(playing===p){ stopM1(); return; }
+        stopM1(); playEx(p,[d1,d2],'pulse',bks);
+      };
+      return; }
+  }
+  function showVeil(){
+    stopM1();
+    const tx = step===1 ? D.v1 : (step===2 ? V2C : V3C);
+    veil.querySelector('.paso').textContent='PASO '+step+' DE '+NP;
+    veil.querySelector('h2').innerHTML=tx.t;
+    veil.querySelector('p').innerHTML=tx.p;
+    veil.classList.add('show');
+  }
+  veil.querySelector('.vok').onclick=()=>{ veil.classList.remove('show'); render(); };
+  btnNext.onclick=()=>{ if(step<NP){ step++; showVeil(); } };
+  btnPrev.onclick=()=>{ if(step>1){ step--; showVeil(); } };
+
+  mdots(); showVeil();
+  return function(){ clearTimers(); try{ killAudio(); }catch(e){} try{veil.remove();}catch(e){} try{badge.remove();}catch(e){} };
+};
+
+Object.keys(M1DEFS).forEach(function(aid){
+  window.CARD_INTROS[aid]={spq:M1E8, slides:function(card){ return [
+    {type:'m1Metodo', card, aid:aid}
+  ]; }};
+});
+})();
+</script>
+
 </body></html>
