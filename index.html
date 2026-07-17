@@ -171,7 +171,7 @@ footer .lock{color:var(--gold1);}
 @media(max-width:560px){.course-grid{grid-template-columns:repeat(2,1fr);}}
 /* tarjetas de curso compactas: solo la etiqueta, centrada */
 .course-grid .trim-pick{aspect-ratio:1/1;min-height:0;height:auto;padding:0;justify-content:center;align-items:center;}
-.course-grid .tp-n{font-size:38px;font-weight:900;text-align:center;letter-spacing:.01em;}
+.course-grid .trim-pick .tp-n{font-size:42px;font-weight:900;text-align:center;letter-spacing:.01em;}
 .trim-pick.course-soon{opacity:.4;cursor:not-allowed;}
 .trim-pick.course-soon:hover{transform:none;border-color:var(--line);box-shadow:none;}
 .trim-pick.course-soon:hover .edge{opacity:.5;}
@@ -950,7 +950,14 @@ footer .lock{color:var(--gold1);}
 .m33-alert .gvx-reto{border-color:#c8452e;color:#ff8d6b;animation:m33blink .55s steps(2) infinite;}
 .m33-alert .gvx-paper.playing{box-shadow:0 0 0 2px #c8452e,0 10px 40px rgba(200,69,46,.45);}
 .m33-alert .gvx-plbl{color:#c8452e;}
-text.m33-acc{font:900 19px Georgia,serif;fill:#1a2233;transform-box:fill-box;transform-origin:center;animation:m33acc .5s cubic-bezier(.2,1.6,.4,1);}
+text.m33-acc{font:900 19px Georgia,serif;fill:#b8860b;stroke:none;transform-box:fill-box;transform-origin:center;animation:m33acc .5s cubic-bezier(.2,1.6,.4,1);}
+circle.m33-wave{fill:none;stroke:#d4af37;stroke-width:3;pointer-events:none;transform-box:fill-box;transform-origin:center;animation:m33wave .55s ease-out forwards;}
+@keyframes m33wave{0%{transform:scale(.25);opacity:.95}100%{transform:scale(1.3);opacity:0}}
+.m33-jump{position:fixed;top:104px;right:16px;z-index:10400;font:800 11.5px Inter,Arial,sans-serif;letter-spacing:.08em;color:#1a1407;background:linear-gradient(135deg,#ffe9a8,#e9b949);border:none;border-radius:999px;padding:8px 14px;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);transition:transform .15s ease;}
+.m33-jump:hover{transform:translateY(-1px);}
+.fm-adv.locked{opacity:.22;pointer-events:none;filter:grayscale(.8);animation:none;}
+.fm-adv.unlock{animation:fmunlock .7s cubic-bezier(.2,1.5,.4,1);}
+@keyframes fmunlock{0%{transform:scale(.6);box-shadow:0 0 0 0 rgba(233,185,73,0)}45%{transform:scale(1.18);box-shadow:0 0 26px 10px rgba(233,185,73,.85)}100%{transform:scale(1);box-shadow:0 4px 14px rgba(233,185,73,.4)}}
 @keyframes m33acc{0%{opacity:0;transform:scale(2.6)}100%{opacity:1;transform:scale(1)}}
 .m33-cnt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:900 110px Georgia,serif;color:rgba(184,134,11,.85);pointer-events:none;z-index:5;}
 .m33-cnt.m33pop{animation:m33cnt .9s ease-out;}
@@ -1454,7 +1461,7 @@ const GE_WORLDS=[
         {"ts":"3/8","notes":["16","16","16d","32","8"],"beams":[[0,1],[2,3]]},
         {"ts":"3/8","notes":["8","16","16","32","32","16"],"beams":[[1,2],[3,4,5]]}
       ] },
-      { id:"c3_2b", atlasId:"3.3", name:"Fusas y semifusas en pulso de negra", ref:"págs. 65–74", lecs:"121 · 124–127 · 129 · 131–132 · 134–135 · 145–146 · 148–149", slow:true, dense:true, fusaN:true, exclusive:true, note:"Modo DIFÍCIL: fusas y semifusas con pulsos grandes (negra y ♩.). Aquí nos pararemos varias semanas: para volar hay que ser tácticos. ⚠ Va SOLA (método propio de 4 pasos con metrónomo de escalones): no se mezcla con otras cartas.",
+      { id:"c3_2b", atlasId:"3.3", name:"Fusas y semifusas en pulso de negra", ref:"págs. 65–69 y 74", lecs:"121 · 124–125 · 129 · 131–132 · 134–135 · 148–149", slow:true, dense:true, fusaN:true, exclusive:true, note:"⚠ Carta complicada: fusas y semifusas con pulsos grandes (negra y ♩.). Para volar hay que ser tácticos: método propio de 4 pasos con metrónomo de escalones. Va SOLA: no se mezcla con otras cartas.",
         cells:[
         {"ts":"2/4","beats":1,"beat":4,"notes":["16","32","32","16","16"],"beams":[[0,1,2,3,4]]},
         {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","16","16","16"],"beams":[[0,1,2,3,4]]},
@@ -1464,10 +1471,6 @@ const GE_WORLDS=[
         {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","32","32","32","32","32","32"],"beams":[[0,1,2,3,4,5,6,7]],"label":"8 fusas"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16","16","32","32","32","32"],"beams":[[0,1,2,3,4,5]]},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16d","32","32","32","32","32"],"beams":[[0,1,2,3,4,5]]},
-        {"ts":"2/4","beats":1,"beat":4,"notes":["8dd","32"],"beams":[[0,1]],"label":"doble puntillo"},
-        {"ts":"2/4","beats":1,"beat":4,"notes":["8ddd","64"],"beams":[[0,1]],"label":"triple puntillo"},
-        {"ts":"2/4","notes":["qdd","16","q"],"label":"negra con doble puntillo"},
-        {"ts":"2/4","notes":["qddd","32","q"],"label":"negra con triple puntillo"},
         {"ts":"6/8","beats":3,"beat":8,"notes":["8","32","32","32","32","8"],"beams":[[0,1,2,3,4,5]]},
         {"ts":"6/8","beats":3,"beat":8,"notes":["16","16","16","8","8"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2],"num":3,"occ":2}],"label":"tresillo de fracción"},
         {"ts":"6/8","beats":3,"beat":8,"notes":["8d","32","32","8"],"beams":[[0,1,2,3]],"label":"galope ternario"},
@@ -1479,10 +1482,21 @@ const GE_WORLDS=[
         {"ts":"2/4","beats":1,"beat":4,"notes":["16","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["32","64","64","32","64","64","16","16"],"beams":[[0,1,2,3,4,5],[6,7]],"label":"parejas de semifusas"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16d","64","64","16","16"],"beams":[[0,1,2,3,4]]},
-        {"ts":"6/8","beats":3,"beat":8,"notes":["16","64","64","64","64","8","8"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas · ternaria"},
-        {"ts":"6/8","beats":3,"beat":8,"notes":["8dd","64","64","8"],"beams":[[0,1,2,3]],"label":"doble puntillo · ternaria"}
+        {"ts":"6/8","beats":3,"beat":8,"notes":["16","64","64","64","64","8","8"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas · ternaria"}
       ] },
-      { id:"c3_3", atlasId:"3.4", name:"Barrados sobre la línea divisoria", ref:"págs. 28–30", lecs:"41–47", barr:true, note:"La célula rítmica se independiza del compás: el barrado (o la ligadura) atraviesa la línea divisoria. Cada pareja de compases de 2/4 se escribe unida, con la barra en medio.",
+      { id:"c3_2c", atlasId:"3.4", name:"Doble y triple puntillo", ref:"págs. 66 y 73", lecs:"126–127 · 145–146", slow:true, dense:true, fusaN:true, exclusive:true, fusaMeters:["2/4","3/4","4/4"], note:"Cada puntillo añade la mitad del anterior: la nota corta llega más tarde y más rápida. Con las semifusas de las lecciones 145–146. Mismo método de 4 pasos que la 3.3. Va SOLA: no se mezcla con otras cartas.",
+        cells:[
+        {"ts":"2/4","beats":1,"beat":4,"notes":["8dd","32"],"beams":[[0,1]],"label":"doble puntillo"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["8ddd","64"],"beams":[[0,1]],"label":"triple puntillo"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["8dd","64","64"],"beams":[[0,1,2]],"label":"doble puntillo · dos semifusas"},
+        {"ts":"2/4","notes":["16d","32","8dd","32"],"beams":[[0,1],[2,3]],"label":"puntillo y doble"},
+        {"ts":"2/4","notes":["qdd","16"],"label":"negra con doble puntillo"},
+        {"ts":"2/4","notes":["qddd","32"],"label":"negra con triple puntillo"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["16","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["16d","64","64","16","16"],"beams":[[0,1,2,3,4]]},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["32","32","32","32","16","16"],"beams":[[0,1,2,3,4,5]],"label":"fusas"}
+      ] },
+      { id:"c3_3", atlasId:"3.5", name:"Barrados sobre la línea divisoria", ref:"págs. 28–30", lecs:"41–47", barr:true, note:"La célula rítmica se independiza del compás: el barrado (o la ligadura) atraviesa la línea divisoria. Cada pareja de compases de 2/4 se escribe unida, con la barra en medio.",
         cells:[
         {"ts":"4/4","sigText":"2/4","notes":["q","8","8","|","8","8","q"],"beams":[[1,2,4,5]],"label":"barrado sobre la barra"},
         {"ts":"4/4","sigText":"2/4","notes":["8","8","16","16","16","16","|","16","16","8","q"],"beams":[[0,1],[2,3,4,5,7,8]],"label":"semicorcheas a través"},
@@ -1492,7 +1506,7 @@ const GE_WORLDS=[
         {"ts":"6/4","sigText":"3/4","notes":["q","8","8","8","8","|","8","8","q","q"],"beams":[[1,2],[3,4,6,7]],"label":"dos de 3/4, unidos"},
         {"ts":"6/4","sigText":"3/4","notes":["q","q","16","16","16","16","|","16","16","8","q","q"],"beams":[[2,3,4,5,7,8]],"label":"semicorcheas a través (3/4)"}
       ] },
-      { id:"c3_4", atlasId:"3.5", name:"Unidades menos frecuentes", ref:"págs. 75–76", lecs:"150–153", note:"Las fórmulas de siempre sobre unidades inusuales: compases de fracción semicorchea (6/16, 12/16, 3/16) y de unidad redonda (3/1, 2/1). La relatividad figura/pulso.",
+      { id:"c3_4", atlasId:"3.6", name:"Unidades menos frecuentes", ref:"págs. 75–76", lecs:"150–153", note:"Las fórmulas de siempre sobre unidades inusuales: compases de fracción semicorchea (6/16, 12/16, 3/16) y de unidad redonda (3/1, 2/1). La relatividad figura/pulso.",
         cells:[
         {"ts":"6/16","notes":["8d","8d"],"label":"6/16"},
         {"ts":"6/16","notes":["16","16","16","8d"],"beams":[[0,1,2]]},
@@ -1709,7 +1723,8 @@ function genMeasureFromCards(time, activeCards, pick, opts={}){
     return {time,notes,beams,cap,grouping:grp,_hasHard:hadHard};
   }
   // si hay células de COMPÁS ENTERO (síncopas binarias, blanca, GVE, fusas...), con buena prob soltar una
-  if(barCells.length && (opts.forceCell || !pulseCells.length || pick([true,true,false]))){
+  const barProb = activeCards.some(c=>c.fusaN) ? [true,false,false] : [true,true,false];   // 3.3/3.4: la célula de compás entero, dosificada (que respire el resto)
+  if(barCells.length && (opts.forceCell || !pulseCells.length || pick(barProb))){
     let cell=pick(barCells);
     if(barCells.length>1 && cell===GE_LAST_CELL){ const alt=barCells.filter(c=>c!==GE_LAST_CELL); cell=pick(alt); }
     GE_LAST_CELL=cell; markDiff(); return geCellToMeasure(cell, cap);
@@ -3321,7 +3336,8 @@ function gp1Config(worldId, cards){
   usable.forEach(c=>(c.cells||[]).forEach(cell=>{ if(cell.ts && !cell.equiv) ms.add(cell.ts); }));
   let meterPool=[...ms];
   const fusaN=usable.some(c=>c.fusaN);
-  if(fusaN) meterPool=['2/4','3/4','6/8','9/8'];   // 3.3: pulsos grandes (negra y ♩.), como el libro (121–149)
+  if(fusaN){ const fc=usable.find(c=>c.fusaN);
+    meterPool=(fc&&fc.fusaMeters)?fc.fusaMeters.slice():['2/4','3/4','6/8','9/8']; }   // 3.3 / 3.4: pulsos grandes, como el libro
   if(clave) meterPool=['2/4','3/4','4/4','6/8','3/8'];
   if(claveH) meterPool=['2/4','3/4','6/8'];
   if(claveN) meterPool=['2/4','3/4','4/4','3/8','6/8','9/8','5/8','7/8','2/2'];
@@ -5294,7 +5310,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   const totalSecRel = (hasMap ? sched.totalSec : sched.totalQ*spq) - baseSec;
   const endAt=bodyStart+totalSecRel+0.1;
   // ancla para aplicar cambios en vivo desde el próximo pulso
-  playAnchor={ accStart:bodyStart, baseSec, qToSec, pulses:(sched.pulses||[]).slice(), totalQ:sched.totalQ };
+  playAnchor={ accStart:bodyStart, baseSec, qToSec, pulses:(sched.pulses||[]).slice(), totalQ:sched.totalQ, leadStart:t0 };
   // resaltado verde (rAF) respetando el tempo variable y el offset
   const useAll = opts.goldEls && opts.goldEvents && opts.goldEls.length;
   const gEls = useAll ? opts.goldEls : els;
@@ -5388,7 +5404,7 @@ function stdPulseBPM(){
     const fusas = !!(cfg.dense || cfg.slow);
     const amalg = (cfg.activeCards||[]).some(c=>c.amalgamaDash);
     if(m0.fracSig) return 65;                // fraccionarios (2±¼)/4: negra = 65 (como su intro)
-    if(cfg.fusaN) return k.pulseDurQ===1.5?40:60;   // 3.3 fusas/semifusas: escucha al TEMPO OBJETIVO (♩=60 / ♩.=40)
+    if(cfg.fusaN) return k.pulseDurQ===1.5?52:70;   // 3.3 fusas/semifusas: escucha al TEMPO OBJETIVO (♩=70 / ♩.=52)
     if(m0.e8pulse || k.pulseDurQ===0.5) return (currentLesson.worldId==='m1'?140:60);   // pulso de CORCHEA: fusas fáciles a ♪=60
     if(!k.regular) return 70;                // dispar: negra=70 ↔ corchea=140 (como los intros del mundo 1)
     if(k.pulseDurQ===1.5) return 48;         // compuesto 6/8…: negra con puntillo = 48
@@ -5404,7 +5420,7 @@ function stdPulseBPM(){
 // pulso base por minuto: estándar ± nivel·8, o la mitad del estándar si "extremadamente lento"
 function fusaNCompound(L){ try{ const m0=L.phrases[0].measures[0]; return meterKind(m0.time,m0.wideTernary).pulseDurQ===1.5; }catch(e){ return false; } }
 function fmState(L){ const comp=fusaNCompound(L);
-  if(!L.__fm) L.__fm={base:comp?20:30, max:comp?40:60, step:comp?3:5, bpm:comp?20:30, passed:false, denied:0, comp};
+  if(!L.__fm) L.__fm={base:comp?20:30, max:comp?52:70, step:comp?6:10, bpm:comp?20:30, passed:false, denied:0, comp};
   return L.__fm; }
 function basePulseBPMNow(){
   // 3.3 (fusaN) en modo estudio: tempos del MÉTODO (corchea=60 en pasos 1-2; escalones en el paso 3;
@@ -5414,7 +5430,7 @@ function basePulseBPMNow(){
     const comp=fusaNCompound(currentLesson);
     if(ph.kind==='ritmo'||ph.kind==='lectura') return comp?20:30;        // corchea = 60
     if(ph.kind==='metro') return fmState(currentLesson).bpm;
-    if(ph.kind==='entonacion') return currentLesson.__fm ? currentLesson.__fm.bpm : (comp?40:60);
+    if(ph.kind==='entonacion') return currentLesson.__fm ? currentLesson.__fm.bpm : (comp?52:70);
   }
   const std=stdPulseBPM();
   const gp1Dense = (currentCourse==='gp1') && (function(){ try{ return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
@@ -5669,11 +5685,13 @@ function velSubBlock(){
   return wrap;
 }
 /* ===== 3.3 · MÓDULO «METRÓNOMO DE ESCALONES» (luz de subdivisión + barra + ± con paciencia) ===== */
-function fmSnd(kind){ try{ const c=ac(); if(!c) return; const t=c.currentTime;
+function fmSnd(kind,pct){ try{ const c=ac(); if(!c) return; const t=c.currentTime;
   const bl=(f,dt,d,g,ty)=>{ const o=c.createOscillator(),ga=c.createGain(); o.type=ty||'triangle'; o.frequency.value=f;
     ga.gain.setValueAtTime(0.0001,t+dt); ga.gain.linearRampToValueAtTime(g,t+dt+0.012); ga.gain.exponentialRampToValueAtTime(0.0001,t+dt+d);
     o.connect(ga); ga.connect(c.destination); o.start(t+dt); o.stop(t+dt+d+0.03); };
   if(kind==='appear'){ [330,415,523,660].forEach((f,i)=>bl(f,i*0.07,0.35,0.09)); }
+  else if(kind==='step'){ const f0=680+(pct||0)*620; bl(f0,0,0.08,0.16,'square'); bl(f0*1.335,0.07,0.1,0.16,'square'); bl(f0*2,0.14,0.34,0.13); }
+  else if(kind==='unlock'){ [523,659,784,1047,1319].forEach((f,i)=>bl(f,i*0.055,0.32,0.12)); }
   else if(kind==='coin'){ bl(988,0,0.09,0.14,'square'); bl(1319,0.08,0.22,0.14,'square'); }
   else if(kind==='down'){ bl(659,0,0.09,0.11,'square'); bl(494,0.08,0.2,0.11,'square'); }
   else if(kind==='deny'){ bl(196,0,0.16,0.14,'sawtooth'); bl(185,0.05,0.22,0.12,'sawtooth'); }
@@ -5688,16 +5706,22 @@ function fmBuildModule(cfg){
     '<div class="fm-mid"><div class="fm-lbl">VELOCIDAD</div><div class="fm-track"><div class="fm-fill"></div><span class="fm-goal" title="objetivo"></span></div></div>'+
     '<button class="fm-btn fm-minus" title="Bajar un escalón">−</button>'+
     '<button class="fm-btn fm-plus" title="Subir un escalón (una pasada completa lo desbloquea)">+</button>'+
-    '<button class="fm-adv" style="display:none"></button>';
+    '<button class="fm-adv"></button>';
   const light=el.querySelector('.fm-light'), fill=el.querySelector('.fm-fill'),
         plus=el.querySelector('.fm-plus'), minus=el.querySelector('.fm-minus'), adv=el.querySelector('.fm-adv');
   adv.textContent=cfg.advanceText||'Suficiente velocidad · siguiente fase ▶';
+  adv.classList.add('locked');
   adv.onclick=()=>{ if(cfg.onAdvance) cfg.onAdvance(); };
-  let tick=null;
-  function blink(){ if(tick){ clearInterval(tick); tick=null; }
-    const per=(st.comp? 60/(st.bpm*3) : 60/(st.bpm*2))*1000;   // corcheas del pulso grande
-    tick=setInterval(()=>{ light.classList.remove('on'); void light.offsetWidth; light.classList.add('on'); }, Math.max(90,per));
-  }
+  let tick=null, syncT=null;
+  const pulse=()=>{ light.classList.remove('on'); void light.offsetWidth; light.classList.add('on'); };
+  const perMs=()=> Math.max(90,(st.comp? 60/(st.bpm*3) : 60/(st.bpm*2))*1000);   // corcheas del pulso grande
+  function blink(){ if(tick){ clearInterval(tick); tick=null; } tick=setInterval(pulse, perMs()); }
+  // sincronizar el parpadeo con la reproducción: primer destello EXACTO en el primer clic de la cuenta atrás
+  el.__sync=function(atSec){ try{ const c=ac(); if(!c){ blink(); return; }
+    if(tick){ clearInterval(tick); tick=null; } if(syncT){ clearTimeout(syncT); syncT=null; }
+    const delay=Math.max(0,(atSec-c.currentTime)*1000);
+    syncT=setTimeout(()=>{ pulse(); tick=setInterval(pulse, perMs()); }, delay);
+  }catch(e){ blink(); } };
   function fly(txt,neg){ const f=document.createElement('span'); f.className='fm-fly'+(neg?' neg':''); f.textContent=txt;
     el.appendChild(f); setTimeout(()=>{ try{f.remove();}catch(e){} },1000); }
   function refresh(){ const pct=Math.max(0,Math.min(1,(st.bpm-st.base)/(st.max-st.base)));
@@ -5705,19 +5729,23 @@ function fmBuildModule(cfg){
     fill.classList.toggle('full',pct>=1);
     plus.classList.toggle('ready',st.passed&&st.bpm<st.max);
     plus.disabled=(st.bpm>=st.max); minus.disabled=(st.bpm<=st.base);
-    adv.style.display=(pct>=0.75)?'inline-flex':'none';
+    const open=(pct>=0.75);
+    adv.classList.toggle('locked',!open);
+    if(open && !st.everUnlocked){ st.everUnlocked=true;
+      adv.classList.remove('unlock'); void adv.offsetWidth; adv.classList.add('unlock'); fmSnd('unlock'); }
     blink();
     if(cfg.onChange) cfg.onChange();
   }
   plus.onclick=()=>{ if(st.bpm>=st.max) return;
     if(!st.passed){ st.denied++; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); fmSnd('deny');
-      if(st.denied>=2) fmPatienceBanner(); return; }
+      fmPatienceBanner(); return; }
+    const pctN=Math.max(0,Math.min(1,(st.bpm+st.step-st.base)/(st.max-st.base)));
     st.bpm=Math.min(st.max,st.bpm+st.step); st.passed=false; st.denied=0;
-    fly('+'+st.step); fmSnd(st.bpm>=st.max?'goal':'coin'); refresh(); };
+    fly('+'+st.step); fmSnd(st.bpm>=st.max?'goal':'step',pctN); refresh(); };
   minus.onclick=()=>{ if(st.bpm<=st.base) return;
     st.bpm=Math.max(st.base,st.bpm-st.step); st.passed=false; st.denied=0;
     fly('−'+st.step,true); fmSnd('down'); refresh(); };
-  el.__refresh=refresh; el.__stop=()=>{ if(tick){ clearInterval(tick); tick=null; } };
+  el.__refresh=refresh; el.__stop=()=>{ if(tick){ clearInterval(tick); tick=null; } if(syncT){ clearTimeout(syncT); syncT=null; } };
   requestAnimationFrame(()=>{ el.classList.add('in'); });
   fmSnd('appear');
   refresh();
@@ -5940,6 +5968,7 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
         const onEnd=(ph.kind==='metro') ? ()=>{ setPlayState(false); try{ fmMarkPassed(); }catch(e){} } : ()=>setPlayState(false);
         play({...opts, onEnd});
         setPlayState(true);
+        if(ph.kind==='metro' && FM_EL && FM_EL.__sync && playAnchor) FM_EL.__sync(playAnchor.leadStart);   // luz al compás de la cuenta atrás
       }
     };
     // ---- ABAJO: solo configuración (referencia de entonación + velocidad/subdivisión) ----
@@ -9613,11 +9642,14 @@ function m1Draw(host,ph,opts){
   const n=ph.bars.length, EXTRA=86;
   const W=opts.width||900, H=opts.height||132;
   r.resize(W,H);
-  const base=(W-16-EXTRA)/n;
+  // ancho por compás PROPORCIONAL a su número de figuras (los compases densos respiran)
+  const innerW=(W-16-EXTRA);
+  const wts=ph.bars.map(b=>Math.max(4,(b.notes||[]).length+2));
+  const wsum=wts.reduce((a,b)=>a+b,0);
   let x=8; const out={svg:null,bars:[]};
   const restKey = ph.clef==='bass'?'d/3':'b/4';
   ph.bars.forEach((bar,bi)=>{
-    const w=base+(bi===0?EXTRA:0);
+    const w=innerW*(wts[bi]/wsum)+(bi===0?EXTRA:0);
     const stave=new VF.Stave(x,H/2-52,w);
     if(bi===0){ if(ph.clef&&ph.clef!=='none') stave.addClef(ph.clef);
       if(bar.fracSig) stave.addTimeSignature(bar.fracSig[0]);
@@ -9678,7 +9710,7 @@ function m1Draw(host,ph,opts){
     }catch(e){} }
     const svg=host.querySelector('svg');
     const els=vf.map(sn=>{ try{ return svg.querySelector('[id="vf-'+sn.attrs.id+'"]'); }catch(e){ return null; } });
-    out.bars.push({els,stave,x,w});
+    out.bars.push({els,stave,x,w,vf});
     x+=w;
   });
   out.svg=host.querySelector('svg');
@@ -10670,7 +10702,7 @@ S.m33Metodo=function(host,s){
   const card=s.card;
   try{ ensurePiano(); }catch(e){}
   const root=document.createElement('div'); root.className='gvx-wrap';
-  root.innerHTML='<div class="gvx-cap"><span class="paso">CARTA 3.4</span><h2>Barrados sobre la línea divisoria</h2>'+
+  root.innerHTML='<div class="gvx-cap"><span class="paso">CARTA 3.5</span><h2>Barrados sobre la línea divisoria</h2>'+
     '<p style="font-size:13px;color:var(--muted2);margin:0;">Nuevas grafías: el barrado cruza la barra. Sigue las tarjetas.</p></div>'+
     '<div class="gvx-stage"></div><div class="gvx-ctr"></div>';
   host.appendChild(root);
@@ -10856,7 +10888,7 @@ S.m33Metodo=function(host,s){
   showCard(0);
   return function(){ clearTimers(); try{ killAudio(); }catch(e){} try{ stopPiano(); }catch(e){} try{side.remove();}catch(e){} try{badge.remove();}catch(e){} };
 };
-window.CARD_INTROS['3.4']={spq:M1E8, slides:function(card){ return [
+window.CARD_INTROS['3.5']={spq:M1E8, slides:function(card){ return [
   {type:'m33Metodo', card}
 ]; }};
 
@@ -10898,7 +10930,7 @@ S.m34Metodo=function(host,s){
   const card=s.card;
   try{ ensurePiano(); }catch(e){}
   const root=document.createElement('div'); root.className='gvx-wrap';
-  root.innerHTML='<div class="gvx-cap"><span class="paso">CARTA 3.5</span><h2>Unidades menos frecuentes</h2>'+
+  root.innerHTML='<div class="gvx-cap"><span class="paso">CARTA 3.6</span><h2>Unidades menos frecuentes</h2>'+
     '<p style="font-size:13px;color:var(--muted2);margin:0;">Denominador 16 y denominador 1. Sigue las tarjetas.</p></div>'+
     '<div class="gvx-stage"></div><div class="gvx-ctr"></div>';
   host.appendChild(root);
@@ -11035,7 +11067,7 @@ S.m34Metodo=function(host,s){
   showCard(0);
   return function(){ clearTimers(); try{ killAudio(); }catch(e){} try{ stopPiano(); }catch(e){} try{side.remove();}catch(e){} try{badge.remove();}catch(e){} };
 };
-window.CARD_INTROS['3.5']={spq:M1E8, slides:function(card){ return [
+window.CARD_INTROS['3.6']={spq:M1E8, slides:function(card){ return [
   {type:'m34Metodo', card}
 ]; }};
 
@@ -11235,18 +11267,18 @@ window.CARD_INTROS['3.2']={spq:1, slides:function(card){ return [ {type:'m32Meto
 /* ============ 3.3 · «Fusas y semifusas en pulso de negra» (modo difícil) ============
    Zona de peligro (Iago): ejemplos de vértigo a tempo objetivo, método de 4 pasos con
    metrónomo de escalones, y doble/triple puntillo con su resolución. */
-const EXS24={ clef:'treble', ts:'2/4', spu:0.5, groups:[2,2], bars:[
+const EXS24={ clef:'treble', ts:'2/4', spu:0.4286, groups:[2,2], bars:[
   {notes:[{k:'e/4',d:'16d'},{k:'f/4',d:'32'},{k:'g/4',d:'32'},{k:'a/4',d:'32'},{k:'g/4',d:'32'},{k:'f/4',d:'32'},{k:'e/4',d:'16'},{k:'d/4',d:'16'},{k:'e/4',d:'32'},{k:'f/4',d:'32'},{k:'g/4',d:'16'}],
    beams:[[0,1,2,3,4,5],[6,7,8,9,10]]},
-  {notes:[{k:'a/4',d:'64'},{k:'g/4',d:'64'},{k:'a/4',d:'64'},{k:'b/4',d:'64'},{k:'a/4',d:'64'},{k:'g/4',d:'64'},{k:'f/4',d:'64'},{k:'e/4',d:'64'},{k:'f/4',d:'16'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'64'},{k:'c/5',d:'64'},{k:'b/4',d:'64'},{k:'a/4',d:'64'},{k:'g/4',d:'16'},{k:'f/4',d:'16'}],
-   beams:[[0,1,2,3,4,5,6,7],[8,9],[10,11,12,13,14],[15,16]]},
-  {notes:[{k:'e/4',d:'16d'},{k:'f/4',d:'32'},{k:'g/4',d:'16'},{k:'a/4',d:'32'},{k:'b/4',d:'32'},{k:'a/4',d:'q'}],
+  {notes:[{k:'a/4',d:'16d'},{k:'g/4',d:'64'},{k:'a/4',d:'64'},{k:'b/4',d:'32'},{k:'a/4',d:'32'},{k:'g/4',d:'32'},{k:'f/4',d:'32'},{k:'g/4',d:'16'},{k:'a/4',d:'16'},{k:'b/4',d:'16d'},{k:'c/5',d:'32'}],
+   beams:[[0,1,2,3,4,5,6],[7,8,9,10]]},
+  {notes:[{k:'a/4',d:'16d'},{k:'g/4',d:'32'},{k:'f/4',d:'16'},{k:'g/4',d:'32'},{k:'e/4',d:'32'},{k:'d/4',d:'q'}],
    beams:[[0,1,2,3,4]]} ]};
-const EXS68={ clef:'bass', ts:'6/8', spu:0.5, groups:[3,3], bars:[
+const EXS68={ clef:'bass', ts:'6/8', spu:0.3846, groups:[3,3], bars:[
   {notes:[{k:'c/3',d:'8'},{k:'d/3',d:'32'},{k:'e/3',d:'32'},{k:'f/3',d:'32'},{k:'g/3',d:'32'},{k:'f/3',d:'8'},{k:'e/3',d:'16d'},{k:'d/3',d:'32'},{k:'e/3',d:'16d'},{k:'f/3',d:'32'},{k:'g/3',d:'8'}],
    beams:[[0,1,2,3,4,5],[6,7,8,9,10]]},
-  {notes:[{k:'a/3',d:'16'},{k:'g/3',d:'64'},{k:'a/3',d:'64'},{k:'g/3',d:'64'},{k:'f/3',d:'64'},{k:'e/3',d:'16'},{k:'f/3',d:'16'},{k:'g/3',d:'8'},{k:'a/3',d:'32'},{k:'g/3',d:'32'},{k:'f/3',d:'32'},{k:'e/3',d:'32'},{k:'d/3',d:'32'},{k:'e/3',d:'32'},{k:'f/3',d:'32'},{k:'g/3',d:'32'},{k:'a/3',d:'32'},{k:'b/3',d:'32'},{k:'a/3',d:'32'},{k:'g/3',d:'32'}],
-   beams:[[0,1,2,3,4,5,6,7],[8,9,10,11,12,13],[14,15,16,17,18,19]]},
+  {notes:[{k:'a/3',d:'16'},{k:'g/3',d:'64'},{k:'a/3',d:'64'},{k:'g/3',d:'64'},{k:'f/3',d:'64'},{k:'e/3',d:'16'},{k:'f/3',d:'16'},{k:'g/3',d:'8'},{k:'a/3',d:'32'},{k:'b/3',d:'32'},{k:'a/3',d:'32'},{k:'g/3',d:'32'},{k:'f/3',d:'32'},{k:'e/3',d:'32'},{k:'f/3',d:'16'},{k:'g/3',d:'8'}],
+   beams:[[0,1,2,3,4,5,6,7],[8,9,10,11,12,13,14,15]]},
   {notes:[{k:'f/3',d:'8d'},{k:'e/3',d:'32'},{k:'d/3',d:'32'},{k:'e/3',d:'16'},{k:'f/3',d:'16'},{k:'c/3',d:'qd'}],
    beams:[[0,1,2,3,4]]} ]};
 const EXM68=[
@@ -11282,16 +11314,24 @@ const PD_ROW1=[
   { clef:'treble', ts:'2/4', spu:0.75, groups:[2,2], bars:[{notes:[{k:'g/4',d:'8dd'},{k:'a/4',d:'32'},{k:'g/4',d:'q'}],beams:[[0,1]]}] },
   { clef:'treble', ts:'2/4', spu:0.75, groups:[2,2], bars:[{notes:[{k:'g/4',d:'8ddd'},{k:'a/4',d:'64'},{k:'g/4',d:'q'}],beams:[[0,1]]}] }
 ];
-const PD_ROW2=[
-  { clef:'treble', ts:'2/4', spu:0.75, groups:[2,2], bars:[{notes:[{k:'e/4',d:'qdd'},{k:'f/4',d:'16'}],beams:[]},{notes:[{k:'g/4',d:'h'}],beams:[]}] },
-  { clef:'treble', ts:'2/4', spu:0.75, groups:[2,2], bars:[{notes:[{k:'e/4',d:'qddd'},{k:'f/4',d:'32'}],beams:[]},{notes:[{k:'g/4',d:'h'}],beams:[]}] }
-];
 function m33IsBound(groups,u){ let a=0; for(let i=0;i<groups.length;i++){ if(Math.abs(u-a)<0.01) return true; a+=groups[i]; } return false; }
 function m33Count(p,n){ let d=p.querySelector('.m33-cnt');
   if(!n){ if(d)d.remove(); return; }
   if(!d){ d=document.createElement('div'); d.className='m33-cnt'; p.appendChild(d); }
   d.textContent=n; d.classList.remove('m33pop'); void d.offsetWidth; d.classList.add('m33pop'); }
 /* reproductor propio 3.3: claqueta 'sub' (corcheas + semicorcheas sutiles) o 'pulse'; notas a percusión o piano */
+function m33PunchSnd(at){ try{ const c=ac(); if(!c) return;
+  const o=c.createOscillator(),g=c.createGain(); o.type='sine';
+  o.frequency.setValueAtTime(220,at); o.frequency.exponentialRampToValueAtTime(70,at+0.09);
+  g.gain.setValueAtTime(0.001,at); g.gain.linearRampToValueAtTime(0.5,at+0.008); g.gain.exponentialRampToValueAtTime(0.0001,at+0.16);
+  o.connect(g); g.connect(c.destination); o.start(at); o.stop(at+0.2);
+}catch(e){} }
+function m33Shock(d,el){ try{ const hd=el.querySelector('.vf-notehead')||el; const b=hd.getBBox();
+  const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx',b.x+b.width/2); c.setAttribute('cy',b.y+b.height/2); c.setAttribute('r',19);
+  c.setAttribute('class','m33-wave'); d.svg.appendChild(c);
+  setTimeout(()=>{ try{c.remove();}catch(e){} },650);
+}catch(e){} }
 function m33Play(T,p,draws,phs,o){
   o=o||{}; const c=ac(); if(!c) return;
   const spuOf=(ph)=> o.spu!=null?o.spu:(ph.spu||0.5);
@@ -11300,8 +11340,10 @@ function m33Play(T,p,draws,phs,o){
   const lead = o.countIn===false ? 0 : ((o.claq!=='sub' && g0===3) ? 2 : (o.claq==='sub'?4:3));
   const stepSec=unit*spuOf(phs[0]);
   let t0=c.currentTime+0.22;
+  if(o.mod && o.mod.__sync) o.mod.__sync(t0);                   // la luz destella EXACTO con la cuenta atrás
   for(let i=0;i<lead;i++){ const ti=t0+i*stepSec, n=lead-i;
     click(ti,i===0,1);
+    if(o.refNote!=null){ try{ pianoHit(o.refNote,ti,stepSec*0.85,0.13); }catch(e3){} }   // referencia: la 1ª nota
     if(n<=3) T.visAt(ti-0.02,()=>m33Count(p,n)); }
   if(lead) T.visAt(t0+lead*stepSec-0.02,()=>m33Count(p,0));
   const body=t0+lead*stepSec;
@@ -11322,11 +11364,12 @@ function m33Play(T,p,draws,phs,o){
       const eff=m1Eff(bar); let e=0;
       bar.notes.forEach((nt,ni)=>{ const at=body+tS+e*spu;
         const el=draws[pi].bars[bi].els[ni];
+        const acc=!!(o.punch && m33IsBound(ph.groups,e) && !nt.d.endsWith('r'));   // 1ª nota de cada pulso: con punch
         if(el) T.visAt(at,()=>{ T.root.querySelectorAll('.m1x-now').forEach(x=>x.classList.remove('m1x-now'));
-          el.classList.add('m1x-gold','m1x-now'); });
+          el.classList.add('m1x-gold','m1x-now'); if(acc) m33Shock(draws[pi],el); });
         if(!nt.d.endsWith('r')){
-          if(o.perc) knock(at,0.95);
-          else { try{ pianoHit(m1Midi(nt.k),at,Math.max(0.12,eff[ni]*spu*0.92),0.15); }catch(e2){} }
+          if(o.perc){ knock(at,acc?1.4:0.95); if(acc) m33PunchSnd(at); }
+          else { try{ pianoHit(m1Midi(nt.k),at,Math.max(0.12,eff[ni]*spu*0.92),acc?0.3:0.15); if(acc) m33PunchSnd(at); }catch(e2){} }
         }
         e+=eff[ni];
       });
@@ -11342,11 +11385,15 @@ function m33Accents(T,d,ph,opts){
   ph.bars.forEach((bar,bi)=>{ const eff=m1Eff(bar); let cum=0;
     bar.notes.forEach((nt,ni)=>{
       if(m33IsBound(ph.groups,cum) && !nt.d.endsWith('r')){
-        const el=d.bars[bi].els[ni], stv=d.bars[bi].stave;
+        const el=d.bars[bi].els[ni], vfn=(d.bars[bi].vf||[])[ni];
         if(el){ k++;
           const delay=opts.stagger ? ((opts.base||0)+k)*300 : 0;
           T.after(delay,()=>{ try{
-            const x=m1HeadX(el), y=stv.getYForLine(4)+18;
+            const hd=el.querySelector('.vf-notehead')||el; const b=hd.getBBox();
+            let dir=1; try{ if(vfn&&vfn.getStemDirection) dir=vfn.getStemDirection(); }catch(e4){}
+            const above=(dir===-1);   // plica abajo → acento ARRIBA de la cabeza (y al revés)
+            const x=b.x+b.width/2;
+            const y=above ? (b.y-7) : (b.y+b.height+15);
             const t=document.createElementNS('http://www.w3.org/2000/svg','text');
             t.setAttribute('x',x); t.setAttribute('y',y); t.setAttribute('text-anchor','middle');
             t.setAttribute('class','m33-acc'); t.textContent='>';
@@ -11359,15 +11406,57 @@ function m33Accents(T,d,ph,opts){
   });
   return k;
 }
+function m33MethodRun(T,mods,cfg,onFinish){
+    const st={base:cfg.base,max:cfg.max,step:cfg.step,bpm:cfg.base,passed:false,denied:0,comp:cfg.comp};
+    let mod=null;
+    const spuFor=()=> cfg.comp ? (60/st.bpm)/3 : (60/st.bpm)/2;
+    function draw(){ T.stop(); T.stage.innerHTML='';
+      const p=T.paper(cfg.tag);
+      const hs=cfg.phs.map(()=>{ const h=document.createElement('div'); p.appendChild(h); return h; });
+      p.appendChild(T.side); T.stage.appendChild(p);
+      const draws=cfg.phs.map((ph,i)=>m1Draw(hs[i],ph,{width:900,height:150,endBar:(i===cfg.phs.length-1)}));
+      return {p,draws};
+    }
+    function paso1(){ const {p,draws}=draw();
+      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:1,claq:'sub',perc:true,countIn:true}));
+      T.showCard({t:'PASO 1 · Piensa en corcheas', p:'Como en la 3.2: la primera fase de estudio va <b>muy despacio</b>, marcando TODO <b>a corcheas</b> (corchea = 60). Eso sí: hazlo con los <b>gestos de brazo</b> que luego serán los pulsos grandes.', b:'Paso 2 →'},paso2);
+    }
+    function paso2(){ const {p,draws}=draw();
+      T.after(600,()=>{ let base=0; cfg.phs.forEach((ph,i)=>{ base+=m33Accents(T,draws[i],ph,{stagger:true,base}); }); });
+      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:1,claq:'sub',perc:true,countIn:true,punch:true}));
+      T.showCard({t:'PASO 2 · Acentúa la primera de cada pulso', p:'<b>Misma velocidad</b>, pero tú dejas de subdividir: <b>acentúa la primera nota de cada pulso real</b>. Seguirás <b>escuchando</b> la claqueta subdividir… pero tú ya no lo hagas.', b:'Paso 3 →'},paso3);
+    }
+    function paso3(){ const {p,draws}=draw();
+      cfg.phs.forEach((ph,i)=>m33Accents(T,draws[i],ph,{stagger:false}));
+      const holder=document.createElement('div'); holder.className='m33-modwrap'; T.stage.appendChild(holder);
+      mod=fmBuildModule({state:st, advanceText:'Suficiente velocidad · paso 4 →', onAdvance:()=>{ paso4(); }});
+      mods.push(mod); holder.appendChild(mod);
+      try{ window.__m33st=st; window.__m33mod=mod; }catch(e){}
+      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:spuFor(),claq:'pulse',perc:true,countIn:true,punch:true,mod,
+        onEnd:()=>{ st.passed=true; st.denied=0; if(mod&&mod.__refresh&&document.body.contains(mod)) mod.__refresh(); }}));
+      T.showCard({t:'PASO 3 · Sube escalones', p:'Aparece el <b>metrónomo</b>: su luz parpadea la <b>subdivisión</b>, pero ya solo <b>oirás el pulso grande</b>. Sube velocidad en el botón <b>+</b>. La barra se llena hacia el <b>objetivo</b>. Si te pasas, pulsa <b>−</b>. Ve a tu ritmo.', b:'Una cosa más…'},()=>{
+        T.showCard({t:'La primera nota de cada pulso es sagrada', p:'Cuando vayas a una velocidad realmente rápida y empieces a <b>trabarte</b>… las notas acentuadas serán <b>tu ancla</b>. Agárrate a ellas: lo demás se ordena alrededor.', b:'¡A subir! →'},()=>{ T.side.style.display='none'; });
+      });
+    }
+    function paso4(){ const {p,draws}=draw();
+      cfg.phs.forEach((ph,i)=>m33Accents(T,draws[i],ph,{stagger:false}));
+      const ref=(()=>{ try{ for(const nt of cfg.phs[0].bars[0].notes){ if(!nt.d.endsWith('r')) return m1Midi(nt.k); } }catch(e){} return null; })();
+      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:spuFor(),claq:'pulse',perc:false,countIn:true,punch:true,refNote:ref}));
+      T.showCard({t:'PASO 4 · Ahora sí: entona', p:'Hasta aquí te pedí <b>no entonar</b>: tocaba el ritmo. Con una <b>velocidad razonable alcanzada</b>, la melodía <b>ya suena</b> al darle al play — canta con ella, apoyándote en tus anclas.', b:(cfg.nextLabel||'Seguir →')},()=>{ T.side.style.display='none';
+        onFinish&&onFinish(); });
+    }
+    paso1();
+  }
+
 S.m33Fusas=function(host,sl){
   const card=sl.card; try{ ensurePiano(); }catch(e){}
-  const T=m4Shell(host,'3.3','Fusas y semifusas en pulso de negra','Modo difícil. Aquí nos pararemos varias semanas: sigue los pasos.','MUNDO 3 · <b>ÚLTIMOS PASOS</b>');
+  const T=m4Shell(host,'3.3','Fusas y semifusas en pulso de negra','Modo difícil. Sigue los pasos del método.','MUNDO 3 · <b>ÚLTIMOS PASOS</b>');
   const mods=[];
   const oldStop=T.stop;
   T.stop=function(){ T.root.classList.remove('m33-alert');
     T.root.querySelectorAll('.m33-cnt').forEach(x=>x.remove()); oldStop(); };
   const veil=m4Veils('3.3 · ⚠ ZONA DE PELIGRO',[
-    {t:'⚠ La unidad complicada', p:'Ahora sí: fusas y semifusas con <b>pulsos grandes</b> (negra y negra con puntillo). Esta es la unidad de verdad <b>difícil</b> del curso, y lo vamos a decir claro: aquí <b>nos pararemos varias semanas</b>.'},
+    {t:'⚠ Carta complicada', p:'Ahora sí: fusas y semifusas con <b>pulsos grandes</b> (negra y negra con puntillo). Lo decimos claro desde el principio: esta carta es <b>complicada</b>… y por eso se trabaja <b>con método</b>.'},
     {t:'Para volar hay que ser tácticos', p:'A estas velocidades <b>no se llega corriendo</b>: se llega con <b>estrategia</b>. Aprenderemos una serie de <b>pasos</b> y los seguiremos siempre, lección a lección. Primero, mira (y escucha) a lo que nos enfrentamos…'}
   ],stageScary);
   veil.classList.add('m33-dv');
@@ -11384,95 +11473,66 @@ S.m33Fusas=function(host,sl){
     T.stop(); T.stage.innerHTML='';
     const col=document.createElement('div'); col.style.cssText='display:flex;flex-direction:column;gap:18px;align-items:center;';
     T.stage.appendChild(col);
-    col.appendChild(scaryPaper(EXS24,'2/4 · fusas y semifusas a pulso de negra','pulso: <b>negra = 60</b> · el tempo del libro'));
-    col.appendChild(scaryPaper(EXS68,'6/8 · lo mismo, en ternario','pulso: <b>negra con puntillo = 40</b>'));
+    col.appendChild(scaryPaper(EXS24,'2/4 · fusas y semifusas a pulso de negra','pulso: <b>negra = 70</b> · el tempo del libro'));
+    col.appendChild(scaryPaper(EXS68,'6/8 · lo mismo, en ternario','pulso: <b>negra con puntillo = 52</b>'));
     col.firstChild.querySelector('.gvx-paper').appendChild(T.side);
-    T.showCard({t:'A esto nos enfrentamos', p:'Dale al play a cada uno y <b>que dé vértigo</b>: es el tempo real. Evidentemente, <b>necesitamos una estrategia</b> antes de llegar a estas velocidades. Aquí va mi propuesta.', b:'El método, paso a paso →'},stageMethod);
+    T.showCard({t:'A esto nos enfrentamos', p:'Dale al play a cada uno: es el <b>tempo real</b>. Evidentemente, <b>necesitamos una estrategia</b> antes de llegar a estas velocidades. Aquí va mi propuesta.', b:'El método, paso a paso →'},stageScaryDone);
   }
+  function stageScaryDone(){ stageMethod(); }
   function stageMethod(){
-    m33Method({tag:'el método · un 6/8 con fusas (dos frases)',phs:EXM68,comp:true,base:20,max:40,step:3,puntBtn:true,
-      nextLabel:'Doble y triple puntillo →'}, stagePunt);
-  }
-  /* runner del método (4 pasos) — se usa con el 6/8 y con el 2/4 de puntillos */
-  function m33Method(cfg,onFinish){
-    const st={base:cfg.base,max:cfg.max,step:cfg.step,bpm:cfg.base,passed:false,denied:0,comp:cfg.comp};
-    let mod=null;
-    const spuFor=()=> cfg.comp ? (60/st.bpm)/3 : (60/st.bpm)/2;
-    function draw(){ T.stop(); T.stage.innerHTML='';
-      const p=T.paper(cfg.tag);
-      const hs=cfg.phs.map(()=>{ const h=document.createElement('div'); p.appendChild(h); return h; });
-      p.appendChild(T.side); T.stage.appendChild(p);
-      const draws=cfg.phs.map((ph,i)=>m1Draw(hs[i],ph,{width:900,height:150,endBar:(i===cfg.phs.length-1)}));
-      return {p,draws};
-    }
-    function puntilloBtn(){
-      if(T.ctr.querySelector('[data-r="punt"]')) return;
-      const b=document.createElement('button'); b.className='gvx-btn'; b.dataset.r='punt';
-      b.textContent='Seguir: doble y triple puntillo →';
-      b.onclick=()=>{ b.remove(); onFinish&&onFinish(); };
-      T.ctr.appendChild(b);
-    }
-    function paso1(){ const {p,draws}=draw();
-      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:1,claq:'sub',perc:true,countIn:true}));
-      T.showCard({t:'PASO 1 · Piensa en corcheas', p:'Como en la 3.2: la primera fase de estudio va <b>muy despacio</b>, marcando TODO <b>a corcheas</b> (corchea = 60). Eso sí: hazlo con los <b>gestos de brazo</b> que luego serán los pulsos grandes. La claqueta subdivide por ti: <b>corcheas</b> claras y <b>semicorcheas sutiles</b> debajo. Y todavía <b>no entones</b>.', b:'Paso 2 →'},paso2);
-    }
-    function paso2(){ const {p,draws}=draw();
-      T.after(600,()=>{ let base=0; cfg.phs.forEach((ph,i)=>{ base+=m33Accents(T,draws[i],ph,{stagger:true,base}); }); });
-      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:1,claq:'sub',perc:true,countIn:true}));
-      T.showCard({t:'PASO 2 · Acentúa la primera de cada pulso', p:'<b>Misma velocidad</b>, pero tú dejas de subdividir: <b>acentúa la primera nota de cada pulso real</b> para ir teniendo la sensación — mira cómo se revelan los acentos. Seguirás <b>escuchando</b> la claqueta subdividir… pero tú ya no lo hagas.', b:'Paso 3 →'},paso3);
-    }
-    function paso3(){ const {p,draws}=draw();
-      cfg.phs.forEach((ph,i)=>m33Accents(T,draws[i],ph,{stagger:false}));
-      const holder=document.createElement('div'); holder.className='m33-modwrap'; T.stage.appendChild(holder);
-      mod=fmBuildModule({state:st, advanceText:'Suficiente velocidad · paso 4 →', onAdvance:()=>{ paso4(); }});
-      mods.push(mod); holder.appendChild(mod);
-      try{ window.__m33st=st; window.__m33mod=mod; }catch(e){}
-      if(cfg.puntBtn) puntilloBtn();
-      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:spuFor(),claq:'pulse',perc:true,countIn:true,
-        onEnd:()=>{ st.passed=true; st.denied=0; if(mod&&mod.__refresh&&document.body.contains(mod)) mod.__refresh(); }}));
-      T.showCard({t:'PASO 3 · Sube escalones', p:'Aparece el <b>metrónomo</b>: su luz parpadea la <b>subdivisión</b>, pero ya solo <b>oirás el pulso grande</b>. Sube <b>'+(cfg.comp?'+3':'+5')+'</b> con cada pulsación del <b>+</b>… que solo se desbloquea con una <b>pasada completa</b>. Si te pasas, el <b>−</b> te devuelve. La barra se llena hacia el objetivo.', b:'Una cosa más…'},()=>{
-        T.showCard({t:'La primera nota de cada pulso es sagrada', p:'Cuando vayas a una velocidad realmente rápida y empieces a <b>trabarte</b>… las notas acentuadas serán <b>tu ancla</b>. Agárrate a ellas: lo demás se ordena alrededor.', b:'¡A subir! →'},()=>{ T.side.style.display='none'; });
-      });
-    }
-    function paso4(){ const {p,draws}=draw();
-      cfg.phs.forEach((ph,i)=>m33Accents(T,draws[i],ph,{stagger:false}));
-      if(cfg.puntBtn) puntilloBtn();
-      T.bind(p,()=>m33Play(T,p,draws,cfg.phs,{spu:spuFor(),claq:'pulse',perc:false,countIn:true}));
-      T.showCard({t:'PASO 4 · Ahora sí: entona', p:'Hasta aquí te pedí <b>no entonar</b>: tocaba el ritmo. Con la velocidad conquistada, la melodía <b>ya suena</b> al darle al play — canta con ella, apoyándote en tus anclas.', b:(cfg.nextLabel||'Seguir →')},()=>{ T.side.style.display='none';
-        const pb=T.ctr.querySelector('[data-r="punt"]'); if(pb) pb.remove();
-        onFinish&&onFinish(); });
-    }
-    paso1();
-  }
-  function stagePunt(){
-    T.stop(); T.stage.innerHTML='';
-    const mk=(ph,lbl,foot,w)=>{ const wd=document.createElement('div');
-      const p=T.paper(lbl,true); const h=document.createElement('div'); p.appendChild(h); wd.appendChild(p);
-      if(foot) wd.insertAdjacentHTML('beforeend','<div class="m33-foot">'+foot+'</div>');
-      const d=m1Draw(h,ph,{width:w||225,height:140,endBar:true});
-      T.bind(p,()=>m33Play(T,p,[d],[ph],{claq:'pulse',perc:false,countIn:false}));
-      return wd; };
-    const r1=document.createElement('div'); r1.className='m1x-row'; T.stage.appendChild(r1);
-    r1.appendChild(mk(PD_ROW1[0],'un puntillo','♪· = ♪ + <b>la mitad</b> (𝅘𝅥𝅯)'));
-    r1.appendChild(mk(PD_ROW1[1],'doble puntillo','♪·· añade <b>la mitad de la mitad</b> (𝅘𝅥𝅰)'));
-    r1.appendChild(mk(PD_ROW1[2],'triple puntillo','♪··· deja solo <b>una semifusa</b> (𝅘𝅥𝅱)'));
-    const r2=document.createElement('div'); r2.className='m1x-row'; r2.style.marginTop='16px'; T.stage.appendChild(r2);
-    r2.appendChild(mk(PD_ROW2[0],'♩·· y su resolución','la semicorchea que falta completa el compás',430));
-    r2.appendChild(mk(PD_ROW2[1],'♩··· y su resolución','ahora solo falta una fusa',430));
-    r1.firstChild.querySelector('.gvx-paper').appendChild(T.side);
-    T.showCard({t:'Doble y triple puntillo', p:'Cada puntillo añade <b>la mitad del anterior</b>. Escúchalos con su <b>resolución</b> (la nota corta que completa el pulso): cuanto más puntillo, más tarde y más rápida llega. En las lecciones 145–149 conviven con las semifusas.', b:'El método otra vez: 2/4 →'},stageC24);
-  }
-  function stageC24(){
-    m33Method({tag:'el método otra vez · 2/4 con fusas, semifusas y puntillos dobles y triples',phs:EXC24,comp:false,base:30,max:60,step:5,
+    m33Method({tag:'el método · un 6/8 con fusas (dos frases)',phs:EXM68,comp:true,base:20,max:52,step:6,
       nextLabel:'El objetivo →'}, stageEnd);
   }
+  /* runner del método (4 pasos) — compartido con la intro de la 3.4 */
+  const m33Method=(cfg,onFinish)=>m33MethodRun(T,mods,cfg,onFinish);
+  /* (el runner vive fuera: m33MethodRun) */
   function stageEnd(){
-    T.showCard({t:'El objetivo', p:'Este método te acompañará en <b>cada lección</b> de esta carta: <b>1</b>·percusión a corcheas → <b>2</b>·lectura acentuando → <b>3</b>·metrónomo de escalones → <b>4</b>·entonación. Aquí se gana <b>volando despacio primero</b>. Paciencia: nos quedamos varias semanas… y saldremos volando.', b:'¡A por ello! →'},()=>{ T.side.style.display='none'; T.genBtn(card); });
+    T.showCard({t:'El objetivo', p:'Este método te acompañará en <b>cada lección</b> de esta carta: <b>1</b>·percusión a corcheas → <b>2</b>·lectura acentuando → <b>3</b>·metrónomo de escalones → <b>4</b>·entonación. Aquí se gana <b>volando despacio primero</b>: sin prisa y con ancla. (El doble y triple puntillo tiene su propia carta: la 3.4.)', b:'¡A por ello! →'},()=>{ T.side.style.display='none'; T.genBtn(card); });
     T.genBtn(card);
   }
   return function(){ T.cleanup(); mods.forEach(m=>{ try{ m.__stop&&m.__stop(); }catch(e){} }); try{veil.remove();}catch(e){} };
 };
 window.CARD_INTROS['3.3']={spq:1, slides:function(card){ return [ {type:'m33Fusas', card} ]; }};
+
+/* ============ 3.4 · «Doble y triple puntillo» ============
+   Segunda mitad del antiguo método de la 3.3, ahora carta propia (Iago):
+   escalera de puntillos con resolución sonora + el método de 4 pasos
+   sobre el 2/4 con fusas, semifusas y puntillos dobles y triples. */
+S.m34Punt=function(host,sl){
+  const card=sl.card; try{ ensurePiano(); }catch(e){}
+  const T=m4Shell(host,'3.4','Doble y triple puntillo','Cada puntillo añade la mitad del anterior. Sigue los pasos del método.','MUNDO 3 · <b>ÚLTIMOS PASOS</b>');
+  const mods=[];
+  const oldStop=T.stop;
+  T.stop=function(){ T.root.querySelectorAll('.m33-cnt').forEach(x=>x.remove()); oldStop(); };
+  const veil=m4Veils('3.4 · PUNTILLOS',[
+    {t:'Puntillos que se apilan', p:'Ya dominas el puntillo… pero se puede <b>apilar</b>: el <b>doble</b> y el <b>triple</b> puntillo añaden cada vez <b>la mitad del anterior</b>, y la nota corta que completa el pulso llega <b>más tarde y más rápida</b>. Misma táctica que en la 3.3: <b>método de 4 pasos</b>.'}
+  ],stageLadder);
+  function stageLadder(){
+    T.stop(); T.stage.innerHTML='';
+    const mk=(ph,lbl,foot,w)=>{ const wd=document.createElement('div');
+      const p=T.paper(lbl,true); const h=document.createElement('div'); p.appendChild(h); wd.appendChild(p);
+      if(foot) wd.insertAdjacentHTML('beforeend','<div class="m33-foot">'+foot+'</div>');
+      const d=m1Draw(h,ph,{width:w||225,height:140,endBar:true});
+      T.bind(p,()=>m33Play(T,p,[d],[ph],{claq:'pulse',perc:false,countIn:false,punch:true}));
+      return wd; };
+    const r1=document.createElement('div'); r1.className='m1x-row'; T.stage.appendChild(r1);
+    r1.appendChild(mk(PD_ROW1[0],'un puntillo','♪· = ♪ + <b>la mitad</b> (semicorchea)'));
+    r1.appendChild(mk(PD_ROW1[1],'doble puntillo','♪·· añade <b>la mitad de la mitad</b> (fusa)'));
+    r1.appendChild(mk(PD_ROW1[2],'triple puntillo','♪··· deja solo <b>una semifusa</b> de hueco'));
+    r1.firstChild.querySelector('.gvx-paper').appendChild(T.side);
+    T.showCard({t:'Doble y triple puntillo', p:'Cada puntillo añade <b>la mitad del anterior</b>. Escúchalos: la resolución llega cada vez más tarde… y más rápida.', b:'El método →'},stageMetodo);
+  }
+  function stageMetodo(){
+    m33MethodRun(T,mods,{tag:'el método · 2/4 con fusas, semifusas y puntillos dobles y triples',phs:EXC24,comp:false,base:30,max:70,step:10,
+      nextLabel:'El objetivo →'}, stageEnd);
+  }
+  function stageEnd(){
+    T.showCard({t:'El objetivo', p:'Las lecciones de esta carta (126–127 y 145–146) mezclan los <b>puntillos dobles y triples</b> con las semifusas. El método es el de siempre: <b>1</b>·percusión a corcheas → <b>2</b>·lectura acentuando → <b>3</b>·metrónomo de escalones → <b>4</b>·entonación. Tu ancla: la primera nota de cada pulso.', b:'¡A por ello! →'},()=>{ T.side.style.display='none'; T.genBtn(card); });
+    T.genBtn(card);
+  }
+  return function(){ T.cleanup(); mods.forEach(m=>{ try{ m.__stop&&m.__stop(); }catch(e){} }); try{veil.remove();}catch(e){} };
+};
+window.CARD_INTROS['3.4']={spq:1, slides:function(card){ return [ {type:'m34Punt', card} ]; }};
 
 /* ---- 4.1 · Claves de Do en 3ª y 4ª ---- */
 const EXD3=[
@@ -11872,4 +11932,42 @@ Object.keys(M1DEFS).forEach(function(aid){
 })();
 </script>
 
+<script>
+/* ============================================================
+   «VER EXPLICACIÓN» desde el portal del alumno (Iago, jul-2026)
+   ?introCarta=X.X → localiza la carta por atlasId y abre su INTRO
+   a pantalla completa (para repasar lo visto en clase o si faltó).
+   Sin intro todavía → aviso amable. No cambia nada del uso normal.
+   ============================================================ */
+(function(){
+  try{
+    var qs=new URLSearchParams(location.search);
+    var id=qs.get('introCarta'); if(!id) return;
+    function buscar(){
+      var Ws=(typeof GP1_WORLDS!=='undefined'&&GP1_WORLDS)||(typeof GE_WORLDS!=='undefined'&&GE_WORLDS)||[];
+      for(var i=0;i<Ws.length;i++){ var cs=Ws[i].cards||[];
+        for(var k=0;k<cs.length;k++){ if(cs[k].atlasId===id) return cs[k]; } }
+      return null;
+    }
+    function aviso(txt){
+      var d=document.createElement('div');
+      d.style.cssText='position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:99999;background:rgba(30,24,12,.96);border:1.5px solid #b8860b;color:#ffd766;padding:13px 22px;border-radius:14px;font:700 14px/1.5 "Helvetica Neue",Arial,sans-serif;max-width:88vw;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.45)';
+      d.textContent=txt; document.body.appendChild(d);
+      setTimeout(function(){ try{d.remove();}catch(e){} },8000);
+    }
+    function arrancar(){
+      var card=buscar();
+      if(card && window.CARD_INTROS && window.CARD_INTROS[card.atlasId] && window.launchCardIntro){
+        setTimeout(function(){ try{ window.launchCardIntro(card); }catch(e){ console.warn('[introCarta]',e); } },160);
+      } else if(card){
+        setTimeout(function(){ aviso('La carta '+id+' todavía no tiene INTRO aquí: pídesela a Iago en clase 😉'); },500);
+      } else {
+        setTimeout(function(){ aviso('No encuentro la carta '+id+' en esta app.'); },500);
+      }
+    }
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',arrancar);
+    else arrancar();
+  }catch(e){}
+})();
+</script>
 </body></html>
