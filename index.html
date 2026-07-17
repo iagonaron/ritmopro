@@ -421,6 +421,9 @@ footer .lock{color:var(--gold1);}
 .setup-tab{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;transition:all .12s;letter-spacing:.01em;}
 .setup-tab:hover{color:var(--gold-soft);}
 .setup-tab.on{color:#06281b;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));}
+.setup-tab.wip{opacity:.42;cursor:not-allowed;}
+.setup-tab.wip:hover{color:var(--muted);transform:none;}
+.tab-wip{display:inline-block;margin-left:8px;font-size:8.5px;font-weight:900;letter-spacing:.13em;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-radius:4px;padding:2px 6px;vertical-align:1px;}
 .setup-worlds{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
 .setup-worldslot{display:flex;flex-direction:column;gap:8px;}
 .slot-label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2);font-weight:700;}
@@ -1079,7 +1082,7 @@ window.SuiteTiempo=(function(){
           <span class="setup-q">¿Qué quieres trabajar?</span>
           <div class="setup-mode">
             <button class="setup-tab on" data-mode="uno">Un mundo</button>
-            <button class="setup-tab" data-mode="combina">Combina mundos</button>
+            <button class="setup-tab wip" data-mode="combina" disabled>Combina mundos<span class="tab-wip">🚧 EN CONSTRUCCIÓN</span></button>
           </div>
         </div>
         <div class="setup-topright">
@@ -1311,22 +1314,22 @@ const GE_WORLDS=[
       { id:"c1_2", atlasId:"1.2", name:"Dosillo y tresillo en compases dispares", ref:"págs. 13–14", lecs:"9–12", disp:true, note:"El tresillo ocupa un pulso BINARIO (2 corcheas) y el dosillo un pulso TERNARIO (3 corcheas) del compás dispar.",
         cells:[
         {"ts":"5/8","notes":["8","8","8","qd"],"beams":[[0,1,2]],"tuplets":[{"idx":[0,1,2],"num":3,"occ":2}],"label":"tresillo en pulso binario"},
-        {"ts":"5/8","notes":["qd","8","8","8"],"beams":[[1,2,3]],"tuplets":[{"idx":[1,2,3],"num":3,"occ":2}],"label":"tresillo al final"},
+        {"ts":"5/8","notes":["qd","8","8","8"],"beams":[[1,2,3]],"tuplets":[{"idx":[1,2,3],"num":3,"occ":2}],"label":"tresillo en pulso binario"},
         {"ts":"5/8","notes":["q","8","8"],"beams":[[1,2]],"tuplets":[{"idx":[1,2],"num":2,"occ":3}],"label":"dosillo en pulso ternario"},
-        {"ts":"7/8","notes":["8","8","8","8","8","qd"],"beams":[[0,1],[2,3,4]],"tuplets":[{"idx":[2,3,4],"num":3,"occ":2}],"label":"tresillo interior"},
-        {"ts":"7/8","notes":["q","q","8","8"],"beams":[[2,3]],"tuplets":[{"idx":[2,3],"num":2,"occ":3}],"label":"dosillo"}
+        {"ts":"7/8","notes":["8","8","8","8","8","qd"],"beams":[[0,1],[2,3,4]],"tuplets":[{"idx":[2,3,4],"num":3,"occ":2}],"label":"tresillo en pulso binario"},
+        {"ts":"7/8","notes":["q","q","8","8"],"beams":[[2,3]],"tuplets":[{"idx":[2,3],"num":2,"occ":3}],"label":"dosillo en pulso ternario"}
       ] },
-      { id:"c1_3", atlasId:"1.3", name:"Cuatrillo y cinquillo en dispares", ref:"págs. 15–16", lecs:"13–16", disp:true, note:"Cinco semicorcheas en lugar de seis (5:6) y el cuatrillo en sus dos escrituras: valores reales (4 semicorcheas por 6) y excedentes (4 corcheas por 3).",
+      { id:"c1_3", atlasId:"1.3", name:"Cinquillo y cuatrillo en pulso ternario", ref:"págs. 15–16", lecs:"13–16", disp:true, note:"Cinco semicorcheas en lugar de seis (5:6) y el cuatrillo en sus dos escrituras: valores reales (4 semicorcheas por 6) y excedentes (4 corcheas por 3).",
         cells:[
-        {"ts":"5/8","notes":["q","16","16","16","16","16"],"beams":[[1,2,3,4,5]],"tuplets":[{"idx":[1,2,3,4,5],"num":5,"occ":6}],"label":"cinquillo (5 por 6)"},
-        {"ts":"7/8","notes":["16","16","16","16","16","q","q"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2,3,4],"num":5,"occ":6}],"label":"cinquillo inicial"},
-        {"ts":"5/8","notes":["16","16","16","16","q"],"beams":[[0,1,2,3]],"tuplets":[{"idx":[0,1,2,3],"num":4,"occ":6}],"label":"cuatrillo (valores reales)"},
-        {"ts":"5/8","notes":["8","8","8","8","q"],"beams":[[0,1,2,3]],"tuplets":[{"idx":[0,1,2,3],"num":4,"occ":3}],"label":"cuatrillo (valores excedentes)"}
+        {"ts":"5/8","notes":["q","16","16","16","16","16"],"beams":[[1,2,3,4,5]],"tuplets":[{"idx":[1,2,3,4,5],"num":5,"occ":6}],"label":"cinquillo en pulso ternario"},
+        {"ts":"7/8","notes":["16","16","16","16","16","q","q"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2,3,4],"num":5,"occ":6}],"label":"cinquillo en pulso ternario"},
+        {"ts":"5/8","notes":["16","16","16","16","q"],"beams":[[0,1,2,3]],"tuplets":[{"idx":[0,1,2,3],"num":4,"occ":6}],"label":"cuatrillo en pulso ternario"},
+        {"ts":"5/8","notes":["8","8","8","8","q"],"beams":[[0,1,2,3]],"tuplets":[{"idx":[0,1,2,3],"num":4,"occ":3}],"label":"cuatrillo en pulso ternario"}
       ] },
       { id:"c1_4", atlasId:"1.4", name:"Cinquillo en pulso binario", ref:"pág. 17", lecs:"17–18", disp:true, note:"Cinco semicorcheas en el tiempo del pulso de negra (5 por 4), sobre el pulso binario del compás dispar.",
         cells:[
-        {"ts":"5/8","notes":["16","16","16","16","16","qd"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2,3,4],"num":5,"occ":4}],"label":"cinquillo (5 por 4)"},
-        {"ts":"7/8","notes":["qd","16","16","16","16","16","q"],"beams":[[1,2,3,4,5]],"tuplets":[{"idx":[1,2,3,4,5],"num":5,"occ":4}],"label":"cinquillo interior"}
+        {"ts":"5/8","notes":["16","16","16","16","16","qd"],"beams":[[0,1,2,3,4]],"tuplets":[{"idx":[0,1,2,3,4],"num":5,"occ":4}],"label":"cinquillo en pulso binario"},
+        {"ts":"7/8","notes":["qd","16","16","16","16","16","q"],"beams":[[1,2,3,4,5]],"tuplets":[{"idx":[1,2,3,4,5],"num":5,"occ":4}],"label":"cinquillo en pulso binario"}
       ] },
       { id:"c1_6b", atlasId:"1.5", name:"Otros compases dispares", ref:"pág. 27", lecs:"38–40", disp:true, note:"Los dispares menos frecuentes: los de CUATRO pulsos (10/8 y 11/8), combinando pulsos de 2 y de 3 corcheas con la corchea constante.",
         cells:[
@@ -1478,9 +1481,9 @@ const GE_WORLDS=[
         {"ts":"6/8","beats":3,"beat":8,"notes":["32","32","32","32","8","8"],"beams":[[0,1,2,3,4,5]]},
         {"ts":"6/8","beats":3,"beat":8,"notes":["16d","32","16d","32","16d","32"],"beams":[[0,1,2,3,4,5]],"label":"puntillos · ternaria"},
         {"ts":"6/8","beats":3,"beat":8,"notes":["8","8","32","32","32","32"],"beams":[[0,1,2,3,4,5]]},
-        {"ts":"2/4","beats":1,"beat":4,"notes":["64","64","64","64","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6,7],[8,9]],"label":"8 semifusas"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["64","64","64","64","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6,7,8,9]],"label":"8 semifusas"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas"},
-        {"ts":"2/4","beats":1,"beat":4,"notes":["32","64","64","32","64","64","16","16"],"beams":[[0,1,2,3,4,5],[6,7]],"label":"parejas de semifusas"},
+        {"ts":"2/4","beats":1,"beat":4,"notes":["32","64","64","32","64","64","16","16"],"beams":[[0,1,2,3,4,5,6,7]],"label":"parejas de semifusas"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16d","64","64","16","16"],"beams":[[0,1,2,3,4]]},
         {"ts":"6/8","beats":3,"beat":8,"notes":["16","64","64","64","64","8","8"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas · ternaria"}
       ] },
@@ -1489,7 +1492,7 @@ const GE_WORLDS=[
         {"ts":"2/4","beats":1,"beat":4,"notes":["8dd","32"],"beams":[[0,1]],"label":"doble puntillo"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["8ddd","64"],"beams":[[0,1]],"label":"triple puntillo"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["8dd","64","64"],"beams":[[0,1,2]],"label":"doble puntillo · dos semifusas"},
-        {"ts":"2/4","notes":["16d","32","8dd","32"],"beams":[[0,1],[2,3]],"label":"puntillo y doble"},
+        {"ts":"2/4","notes":["16d","32","8dd","32"],"beams":[[0,1,2]],"label":"puntillo y doble"},
         {"ts":"2/4","notes":["qdd","16"],"label":"negra con doble puntillo"},
         {"ts":"2/4","notes":["qddd","32"],"label":"negra con triple puntillo"},
         {"ts":"2/4","beats":1,"beat":4,"notes":["16","64","64","64","64","16","16"],"beams":[[0,1,2,3,4,5,6]],"label":"semifusas"},
@@ -4284,7 +4287,7 @@ function renderMiniSeq(cell){
       st.setContext(ctx).draw();
       const vf=m.notes.map(tok=>{ let rest=/r$/.test(tok), t2=tok.replace(/r$/,''), dot=/d$/.test(t2); if(dot)t2=t2.slice(0,-1);
         const sn=new VF.StaveNote({clef:'treble',keys:['b/4'],duration:t2+(rest?'r':'')}); if(dot)VF.Dot.buildAndAttach([sn]); return sn; });
-      const beams=(m.beams||[]).map(g=>new VF.Beam(g.map(j=>vf[j])));
+      const beams=(m.beams||[]).map(g=>{ const bmx=new VF.Beam(g.map(j=>vf[j])); try{ bmx.render_options.flat_beams=true; }catch(e){} return bmx; });
       const inf=meterInfo(m.ts);
       const v=new VF.Voice({num_beats:inf.num,beat_value:inf.den}).setStrict(false); v.addTickables(vf);
       new VF.Formatter().joinVoices([v]).format([v], Math.max(40, segW[i]-(st.getNoteStartX()-x)-10));
@@ -4342,7 +4345,7 @@ function renderMiniMeasure(m, clef){
     const beamable=d=>['8','16','32','64'].includes(String(d).replace(/r$/,'').replace(/d+$/,''));
     const isRestN=n=>!!(n.rest||n.dur.endsWith('r'));
     const beams=[];
-    (m.beams||[]).forEach(idx=>{ const run=idx.filter(i=>vf[i]&&!isRestN(m.notes[i])&&beamable(m.notes[i].dur)).map(i=>vf[i]); if(run.length>1) beams.push(new VF.Beam(run,melodic)); });   // une por encima de silencios
+    (m.beams||[]).forEach(idx=>{ const run=idx.filter(i=>vf[i]&&!isRestN(m.notes[i])&&beamable(m.notes[i].dur)).map(i=>vf[i]); if(run.length>1){ const bmx=new VF.Beam(run,melodic); try{ bmx.render_options.flat_beams=true; }catch(e){} beams.push(bmx); } });   // une por encima de silencios (barras planas)
     const tups=(m.tuplets||[]).map(t=>new VF.Tuplet(t.idx.map(i=>vf[i]),{num_notes:t.group.ratioNum,notes_occupied:t.group.ratioDen,ratioed:false}));
     const{num,den}=meterInfo(time);
     const voice=new VF.Voice({num_beats:num,beat_value:den}).setStrict(false); voice.addTickables(vf);
@@ -4363,8 +4366,9 @@ function renderMiniMeasure(m, clef){
       const xs=vf.map(n=>{ try{return n.getAbsoluteX();}catch(e){return PAD_L;} });
       const lastX = (st.getX()+st.getWidth())+4;
       const hasTuplet=tups.length>0;
+      const b64=m.notes.some(n=>String(n.dur).replace(/[dr]/g,'')==='64');
       const has32=m.notes.some(n=>String(n.dur).replace(/[dr]/g,'')==='32');
-      const topRoom = hasTuplet?(has32?54:34):(has32?34:22), botRoom = 26;
+      const topRoom = hasTuplet?(b64?58:(has32?54:34)):(b64?44:(has32?34:22)), botRoom = 26;
       const vbX=Math.max(0, PAD_L-4), vbY=Math.max(0, staveTop-topRoom);
       const vbW=Math.min(CANVAS_W-vbX, (lastX-vbX)+8);
       const vbH=(staveBot+botRoom)-vbY;
@@ -4641,6 +4645,7 @@ function cClefGlyph(){
   return `<span class="w-clef">\uD834\uDD21</span>`;
 }
 function setGp1Mode(mode){
+  if(mode==='combina') return;              // en construcción
   gp1Mode=mode;
   gp1WorldB=null; gp1CardsB=[];
   document.querySelectorAll('.setup-tab').forEach(t=>t.classList.toggle('on',t.dataset.mode===mode));
@@ -8524,6 +8529,8 @@ window.CARD_INTROS={};
 .gvx-postit{position:absolute;top:-16px;right:22px;max-width:250px;background:#fff8dc;color:#4d3a0b;font-size:10.5px;line-height:1.45;
   padding:9px 12px;border-radius:9px;box-shadow:0 8px 22px rgba(0,0,0,.35);transform:rotate(2deg);z-index:6;}
 .gvx-postit b{color:#8a5a00;}
+.gvx-note{margin:10px auto 2px;max-width:600px;background:#fff8dc;color:#4d3a0b;font-size:12.5px;line-height:1.55;padding:11px 15px;border-radius:9px;box-shadow:0 8px 22px rgba(0,0,0,.3);transform:rotate(-.6deg);}
+.gvx-note b{color:#8a5a00;}
 .gvx-plusone{position:absolute;top:-6px;left:50%;transform:translate(-50%,0);font-size:30px;font-weight:900;color:var(--gold-soft);
   text-shadow:0 0 14px rgba(233,201,106,.9);animation:gvxPlus .9s cubic-bezier(.2,1.4,.4,1) both;z-index:6;pointer-events:none;}
 @keyframes gvxPlus{0%{opacity:0;transform:translate(-50%,18px) scale(.4);}55%{opacity:1;transform:translate(-50%,-6px) scale(1.15);}100%{opacity:1;transform:translate(-50%,-2px) scale(1);}}
@@ -8567,9 +8574,9 @@ const GDEFS={
  '2.3':{n:2,m:3,ts:'3/4',sub:'8',subT:null,gname:'dosillo',gpl:'dosillos',
    fin:{notes:['q','q'],t:{num:2,occ:3}},
    irr:{chains:[[0,1,2,3,4,5],[6,7,8],[9,10,11]], bSub:'16', perPulse:4,
-        keys:['c/4','c/4','c/4','c/4','c/4','c/4','d/4','d/4','d/4','d/4','d/4','d/4'],
+        keys:['c/4','c/4','c/4','c/4','c/4','c/4','d/4','d/4','d/4','e/4','e/4','e/4'],
         fin:{notes:['q','8','8'],beams:[[1,2]],t:{num:2,occ:3}},
-        fkeys:['c/4','d/4','d/4']}},
+        fkeys:['c/4','d/4','e/4']}},
  '2.4':{n:4,m:3,ts:'3/4',sub:'16',subT:null,gname:'cuatrillo',gpl:'cuatrillos',
    fin:{notes:['q','q','q','q'],t:{num:4,occ:3}},
    irr:{chains:[[0,1,2,3,4,5],[6,7,8],[9,10,11]],
@@ -9115,6 +9122,9 @@ S.gvxMetodo=function(host,s){
       const p=paper(); const h=document.createElement('div'); p.appendChild(h); stage.appendChild(p);
       const spec=bSpec(def,true); const keys=bKeys(def,true,true);
       const d=gvxDraw(h,spec,{ts:def.ts,keys,stretch:stretchFor(spec.notes.length),height:180,endBar:true});
+      if(def===GDEFS['2.3']){ const nt=document.createElement('div'); nt.className='gvx-note';
+        nt.innerHTML='\ud83d\udccc Fíjate que en este paso, para cuadrar bien el <b>re</b> y el <b>mi</b>, tenemos que <b>dividir la siguiente figura</b> (semicorcheas) para cuadrar bien sus mitades. Como en matemáticas cuando tenemos que <b>aumentar el denominador</b> de una fracción. Técnicamente es pasar de pensar en un <b>dosillo</b> a pensarlo como un <b>cuatrillo</b> (<b>do+do · re · mi</b>). Así que es como un <b>4vs3</b> (lo veremos en la siguiente unidad).';
+        p.appendChild(nt); }
       def.irr.chains.forEach((ch,g)=>{
         after(400+g*520,()=>{
           drawChainTies(d,d.svg,[ch]);
@@ -9924,7 +9934,7 @@ const M1DEFS={
     ex:EX12,
     notex:'<b>Fíjate:</b> el <b>dosillo</b> ocupa siempre un pulso de <b>TRES</b>… y el <b>tresillo</b>, un pulso de <b>DOS</b>.'},
   '1.3':{
-    v1:{t:'Cuatrillo y cinquillo', p:'Dos intrusos para el <b>pulso de 3 corcheas</b>: el <b>cuatrillo</b> mete <b>4 notas</b> donde caben 3, y el <b>cinquillo</b> mete <b>5 semicorcheas</b> donde caben 6. Veamos la comparación.'},
+    v1:{t:'Cinquillo y cuatrillo', p:'Dos intrusos para el <b>pulso de 3 corcheas</b>: el <b>cuatrillo</b> mete <b>4 notas</b> donde caben 3, y el <b>cinquillo</b> mete <b>5 semicorcheas</b> donde caben 6. Veamos la comparación.'},
     cap1:['Dos intrusos en el pulso de 3','Primero la subdivisión natural del pulso… y después, el intruso. Pulsa cada tarjeta.'],
     compare:[
       {lbl:'el cuatrillo · pulso de 3 corcheas',model:true,w:398,ph:CMP_CUAT,foot:'<b>4 notas</b> donde caben 3'},
