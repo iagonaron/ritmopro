@@ -5347,7 +5347,7 @@ function lessonHasGroups(){ return currentLesson && currentLesson.phrases && cur
 const FUSAN_PHASES=[
   {id:'ritmo',name:'1 · Percusión a corcheas',banner:{k:'PASO 1 · PIENSA EN CORCHEAS',t:'Percusión · todo a corcheas',d:'Muy despacio. Marca TODO a corcheas (como en la 3.2)… pero con los gestos de brazo de los pulsos grandes que vendrán. La claqueta subdivide por ti: corcheas claras y semicorcheas sutiles.'},kind:'ritmo'},
   {id:'lectura',name:'2 · Lectura · acentúa',banner:{k:'PASO 2 · SIENTE EL PULSO GRANDE',t:'Lectura · acentúa la primera de cada pulso',d:'Misma velocidad. Tú ya NO subdivides: acentúa la primera nota de cada pulso real para ir sintiéndolo (la claqueta seguirá subdividiendo por ti). Todavía no entones: lee.'},kind:'lectura'},
-  {id:'metro',name:'3 · Metrónomo · escalones',banner:{k:'PASO 3 · SUBE ESCALONES',t:'El metrónomo de escalones',d:'La claqueta ya solo marca el PULSO GRANDE; la luz parpadea la subdivisión. Cada pasada completa desbloquea el botón +. La primera nota de cada pulso es sagrada: cuando vayas rápido y empieces a trabarte, las notas acentuadas serán tu ancla.'},kind:'metro'},
+  {id:'metro',name:'3 · Metrónomo · escalones',banner:{k:'PASO 3 · SUBE ESCALONES',t:'El metrónomo de escalones',d:'La claqueta ya solo marca el PULSO GRANDE; la luz parpadea la subdivisión. Sube velocidad con el botón + a tu ritmo (lo honesto es una pasada por escalón). La primera nota de cada pulso es sagrada: cuando vayas rápido y empieces a trabarte, las notas acentuadas serán tu ancla.'},kind:'metro'},
   {id:'entona',name:'4 · Entonación',banner:{k:'PASO 4 · AHORA SÍ',t:'Entonación',d:'Con la velocidad conquistada, ahora sí: canta la melodía. Abajo puedes elegir cuánta ayuda quieres oír.'},kind:'entonacion'},
 ];
 function phasesFor(){
@@ -5430,7 +5430,7 @@ function basePulseBPMNow(){
     const comp=fusaNCompound(currentLesson);
     if(ph.kind==='ritmo'||ph.kind==='lectura') return comp?20:30;        // corchea = 60
     if(ph.kind==='metro') return fmState(currentLesson).bpm;
-    if(ph.kind==='entonacion') return currentLesson.__fm ? currentLesson.__fm.bpm : (comp?52:70);
+    if(ph.kind==='entonacion') return directEntry ? (comp?40:60) : (currentLesson.__fm ? currentLesson.__fm.bpm : (comp?52:70));   // prueba directa: velocidad contenida
   }
   const std=stdPulseBPM();
   const gp1Dense = (currentCourse==='gp1') && (function(){ try{ return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
@@ -5727,7 +5727,7 @@ function fmBuildModule(cfg){
   function refresh(){ const pct=Math.max(0,Math.min(1,(st.bpm-st.base)/(st.max-st.base)));
     fill.style.width=(pct*100).toFixed(1)+'%';
     fill.classList.toggle('full',pct>=1);
-    plus.classList.toggle('ready',st.passed&&st.bpm<st.max);
+    plus.classList.toggle('ready',(cfg.free||st.passed)&&st.bpm<st.max);
     plus.disabled=(st.bpm>=st.max); minus.disabled=(st.bpm<=st.base);
     const open=(pct>=0.75);
     adv.classList.toggle('locked',!open);
@@ -5737,7 +5737,7 @@ function fmBuildModule(cfg){
     if(cfg.onChange) cfg.onChange();
   }
   plus.onclick=()=>{ if(st.bpm>=st.max) return;
-    if(!st.passed){ st.denied++; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); fmSnd('deny');
+    if(!cfg.free && !st.passed){ st.denied++; el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); fmSnd('deny');
       fmPatienceBanner(); return; }
     const pctN=Math.max(0,Math.min(1,(st.bpm+st.step-st.base)/(st.max-st.base)));
     st.bpm=Math.min(st.max,st.bpm+st.step); st.passed=false; st.denied=0;
@@ -5755,8 +5755,8 @@ let FM_EL=null;
 function buildFusaMetroBar(){
   const st=fmState(currentLesson);
   if(FM_EL&&FM_EL.__stop) FM_EL.__stop();
-  FM_EL=fmBuildModule({state:st, advanceText:'Suficiente velocidad · siguiente fase ▶',
-    onAdvance:()=>{ nextPhase(); }, onChange:null});
+  FM_EL=fmBuildModule({state:st, free:true, advanceText:'Suficiente velocidad · siguiente fase ▶',
+    onAdvance:()=>{ nextPhase(); }, onChange:null});   // en el estudio el + es LIBRE (el método guiado vive en la INTRO)
   return FM_EL;
 }
 function fmMarkPassed(){ if(!(currentLesson&&currentLesson.__fm)) return;
@@ -11487,7 +11487,7 @@ S.m33Fusas=function(host,sl){
   const m33Method=(cfg,onFinish)=>m33MethodRun(T,mods,cfg,onFinish);
   /* (el runner vive fuera: m33MethodRun) */
   function stageEnd(){
-    T.showCard({t:'El objetivo', p:'Este método te acompañará en <b>cada lección</b> de esta carta: <b>1</b>·percusión a corcheas → <b>2</b>·lectura acentuando → <b>3</b>·metrónomo de escalones → <b>4</b>·entonación. Aquí se gana <b>volando despacio primero</b>: sin prisa y con ancla. (El doble y triple puntillo tiene su propia carta: la 3.4.)', b:'¡A por ello! →'},()=>{ T.side.style.display='none'; T.genBtn(card); });
+    T.showCard({t:'El objetivo', p:'Este método te acompañará en <b>cada lección</b> de esta carta: <b>1</b>·percusión a corcheas → <b>2</b>·lectura acentuando → <b>3</b>·metrónomo de escalones → <b>4</b>·entonación. Aquí se gana <b>volando despacio primero</b>: sin prisa y con ancla.', b:'¡A por ello! →'},()=>{ T.side.style.display='none'; T.genBtn(card); });
     T.genBtn(card);
   }
   return function(){ T.cleanup(); mods.forEach(m=>{ try{ m.__stop&&m.__stop(); }catch(e){} }); try{veil.remove();}catch(e){} };
