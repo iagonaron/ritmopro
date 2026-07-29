@@ -421,6 +421,8 @@ footer .lock{color:var(--gold1);}
 .setup-tab{font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);background:transparent;border:none;border-radius:8px;padding:7px 16px;cursor:pointer;transition:all .12s;letter-spacing:.01em;}
 .setup-tab:hover{color:var(--gold-soft);}
 .setup-tab.on{color:#06281b;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));}
+.beta-tag{display:inline-block;margin-left:6px;padding:1px 6px 2px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#7c5cff;border-radius:999px;vertical-align:2px;}
+.setup-tab.on .beta-tag{background:#06281b;color:var(--gold-soft);}
 .setup-tab.wip{opacity:.42;cursor:not-allowed;}
 .setup-tab.wip:hover{color:var(--muted);transform:none;}
 .tab-wip{display:inline-block;margin-left:8px;font-size:8.5px;font-weight:900;letter-spacing:.13em;color:#1a1407;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));border-radius:4px;padding:2px 6px;vertical-align:1px;}
@@ -1082,7 +1084,7 @@ window.SuiteTiempo=(function(){
           <span class="setup-q">¿Qué quieres trabajar?</span>
           <div class="setup-mode">
             <button class="setup-tab on" data-mode="uno">Un mundo</button>
-            <button class="setup-tab wip" data-mode="combina" disabled>Combina mundos<span class="tab-wip">🚧 EN CONSTRUCCIÓN</span></button>
+            <button class="setup-tab" data-mode="combina">Combina mundos<span class="beta-tag">beta</span></button>
           </div>
         </div>
         <div class="setup-topright">
@@ -1092,7 +1094,7 @@ window.SuiteTiempo=(function(){
       </div>
 
       <div class="setup-worlds" id="setupWorlds"></div>
-      <p class="setup-hint" id="setupCombHint" style="display:none;">Combina dos mundos: las dos primeras frases irán en el <b>mundo A</b> y las dos últimas en el <b>mundo B</b>, con cambio de compás entre ellas. Las cartas de <b>claves</b> no se combinan.</p>
+      <p class="setup-hint" id="setupCombHint" style="display:none;">Combina mundos: elige <b>2 ó 3 mundos</b> y se activan <b>todas sus cartas combinables</b>. Con dos mundos, lectura de 4 frases y <b>un cambio de compás</b>; con tres, 5 frases y <b>dos cambios</b>. Quedan fuera el mundo de <b>claves</b> y las cartas con formato propio: 3.3 y 3.4 (método de fusas, van solas), 1.6 (cambios constantes: la combinación ya cambia de compás), 1.8 (sin compás), 1.9 (fraccionarios), 3.5 (barrados) y 3.6 (unidades raras).</p>
 
       <p class="setup-desc" id="setupDesc"></p>
       <div class="setup-cards" id="setupCards"></div>
@@ -3755,6 +3757,216 @@ function genLessonGP1(worldId, cards, seed, second){
   return L;
 }
 
+/* =================================================================================
+   COMBINA MUNDOS (2º GP) — pool de vocabulario de 2 ó 3 mundos (m1 · m2 · m3).
+   Al elegir un mundo entran TODAS sus cartas combinables. Quedan fuera:
+   · el mundo de claves (m4) entero;
+   · las cartas con formato de lección propio: 3.3/3.4 (método de fusas, exclusivas),
+     1.6 (cambios constantes: la combinación ya cambia de compás), 1.8 (sin compás),
+     1.9 (fraccionarios) y 3.6 (unidades raras: familia cerrada), 3.5 (barrados).
+   Estructura: 2 mundos → 4 frases (2+2, un cambio de compás); 3 mundos → 5 frases
+   (dos cambios). Compases de bloque DISTINTOS, en orden aleatorio; pulso = pulso en
+   las junturas regulares y corchea constante hacia los dispares. En cada compás
+   entran las células que CASAN con su métrica (genMeasureFromCards filtra), así el
+   vocabulario de varios mundos convive dentro del mismo compás.
+   ================================================================================= */
+function gp1CombUsableCard(c){
+  if(c.pending || c.clave || c.claveH || c.claveN) return false;
+  if(c.fusaN || c.exclusive || c.constMeter || c.noMeter || c.barr) return false;
+  const cells=c.cells||[];
+  if(cells.some(cell=>cell.fracSig)) return false;                                    // fraccionarios (1.9)
+  const dens=cells.filter(cell=>cell.ts).map(cell=>cell.ts.split('/')[1]);
+  if(dens.length && dens.every(d=>d==='16'||d==='1')) return false;                   // unidades raras (3.6)
+  return true;
+}
+function gp1CombCardSel(worldIds){
+  return worldIds.map(wid=>({worldId:wid, cards:gp1World(wid).cards.filter(gp1CombUsableCard).map(c=>c.id)}));
+}
+function gp1CombConfig(worldIds){
+  const cardObjs=[];
+  worldIds.forEach(wid=>{ const W=gp1World(wid); if(!W) return; W.cards.forEach(c=>{ if(gp1CombUsableCard(c)) cardObjs.push(c); }); });
+  // pool de compases PONDERADO: cada compás pesa según cuántas cartas aportan células en él
+  const ms=new Set(); const msW=[];
+  cardObjs.forEach(c=>{ const own=new Set(); (c.cells||[]).forEach(cell=>{ if(cell.ts && !cell.equiv && !cell.seq) own.add(cell.ts); }); own.forEach(t=>{ ms.add(t); msW.push(t); }); });
+  let meterPool=[...ms]; if(!meterPool.length){ meterPool=['2/4']; msW.push('2/4'); }
+  const hasSlow=cardObjs.some(c=>c.slow);       // 2.9 (grupos grandes en un pulso): baja el tempo si puede sonar
+  const hasFusaE=cardObjs.some(c=>c.fusaE);     // 3.2 (fusas en pulso de corchea): 2/8·3/8 a ♪=60
+  const disp=cardObjs.some(c=>c.disp);
+  return {activeCards:cardObjs, meterPool, meterPoolW:msW, hasSlow, hasFusaE, disp, clefMode:'solfa'};
+}
+/* expansión de métrica con los pesos estándar (50/30/20) */
+function combExpandMeter(t, rand){
+  const pickW=(pairs)=>{ const r=rand(); let a=0; for(const [v,p] of pairs){ a+=p; if(r<a) return v; } return pairs[pairs.length-1][0]; };
+  if(t==='2/4') return pickW([['2/4',0.5],['3/4',0.3],['4/4',0.2]]);
+  if(t==='6/8') return pickW([['6/8',0.5],['9/8',0.3],['12/8',0.2]]);
+  return t;
+}
+/* elige K compases DISTINTOS del pool (orden aleatorio; el compuesto o el dispar pueden ir en cualquier bloque) */
+function combPickMeters(cfg, K, rand){
+  const pick=pickF(rand);
+  const fam=(t)=> t==='2/4'?['2/4','3/4','4/4'] : t==='6/8'?['6/8','9/8','12/8'] : [t];
+  const candSet=new Set(); cfg.meterPool.forEach(t=>fam(t).forEach(x=>candSet.add(x)));
+  const cands=[...candSet];
+  const out=[]; let guard=0;
+  while(out.length<K && guard++<120){
+    const t=combExpandMeter(pick(cfg.meterPoolW||cfg.meterPool), rand);
+    if(!out.includes(t)) out.push(t);
+  }
+  for(const t of cands){ if(out.length>=K) break; if(!out.includes(t)) out.push(t); }   // pool corto: completar con la familia
+  while(out.length<K) out.push(out[out.length-1]||'2/4');                               // último recurso (no debería darse)
+  return out;
+}
+/* ¿una célula del atlas puede sonar en el compás `time`? (mismo criterio que genMeasureFromCards) */
+function cellFitsTime(cell,time){
+  if(cell.equiv || cell.seq || !cell.ts || !cell.notes || !cell.notes.length) return false;
+  const mk=geMeterKindGE(time);
+  const sk=geMeterKindGE(cell.ts);
+  const sameKind=(sk.kind===mk.kind && sk.pulseBeats===mk.pulseBeats);
+  if(cell.ts===time) return true;
+  if(geCellScope(cell)==='pulse' && sameKind) return true;
+  if(geCellScope(cell)==='bar' && sameKind && Math.abs(geCellBeats(cell)-2*(mk.pulseBeats||1))<1e-6) return true;   // bloque de 2 pulsos
+  return false;
+}
+function cardCanSound(card, times){ return (card.cells||[]).some(cell=>times.some(t=>cellFitsTime(cell,t))); }
+/* ¿los grupos grandes (2.9, slow) pueden aparecer de verdad? (necesitan pulso de negra) */
+function combSlowPossible(L){
+  if(!L || !L.comb) return false;
+  const cfg=gp1CombConfig(L.combWorlds||[]);
+  if(!cfg.hasSlow) return false;
+  return (L.blockTimes||[]).some(t=>t.split('/')[1]==='4');
+}
+
+function genLessonComb(worldIds, seed){
+  const cfg=gp1CombConfig(worldIds);
+  const rand=makeRand(seed), pick=pickF(rand);
+  const dispGroup = rand()<0.5 ? [3,2] : [2,3];   // 5/8: agrupación fija para TODA la lección
+  const [keysig,tonic,modo]=pick(KEY_POOL_WIDE);  // 2º GP: hasta 4 alteraciones
+  const modoNat = modo==='mayor'?'mayor':'menor_natural';
+  const K = worldIds.length>=3 ? 3 : 2;           // nº de bloques métricos
+  const nPh = K===3 ? 5 : 4;                      // nº de frases
+  const times=combPickMeters(cfg, K, rand);
+  const split = K===2 ? [2,2] : pick([[2,2,1],[2,1,2],[1,2,2]]);
+  const phraseTime=[], blockOf=[]; split.forEach((n,bi)=>{ for(let i=0;i<n;i++){ phraseTime.push(times[bi]); blockOf.push(bi); } });
+  const clefs = nPh===5 ? ['treble','treble','treble','bass','bass'] : ['treble','treble','bass','bass'];   // la fa va IGUAL que la sol (Iago)
+
+  const mcAdj=[0,0,0];   // DOBLE PASADA: recorte de compases por BLOQUE si la frase queda apretada
+  const buildPhrases=()=>clefs.map((clef,i)=>{
+    const time=phraseTime[i];
+    const isLast=(i===clefs.length-1);
+    const stopPhrase=(i%2===1)||isLast;   // frases pares (1-based 2 y 4) y la ÚLTIMA: punto y aparte
+    const{num:tNum,den:tDen}=meterInfo(time);
+    const is12_8=(tDen===8&&tNum===12);
+    const slowHere = cfg.hasSlow && tDen===4;                                  // 2.9 posible en este bloque
+    const fusaEHere = cfg.hasFusaE && (time==='2/8'||time==='3/8');            // 3.2 en este bloque
+    let mc; if(slowHere) mc=3; else if(is12_8) mc=2; else if(tDen===8&&tNum===9) mc=3; else if(time==='4/4') mc=2; else mc=4;
+    { const capQ=tNum*4/tDen;
+      if(capQ>=5) mc=2; else if(mc===4 && capQ>=3.5) mc=3;
+      if(fusaEHere) mc=3; }
+    mc=Math.max(2, mc-(mcAdj[blockOf[i]]||0));
+    const pr=makeRand(seed+i*101+1);
+    const prPick=pickF(pr);
+    const measures=[];
+    const diffState={used:0, quota:99};   // pool de varios mundos: dificultad libre (como 3+ cartas)
+    for(let c=0;c<mc;c++){
+      const last=(c===mc-1);
+      if(last && stopPhrase){
+        if(is12_8) measures.push(make12_8Tail(cfg.activeCards, prPick, isLast, buildScale(tonic,modoNat,clef,keysig), TONIC_PC[tonic]));
+        else { let _cm=makeCadenceMeasure(time,false);
+          if(fusaEHere && time.split('/')[1]==='8'){ const cb=meterCapQ(time);
+            _cm.notes=[{dur:'8',cad:true}]; let remF=cb-0.5;
+            while(remF>=0.499){ _cm.notes.push({dur:'8',rest:true}); remF-=0.5; } _cm.beams=[]; }
+          measures.push(_cm); }
+        continue;
+      }
+      let m,tries=0;
+      const isDisp=(tDen===8 && tNum%3!==0);
+      const simpleDisp=(c===0 && isDisp);   // dispar: el primer compás solo corcheas o figura de pulso
+      const gen=()=> genMeasureFromCards(time, cfg.activeCards, prPick, {dispGroup,simpleDisp,rich:true,diffState});
+      do{ m = gen(); tries++; } while(!validateMeasure(m)&&tries<40);
+      if(!validateMeasure(m)) m=safeMeasure(time);   // NUNCA sale un compás que no sume su cifra
+      const is4pulse=(time==='4/4' || is12_8);
+      if(c===0 && is4pulse){
+        let g=0;
+        while(g++<25){ easeLastPulse(m); if(lastPulseIsFigure(m)) break; let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); }
+      }
+      if(time==='3/4' || (tDen===8&&tNum===9)){ ensureEasyPulse(m);
+        let g=0; while(!hasEasyPulse(m) && g++<25){ let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); ensureEasyPulse(m); } }
+      measures.push(m);
+    }
+    // frases impares no finales ("punto y seguido"): el último compás es MÚSICA con cierre de figura de pulso
+    if(!stopPhrase){
+      const lastM=measures[measures.length-1];
+      const hasRest=(mm)=>mm && mm.notes && mm.notes.some(n=>n.rest && !n.barline);
+      let ok=easeLastPulse(lastM) || lastPulseIsFigure(lastM);
+      let g=0;
+      while((!ok || hasRest(measures[measures.length-1])) && g++<8){
+        let m2,t2=0; do{ m2=genMeasureFromCards(time, cfg.activeCards, prPick, {dispGroup,rich:true,diffState}); }while(!validateMeasure(m2)&&t2++<40);
+        if(validateMeasure(m2) && !hasRest(m2) && easeLastPulse(m2)){ measures[measures.length-1]=m2; ok=true; }
+      }
+      if(ok && mc>=4 && rand()<0.4) closeSemifrase(measures[measures.length-1]);
+    }
+    if(mc===4 && measures[1]) easeLastPulse(measures[1]);   // compás 2: último pulso fácil
+    // GARANTÍA DE DIFICULTAD en dispares (idéntica al camino de un mundo)
+    {
+      const isDispSol = tDen===8 && tNum%3!==0;
+      if(isDispSol && mc>=3){
+        const ti=(mc>=4)?1:0;
+        const lastContent=mc-2;
+        const cadIdx = isLast||stopPhrase ? (mc-1) : -1;
+        const has = measures.some((mm,k)=> k<=lastContent && k!==cadIdx && mm && measHard(mm));
+        if(!has && measures[ti]){
+          let mh,tr=0;
+          do{ mh=genMeasureFromCards(time, cfg.activeCards, prPick, {forceHardFirst:true,dispGroup,rich:true,diffState}); tr++; }
+          while(!validateMeasure(mh)&&tr<40);
+          if(validateMeasure(mh)){ measures[ti]=mh;
+            if(mc===4 && ti===1) easeLastPulse(measures[ti]);
+          }
+        }
+      }
+    }
+    if(fusaEHere) measures.forEach(mm=>{ if(mm && String(mm.time).split('/')[1]==='8') mm.e8pulse=true; });   // 3.2: pulso = corchea
+    const ph={clef,keysig,time,measures,dense:!!slowHere,nMeasures:mc,valid:measures.every(validateMeasure)};
+    ph.semiStop=null;
+    return ph;
+  });
+  let phrases=buildPhrases();
+  // DOBLE PASADA por BLOQUE: si una frase no cabe bien en su pentagrama, ese bloque pierde un compás por frase
+  {
+    const inkOf=(p)=>{ let w=88;
+      p.measures.forEach(m=>{ w += 36 + (m.groupInfo?14:0);
+        (m.notes||[]).forEach(n=>{ w += n.barline?12:25; }); });
+      return w; };
+    const LIMIT=1150;
+    let guard=0;
+    while(guard++<2){
+      const worst=[0,0,0];
+      phrases.forEach((p,i)=>{ const ink=inkOf(p); const b=blockOf[i]; if(ink>worst[b]) worst[b]=ink; });
+      let changed=false;
+      for(let b=0;b<K;b++){
+        const firstIdx=blockOf.indexOf(b);
+        if(worst[b]>LIMIT && phrases[firstIdx] && phrases[firstIdx].nMeasures>2){ mcAdj[b]++; changed=true; }
+      }
+      if(!changed) break;
+      phrases=buildPhrases();
+    }
+  }
+
+  const L={trimKey:'gp1', gp1:true, comb:true,
+           worldId:worldIds[0], cards:[],                          // compat con rutas de un mundo
+           combWorlds:worldIds.slice(), combSel:gp1CombCardSel(worldIds),
+           blockTimes:times.slice(), blockSplit:split.slice(),
+           keysig,tonic,modo,phrases,timeA:times[0],timeB:times[times.length-1],switchIdx:split[0],
+           fusaN:false, conjunctM4:false, noMeter:false};
+  let melOk=false;
+  for(let a=0;a<40 && !melOk;a++){
+    assignMelodyLesson(L,tonic,modoNat,makeRand(seed*7+a*131+9),'medio');
+    melOk=phrases.every(p=>validateMelody(p.measures));
+  }
+  applyTiesPitch(L);
+  L.valid=phrases.every(p=>p.valid) && melOk;
+  return L;
+}
+
 /* ===================== RENDER CONTINUO + RAYITAS DE PULSO + UI ===================== */
 const VF=Vex.Flow;
 let currentTrim='t1';
@@ -4033,7 +4245,7 @@ function renderLesson(container,L){
       if(nextMeter!==curMeter){
         const _kaM=ln.ms[ln.ms.length-1], _kbM=nx.ms[0];
         const ka=_kaM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(curMeter), kb=_kbM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(nextMeter); const baseY=topY-7;
-        const M1EQ=(L.worldId==='m1')||(L.combine&&L.worldB==='m1');
+        const M1EQ=!L.comb && ((L.worldId==='m1')||(L.combine&&L.worldB==='m1'));
         if(M1EQ){   // MUNDO 1: la corchea manda — ♪ = ♪ en todo cambio con pulso distinto
           if(!(ka.regular&&kb.regular) || ka.pulseDurQ!==kb.pulseDurQ){
             let ex=x-50; drawNoteFig(ctx,ex,baseY,0.5); ex+=15;
@@ -4102,17 +4314,21 @@ let currentCourse='gp2';          // 'gp1' | 'gp2'
 let gp1WorldId=null;              // mundo activo (null = ninguno seleccionado)
 let gp1ActiveCards=[];            // cartas activas del mundo
 let gp1Mode='uno';                // 'uno' | 'combina'
-let gp1WorldB=null;               // segundo mundo (modo combinar)
-let gp1CardsB=[];                 // cartas del segundo mundo
+let gp1WorldB=null;               // segundo mundo (modo combinar A/B, legado)
+let gp1CardsB=[];                 // cartas del segundo mundo (legado)
+let gp1CombWorlds=[];             // COMBINA MUNDOS: pool de mundos elegidos (2–3)
 function useGroupsFor(trim){ return trim==='t2'?activeGroups:(trim==='rep'?REP_GROUPS:null); }
 
 function generateLesson(seed){
   if(studyMode) closeStudy();   // si estábamos en estudio por fases, salir antes de regenerar
   if(currentCourse==='gp1'){
-    // exigir al menos una carta no-base (o que el mundo tenga material por defecto)
     const sd = seed ?? (Date.now()&0x7fffffff);
-    const second = (gp1Mode==='combina' && gp1WorldB) ? {worldId:gp1WorldB, cards:gp1CardsB.slice()} : null;
-    currentLesson=genLessonGP1(gp1WorldId, gp1ActiveCards.slice(), sd, second);
+    if(gp1Mode==='combina' && gp1CombWorlds.length>=2){
+      currentLesson=genLessonComb(gp1CombWorlds.slice(), sd);
+      renderCurrent();
+      return;
+    }
+    currentLesson=genLessonGP1(gp1WorldId, gp1ActiveCards.slice(), sd, null);
     renderCurrent();
     return;
   }
@@ -4129,16 +4345,19 @@ function renderCurrent(){
   renderLesson(document.getElementById('score'), L);
   const modoTxt={menor:'menor',menor_melodica:'menor melódica',menor_armonica:'menor armónica',menor_natural:'menor natural',mayor:'mayor'}[L.modo];
   const totalM=L.phrases.reduce((a,p)=>a+p.measures.length,0);
-  const timesTxt=L.phrases[0].time===L.phrases[L.phrases.length-1].time?L.phrases[0].time:`${L.phrases[0].time} → ${L.phrases[L.phrases.length-1].time}`;
+  const seqT=[]; L.phrases.forEach(p=>{ if(seqT[seqT.length-1]!==p.time) seqT.push(p.time); });
+  const timesTxt=seqT.join(' → ');
   const hasGroups=L.phrases.some(p=>p.measures.some(m=>m.groupInfo));
   // descripción de claves
   const clefSet=[...new Set(L.phrases.map(p=>p.clef))];
   const clefName={treble:'Sol',bass:'Fa',alto:'Do 3ª',tenor:'Do 4ª',soprano:'Do 1ª','mezzo-soprano':'Do 2ª','baritone-f':'Fa 3ª',french:'Sol 1ª',none:'Sin clave'};
   const clefTxt = clefSet.length===1 ? clefName[clefSet[0]] : clefSet.map(c=>clefName[c]).join(' · ');
   if(L.gp1){
-    const W=gp1World(L.worldId);
+    const wTxt = L.comb
+      ? 'Mundos '+(L.combWorlds||[]).map(id=>GP1_WORLDS.findIndex(w=>w.id===id)+1).sort((a,b)=>a-b).join('+')
+      : gp1World(L.worldId).name;
     document.getElementById('lessonTags').innerHTML=
-      `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>${W.name}</span><span>4 frases · ${totalM} compases</span><span>${clefTxt}</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
+      `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>${wTxt}</span><span>${L.phrases.length} frases · ${totalM} compases</span><span>${clefTxt}</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
   } else {
     document.getElementById('lessonTags').innerHTML=
       `<span>${tonicLabel(L.tonic)} ${modoTxt}</span><span>4 frases · ${totalM} compases</span><span>2 sol · 2 fa</span><span>${timesTxt}</span>`+(L.valid?'':'<span style="color:#e87">⚠ revisar</span>');
@@ -4510,6 +4729,15 @@ function cardListenMeasures(world, card){
 function listenCards(){
   const L=currentLesson; const out=[];
   if(!L) return out;
+  if(L.comb){
+    // COMBINA: solo las cartas del pool que PUEDEN SONAR con los compases de esta lectura
+    const times=L.blockTimes||[];
+    (L.combSel||[]).forEach(sel=>{ sel.cards.forEach(cid=>{
+      const c=gp1Card(sel.worldId,cid);
+      if(c && !c.pending && cardCanSound(c,times)) out.push({w:sel.worldId, c});
+    }); });
+    return out;
+  }
   (L.cards||[]).forEach(cid=>{ const c=gp1Card(L.worldId,cid); if(c && !c.pending) out.push({w:L.worldId, c}); });
   if(L.combine && L.worldB){ (L.cardsB||[]).forEach(cid=>{ const c=gp1Card(L.worldB,cid); if(c && !c.pending) out.push({w:L.worldB, c}); }); }
   return out;
@@ -4645,9 +4873,8 @@ function cClefGlyph(){
   return `<span class="w-clef">\uD834\uDD21</span>`;
 }
 function setGp1Mode(mode){
-  if(mode==='combina') return;              // en construcción
   gp1Mode=mode;
-  gp1WorldB=null; gp1CardsB=[];
+  gp1WorldB=null; gp1CardsB=[]; gp1CombWorlds=[];
   document.querySelectorAll('.setup-tab').forEach(t=>t.classList.toggle('on',t.dataset.mode===mode));
   document.getElementById('setupCombHint').style.display = (mode==='combina')?'block':'none';
   renderSetupWorlds();
@@ -4682,10 +4909,10 @@ function renderSetupWorlds(){
       grid.appendChild(r); trows[lab]=r.querySelector('.gp1-trimcards'); }
     return trows[lab]; };
   GP1_WORLDS.forEach((Wd,wi)=>{
-    if(gp1Mode==='combina' && Wd.clave) return;
+    if(gp1Mode==='combina' && (Wd.clave || !Wd.cards.some(gp1CombUsableCard))) return;   // mundo de claves (y sin cartas combinables): fuera
     if(Wd.special==='combine') return;   // el mundo de "cambios de compás" sobra: la generación ya alterna compases
     let badge='', on=false;
-    if(gp1Mode==='combina'){ if(Wd.id===gp1WorldId){ badge='A'; on=true; } else if(Wd.id===gp1WorldB){ badge='B'; on=true; } }
+    if(gp1Mode==='combina'){ on=gp1CombWorlds.includes(Wd.id); badge=on?'✓':''; }
     else { on=(Wd.id===gp1WorldId); }
     const b=document.createElement('button'); b.className='gp1-world'+(on?' on':''); b.dataset.world=Wd.id;
     const wnum = GP1_WORLDS.findIndex(w=>w.id===Wd.id)+1;
@@ -4717,17 +4944,10 @@ function pickSetupWorld(id){
     else selectSetupWorld('A',id);
     renderSetupWorlds(); return;
   }
-  if(id===gp1WorldId){           // liberar A → B asciende a A
-    if(gp1WorldB){ const oldB=gp1WorldB, oldBcards=gp1CardsB.slice();
-      gp1WorldId=oldB; gp1ActiveCards=oldBcards; gp1WorldB=null; gp1CardsB=[]; }
-    renderSetupWorlds(); return;
-  }
-  if(id===gp1WorldB){            // liberar B
-    gp1WorldB=null; gp1CardsB=[]; renderSetupWorlds(); return;
-  }
-  if(!gp1WorldId){ selectSetupWorld('A',id); return; }
-  // asignar/reemplazar B
-  selectSetupWorld('B',id);
+  // COMBINA: cada toque añade o quita el mundo del pool (sus cartas combinables entran automáticamente)
+  const i=gp1CombWorlds.indexOf(id);
+  if(i>=0) gp1CombWorlds.splice(i,1); else gp1CombWorlds.push(id);
+  renderSetupWorlds();
 }
 
 function selectSetupWorld(slot,id){
@@ -4751,14 +4971,23 @@ function renderSetupCards(){
   const hint=document.getElementById('setupCardHint');
   const combina=(gp1Mode==='combina');
 
-  // MODO COMBINA → no se despliegan cartas: ya conoces cada mundo desde "Un mundo". Solo eliges A y B.
+  // MODO COMBINA → no se despliegan cartas: al elegir un mundo entran TODAS sus cartas combinables.
   if(combina){
+    const n=gp1CombWorlds.length;
     if(descEl){
-      if(gp1WorldId && gp1WorldB) descEl.innerHTML=`<b>Mundo A:</b> ${gp1World(gp1WorldId).name} &nbsp;·&nbsp; <b>Mundo B:</b> ${gp1World(gp1WorldB).name}`;
-      else if(gp1WorldId) descEl.innerHTML=`<b>Mundo A:</b> ${gp1World(gp1WorldId).name}. Toca otro mundo para añadir el <b>Mundo B</b>.`;
-      else descEl.textContent='';
+      if(!n) descEl.textContent='';
+      else {
+        const names=gp1CombWorlds.map(id=>gp1World(id).name);
+        const nc=gp1CombConfig(gp1CombWorlds).activeCards.length;
+        descEl.innerHTML=`<b>Mundos elegidos (${n}):</b> ${names.join(' · ')}<br><span style="color:var(--muted)">Entran en juego sus <b>${nc} cartas combinables</b> (las de formato propio quedan fuera).</span>`;
+      }
     }
-    if(hint) hint.textContent = (gp1WorldId && gp1WorldB) ? 'Listo: pulsa «Generar lectura».' : '';
+    if(hint){
+      if(n>=3) hint.textContent='Tres mundos: lectura de 5 frases con dos cambios de compás. Pulsa «Generar lectura».';
+      else if(n===2) hint.textContent='Dos mundos: lectura de 4 frases con un cambio de compás. Pulsa «Generar lectura».';
+      else if(n===1) hint.textContent='Elige al menos otro mundo para combinar.';
+      else hint.textContent='';
+    }
     return;
   }
 
@@ -4863,8 +5092,14 @@ function buildGp1Setup(){
 
 // ---- resumen del reto actual (para la barra "Cambiar" dentro de la app) ----
 function gp1Summary(){
+  if(gp1Mode==='combina'){
+    if(gp1CombWorlds.length){
+      const nums=gp1CombWorlds.map(id=>GP1_WORLDS.findIndex(w=>w.id===id)+1).sort((a,b)=>a-b);
+      return 'Combina mundos '+nums.join(' + ');
+    }
+    const a0=gp1World(gp1WorldId); return a0?a0.name:'';
+  }
   const a=gp1World(gp1WorldId);
-  if(gp1Mode==='combina'){ return gp1WorldB ? `${a.name} + ${gp1World(gp1WorldB).name}` : a.name; }
   const extra=gp1ActiveCards.map(cid=>gp1Card(gp1WorldId,cid)).filter(c=>c&&!c.base).map(c=>c.name);
   return a.name + (extra.length?(' · '+extra.join(', ')):'');
 }
@@ -5020,7 +5255,7 @@ function meterKind(time, wide){ const [n,d]=time.split('/').map(Number);
 }
 function tempoMap(L, basePulseBPM){
   const out=[]; let prev=null; const DISPAR_SECQ=60/(basePulseBPM||63);   // dispar: corchea = 2·pulso base (respeta la velocidad elegida)
-  const M1EQ=(L.worldId==='m1')||(L.combine&&L.worldB==='m1');   // MUNDO 1: corchea = corchea en TODO cambio
+  const M1EQ=!L.comb && ((L.worldId==='m1')||(L.combine&&L.worldB==='m1'));   // MUNDO 1 solo: corchea = corchea en TODO cambio (en Combina rigen las junturas normales)
   L.phrases.forEach(ph=>ph.measures.forEach(m=>{
     const k = m.fracSig ? {regular:true,pulseDurQ:1} : (m.e8pulse ? {regular:true,pulseDurQ:0.5} : meterKind(m.time, m.wideTernary)); let secPerQ, equiv;
     if(M1EQ && prev){ secPerQ=prev.secPerQ; equiv='figure'; }                    // mundo 1: figura = figura siempre
@@ -5401,6 +5636,26 @@ const STD_COMPOUND_T3= 34;  // 3º, compás compuesto
 const VEL_STEP = 8;         // BPM por nivel del selector
 function firstMeasureCompound(){ const m0=currentLesson&&currentLesson.phrases&&currentLesson.phrases[0]&&currentLesson.phrases[0].measures[0]; if(!m0) return false; if(m0.wideTernary) return true; const [n,d]=m0.time.split('/').map(Number); return d===8 && n%3===0; }
 function stdPulseBPM(){
+  if(currentCourse==='gp1' && currentLesson && currentLesson.comb){
+    // COMBINA MUNDOS: pulso = pulso en las junturas regulares → el pulso base es el ESTÁNDAR MÁS LENTO
+    // de los bloques presentes (compuesto 48 · grupos grandes posibles 44 · fusas fáciles ♪=60 · resto 70/75).
+    // Si el 1er bloque es dispar, negra=70 (corchea=140) y el resto se encadena por figura=figura.
+    const L=currentLesson;
+    const m0=L.phrases[0].measures[0];
+    const k0=m0.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(m0.time, m0.wideTernary);
+    if(!k0.regular) return 70;
+    const cfgC=gp1CombConfig(L.combWorlds||[]);
+    let base=Infinity;
+    (L.blockTimes||[]).forEach(t=>{
+      const [n,d]=t.split('/').map(Number);
+      if(d===8 && n%3!==0) return;                                              // dispar: no fija el mínimo
+      if((t==='2/8'||t==='3/8') && cfgC.hasFusaE){ base=Math.min(base,60); return; }   // 3.2: corchea = 60
+      if(d===8 && n%3===0){ base=Math.min(base,48); return; }                   // compuesto: ♩. = 48
+      if(d===4){ base=Math.min(base, cfgC.hasSlow ? 44 : (n>=5 ? 75 : 70)); return; }  // simple/amalgama (44 si 2.9)
+      base=Math.min(base,70);
+    });
+    return isFinite(base)?base:70;
+  }
   if(currentCourse==='gp1' && currentLesson && currentLesson.gp1){
     // esquema de tempos (Iago): binario negra=50 (44 con fusas) · blanca=50 · 6/8 negra c/puntillo=42 · 5/8 negra=63 (corchea=126)
     const cfg=gp1Config(currentLesson.worldId, currentLesson.cards||[]);
@@ -5438,7 +5693,9 @@ function basePulseBPMNow(){
     if(ph.kind==='entonacion') return directEntry ? (comp?40:60) : (currentLesson.__fm ? currentLesson.__fm.bpm : (comp?52:70));   // prueba directa: velocidad contenida
   }
   const std=stdPulseBPM();
-  const gp1Dense = (currentCourse==='gp1') && (function(){ try{ return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
+  const gp1Dense = (currentCourse==='gp1') && (function(){ try{
+    if(currentLesson && currentLesson.comb) return combSlowPossible(currentLesson);   // 2.9 del pool puede sonar
+    return gp1Config(gp1WorldId, gp1ActiveCards.slice()).dense; }catch(e){ return false; } })();
   const allowExtrema = (currentTrim==='t3') || gp1Dense;
   if(velExtrema && allowExtrema) return Math.round(std/2);
   return Math.max(8, std + velLevel*VEL_STEP);
@@ -6095,10 +6352,16 @@ const cb=document.getElementById('courseBack'); if(cb) cb.onclick=()=>{ document
 document.querySelectorAll('.setup-tab').forEach(t=>{ t.onclick=()=>setGp1Mode(t.dataset.mode); });
 const gpb=document.getElementById('gp1Back'); if(gpb) gpb.onclick=()=>{ document.getElementById('gp1Step').style.display='none'; setGp1Wide(false); document.getElementById('courseStep').style.display='block'; };
 const sgo=document.getElementById('setupGo'); if(sgo) sgo.onclick=()=>{
+  if(gp1Mode==='combina'){
+    if(gp1CombWorlds.length<2){
+      const hint=document.getElementById('setupCardHint');
+      if(hint){ hint.textContent='Elige al menos dos mundos para combinar.'; hint.classList.add('warn'); }
+      return;
+    }
+    enterAppGP1(); return;
+  }
   const aCards=gp1SlotCards('A')||[];
-  const needB=(gp1Mode==='combina' && gp1WorldB);
-  const bCards=gp1SlotCards('B')||[];
-  if(!aCards.length || (needB && !bCards.length)){
+  if(!aCards.length){
     const hint=document.getElementById('setupCardHint');
     if(hint){ hint.textContent='Selecciona al menos una carta para generar la lectura.'; hint.classList.add('warn'); }
     return;
@@ -6141,7 +6404,7 @@ document.addEventListener('keydown',(e)=>{
   }
   const b=activePlayBtn; if(b && b.offsetParent!==null){ e.preventDefault(); b.click(); }
 });
-try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return activeGroups;}, buildSchedule, renderGroupMini, genLesson, genLessonGP1, gp1Config, GP1_WORLDS, renderLesson, chordDegsOf, pulseOnsetsQ, measureNoteBeats, degreeOf, ROMAN, TONIC_PC, buildScale, buildHarmonyPlan, CADENCES, buildAccompaniment, spanPCs}; }catch(e){}
+try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return activeGroups;}, buildSchedule, renderGroupMini, genLesson, genLessonGP1, genLessonComb, gp1Config, gp1CombConfig, combPickMeters, cardCanSound, combSlowPossible, GP1_WORLDS, renderLesson, chordDegsOf, pulseOnsetsQ, measureNoteBeats, degreeOf, ROMAN, TONIC_PC, buildScale, buildHarmonyPlan, CADENCES, buildAccompaniment, spanPCs}; }catch(e){}
 
 /* ============================================================
    QUIZ POR CARTA — overlay a pantalla completa con las 5 fases
