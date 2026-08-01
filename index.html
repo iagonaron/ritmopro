@@ -6646,7 +6646,7 @@ try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return acti
   try{
     var qs=new URLSearchParams(location.search);
     if(qs.get('quizCarta')||qs.get('envio')) return;          // modo quiz: no cuenta
-    var ses=null; try{ ses=JSON.parse(localStorage.getItem('lmeav_session')||'null'); }catch(e){}
+    var ses=null; try{ ses=JSON.parse(localStorage.getItem('lmpro_session')||'null'); }catch(e){}   // FP5: clave PRO (antes leía la elemental)
     var cuenta=(ses&&ses.id&&ses.estado==='validado')?ses.id:null; if(!cuenta) return;   // FIX: la sesión guarda s.id         // sin cuenta: nada
     var URL_SB='https://woiptkyrxkbpnvioypit.supabase.co';
     var ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvaXB0a3lyeGticG52aW95cGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NzI2ODYsImV4cCI6MjA5MjA0ODY4Nn0.B2nKgj5rD0rkdLeMIrd9KgD8lUPWsBT4Y7aCtmnvbjA';
@@ -6654,7 +6654,7 @@ try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return acti
       if(document.hidden) return;
       fetch(URL_SB+'/rest/v1/rpc/suite_uso_ping',{method:'POST',
         headers:{'Content-Type':'application/json','apikey':ANON,'Authorization':'Bearer '+ANON},
-        body:JSON.stringify({p_cuenta_id:cuenta,p_app:'ritmoathome'})}).catch(function(){});
+        body:JSON.stringify({p_cuenta_id:cuenta,p_app:'ritmopro'})}).catch(function(){});   // FP5: app propia (antes se apuntaba a ritmoathome)
     }
     setTimeout(ping,4000);            // el primer minuto cuenta si aguanta 4 s
     setInterval(ping,60000);
