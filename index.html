@@ -3665,9 +3665,16 @@ function genLessonGP1(worldId, cards, seed, second){
       if(!validateMeasure(m)) m=safeMeasure(bTime);   // NUNCA sale un compás que no sume su cifra
       // (1) compases de 4 pulsos (4/4 y 12/8): el 4º pulso del COMPÁS 1 de la frase = figura de pulso (respiro)
       const is4pulse=(!cmPool)&&(time==='4/4' || is12_8);
+      /* 3-ago-2026 (Iago·P1): grupo de compás ENTERO (3vs4…) exento del respiro del 4º pulso — mismo criterio
+         que sus hermanas de compás entero en 3/4. Sin esto la 2.2 no sacaba ni un 3vs4. */
+      const grupoTocaUltimoPulso2=(mm)=>{ if(!mm||!mm.groupInfo) return false;
+        try{ const durs=measureNoteBeats(mm); let acc=0; const starts=durs.map(x=>{const s=acc;acc+=x;return s;});
+          const cap2=meterCapQ(mm.time); const pb=(geMeterKindGE(mm.time).pulseBeats||1);
+          return mm.groupInfo.idx.some(ix=> (starts[ix]+durs[ix]) > (cap2-pb)+1e-6);
+        }catch(e){ return false; } };
       if(c===0 && is4pulse){
         let g=0;
-        while(g++<25){ easeLastPulse(m); if(lastPulseIsFigure(m)) break; let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); }
+        while(g++<25){ if(grupoTocaUltimoPulso2(m)) break; easeLastPulse(m); if(lastPulseIsFigure(m)) break; let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); }
       }
       // (2) compases de 3 pulsos (3/4 y 9/8): garantizar ≥1 pulso fácil (que no sean los 3 difíciles)
       if(!cmPool && (time==='3/4' || (tDen===8&&tNum===9))){ ensureEasyPulse(m);
@@ -3885,9 +3892,18 @@ function genLessonComb(worldIds, seed){
       do{ m = gen(); tries++; } while(!validateMeasure(m)&&tries<40);
       if(!validateMeasure(m)) m=safeMeasure(time);   // NUNCA sale un compás que no sume su cifra
       const is4pulse=(time==='4/4' || is12_8);
+      /* 3-ago-2026 (Iago·P1): los grupos que ocupan el compás ENTERO (3vs4: tresillo de blancas,
+         redonda+blanca…) quedan EXENTOS del respiro del 4º pulso — no existe 4º pulso libre que
+         relajar, igual que el dosillo/cinquillo de compás entero conviven con la regla del pulso
+         fácil en 3/4. Sin esto, la 2.2 nunca sacaba un solo 3vs4 en las lecturas. */
+      const grupoTocaUltimoPulso=(mm)=>{ if(!mm||!mm.groupInfo) return false;
+        try{ const durs=measureNoteBeats(mm); let acc=0; const starts=durs.map(x=>{const s=acc;acc+=x;return s;});
+          const cap2=meterCapQ(mm.time); const pb=(geMeterKindGE(mm.time).pulseBeats||1); const lastStart=cap2-pb;
+          return mm.groupInfo.idx.some(i=> (starts[i]+durs[i]) > lastStart+1e-6);
+        }catch(e){ return false; } };
       if(c===0 && is4pulse){
         let g=0;
-        while(g++<25){ easeLastPulse(m); if(lastPulseIsFigure(m)) break; let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); }
+        while(g++<25){ if(grupoTocaUltimoPulso(m)) break; easeLastPulse(m); if(lastPulseIsFigure(m)) break; let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); }
       }
       if(time==='3/4' || (tDen===8&&tNum===9)){ ensureEasyPulse(m);
         let g=0; while(!hasEasyPulse(m) && g++<25){ let t2=0; do{ m=gen(); }while(!validateMeasure(m)&&t2++<40); ensureEasyPulse(m); } }
