@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RITMO at home PRO · 2º GP</title>
+<title>RITMO at home · 2º GP</title>
 <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.2/build/cjs/vexflow.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/soundfont-player@0.12.0/dist/soundfont-player.min.js"></script>
 <style>
 :root{
-  /* ===== RITMO at home PRO · 2º GP — piel PRO (dorado LMPRO) =====
-     Paleta del portal LMPRO at home: fondo ámbar-noche y acento DORADO. */
+  /* ===== RITMO at home · 2º GP — piel PRO (dorado LMGP) =====
+     Paleta del portal LMGP at home: fondo ámbar-noche y acento DORADO. */
   --bg:#160f04; --panel:#1a1305; --panel2:#221908; --line:#3a2c10;
   --ink:#fbf7ec; --muted:#d8caa6; --muted2:#a8966a; --paper:#ffffff;
   --gold1:#d4af37; --gold2:#b8860b; --gold-soft:#e9c96a;
@@ -198,7 +198,7 @@ footer .lock{color:var(--gold1);}
 .brand-title .h{color:var(--muted2);font-weight:300;font-style:italic;font-family:Georgia,'Times New Roman',serif;font-size:.5em;margin-left:.12em;}
 .brand-title .pro{font-size:.34em;font-weight:900;letter-spacing:.12em;color:#1a1407;background:linear-gradient(135deg,var(--gold1),var(--gold2));padding:3px 9px;border-radius:7px;vertical-align:middle;margin-left:10px;box-shadow:0 2px 8px rgba(212,175,55,.25);}
 
-/* ====== logo LMPRO at home (arriba izq., enlaza al portal) ====== */
+/* ====== logo LMGP at home (arriba izq., enlaza al portal) ====== */
 .lmpro-logo{display:inline-flex;align-items:baseline;gap:7px;text-decoration:none;padding:6px 12px;border:1px solid var(--line);border-radius:999px;background:linear-gradient(180deg,var(--panel2),var(--panel));transition:all .15s;}
 .lmpro-logo:hover{border-color:var(--gold1);box-shadow:0 6px 18px rgba(212,175,55,.18);transform:translateY(-1px);}
 .lmpro-logo .lm{font-weight:900;font-size:14px;letter-spacing:-.2px;color:var(--ink);}
@@ -1053,9 +1053,9 @@ window.SuiteTiempo=(function(){
 
 <!-- PANTALLA DE ENTRADA -->
 <div class="entry" id="entry">
-  <a class="lmeav-link" href="https://gp.lmathome.es" target="_blank" rel="noopener" title="Ir al portal LMPRO at home"><span class="lm">LM</span><span class="eav" style="color:var(--gold1);font-weight:300;">PRO</span> <span class="ho">at home</span></a>
+  <a class="lmeav-link" href="https://gp.lmathome.es" target="_blank" rel="noopener" title="Ir al portal LMGP at home"><span class="lm">LM</span><span class="ho" style="font-style:normal;color:var(--gold1);font-weight:300">GP</span> <span class="ho">at home</span></a>
   <div class="entry-card">
-    <h1 class="brand-title brand-center"><span class="bd">RIT</span><span class="lt">MO</span><span class="h">at home</span><span class="pro">PRO</span></h1>
+    <h1 class="brand-title brand-center"><span class="bd">RIT</span><span class="lt">MO</span><span class="h">at home</span></h1>
 
     <!-- paso 1: curso único (4º Grado Elemental) -->
     <div id="courseStep">
@@ -1168,7 +1168,7 @@ window.SuiteTiempo=(function(){
 <div class="analysis" id="analysisBox"></div>
 </div>
 
-<footer><div><span class="lock">✦</span> RITMO at home PRO · 2º GP · LMPRO at home</div>
+<footer><div><span class="lock">✦</span> RITMO at home · 2º GP · LMGP at home</div>
 <p class="disclaimer">Material generado proceduralmente, basado en los contenidos del curso. No reproduce ninguna obra publicada; apoyo complementario al libro de texto del alumno.</p></footer>
 </div>
 
@@ -1206,7 +1206,7 @@ window.SuiteTiempo=(function(){
 <!-- (el estudio por fases ahora vive integrado dentro de #lessonArea, no en un overlay a pantalla completa) -->
 
 <script>
-/* RITMO at home PRO — MOTOR v6
+/* RITMO at home — MOTOR v6
    Cambios vs v3:
    - 4 frases x 4 compases = 16 compases (antes 5/20)
    - Claves AGRUPADAS y seguidas: 2 sol + 2 fa (bloques 2+2), orden de bloque aleatorio
