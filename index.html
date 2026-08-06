@@ -1346,7 +1346,7 @@ const GE_WORLDS=[
         {"seq":[{"ts":"3/4","notes":["q","q","q"]},{"ts":"2/4","notes":["8","8","8","8"],"beams":[[0,1],[2,3]]},{"ts":"6/8","notes":["qd","qd"]}],"label":"♪ constante"},
         {"seq":[{"ts":"3/8","notes":["8","8","8"],"beams":[[0,1,2]]},{"ts":"2/4","notes":["q","q"]},{"ts":"5/8","notes":["qd","q"]}],"label":"casi cada compás"}
       ] },
-      { id:"c1_5", atlasId:"1.7", name:"Patrones no regulares", ref:"págs. 18–21", lecs:"19–26", disp:true, note:"La distribución interna cambia de compás a compás (2+3 / 3+2; 2+2+3 / 3+2+2 / 2+3+2): se deduce del barrado y de la articulación, no de la indicación métrica.",
+      { id:"c1_5", atlasId:"1.7", name:"Patrones no regulares", ref:"págs. 18–21", lecs:"19–26", disp:true, note:"La distribución interna cambia de compás a compás (⊔△ / △⊔ · ⊔⊔△ / △⊔⊔ / ⊔△⊔): se deduce del barrado y de la articulación, no de la indicación métrica.",
         cells:[
         {"ts":"8/8","notes":["qd","q","qd"],"label":"3+2+3"},
         {"ts":"8/8","notes":["q","qd","qd"],"label":"2+3+3"},
@@ -1685,14 +1685,25 @@ function genMeasureFromCards(time, activeCards, pick, opts={}){
   // DISPAREJO (5/8): célula de barra la mitad de las veces (y nunca la misma dos veces seguidas);
   // el resto, fórmulas básicas variadas — como alterna el libro
   if(mk.kind==='disp'){
-    if(!opts.forceHardFirst && barCells.length && (opts.forceCell || pick([true,false]))){
-      let cell=pick(barCells);
-      if(barCells.length>1 && cell===GE_LAST_CELL){ const alt=barCells.filter(c=>c!==GE_LAST_CELL); cell=pick(alt); }
+    // (5-ago Iago) patrón de la lección para esta métrica (si el mapa existe)
+    const lecGrp = opts.dispGroupDe ? opts.dispGroupDe(time) : null;
+    // células del compás: si hay patrón de lección, SOLO las que lo respetan
+    // (una célula sin label parseable pasa igual: no sabemos contradecirla)
+    let dispCells=barCells;
+    if(lecGrp && barCells.length){
+      const afines=barCells.filter(c=>{ const g=cellGroupingDe(c); return !g || g.join('+')===lecGrp.join('+'); });
+      if(afines.length) dispCells=afines;
+    }
+    if(!opts.forceHardFirst && dispCells.length && (opts.forceCell || pick([true,false]))){
+      let cell=pick(dispCells);
+      if(dispCells.length>1 && cell===GE_LAST_CELL){ const alt=dispCells.filter(c=>c!==GE_LAST_CELL); cell=pick(alt); }
       GE_LAST_CELL=cell; markDiff(); return geCellToMeasure(cell, cap);
     }
     const n8=parseInt(time.split('/')[0],10);   // corcheas que DEBE sumar la agrupación
     const sumOk=(g)=>g && g.reduce((a,b)=>a+b,0)===n8;
-    let grp = (opts.dispGroup && sumOk(opts.dispGroup)) ? opts.dispGroup.slice() : pick(dispairGroupings(time)||[[3,2],[2,3]]);
+    let grp = (lecGrp && sumOk(lecGrp)) ? lecGrp
+            : (opts.dispGroup && sumOk(opts.dispGroup)) ? opts.dispGroup.slice()
+            : pick(dispairGroupings(time)||[[3,2],[2,3]]);
     if(!sumOk(grp)){ grp=[]; let rem=n8; while(rem>0){ const g=(rem===4||rem===2)?2:3; grp.push(g); rem-=g; } }   // red de seguridad: completa 2s y 3s
     const notes=[],beams=[]; let prevHard=false, hadHard=false, gi=0;
     grp.forEach(gs=>{ const bs=notes.length; const firstForced=(gi===0 && opts.forceHardFirst);
@@ -1879,6 +1890,38 @@ function ternaryPatterns(S,easier){
   return b;
 }
 function dispairGroupings(t){return({'5/8':[[2,3],[3,2]],'7/8':[[2,2,3],[3,2,2],[2,3,2]],'8/8':[[3,3,2],[3,2,3],[2,3,3]],'10/8':[[3,2,2,3],[2,3,2,3],[3,3,2,2],[2,2,3,3]],'11/8':[[3,3,3,2],[3,2,3,3],[2,3,3,3],[3,3,2,3]]})[t]||null;}
+/* (5-ago Iago) patrón de agrupación declarado por una célula dispar (label "3+2+2+3") */
+function cellGroupingDe(cell){
+  if(!cell || !cell.label || !cell.ts) return null;
+  const m=String(cell.label).match(/^[23](\+[23])+$/); if(!m) return null;
+  const g=String(cell.label).split('+').map(Number);
+  const n8=parseInt(cell.ts.split('/')[0],10);
+  return (g.reduce((a,b)=>a+b,0)===n8) ? g : null;
+}
+/* (5-ago Iago) fabrica el «elige UNA VEZ por lección y por métrica» de los
+   compases dispares: si las cartas activas traen células con patrón (1.1, 1.5…)
+   se elige entre ESOS patrones (el taladro y el relleno leen lo mismo); si no,
+   entre las agrupaciones estándar. La carta 1.7 (patrones no regulares) queda
+   EXENTA: ahí cambiar de compás a compás ES la pedagogía (nota de la carta). */
+function makeDispGroupDe(rand, activeCards){
+  const exento=(activeCards||[]).some(c=>c && c.atlasId==='1.7');
+  if(exento) return null;
+  const mapa={};
+  return function(t){
+    const std=dispairGroupings(t); if(!std) return null;
+    if(!mapa[t]){
+      const deCartas=[];
+      (activeCards||[]).forEach(c=>(c&&c.cells||[]).forEach(cell=>{
+        if(cell.equiv || cell.ts!==t) return;
+        const g=cellGroupingDe(cell);
+        if(g && !deCartas.some(x=>x.join('+')===g.join('+'))) deCartas.push(g);
+      }));
+      const pool=deCartas.length?deCartas:std;
+      mapa[t]=pool[Math.floor(rand()*pool.length)].slice();
+    }
+    return mapa[t].slice();
+  };
+}
 /* NEGRA TERNARIA (6/4, 9/4, 12/4): el pulso es la BLANCA CON PUNTILLO (3 negras). Lectura ANCHA.
    Cada patrón rellena UN pulso (3 negras). withEighths añade subdivisión a la negra (carta m3_corch). */
 function wideTernaryPulse(withEighths, withSixteenths){
@@ -1998,7 +2041,7 @@ function genMeasure(time,S,pick,opts={}){
     if(g.bin){
       // tresillo en PULSO BINARIO de un compás disparejo: 1 pulso de 2 corcheas (=1 negra) lleva el grupo;
       // el resto del compás respeta la agrupación de pulsos (2+3, 3+2...).
-      grouping=pick(dispairGroupings(time));
+      grouping=(opts.dispGroupDe && opts.dispGroupDe(time)) || pick(dispairGroupings(time));   // (5-ago) patrón fijo por lección
       let placed=false;
       // elegir un pulso BINARIO (de 2 corcheas) para colocar el tresillo
       const binPulses=grouping.map((gs,i)=>({gs,i})).filter(o=>o.gs===2);
@@ -2045,7 +2088,7 @@ function genMeasure(time,S,pick,opts={}){
     return{time,notes,tuplets,beams,groupInfo:null,grouping:null,cap:capBeats,wideTernary:true};
   }
   if(den===8&&(num===5||num===7||num===8)){
-    grouping=pick(dispairGroupings(time));
+    grouping=(opts.dispGroupDe && opts.dispGroupDe(time)) || pick(dispairGroupings(time));   // (5-ago) patrón fijo por lección
     grouping.forEach(gs=>{const bs=notes.length;let rem=gs*0.5;
       while(rem>1e-9){
         if(rem>=0.5&&S>=3&&!easier&&pick([true,false,false,false])){notes.push({dur:'32'},{dur:'32'},{dur:'32'},{dur:'32'});rem-=0.5;}
@@ -3228,7 +3271,7 @@ function genPhrase(trimKey,clef,tonic,modo,keysig,rand,easier,fixedTime,activeGr
     let m,tries=0;
     // 2/4 en Sol: subir la exigencia rítmica de los compases SIN grupo (más semicorcheas)
     const measS = t1Demanding ? Math.max(cfg.S,2) : cfg.S;
-    do{m=genMeasure(fixedTime,measS,pick,{groupId,easier:(t1Demanding?false:easier),dense3:!!opts.dense3,rand});tries++;}while(!validateMeasure(m)&&tries<60);
+    do{m=genMeasure(fixedTime,measS,pick,{groupId,easier:(t1Demanding?false:easier),dense3:!!opts.dense3,rand,dispGroupDe:opts.dispGroupDe});tries++;}while(!validateMeasure(m)&&tries<60);
     if(isRespiroMeasure) applyRespiro(m);
     measures.push(m);
   }
@@ -3247,6 +3290,8 @@ const KEY_POOL_WIDE=[
 ];
 function genLesson(trimKey,seed,activeGroups,diff){
   const rand=makeRand(seed),pick=pickF(rand);
+  // (5-ago Iago) agrupación dispar FIJA por lección y por métrica también aquí
+  const dispGroupDe = makeDispGroupDe(rand, null);
   const pool = (trimKey==='t3') ? KEY_POOL_WIDE : KEY_POOL_BASE;   // 3er trimestre llega hasta 4 alteraciones
   const[keysig,tonic,modo]=pick(pool);
   const modoNat = modo==='mayor'?'mayor':'menor_natural';
@@ -3285,10 +3330,10 @@ function genLesson(trimKey,seed,activeGroups,diff){
     const forceThree=(trimKey==='t3') || (mode==='fusas');
     const forceFour=(trimKey==='t1'||trimKey==='t2') && !forceThree;
     let mc=forceThree?3:(forceFour?4:((rand()<0.35)?3:4));
-    let ph=genPhrase(trimKey,clef,tonic,modo,keysig,pr,phEasier,time,phGroups,{measures:mc,respiro:!isLast,reposo:isLast,budget,dense3:phDense3});
+    let ph=genPhrase(trimKey,clef,tonic,modo,keysig,pr,phEasier,time,phGroups,{measures:mc,respiro:!isLast,reposo:isLast,budget,dense3:phDense3,dispGroupDe});
     const noteTotal=ph.measures.reduce((a,m)=>a+m.notes.length,0);
     // si la frase de 4 compases queda demasiado densa, reduce densidad regenerando (NO baja a 3 en t1/t2)
-    if(!forceThree && !forceFour && mc===4 && noteTotal>phDENSE){ mc=3; ph=genPhrase(trimKey,clef,tonic,modo,keysig,makeRand(seed+i*101+1),phEasier,time,phGroups,{measures:3,respiro:!isLast,reposo:isLast,budget,dense3:phDense3}); }
+    if(!forceThree && !forceFour && mc===4 && noteTotal>phDENSE){ mc=3; ph=genPhrase(trimKey,clef,tonic,modo,keysig,makeRand(seed+i*101+1),phEasier,time,phGroups,{measures:3,respiro:!isLast,reposo:isLast,budget,dense3:phDense3,dispGroupDe}); }
     ph.nMeasures=mc;
     // ===== SEMIFRASES (paradita en el ÚLTIMO pulso del 2º compás) =====
     // SOLO en 1er y 2º trimestre y SOLO en frases de 4 compases. Crea una "media cadencia" alargando la
@@ -3408,7 +3453,10 @@ function geBasicMeasure(time, pick, opts){
     }
     var _lastSix=lastSix; var _hasHard=hadHard;
   } else {                                                  // dispar (5/8, 7/8): grupos de 2 (negra/2 corcheas) y de 3 (negra c.p./negra+corchea/3 corcheas)
-    const groups = n===5 ? (opts.dispGroup || pick([[2,3],[3,2]])) : n===7 ? pick([[2,2,3],[3,2,2],[2,3,2]]) : [n];
+    const lecG = opts.dispGroupDe ? opts.dispGroupDe(time) : null;   // (5-ago) patrón fijo de la lección
+    const groups = (lecG && lecG.reduce((a,b)=>a+b,0)===n) ? lecG
+                 : n===5 ? (opts.dispGroup || pick([[2,3],[3,2]]))
+                 : (dispairGroupings(time) ? pick(dispairGroupings(time)) : [n]);
     groups.forEach(g=>{ const base=notes.length;
       if(g===2){ if(pick(['8 8','q'])==='q') notes.push({dur:'q'}); else { notes.push({dur:'8'},{dur:'8'}); beamRun(base,base+1); } }
       else { const o = opts.simpleDisp ? pick(['8 8 8','qd']) : pick(['8 8 8','q 8','qd']);   // 1er compás de 5/8: solo corcheas o figura de pulso
@@ -3541,7 +3589,10 @@ function genLessonGP1(worldId, cards, seed, second){
   const useCombine = combine && !anyClave(cfgA) && !anyClave(cfgB) && !cfgA.fusaN && !(cfgB&&cfgB.fusaN);
   const W=cfgA.W;
   const rand=makeRand(seed), pick=pickF(rand);
-  const dispGroup = rand()<0.5 ? [3,2] : [2,3];   // 5/8: criterio de pulso (2+3 o 3+2) fijo para TODA la lección
+  // (5-ago Iago) agrupación FIJA por lección para TODAS las métricas dispares
+  // (antes solo el 5/8): el alumno lee un PATRÓN, no una lotería por compás.
+  const dispGroupDe = makeDispGroupDe(rand, (cfgA&&cfgA.activeCards)||[]);
+  const dispGroup = (dispGroupDe && dispGroupDe('5/8')) || (rand()<0.5 ? [3,2] : [2,3]);   // compat 5/8
   // tonalidades: hasta 4 alteraciones (Iago); mundo de claves: hasta 2 (la dificultad es la clave)
   const KEY_POOL_M4=KEY_POOL_WIDE.filter(k=>['C','G','D','F','Bb','Am','Em','Bm','Dm','Gm'].includes(k[0]));
   let [keysig,tonic,modo]=pick((cfgA.clave||cfgA.claveH)?KEY_POOL_M4:KEY_POOL_WIDE);
@@ -3659,8 +3710,8 @@ function genLessonGP1(worldId, cards, seed, second){
       const bDenU=parseInt(bTime.split('/')[1],10);
       const relHere = reliefFa && bDenU!==16 && bDenU!==1;   // unidades raras: siempre células de la carta
       const forceCell=(diffState.quota<99 && diffState.used===0 && (c===1 || (mc<=2 && c===0)));   // suelo: la dificultad sale al menos 1 vez por frase
-      const gen=()=> relHere ? geBasicMeasure(bTime,prPick,{startSix:prevSix,dispGroup,simpleDisp})
-                              : (elemental ? geElementalMeasure(bTime,prPick) : genMeasureFromCards(bTime, cfg.activeCards, prPick, {dispGroup,simpleDisp,rich:(cfg.W.id!=='m2'),diffState,forceCell}));
+      const gen=()=> relHere ? geBasicMeasure(bTime,prPick,{startSix:prevSix,dispGroup,dispGroupDe,simpleDisp})
+                              : (elemental ? geElementalMeasure(bTime,prPick) : genMeasureFromCards(bTime, cfg.activeCards, prPick, {dispGroup,dispGroupDe,simpleDisp,rich:(cfg.W.id!=='m2'),diffState,forceCell}));
       do{ m = gen(); tries++; } while(!validateMeasure(m)&&tries<40);
       if(!validateMeasure(m)) m=safeMeasure(bTime);   // NUNCA sale un compás que no sume su cifra
       // (1) compases de 4 pulsos (4/4 y 12/8): el 4º pulso del COMPÁS 1 de la frase = figura de pulso (respiro)
@@ -3692,7 +3743,7 @@ function genLessonGP1(worldId, cards, seed, second){
       while((!ok || hasRest(measures[measures.length-1])) && g++<8){
         const bT=cmPool?lastM.time:time;
         const bDU=parseInt(bT.split('/')[1],10); const relH2=reliefFa && bDU!==16 && bDU!==1;
-        let m2,t2=0; do{ m2 = relH2 ? geBasicMeasure(bT,prPick,{dispGroup}) : (elemental ? geElementalMeasure(bT,prPick) : genMeasureFromCards(bT, cfg.activeCards, prPick, {dispGroup,rich:(cfg.W.id!=='m2'),diffState})); }while(!validateMeasure(m2)&&t2++<40);
+        let m2,t2=0; do{ m2 = relH2 ? geBasicMeasure(bT,prPick,{dispGroup,dispGroupDe}) : (elemental ? geElementalMeasure(bT,prPick) : genMeasureFromCards(bT, cfg.activeCards, prPick, {dispGroup,dispGroupDe,rich:(cfg.W.id!=='m2'),diffState})); }while(!validateMeasure(m2)&&t2++<40);
         if(validateMeasure(m2) && !hasRest(m2) && easeLastPulse(m2)){ measures[measures.length-1]=m2; ok=true; }
       }
       // calibración musical: con 4 compases y compás simple, a veces el cierre ocupa 2 pulsos (blanca)
@@ -3712,8 +3763,8 @@ function genLessonGP1(worldId, cards, seed, second){
         const has = measures.some((mm,k)=> k<=lastContent && k!==cadIdx && mm && measHard(mm));
         if(!has && measures[ti]){
           let mh,tr=0;
-          do{ mh = isCompFa ? geBasicMeasure(time,prPick,{forceHardFirst:true,dispGroup})
-                            : genMeasureFromCards(time, cfg.activeCards, prPick, {forceHardFirst:true,dispGroup,rich:(cfg.W.id!=='m2'),diffState}); tr++; }
+          do{ mh = isCompFa ? geBasicMeasure(time,prPick,{forceHardFirst:true,dispGroup,dispGroupDe})
+                            : genMeasureFromCards(time, cfg.activeCards, prPick, {forceHardFirst:true,dispGroup,dispGroupDe,rich:(cfg.W.id!=='m2'),diffState}); tr++; }
           while(!validateMeasure(mh)&&tr<40);
           if(validateMeasure(mh)){ measures[ti]=mh;
             if(mc===4 && ti===1) easeLastPulse(measures[ti]);                       // compás 2 de frases de 4: último pulso frena
@@ -10046,10 +10097,14 @@ function m1Brackets(d,ph,glabels){
       const p=document.createElementNS('http://www.w3.org/2000/svg','path');
       p.setAttribute('d','M '+x1+' '+(yB)+' L '+x1+' '+(yB+6)+' L '+x2+' '+(yB+6)+' L '+x2+' '+yB);
       p.setAttribute('class','m1x-grp');
-      const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-      t.setAttribute('x',(x1+x2)/2); t.setAttribute('y',yB+20); t.setAttribute('text-anchor','middle');
-      t.setAttribute('class','m1x-grpn'); t.textContent=(glabels&&glabels[gi]!=null)?glabels[gi]:g;
-      gEl.appendChild(p); gEl.appendChild(t); d.svg.appendChild(gEl);
+      gEl.appendChild(p);
+      if(glabels!=='none'){   // (5-ago Iago) modo símbolos: corchete limpio, sin numerito
+        const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+        t.setAttribute('x',(x1+x2)/2); t.setAttribute('y',yB+20); t.setAttribute('text-anchor','middle');
+        t.setAttribute('class','m1x-grpn'); t.textContent=(glabels&&glabels[gi]!=null)?glabels[gi]:g;
+        gEl.appendChild(t);
+      }
+      d.svg.appendChild(gEl);
       out.push({el:gEl,bar:bi,e:e0,g});
     });
   });
@@ -10093,6 +10148,12 @@ function m1Label(d,txt){
 }
 
 /* ============ DATOS POR CARTA ============ */
+/* (5-ago Iago) símbolos oficiales del libro para el patrón dispar, EN TEXTO:
+   U cuadrada = pulso BINARIO (2 corcheas) · triángulo = pulso TERNARIO (3).
+   Se definen UNA VEZ en la intro de la 1.1 y ya no se vuelven a explicar. */
+const SYM_U='<svg width="15" height="14" viewBox="0 0 16 14" style="vertical-align:-2px"><path d="M3 2 L3 12 L13 12 L13 2" fill="none" stroke="#e9c96a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+const SYM_T='<svg width="15" height="14" viewBox="0 0 16 14" style="vertical-align:-2px"><path d="M3 12 L13 12 L8 2 Z" fill="none" stroke="#e9c96a" stroke-width="2" stroke-linejoin="round"/></svg>';
+const symPat=(txt)=>String(txt).split('+').map(n=>n==='2'?SYM_U:(n==='3'?SYM_T:n)).join(' ');
 /* comparativas del paso 1 */
 const CMP_54={ clef:'treble', ts:'5/4', e8:10, groups:[2,2,2,2,2], bars:[
   {notes:[{k:'c/4',d:'q'},{k:'d/4',d:'q'},{k:'e/4',d:'q'},{k:'f/4',d:'q'},{k:'g/4',d:'q'}],beams:[]} ]};
@@ -10199,10 +10260,10 @@ const V3C={t:'Ahora sí: PULSOS DESIGUALES', p:'La gracia del compás dispar es 
 const M1DEFS={
   '1.1':{
     v1:{t:'¿Qué es un compás DISPAR?', p:'Un compás cuyos pulsos <b>NO duran lo mismo</b>. El objetivo de este mundo: <b>convivir con una <span class="m1x-limp">cojera</span> constante</b>. Eso sí: no lo confundas con <b>compases de amalgama</b>, donde hay muchos pulsos… pero <b>todos iguales</b>. Veamos la comparación.'},
-    cap1:['Pulsos iguales… o desiguales','El mismo «5»… y dos mundos distintos. Pulsa cada tarjeta y compara.'],
+    cap1:['Pulsos iguales… o desiguales','El mismo «5»… y dos mundos distintos. Pulsa cada tarjeta y compara. Bajo el compás dispar verás sus pulsos con los símbolos del libro: '+SYM_U+' = pulso <b>BINARIO</b> (2 corcheas) · '+SYM_T+' = pulso <b>TERNARIO</b> (3 corcheas).'],
     compare:[
       {lbl:'5/4 · compás de amalgama',model:false,w:398,ph:CMP_54,foot:'5 pulsos · <b>todos iguales</b>'},
-      {lbl:'5/8 · compás DISPAR',model:true,w:398,ph:CMP_58,foot:'2 pulsos <b>desiguales</b>'}],
+      {lbl:'5/8 · compás DISPAR',model:true,w:398,ph:CMP_58,foot:'2 pulsos <b>desiguales</b>: '+symPat('3+2')}],
     ex:EX11, notex:null},
   '1.2':{
     v1:{t:'Dosillo y tresillo', p:'Dos <b>grupos de valoración especial</b>… cruzados: el <b>dosillo</b> mete <b>2 notas</b> en un pulso de <b>3 corcheas</b>, y el <b>tresillo</b> mete <b>3</b> en un pulso de <b>2</b>. Cada uno se cuela en el pulso del otro. Veamos la comparación.'},
@@ -10231,9 +10292,9 @@ const M1DEFS={
     v1:{t:'Otros compases dispares', p:'Hay otros compases dispares <b>menos frecuentes</b>: los de <b>CUATRO pulsos</b>. En esta carta: el <b>10/8</b> y el <b>11/8</b>. Veamos un ejemplo de cada.'},
     cap1:['Cuatro pulsos desiguales','El 10/8 y el 11/8, con sus pulsos marcados. Pulsa cada tarjeta.'],
     compare:[
-      {lbl:'10/8 · cuatro pulsos',model:true,w:398,ph:CMP_108,foot:'<b>3+2+2+3</b>'},
-      {lbl:'11/8 · cuatro pulsos',model:true,w:398,ph:CMP_118,foot:'<b>3+3+3+2</b>'}],
-    ex:EX15O, exLbl:'la lectura · 10/8 y luego 11/8', labels:['3+2+2+3','3+3+3+2'],
+      {lbl:'10/8 · cuatro pulsos',model:true,w:398,ph:CMP_108,foot:symPat('3+2+2+3')},
+      {lbl:'11/8 · cuatro pulsos',model:true,w:398,ph:CMP_118,foot:symPat('3+3+3+2')}],
+    ex:EX15O, exLbl:'la lectura · 10/8 y luego 11/8',
     notex:null},
   '1.9':{
     v1:{t:'Compases fraccionarios', p:'Es un compás al que se le <b>suma o resta una FRACCIÓN</b> de la figura de pulso. Veamos los dos casos.'},
@@ -10390,8 +10451,14 @@ S.m1Metodo=function(host,s){
         const h=document.createElement('div'); p.appendChild(h); wrap.appendChild(p);
         wrap.insertAdjacentHTML('beforeend','<div class="m1x-foot">'+cc.foot+'</div>');
         row.appendChild(wrap);
-        const d=m1Draw(h,cc.ph,{width:cc.w,height:132,endBar:true});
-        m1Ticks(d,cc.ph);
+        const gAll=(cc.ph.groups||(cc.ph.bars&&cc.ph.bars[0]&&cc.ph.bars[0].groups)||[]);
+        const esDispar=cc.model && gAll.length && gAll.every(g=>g===2||g===3);
+        const d=m1Draw(h,cc.ph,{width:cc.w,height:esDispar?150:132,endBar:true});
+        // (5-ago Iago) desde la PRIMERA comparativa, el modelo dispar lleva los
+        // SÍMBOLOS del libro bajo sus pulsos (visibles ya); las rayitas quedan
+        // para los modelos no dispares (amalgama, fraccionarios).
+        if(esDispar){ m1Symbols(d,cc.ph).forEach(o=>{ o.el.classList.remove('m1x-rvl'); o.el.classList.add('in'); }); }
+        else m1Ticks(d,cc.ph);
         bindPaper(p,()=>playCmp(p,d,cc.ph,wrap.querySelector('.m1x-foot b')));
       });
       return; }
@@ -10434,10 +10501,15 @@ S.m1Metodo=function(host,s){
       const d1=m1Draw(h1,D.ex[0],{width:900,height:172,endBar:false,endClef:'bass',endTs:(D.ex[1].ts||null),endEquiv:(D.endEquiv||((D.ex[1].ts&&D.ex[1].ts!==D.ex[0].ts)?'♪ = ♪':null))});
       const d2=m1Draw(h2,D.ex[1],{width:900,height:172,endBar:true});
       const bks=[];
-      m1Brackets(d1,D.ex[0],D.brLabels&&D.brLabels[0]).forEach(b=>{ b.ph=0; bks.push(b); });
-      m1Brackets(d2,D.ex[1],D.brLabels&&D.brLabels[1]).forEach(b=>{ b.ph=1; bks.push(b); });
-      const L=(D.labels===null)?null:(D.labels||['3+2','2+2+3']);
-      const labs=L?m1Label(d1,L[0]).concat(m1Label(d2,L[1])):[];
+      const modoSym=(!Array.isArray(D.labels) && D.labels!==null);
+      m1Brackets(d1,D.ex[0],modoSym?'none':(D.brLabels&&D.brLabels[0])).forEach(b=>{ b.ph=0; bks.push(b); });
+      m1Brackets(d2,D.ex[1],modoSym?'none':(D.brLabels&&D.brLabels[1])).forEach(b=>{ b.ph=1; bks.push(b); });
+      // (5-ago Iago) el patrón se revela con los SÍMBOLOS del libro bajo los
+      // pulsos (como en la 1.7), no con números; solo una carta con labels
+      // PROPIOS (texto especial) mantiene la etiqueta escrita.
+      let labs=[];
+      if(Array.isArray(D.labels)){ labs=m1Label(d1,D.labels[0]).concat(m1Label(d2,D.labels[1])); }
+      else if(D.labels!==null){ labs=m1Symbols(d1,D.ex[0]).concat(m1Symbols(d2,D.ex[1])).map(o=>o.el); }
       let notex=null;
       if(D.notex){ p.insertAdjacentHTML('beforeend','<div class="m1x-notex m1x-rvl">'+D.notex+'</div>');
         notex=p.querySelector('.m1x-notex'); }
@@ -10498,6 +10570,7 @@ function m1Symbols(d,ph){
     let acc=0;
     groups.forEach((g,gi)=>{
       const e0=acc, e1=acc+g; acc+=g;
+      if(g!==2 && g!==3) return;   // (5-ago) símbolo solo para pulsos de 2 o 3 corcheas
       let cum=0, i0=-1, i1=-1;
       ph.bars[bi].notes.forEach((nt,ni)=>{
         if(cum>=e0-0.01 && cum<e1-0.01){ if(i0<0)i0=ni; i1=ni; }
@@ -10554,11 +10627,10 @@ S.m15Metodo=function(host,s){
   const sy2=m1Symbols(d2,EX15[1]).map(o=>{ o.ph=1; return o; });
   const allSy=sy1.concat(sy2);
 
-  const SYMU='<svg width="15" height="14" viewBox="0 0 16 14" style="vertical-align:-2px"><path d="M3 2 L3 12 L13 12 L13 2" fill="none" stroke="#e9c96a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>';
-  const SYMT='<svg width="15" height="14" viewBox="0 0 16 14" style="vertical-align:-2px"><path d="M3 12 L13 12 L8 2 Z" fill="none" stroke="#e9c96a" stroke-width="2" stroke-linejoin="round"/></svg>';
+  const SYMU=SYM_U, SYMT=SYM_T;   // (5-ago) símbolos compartidos: se estrenan en la 1.1
   const CARDS=[
-    {t:'El patrón… cambia', p:'A veces el patrón <b>no es constante</b> durante la secuencia: puede ir cambiando entre <b>2+3</b>, <b>3+2</b>… y otras combinaciones. Compás a compás.', b:'Entendido →'},
-    {t:'Un truco útil', p:'Escribe bajo cada pulso su <b>valor real</b>. Hasta ahora lo vimos con números; prueba a usar el símbolo '+SYMU+' para pulsos <b>binarios</b> y '+SYMT+' para pulsos <b>ternarios</b>.', b:'Entendido →'},
+    {t:'El patrón… cambia', p:'A veces el patrón <b>no es constante</b> durante la secuencia: puede ir cambiando entre '+SYMU+' '+SYMT+', '+SYMT+' '+SYMU+'… y otras combinaciones. Compás a compás.', b:'Entendido →'},
+    {t:'Un truco útil', p:'Escribe bajo cada pulso su símbolo, como venimos haciendo desde la primera carta: '+SYMU+' pulso <b>binario</b> · '+SYMT+' pulso <b>ternario</b>. En estas lecciones, el patrón lo deduces TÚ.', b:'Entendido →'},
     {t:'Márcalo en tu libro', p:'Te invito a marcar así las lecciones del libro. Aquí no hace falta lápiz: pulsa <b>revelar ✦</b> en la partitura y aparecerán automáticamente.', b:null},
     {t:'Ahora sí', p:'Con todo <b>señalizado</b>, ya podemos leer los <b>compases dispares</b>. Dale al <b>play</b>… y después genera tu lectura.', b:'¡Vamos! →'},
   ];
