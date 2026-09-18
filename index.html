@@ -388,17 +388,17 @@ footer .lock{color:var(--gold1);}
 /* ===== selector de mundos y cartas (1º GP) ===== */
 #gp1Bar{margin-bottom:16px;}
 .gp1-worlds{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.gp1-world{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:13px;min-height:212px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:20px 22px 20px;cursor:pointer;transition:all .14s;text-align:left;font-family:inherit;color:var(--ink);min-width:0;overflow:hidden;}
+.gp1-world{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:9px;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:13px 14px 14px;cursor:pointer;transition:all .14s;text-align:left;font-family:inherit;color:var(--ink);min-width:0;overflow:hidden;}
 .gp1-world .w-head{display:flex;align-items:center;gap:11px;}
 .gp1-world .w-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:15px;font-weight:900;background:#221908;border:1px solid var(--line);color:var(--gold-soft);flex:0 0 auto;}
 .gp1-world.on .w-num{background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#06281b;border-color:transparent;}
 .gp1-world .w-name{font-size:15.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;line-height:1.2;color:var(--ink);}
 .gp1-world.on .w-name{color:var(--gold-soft);}
 /* cinta de ritmos */
-.gp1-world .w-tape{position:relative;margin-top:auto;height:180px;background:var(--paper);border-radius:12px;overflow:hidden;}
+.gp1-world .w-tape{position:relative;margin-top:auto;height:104px;background:var(--paper);border-radius:10px;overflow:hidden;}
 .gp1-world .w-tape-scroll{position:absolute;inset:0;display:flex;align-items:center;}
 .gp1-world .w-tape-inner{display:flex;align-items:center;width:max-content;will-change:transform;animation:tapescroll var(--tdur,18s) linear infinite;}
-.gp1-world .w-tape-inner svg{height:168px;width:auto;display:block;flex:0 0 auto;}
+.gp1-world .w-tape-inner svg{height:96px;width:auto;display:block;flex:0 0 auto;}
 .gp1-world:hover .w-tape-inner{animation-play-state:paused;}
 
 /* (18-sep-2026, Iago) La clave de sol fija se va: aqui no dice nada y
@@ -451,7 +451,9 @@ footer .lock{color:var(--gold1);}
 .setup-worldgrid{display:flex;flex-direction:column;gap:18px;}
 .gp1-trimrow{display:flex;flex-direction:column;gap:8px;}
 .gp1-trimlab{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted2);padding-left:4px;}
-.gp1-trimcards{display:grid;grid-template-columns:1fr;gap:14px;}
+/* (18-sep-2026, Iago) Mundos al tamano de las cartas: caben dos o tres por fila
+   segun el ancho, en vez de uno gigante por linea. */
+.gp1-trimcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
 .gp1-trimcards.n2{grid-template-columns:1fr 1fr;}
 @media(max-width:680px){.gp1-trimcards.n2{grid-template-columns:1fr;}}
 .setup-backworlds{appearance:none;background:transparent;border:1px solid var(--line);color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;border-radius:10px;padding:8px 14px;cursor:pointer;transition:all .14s;margin-bottom:12px;}
@@ -6972,7 +6974,7 @@ function paintDots(){ dotsEl.innerHTML=''; slides.forEach((s,i)=>{ const d=docum
 function go(i){
   if(i>=slides.length){ closeIntro(); return; }
   if(i<0) i=0;
-  if(cleanup){try{cleanup();}catch(e){}} cleanup=null; Loop.clear();
+  if(cleanup){try{cleanup();}catch(e){}} cleanup=null; Loop.clear(); pararUno();
   const old=stageEl.querySelector('.islide');
   if(old){ old.classList.add('leave'); setTimeout(()=>{try{old.remove();}catch(e){}},430); }
   sIdx=i; paintDots();
@@ -6988,7 +6990,12 @@ window.launchCardIntro=function(card){
   if(!def) return;
   buildOv(); slides=def.slides(card); sIdx=0;
   _voces = vocesDelArbol(slides);     // los timbres del arbol, listos desde la portada
-  Loop.spq=def.spq||0.8; Loop.baseSpq=def.spq||0.8;
+  /* (18-sep-2026, Iago) EL TEMPO DEL ARBOL MANDA EN TODA LA INTRO. Antes las
+     primeras diapositivas iban al spq "crudo" y el arbol lo rebajaba un 12%,
+     asi que la presentacion sonaba mas rapida que el arbol. Ahora se arranca ya
+     con el tempo del arbol y nadie lo vuelve a tocar. */
+  const _spqIntro=(def.spq||0.8)*1.12;
+  Loop.spq=_spqIntro; Loop.baseSpq=_spqIntro;
   headTitle.textContent='· '+(card.atlasId||'')+' '+(card.name||'');
   OV.classList.add('show');
   const old=stageEl.querySelector('.islide'); if(old) old.remove();
@@ -7051,6 +7058,44 @@ function paraChip(w, id){
   clearTimeout(w.__playT);
   w.classList.remove('on');
 }
+/* (18-sep-2026, Iago) DISPARO LIMPIO, COPIADO DEL QUIZ «Escucha las cartas».
+   El reloj por capas (Loop) esta pensado para SUPERPONER: cuando le llega una
+   capa nueva espera al siguiente punto de la rejilla, y por eso al pulsar en la
+   presentacion «tardaba en empezar» o colaba una nota de mas. En el quiz no
+   pasa porque alli se programan TODAS las notas de golpe sobre el reloj del
+   audio (currentTime + 40 ms) y se para justo al final. Eso es lo que se hace
+   aqui en las dos primeras diapositivas, que son las de presentar la figura.
+   De la tercera en adelante manda el Loop, que es donde toca superponer. */
+let _uno=null;
+function pararUno(){
+  if(!_uno) return;
+  (_uno.vis||[]).forEach(function(t){ clearTimeout(t); });
+  clearTimeout(_uno.fin);
+  try{ _uno.el.classList.remove('on'); }catch(e){}
+  _uno=null;
+}
+function tocarUnaVez(w, spec, voz){
+  const c=iCtx(); if(!c) return;
+  pararUno();
+  const on=iOnsets(spec), spq=Loop.spq||0.8;
+  const k=(w.__playK!=null)?w.__playK:(w.__playK=++_chipN);
+  const timbre=spec.timbre||(voz&&voz.timbre)||LEAF_TIMBRES[k%LEAF_TIMBRES.length];
+  const freq=(voz&&voz.freq!=null)?voz.freq:CHIP_TONES[k%CHIP_TONES.length];
+  const gain=(voz&&voz.gain)||0.95;
+  const t0=c.currentTime+0.04;                 // el arranque del quiz: inmediato y a tiempo
+  const els=(w.__drawn&&w.__drawn.els)||[];
+  const vis=[];
+  on.onsets.forEach(function(ev){
+    const t=t0+ev.t*spq;
+    try{ (TIMBRES[timbre]||TIMBRES.clave)(c,t,gain); }catch(e){}
+    if(freq!=null){ try{ toneHit(c,t,0.15*gain,Math.max(0.09,(ev.d||0.5)*spq-0.05),freq); }catch(e){} }
+    const nodo=els[ev.i];
+    if(nodo) vis.push(setTimeout(function(){ iFlash(nodo); }, Math.max(0,(t-c.currentTime)*1000)));
+  });
+  const largo=(spec.loopBeats||(voz&&voz.loopBeats)||on.total)*spq;
+  w.classList.add('on');
+  _uno={el:w, vis:vis, fin:setTimeout(pararUno, largo*1000+90)};
+}
 function chipSuena(w,spec){
   if(!spec) return;
   w.classList.add('ipaper-play');
@@ -7058,10 +7103,16 @@ function chipSuena(w,spec){
     try{
       if(w.closest('.itnode')||w.closest('.igen-stage')) return;   // ya suenan solos
       ev.stopPropagation();
+      /* el timbre y la nota que este ritmo tendra en el arbol */
+      const voz = (_voces && _voces[firmaSpec(spec)]) || null;
+      if(sIdx <= 1){
+        if(_uno && _uno.el===w){ pararUno(); return; }
+        tocarUnaVez(w, spec, voz);
+        return;
+      }
       const id=w.__playId||(w.__playId='chip_'+(++_chipN));
       if(Loop.has(id)){ paraChip(w, id); return; }
       const k=w.__playK!=null?w.__playK:(w.__playK=_chipN);
-      const voz = (_voces && _voces[firmaSpec(spec)]) || null;
       const timbre = spec.timbre || (voz && voz.timbre) || LEAF_TIMBRES[k%LEAF_TIMBRES.length];
       const freq   = (voz && voz.freq!=null) ? voz.freq : CHIP_TONES[k%CHIP_TONES.length];
       const lb     = spec.loopBeats || (voz && voz.loopBeats) || undefined;
@@ -7069,12 +7120,6 @@ function chipSuena(w,spec){
         {loopBeats:lb, gain:(voz&&voz.gain)||.95, accent:spec.accent||(voz&&voz.accent)||null,
          raw:{sustain:true, freq:freq}}));
       w.classList.add('on');
-      if(sIdx <= 1){
-        const capa = Loop.layers.get(id);
-        const ms = ((capa && capa.loopBeats) || 4) * Loop.spq * 1000 + 160;
-        clearTimeout(w.__playT);
-        w.__playT = setTimeout(function(){ paraChip(w, id); }, ms);
-      }
     }catch(e){}
   });
 }
@@ -7124,7 +7169,7 @@ SLIDE_TYPES.facts=function(host,s){
 /* --- génesis: TAJO / FUSIÓN / APAGAR / CASCADA --- */
 SLIDE_TYPES.genesis=function(host,s){
   /* la génesis va unos 5 bpm más lenta que el resto de la intro */
-  Loop.setTempo((Loop.baseSpq||Loop.spq)*1.12);
+  Loop.setTempo(Loop.baseSpq||Loop.spq);
   const c=el('div','igenesis');
   c.appendChild(el('p','ikicker',s.kicker||({tajo:'EL TAJO — dividir',fusion:'LA FUSIÓN — unir',apagar:'APAGAR — el silencio',cascade:'EL TAJO EN CASCADA'})[s.mode]||'¿DE DÓNDE VIENE?'));
   if(s.title) c.appendChild(el('h2','ititle2',s.title));
@@ -7294,7 +7339,7 @@ SLIDE_TYPES.genesis=function(host,s){
 /* --- cambio de talla (m2) --- */
 SLIDE_TYPES.talla=function(host,s){
   /* el pulso (negra antes, blanca después) dura LO MISMO en toda la intro del mundo 2 */
-  Loop.setTempo((Loop.baseSpq||0.45)*2*1.12);
+  Loop.setTempo((Loop.baseSpq||0.5)*2);
   const c=el('div','italla');
   c.appendChild(el('p','ikicker','CAMBIO DE TALLA'));
   c.appendChild(el('h2','ititle2',s.title||'El pulso ya no es la negra'));
@@ -7343,7 +7388,7 @@ SLIDE_TYPES.tree=function(host,s){
   const top=el('div','itree-top');
   top.appendChild(el('p','ikicker',s.kicker||'EL ÁRBOL GENEALÓGICO — púlsalos y superponlos'));
   /* el tempo "Medio" del árbol = el mismo tempo rebajado de las diapositivas */
-  const tbase=(s.spq||Loop.baseSpq||Loop.spq)*1.12;
+  const tbase=(s.spq ? s.spq*1.12 : (Loop.baseSpq||Loop.spq));
   const tempo=el('div','itempo');
   [['Lento',1.3],['Medio',1],['Rápido',0.8]].forEach((tp,i)=>{
     const b=el('button','ibtn seg'+(i===1?' on':''),tp[0]);
