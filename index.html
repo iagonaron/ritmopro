@@ -695,6 +695,14 @@ footer .lock{color:var(--gold1);}
 .isub{color:var(--muted);font-size:14.5px;line-height:1.6;text-align:center;max-width:640px;margin:0 auto 8px;}
 .iref{color:var(--muted2);font-size:12px;text-align:center;margin-top:16px;}
 .icells{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+/* (23-sep-2026, Iago) recordatorio de la semana anterior: rótulo grande y todo en gris */
+.icover.irepaso{opacity:.85;}
+/* toda la pantalla del recordatorio en gris: el fondo deja de ser azul/dorado y todo va desaturado */
+.intro-ov.ov-repaso{background:linear-gradient(160deg,#3b3f47 0%,#24272d 45%,#15171b 100%) !important;}
+.intro-ov.ov-repaso .intro-stage{filter:grayscale(1);}
+.intro-ov.ov-repaso .intro-bar{filter:grayscale(1);}
+.icover.irepaso .ititle{opacity:.85;}
+.ikicker.ikicker-repaso{font-size:clamp(22px,3.4vw,34px);letter-spacing:.1em;color:#e2e8f0;margin:0 0 10px;}
 
 .ipaper{background:var(--paper);border-radius:14px;padding:10px 14px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.35);}
 .ipaper svg{display:block;}
@@ -6978,6 +6986,8 @@ function go(i){
   const old=stageEl.querySelector('.islide');
   if(old){ old.classList.add('leave'); setTimeout(()=>{try{old.remove();}catch(e){}},430); }
   sIdx=i; paintDots();
+  /* (23-sep-2026, Iago) el recordatorio de la semana anterior en gris: TODA la pantalla, fondo incluido */
+  try{ OV.classList.toggle('ov-repaso', !!(slides[i]&&slides[i].repaso)); }catch(e){}
   const el=document.createElement('div'); el.className='islide';
   stageEl.appendChild(el);
   const s=slides[sIdx];
@@ -6985,10 +6995,38 @@ function go(i){
   if(fn){ cleanup=fn(el,s)||null; }
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
 }
+/* (23-sep-2026, Iago) «EN LA ANTERIOR CARTA…» también en profesional, igual que
+   en elemental: antes de la carta nueva, un recordatorio de la anterior del mismo
+   mundo (su nombre, su nota y sus ritmos), con el rótulo grande y en gris. */
+function cartaAnterior(card){
+  const ms=(typeof GP1_WORLDS!=='undefined'&&GP1_WORLDS)||(typeof GE_WORLDS!=='undefined'&&GE_WORLDS)||[];
+  for(const w of ms){
+    const cs=w.cards||[];
+    const i=cs.findIndex(c=>c.atlasId===card.atlasId);
+    if(i>0) return cs[i-1];
+    if(i===0) return null;
+  }
+  return null;
+}
+function portadaRepaso(card){
+  const prev=cartaAnterior(card); if(!prev) return null;
+  let s=null;
+  try{
+    const d=window.CARD_INTROS&&window.CARD_INTROS[prev.atlasId];
+    if(d){ const first=(d.slides(prev)||[])[0]; if(first&&first.type==='cover') s=Object.assign({},first); }
+  }catch(e){ console.warn('[intro] portada de repaso', e); }
+  if(!s) s={type:'cover',title:prev.name||'',sub:prev.note||'',ref:prev.ref||'',
+    cells:(prev.cells||[]).filter(c=>!c.equiv&&c.notes&&typeof c.notes[0]==='string').slice(0,4)
+      .map(c=>({notes:c.notes.slice(),beams:c.beams,ties:c.ties,tuplets:c.tuplets,time:c.ts||c.time}))};
+  s.kicker='EN LA ANTERIOR CARTA… · '+(prev.atlasId||'');
+  s.repaso={prev:prev.atlasId||'',next:card.atlasId||''};
+  return s;
+}
 window.launchCardIntro=function(card){
   const def=window.CARD_INTROS&&window.CARD_INTROS[card.atlasId];
   if(!def) return;
   buildOv(); slides=def.slides(card); sIdx=0;
+  const rep=portadaRepaso(card); if(rep) slides.unshift(rep);
   _voces = vocesDelArbol(slides);     // los timbres del arbol, listos desde la portada
   /* (18-sep-2026, Iago) EL TEMPO DEL ARBOL MANDA EN TODA LA INTRO. Antes las
      primeras diapositivas iban al spq "crudo" y el arbol lo rebajaba un 12%,
@@ -7135,14 +7173,15 @@ const SLIDE_TYPES={};
 
 /* --- portada --- */
 SLIDE_TYPES.cover=function(host,s){
-  const c=el('div','icover');
-  c.appendChild(el('p','ikicker',s.kicker||'PRESENTACIÓN DEL RITMO'));
+  const c=el('div','icover'+(s.repaso?' irepaso':''));
+  c.appendChild(el('p','ikicker'+(s.repaso?' ikicker-repaso':''),s.kicker||'PRESENTACIÓN DEL RITMO'));
   c.appendChild(el('h1','ititle',s.title));
   if(s.sub) c.appendChild(el('p','isub',s.sub));
   const row=el('div','icells');
   (s.cells||[]).forEach(sp=>{ row.appendChild(paperChip(sp,{height:104,stretch:1.5,cls:'float'})); });
   c.appendChild(row);
   if(s.ref) c.appendChild(el('p','iref','📖 '+s.ref));
+  if(s.repaso) c.appendChild(el('p','iref','↻ un vistazo a la carta '+s.repaso.prev+' antes de empezar la '+s.repaso.next+' · pulsa los ritmos para recordarlos'));
   host.appendChild(c);
   stagger([].slice.call(c.children),80,150);
 };
@@ -10142,6 +10181,11 @@ function m1Draw(host,ph,opts){
   const n=ph.bars.length, EXTRA=86;
   const W=opts.width||900, H=opts.height||132;
   r.resize(W,H);
+  /* (23-sep-2026, Iago) «la partitura pequeña y la letra grande» (paso 2 de la 1.1):
+     desde el 17-sep el SVG va a width:100% (para caber en iPad vertical), pero su
+     caja no tenía ancho propio y el papel se encogía. El host fija el ancho del
+     dibujo y, si la pantalla es más estrecha, baja hasta el 100 %. */
+  try{ host.style.width=W+'px'; host.style.maxWidth='100%'; }catch(e){}
   // ancho por compás PROPORCIONAL a su número de figuras (los compases densos respiran)
   const innerW=(W-16-EXTRA);
   const wts=ph.bars.map(b=>Math.max(4,(b.notes||[]).length+2));
@@ -10556,7 +10600,23 @@ S.m1Metodo=function(host,s){
   }
   function playEx(paperEl,draws,mode,brackets){
     const c=ac(); if(!c) return;
-    const t0=c.currentTime+0.18;
+    /* (23-sep-2026, Iago) «cuando vaya a reproducirse una lección o un paso 2, un
+       compás de claqueta con la subdivisión incluida; ahora entra directamente y
+       eso dificulta la coordinación». Un compás entero del primer compás de la
+       lectura: los pulsos fuertes y, en medio, la subdivisión suave. */
+    const tIni=c.currentTime+0.18;
+    const ph0=D.ex[0], bar0=(ph0.bars&&ph0.bars[0])||{};
+    const grupos0=bar0.groups||ph0.groups||[];
+    const leadE8=ph0.e8||grupos0.reduce((a,b)=>a+b,0)||0;
+    let onsets=[];
+    { let acc=0; grupos0.forEach((g,gi)=>{ onsets.push(acc); click(tIni+acc*E8L, gi===0, 1); acc+=g; }); }
+    if(!grupos0.length && leadE8){ click(tIni,true,1); onsets.push(0); }
+    { const st=D.subStep||1;
+      for(let e=0;e<leadE8-1e-6;e+=st){ if(!onsets.some(o=>m1Near(o,e))) click(tIni+e*E8L,false,st<1?0.3:0.4); } }
+    try{ const cd=ensureCountdown(); const nP=Math.max(1,onsets.length);
+      onsets.forEach((o,i)=>visAt(tIni+o*E8L,()=>showCountdown(cd,nP-i)));
+      visAt(tIni+leadE8*E8L,()=>hideCountdown()); }catch(e){}
+    const t0=tIni+leadE8*E8L;
     let tE=0;
     D.ex.forEach((ph,pi)=>{
       ph.bars.forEach((bar,bi)=>{
