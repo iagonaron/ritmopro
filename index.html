@@ -6877,9 +6877,12 @@ function fusionSound(){ const c=iCtx(); if(!c) return; const t=c.currentTime+0.0
     o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+0.72); });
   noiseHit(c,t+0.34,6200,1.2,0.07,0.24,'highpass'); }
 /* sonido de VARITA MÁGICA: destello ascendente */
+/* (20-oct-2026, Iago: «el sonidito de revelar patrón… tres soniditos agudos muy seguidos… suena muy fuerte») a un tercio
+   (MAGIA_VOL). Antes: 0.2 cada nota y 0.1 el brillo. Para volver: MAGIA_VOL = 1. */
+const MAGIA_VOL = 0.33;
 function magicSound(){ const c=iCtx(); if(!c) return; const t=c.currentTime+0.01;
-  [980,1470,1960,2940].forEach((f,i)=>oscHit(c,t+i*0.05,f,f,0.2,0.2,'sine'));
-  noiseHit(c,t,8500,1.5,0.1,0.28,'highpass'); }
+  [980,1470,1960,2940].forEach((f,i)=>oscHit(c,t+i*0.05,f,f,0.2*MAGIA_VOL,0.2,'sine'));
+  noiseHit(c,t,8500,1.5,0.1*MAGIA_VOL,0.28,'highpass'); }
 /* sonido de TAJO: barrido de ruido descendente, corto y afilado */
 function slashSound(){ const c=iCtx(); if(!c) return; const t=c.currentTime+0.01;
   const s=c.createBufferSource(); s.buffer=iNoise(c);
