@@ -11172,12 +11172,28 @@ S.m16Metodo=function(host,s){
     side.innerHTML='<h3>'+c.t+'</h3><p>'+c.p+'</p>'+(c.b?'<button class="gvx-btn primary sok">'+c.b+'</button>':'');
     const ok=side.querySelector('.sok'); if(ok) ok.onclick=()=>advance();
     /* medir SIN animación (posición final real) y bajar lo justo para que la barra superior no la tape */
-    side.style.bottom=''; side.style.right=''; void side.offsetWidth;
-    try{ const r=side.getBoundingClientRect();
-      if(r.top<72) side.style.bottom='calc(100% - '+(56+(72-r.top))+'px)';
-      if(r.left<10) side.style.right='calc(100% - '+(30+(10-r.left))+'px)'; }catch(e){}
-    void side.offsetWidth; side.style.animation='';
+    m16Fit(); void side.offsetWidth; side.style.animation='';
+    /* (27-oct-2026, Mantenimiento) la diapositiva entra deslizándose: se vuelve a encajar cuando ya está quieta */
+    requestAnimationFrame(m16Fit); timers.push(setTimeout(m16Fit,350)); timers.push(setTimeout(m16Fit,900));
   }
+  /* (27-oct-2026, Mantenimiento · Iago: «la tarjeta se sale por el margen IZQUIERDO en el iPad») La tarjeta se ancla a la
+     izquierda de la partitura y en pantallas estrechas quedaba medio fuera. Ahora se mide la partitura (no la tarjeta, que
+     se anima) y la tarjeta se coloca dentro de la pantalla, con 10 px de margen a cada lado; si no cabe de ancho, se estrecha.
+     Funciona aunque la diapositiva esté escalada (se pasa de píxeles de pantalla a píxeles CSS). */
+  function m16Fit(){ try{
+    if(side.style.display==='none') return;
+    side.style.left=''; side.style.right=''; side.style.bottom=''; side.style.width=''; side.style.maxWidth='';
+    const pr=pEl.getBoundingClientRect(); if(!pr.width) return;
+    const k=(pEl.offsetWidth? pr.width/pEl.offsetWidth : 1)||1, vw=document.documentElement.clientWidth||innerWidth;
+    const wPx=Math.min(272*k, vw-20);                                  /* ancho en pantalla */
+    side.style.width=(wPx/k)+'px'; side.style.maxWidth='none';
+    let leftPx=pr.left+30*k-wPx;                                       /* donde la pondría el CSS de siempre */
+    leftPx=Math.max(10, Math.min(vw-10-wPx, leftPx));
+    side.style.right='auto'; side.style.left=((leftPx-pr.left)/k)+'px';
+    void side.offsetWidth; const r=side.getBoundingClientRect();
+    if(r.top<72) side.style.bottom='calc(100% - '+(56+(72-r.top)/k)+'px)';
+  }catch(e){} }
+  try{ window.addEventListener('resize',m16Fit); }catch(e){}
   function advance(){
     stageN++;
     if(stageN===1){
@@ -11239,7 +11255,7 @@ S.m16Metodo=function(host,s){
     stopM1(); playEx16();
   };
   showCard(0);
-  return function(){ clearTimers(); try{ killAudio(); }catch(e){} try{ stopPiano(); }catch(e){} try{side.remove();}catch(e){} try{badge.remove();}catch(e){} };
+  return function(){ clearTimers(); try{ killAudio(); }catch(e){} try{ stopPiano(); }catch(e){} try{side.remove();}catch(e){} try{ window.removeEventListener('resize',m16Fit); }catch(e){} try{badge.remove();}catch(e){} };
 };
 window.CARD_INTROS['1.6']={spq:M1E8, slides:function(card){ return [
   {type:'m16Metodo', card}
