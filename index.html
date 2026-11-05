@@ -10088,9 +10088,319 @@ window.__gveGenerate=function(card){
   }catch(e){}
 };
 
-/* registrar 2.1–2.8 (la 2.9 tendrá intro propia, pendiente) */
+/* ============================================================
+   (5-nov-2026, Iago) VÍDEOS DIDÁCTICOS DE LAS CARTAS 2.1–2.8
+   La intro de la carta queda en 3 partes:
+     1) ▶ el vídeo (intros/gve-X-Y/, su voz; sustituye a los pasos explicados)
+     2) EJEMPLO: un patrón de la carta en el que se revelan las líneas de pulso
+     3) PRACTICAR EN BUCLE (para clase): el pulso siempre suena y se marca;
+        dos ayudas que se quitan: notas iluminadas en verde y ritmo sonando
+        (golpe seco, sin alturas). Tempo ajustable. 2.1–2.4: regular / irregular.
+   EN PRUEBA: solo lo ven las cuentas Tester y Protester (con 👍 de revisión);
+   el resto sigue viendo la intro de siempre. Para publicarla: VIDEOS_GVE[x].prueba=false.
+   Para quitarlo todo: borrar este bloque (la intro de siempre no se ha tocado).
+   ============================================================ */
+const VIDEOS_GVE={
+  '2.1':{src:'intros/gve-2-1/index.html', titulo:'3 contra 2', prueba:false},
+  '2.2':{src:'intros/gve-2-2/index.html', titulo:'3 contra 4', prueba:false},
+  '2.3':{src:'intros/gve-2-3/index.html', titulo:'2 contra 3', prueba:false},
+  '2.4':{src:'intros/gve-2-4/index.html', titulo:'4 contra 3', prueba:false},
+  '2.5':{src:'intros/gve-2-5/index.html', titulo:'5 contra 2', prueba:false},
+  '2.6':{src:'intros/gve-2-6/index.html', titulo:'5 contra 3', prueba:false},
+  '2.7':{src:'intros/gve-2-7/index.html', titulo:'7 contra 2', prueba:false},
+  '2.8':{src:'intros/gve-2-8/index.html', titulo:'7 contra 3', prueba:false},
+};
+/* (5-nov, Iago) RONDAS COLECTIVAS: las variantes de Mundos rítmicos (lámina 2), en su orden; en clase se hace una ronda por variante
+   («todos la del regular, todos la del irregular 1…») o todas seguidas. Formato de celda de ritmopro. */
+const GVV_T=(num,occ,n)=>[{idx:Array.from({length:n},(_,i)=>i),num,occ}];
+const VARIANTES_GVE={
+  '2.1':[{label:'Regular',ts:'2/4',notes:['q','q','q'],tuplets:GVV_T(3,2,3)},
+         {label:'Irregular 1',ts:'2/4',notes:['h','q'],tuplets:GVV_T(3,2,2)},
+         {label:'Irregular 2',ts:'2/4',notes:['q','8','8','q'],beams:[[1,2]],tuplets:GVV_T(3,2,4)}],
+  '2.2':[{label:'Regular',ts:'4/4',notes:['h','h','h'],tuplets:GVV_T(3,2,3)},
+         {label:'Irregular 1',ts:'4/4',notes:['w','h'],tuplets:GVV_T(3,2,2)},
+         {label:'Irregular 2',ts:'4/4',notes:['h','q','q','h'],tuplets:GVV_T(3,2,4)}],
+  '2.3':[{label:'Regular · 3/8',ts:'3/8',notes:['8','8'],beams:[[0,1]],tuplets:GVV_T(2,3,2)},
+         {label:'Irregular · 3/4',ts:'3/4',notes:['q','8','8'],beams:[[1,2]],tuplets:GVV_T(2,3,3)},
+         {label:'Irregular · 3/8',ts:'3/8',notes:['8','16','16'],beams:[[0,1,2]],tuplets:GVV_T(2,3,3)}],
+  '2.4':[{label:'Regular · 3/8',ts:'3/8',notes:['8','8','8','8'],beams:[[0,1,2,3]],tuplets:GVV_T(4,3,4)},
+         {label:'Irregular · 9/8',ts:'9/8',notes:['hd','qd','qd'],tuplets:GVV_T(4,3,3)},
+         {label:'Irregular · 3/4',ts:'3/4',notes:['h','q','q'],tuplets:GVV_T(4,3,3)}],
+  '2.5':[{label:'2/4',ts:'2/4',notes:['8','8','8','8','8'],beams:[[0,1,2,3,4]],tuplets:GVV_T(5,4,5)},
+         {label:'6/8',ts:'6/8',notes:['8','8','8','8','8'],beams:[[0,1,2,3,4]],tuplets:GVV_T(5,6,5)}],
+  '2.6':[{label:'3/4',ts:'3/4',notes:['8','8','8','8','8'],beams:[[0,1,2,3,4]],tuplets:GVV_T(5,6,5)},
+         {label:'9/8',ts:'9/8',notes:['8','8','8','8','8'],beams:[[0,1,2,3,4]],tuplets:GVV_T(5,9,5)}],
+  '2.7':[{label:'2/4',ts:'2/4',notes:['8','8','8','8','8','8','8'],beams:[[0,1,2,3,4,5,6]],tuplets:GVV_T(7,4,7)},
+         {label:'6/8',ts:'6/8',notes:['8','8','8','8','8','8','8'],beams:[[0,1,2,3,4,5,6]],tuplets:GVV_T(7,6,7)}],
+  '2.8':[{label:'3/4',ts:'3/4',notes:['8','8','8','8','8','8','8'],beams:[[0,1,2,3,4,5,6]],tuplets:GVV_T(7,6,7)},
+         {label:'9/8',ts:'9/8',notes:['8','8','8','8','8','8','8'],beams:[[0,1,2,3,4,5,6]],tuplets:GVV_T(7,9,7)}],
+};
+const GVV_VERDE='#22c55e';
+(function cssGVV(){
+  if(document.getElementById('gvvCss')) return;
+  const st=document.createElement('style'); st.id='gvvCss';
+  st.textContent=
+  '.islide>.gvv-wrap{max-width:none;width:auto;}'+
+  '.gvv-wrap{position:absolute;inset:0;width:auto;max-width:none;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:8px 16px 4px;overflow:auto;}'+
+  '.gvv-wrap.gvv-arriba{justify-content:flex-start;padding-top:3vh;}'+
+  '.gvv-video{position:relative;flex:0 0 auto;border-radius:14px;overflow:hidden;background:#081628;box-shadow:0 18px 50px rgba(0,0,0,.55);}'+
+  '.gvv-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}'+
+  '.gvv-tags{position:absolute;top:10px;left:12px;display:flex;gap:8px;z-index:3;}'+
+  '.gvv-prueba{font-size:11px;font-weight:900;letter-spacing:.14em;color:#fff;background:rgba(220,38,38,.85);border-radius:6px;padding:4px 9px;}'+
+  '.gvv-prueba.ok{background:'+GVV_VERDE+';}'+
+  '.gvv-ok{font-size:18px;line-height:1;cursor:pointer;background:rgba(11,19,32,.8);border:1.5px solid rgba(255,255,255,.3);border-radius:8px;padding:4px 8px;filter:grayscale(1);opacity:.75;}'+
+  '.gvv-ok.on{filter:none;opacity:1;border-color:'+GVV_VERDE+';}'+
+  '.gvv-kick{font-size:12px;font-weight:900;letter-spacing:.2em;color:'+GVV_VERDE+';text-transform:uppercase;}'+
+  '.gvv-h{margin:0;font-size:26px;font-weight:900;color:var(--ink);}'+
+  '.gvv-paper{position:relative;background:var(--paper);border-radius:14px;padding:10px 24px;box-shadow:0 10px 30px rgba(0,0,0,.4);max-width:96vw;}'+
+  '.gvv-paper svg{display:block;width:auto!important;height:clamp(200px,44vh,440px)!important;max-width:82vw!important;}'+
+  /* (5-nov, Iago) el verde es solo del PULSO: la figura que suena se ilumina con brillo (en el papel blanco, halo oscuro) */
+  '.gvv-hit{filter:drop-shadow(0 0 3px rgba(15,23,42,.75)) drop-shadow(0 0 9px rgba(15,23,42,.45));}'+
+  '.gvv-hit,.gvv-hit *{fill:#000 !important;stroke:#000 !important;}'+
+  '.gvv-line{stroke:'+GVV_VERDE+';stroke-width:4;stroke-linecap:round;transition:opacity .2s;}'+
+  '.gvv-line.flash{filter:drop-shadow(0 0 6px '+GVV_VERDE+');stroke-width:6;}'+
+  '.gvv-ctr{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;}'+
+  '.gvv-fin{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);}'+
+  '.gvv-btn{font-family:inherit;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:800;cursor:pointer;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:var(--ink);}'+
+  '.gvv-btn:hover{border-color:rgba(255,255,255,.5);}'+
+  '.gvv-btn.prim{background:'+GVV_VERDE+';border-color:'+GVV_VERDE+';color:#052e16;}'+
+  '.gvv-btn.on{border-color:'+GVV_VERDE+';color:'+GVV_VERDE+';}'+
+  '.gvv-btn.fijo{cursor:default;border-color:'+GVV_VERDE+';color:'+GVV_VERDE+';opacity:.9;}'+
+  '.gvv-sq{width:44px;height:44px;padding:0;display:grid;place-items:center;font-size:18px;}'+
+  '.gvv-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:900px;}'+
+  '.gvv-chip{font-family:inherit;font-size:12px;font-weight:800;letter-spacing:.04em;border-radius:8px;padding:6px 11px;cursor:pointer;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:var(--muted);}'+
+  '.gvv-chip.on{border-color:'+GVV_VERDE+';color:'+GVV_VERDE+';}'+
+  '.gvv-chip.suena{background:#16a34a;border-color:#16a34a;color:#fff;}'+
+  '.gvv-tempo{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;color:var(--muted);}'+
+  '.gvv-tempo input{accent-color:'+GVV_VERDE+';width:180px;}'+
+  '.gvv-cab{stroke:#d9fbe5;stroke-width:3;filter:drop-shadow(0 0 6px '+GVV_VERDE+');}'+
+  '.gvv-rondas{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}'+
+  '.gvv-ronda{font-size:11.5px;font-weight:800;letter-spacing:.04em;border-radius:7px;padding:5px 10px;border:1.5px solid rgba(255,255,255,.14);color:#64748b;}'+
+  '.gvv-ronda.on{border-color:'+GVV_VERDE+';color:#052e16;background:'+GVV_VERDE+';}'+
+  '.gvv-ronda.hecha{color:'+GVV_VERDE+';border-color:rgba(34,197,94,.4);}'+
+  '.gvv-pulso{position:absolute;left:14px;bottom:10px;display:flex;align-items:center;gap:7px;font-size:10px;font-weight:900;letter-spacing:.16em;color:#64748b;}'+
+  '.gvv-pulso i{width:12px;height:12px;border-radius:3px;background:#14532d;transition:background .08s;}'+
+  '.gvv-pulso i.on{background:'+GVV_VERDE+';box-shadow:0 0 10px '+GVV_VERDE+';}';
+  document.head.appendChild(st);
+})();
+
+/* ---- ¿es una cuenta de prueba (Tester / Protester)? se pregunta una vez al cargar ---- */
+window.__GVV=window.__GVV||{tester:false}; let GVV_CUENTA=null, GVV_MARCAS={};
+const GVV_SB='https://woiptkyrxkbpnvioypit.supabase.co';
+function gvvRpc(fn,args){
+  const K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvaXB0a3lyeGticG52aW95cGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NzI2ODYsImV4cCI6MjA5MjA0ODY4Nn0.B2nKgj5rD0rkdLeMIrd9KgD8lUPWsBT4Y7aCtmnvbjA';   /* la misma clave pública (anon) que ya usa esta app */
+  return fetch(GVV_SB+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'Content-Type':'application/json',apikey:K,Authorization:'Bearer '+K},body:JSON.stringify(args)}).then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); });
+}
+(function gvvQuienSoy(){
+  try{
+    const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+    const TESTERS=['iago gonzalez tester','iago gonzalez protester','iago gonzalez pro tester'];
+    let c=null;
+    try{ const q=new URLSearchParams(location.search).get('cuenta'); if(q&&/^[0-9a-f-]{36}$/i.test(q)) c=q; }catch(e){}
+    if(!c){ try{ const s=JSON.parse(localStorage.getItem('lmpro_session')||'null'); if(s&&s.id&&s.estado==='validado') c=s.id; }catch(e){} }
+    if(!c) return;
+    GVV_CUENTA=c;
+    try{ const k=JSON.parse(localStorage.getItem('gvv_tester')||'null'); if(k&&k.c===c&&(Date.now()-k.t)<12*3600e3){ window.__GVV.tester=!!k.te; } }catch(e){}
+    gvvRpc('suite_estado_cuenta',{p_id:c}).then(d=>{
+      const v=!!(d&&d.ok&&d.estado==='validado'); window.__GVV.tester=v&&TESTERS.indexOf(norm(d.nombre))>=0;
+      try{ localStorage.setItem('gvv_tester',JSON.stringify({c,te:window.__GVV.tester,t:Date.now()})); }catch(e){}
+      if(window.__GVV.tester) gvvRpc('suite_intro_revisiones',{p_id:c}).then(r=>{ if(r&&r.ok&&r.marcas) GVV_MARCAS=r.marcas; }).catch(()=>{});
+    }).catch(()=>{});
+  }catch(e){}
+})();
+function gvvClave(src){ return 'ritmopro/'+src; }
+
+/* ---- utilidades de práctica (pulso, ritmo, líneas) ---- */
+function gvvPulsoBeats(ts){ const [n,d]=String(ts).split('/').map(Number); if(d===4) return 1; if(d===8&&n===3) return 0.5; if(d===8&&n%3===0) return 1.5; return 4/d; }
+function gvvMadera(c,t,g){ oscHit(c,t,1150,1080,(g||1)*0.5,0.07,'sine'); oscHit(c,t,1730,1650,(g||1)*0.2,0.05,'sine'); }
+function gvvCeldas(card,modo){
+  const cs=(card.cells||[]).filter(c=>c&&Array.isArray(c.notes)&&typeof c.notes[0]==='string'&&(c.tuplets||[]).length);
+  const irr=c=>/irregular/i.test(c.label||'');
+  if(modo==='irregular') return cs.filter(irr);
+  return cs.filter(c=>!irr(c));
+}
+/** Dibuja la celda (cada figura a una altura distinta: Do, Re, Mi…, para saber cuál suena) y devuelve
+    {d, spec, on, pb, np, lineas, xAt, keys, cab}. cab = línea temporal (cabezal) que recorre el compás. */
+function gvvDibuja(host,cell,o){
+  o=o||{};
+  const spec={notes:cell.notes.slice(),beams:(cell.beams||[]).map(b=>b.slice()),tuplets:(cell.tuplets||[]).map(t=>({idx:t.idx.slice(),num:t.num,occ:t.occ})),ties:cell.ties};
+  const keys=spec.notes.map((_,i)=>NOTE_KEYS[Math.min(i,NOTE_KEYS.length-1)]);
+  const d=gvxDraw(host,spec,{ts:cell.ts,keys,stretch:o.stretch||2.2,height:o.height||200,endBar:true,maxW:o.maxW||900});
+  const on=onsetsX(spec);
+  const xs=d.els.map((el,i)=>{ const h=d.heads[i]&&d.heads[i][0]; const b=(h||el).getBBox(); return b.x+b.width/2; });
+  const fin=d.stave.getX()+d.stave.getWidth()-14;
+  const xAt=bt=>{ for(let i=0;i<on.starts.length;i++){ const a=on.starts[i], b=on.starts[i]+on.beats[i]; if(bt>=a-1e-6&&bt<b-1e-6){ const xb=i+1<xs.length?xs[i+1]:fin; return xs[i]+(xb-xs[i])*(bt-a)/(b-a); } } return fin; };
+  const pb=gvvPulsoBeats(cell.ts), np=Math.round(on.total/pb);
+  const yTop=d.stave.getYForLine(0), yBot=d.stave.getYForLine(4);
+  const NS='http://www.w3.org/2000/svg', lineas=[];
+  for(let k=0;k<np;k++){ const x=xAt(k*pb); const ln=document.createElementNS(NS,'line');
+    ln.setAttribute('x1',x); ln.setAttribute('x2',x); ln.setAttribute('y1',yBot+20); ln.setAttribute('y2',yBot+38); ln.setAttribute('class','gvv-line'); ln.style.opacity=o.lineasVisibles?1:0; d.svg.appendChild(ln); lineas.push(ln); }
+  const cab=document.createElementNS(NS,'line');
+  cab.setAttribute('y1',yTop-30); cab.setAttribute('y2',yBot+42); cab.setAttribute('class','gvv-cab'); cab.style.opacity=0; d.svg.appendChild(cab);
+  return {d,spec,on,pb,np,lineas,xAt,keys,cab};
+}
+/** Las rondas según las ayudas elegidas: la 1.ª con todas; luego se quita el ritmo, después la iluminación,
+    después la línea temporal… y la última, solo con el pulso. Tantas rondas como cosas seleccionadas. */
+function gvvRondas(ay){
+  const r=[]; let cur={ritmo:ay.ritmo, notas:ay.notas, linea:ay.linea};
+  r.push(Object.assign({},cur));
+  ['ritmo','notas','linea'].forEach(k=>{ if(cur[k]){ cur=Object.assign({},cur,{[k]:false}); r.push(Object.assign({},cur)); } });
+  return r;
+}
+function gvvNombreRonda(x){ const q=[]; if(x.ritmo)q.push('ritmo'); if(x.notas)q.push('notas'); if(x.linea)q.push('línea'); return q.length?('pulso + '+q.join(' + ')):'solo pulso'; }
+/**
+ * Secuencia de clase: 1 compás de claqueta y, seguidas, las rondas (una vuelta del compás cada una).
+ * El pulso suena (golpe grave) y su línea se marca SIEMPRE. ritmo = suenan Do, Re, Mi… durando lo que duran.
+ * Devuelve una función para pararla. opt: {bpm, rondas:[{ritmo,notas,linea}], alRonda(i), alFin(), lampara}
+ */
+function gvvSecuencia(D,opt){
+  const c=ac(), spq=(60/opt.bpm)/D.pb, comp=D.on.total*spq, pulS=D.pb*spq;
+  const t0=opt.t0!=null?opt.t0:c.currentTime+0.15, tR=opt.sinClaqueta?t0:t0+comp, nR=opt.rondas.length, tFin=tR+nR*comp;
+  /* lista de sonidos; se programan poco a poco (≈0,2 s por delante) para poder pararlos al momento */
+  const ev=[];
+  if(!opt.sinClaqueta) for(let k=0;k<D.np;k++) ev.push([t0+k*pulS,t=>clave(c,t,k===0?1:0.8)]);                 /* claqueta */
+  opt.rondas.forEach((r,j)=>{ const b=tR+j*comp;
+    for(let k=0;k<D.np;k++) ev.push([b+k*pulS,t=>drum(c,t,k===0?1.1:0.9)]);               /* pulso, siempre */
+    if(r.ritmo) D.on.onsets.forEach(o=>{ const f=KEY2F[D.keys[o.i]]||329.63, du=Math.max(0.12,o.d*spq-0.03); ev.push([b+o.t*spq,t=>tone(c,t,0.2,du,f)]); });
+  });
+  ev.sort((a,b)=>a[0]-b[0]); let iev=0;
+  const prog=setInterval(()=>{ const h=c.currentTime+0.2; while(iev<ev.length&&ev[iev][0]<=h){ try{ ev[iev][1](Math.max(ev[iev][0],c.currentTime+0.005)); }catch(e){} iev++; } },25);
+  let vivo=true, ultR=-2, casi=false;
+  const fr=()=>{ if(!vivo) return; const now=c.currentTime;
+    if(opt.alCasiFin&&!casi&&now>=tFin-0.35){ casi=true; opt.alCasiFin(tFin); }
+    if(now>=tFin){ limpiar(); if(opt.alFin) opt.alFin(); return; }
+    const enCuenta=now<tR, j=enCuenta?-1:Math.floor((now-tR)/comp), r=enCuenta?{ritmo:false,notas:false,linea:false}:opt.rondas[j];
+    const ph=((now-(enCuenta?t0:tR))%comp+comp)%comp, bt=ph/spq;              /* posición dentro del compás, en negras */
+    if(j!==ultR){ ultR=j; if(opt.alRonda) opt.alRonda(j); }
+    const kP=Math.floor(bt/D.pb+1e-6), dP=bt-kP*D.pb;
+    D.lineas.forEach((ln,k)=>ln.classList.toggle('flash',k===kP&&dP<0.3*D.pb&&now>=t0));
+    if(opt.lampara) opt.lampara.classList.toggle('on',dP<0.25*D.pb&&now>=t0);
+    D.d.els.forEach((el,i)=>{ if(!el) return; const a=D.on.starts[i], e=a+D.on.beats[i]; el.classList.toggle('gvv-hit',!!r.notas&&bt>=a&&bt<e); });
+    D.cab.style.opacity=r.linea?1:0; if(r.linea){ const x=D.xAt(bt); D.cab.setAttribute('x1',x); D.cab.setAttribute('x2',x); }
+    requestAnimationFrame(fr); };
+  function limpiar(){ vivo=false; clearInterval(prog); D.lineas.forEach(l=>l.classList.remove('flash')); D.d.els.forEach(el=>el&&el.classList.remove('gvv-hit')); D.cab.style.opacity=0; if(opt.lampara) opt.lampara.classList.remove('on'); }
+  requestAnimationFrame(fr);
+  return function parar(){ if(!vivo) return; limpiar(); };
+}
+
+/* ============ SLIDE 1: el vídeo ============ */
+S.gvxVideo=function(host,s){
+  const v=s.video;
+  const root=document.createElement('div'); root.className='gvv-wrap';
+  root.innerHTML='<div class="gvv-video"><iframe allow="autoplay; fullscreen" title="Vídeo: '+v.titulo+'"></iframe><div class="gvv-tags"></div></div>';
+  host.appendChild(root);
+  const fr=root.querySelector('iframe'), caja=root.querySelector('.gvv-video');
+  const ajusta=()=>{ const r=root.getBoundingClientRect(); let w=r.width-32, h=w*9/16; if(h>r.height-24){ h=r.height-24; w=h*16/9; } caja.style.width=Math.round(w)+'px'; caja.style.height=Math.round(h)+'px'; };
+  ajusta(); window.addEventListener('resize',ajusta);
+  fr.src=v.src+'?auto&embed';
+  if(v.prueba&&window.__GVV.tester){
+    const tags=root.querySelector('.gvv-tags'); const k=gvvClave(v.src);
+    const tag=document.createElement('span'); tag.className='gvv-prueba'; tags.appendChild(tag);
+    const ok=document.createElement('span'); ok.className='gvv-ok'; ok.textContent='👍'; ok.setAttribute('role','button'); ok.tabIndex=0; tags.appendChild(ok);
+    const pinta=()=>{ const on=!!GVV_MARCAS[k]; ok.classList.toggle('on',on); tag.textContent=on?'REVISADO':'EN PRUEBA'; tag.classList.toggle('ok',on);
+      ok.title=on?'Revisado y correcto · pulsa para quitarlo':'Marcar como revisado y correcto (solo lo ves tú)'; };
+    pinta();
+    ok.onclick=e=>{ e.stopPropagation(); const nuevo=!GVV_MARCAS[k]; GVV_MARCAS[k]=nuevo; pinta();
+      gvvRpc('suite_intro_marcar',{p_id:GVV_CUENTA,p_src:k,p_ok:nuevo}).then(d=>{ if(!d||!d.ok) throw new Error('x'); })
+        .catch(()=>{ GVV_MARCAS[k]=!nuevo; pinta(); try{ alert('No se ha podido guardar el 👍. Inténtalo otra vez.'); }catch(x){} }); };
+  }
+  const alMensaje=e=>{ if(e.source!==fr.contentWindow||!e.data) return;
+    if(e.data.intro==='salir'){ const x=document.getElementById('introClose'); if(x) x.click(); }
+    if(e.data.intro==='ejemplo'){ const n=document.getElementById('introNext'); if(n) n.click(); } };
+  window.addEventListener('message',alMensaje);
+  return function(){ window.removeEventListener('message',alMensaje); window.removeEventListener('resize',ajusta); try{ fr.src='about:blank'; }catch(e){} };
+};
+
+/* ============ SLIDE 2: el ejemplo (se revela el patrón de líneas) ============ */
+S.gvxEjemplo=function(host,s){
+  const card=s.card;
+  const root=document.createElement('div'); root.className='gvv-wrap gvv-arriba';
+  root.innerHTML='<p class="gvv-kick">Ejemplo · '+card.atlasId+'</p><h2 class="gvv-h">¿Dónde caen las líneas de pulso?</h2>'+
+    '<div class="gvv-paper"></div><div class="gvv-ctr">'+
+    '<button class="gvv-btn prim" data-r="rev">Revelar las líneas</button>'+
+    '<button class="gvv-btn" data-r="play">▶ Escuchar</button>'+
+    '<button class="gvv-btn" data-r="otro">Otro ejemplo</button></div>';
+  host.appendChild(root);
+  const paper=root.querySelector('.gvv-paper'), bPlay=root.querySelector('[data-r=play]');
+  const lista=gvvCeldas(card,'regular').concat(gvvCeldas(card,'irregular'));
+  let i=Math.floor(Math.random()*Math.max(1,gvvCeldas(card,'regular').length)), D=null, visto=false, parar=null;
+  const stop=()=>{ if(parar){ parar(); parar=null; } bPlay.textContent='▶ Escuchar'; };
+  const pinta=()=>{ stop(); visto=false; D=gvvDibuja(paper,lista[i],{lineasVisibles:false}); root.querySelector('[data-r=rev]').disabled=false; };
+  pinta();
+  root.querySelector('[data-r=rev]').onclick=e=>{ if(visto) return; visto=true; e.currentTarget.disabled=true;
+    D.lineas.forEach((ln,k)=>setTimeout(()=>{ ln.style.opacity=1; try{ slashSound(); }catch(x){} },k*420)); };
+  bPlay.onclick=()=>{ if(parar){ stop(); return; }
+    parar=gvvSecuencia(D,{bpm:56,rondas:[{ritmo:true,notas:true,linea:true}],alFin:()=>{ parar=null; bPlay.textContent='▶ Escuchar'; }}); bPlay.textContent='❚❚ Parar'; };
+  root.querySelector('[data-r=otro]').onclick=()=>{ i=(i+1)%lista.length; pinta(); };
+  return function(){ stop(); };
+};
+
+/* ============ SLIDE 3: practicar en bucle (clase) ============ */
+S.gvxBucle=function(host,s){
+  /* (5-nov, Iago) rondas COLECTIVAS por variante (las de Mundos rítmicos): «todos la del regular, todos la del irregular 1…»,
+     o todas seguidas sin perder el pulso. En cada variante: claqueta (solo al empezar) y tantas rondas como ayudas activas. */
+  const card=s.card, vars=(VARIANTES_GVE[card.atlasId]||gvvCeldas(card,'regular'));
+  const root=document.createElement('div'); root.className='gvv-wrap gvv-arriba';
+  root.innerHTML='<p class="gvv-kick">Rondas para todos · '+card.atlasId+'</p>'+
+    '<div class="gvv-chips"></div><div class="gvv-paper"><div class="gvv-pp"></div><span class="gvv-pulso"><i></i>PULSO</span></div>'+
+    '<div class="gvv-rondas"></div>'+
+    '<div class="gvv-ctr"><button class="gvv-btn prim gvv-sq" data-r="play" title="Empezar / parar">▶</button>'+
+    '<span class="gvv-btn fijo" title="El pulso siempre suena y se marca">● Pulso</span>'+
+    '<button class="gvv-btn on" data-r="ritmo" title="Suenan las notas (Do, Re, Mi…) durando lo que duran">Ritmo sonando</button>'+
+    '<button class="gvv-btn on" data-r="notas" title="Ilumina en verde la figura que toca">Notas iluminadas</button>'+
+    '<button class="gvv-btn on" data-r="linea" title="Una línea recorre el compás de izquierda a derecha">Línea temporal</button>'+
+    '<span class="gvv-tempo">♩ <input type="range" min="36" max="110" step="1" value="56"><b>56</b></span></div>'+
+    '<div class="gvv-ctr gvv-fin"><button class="gvv-btn" data-r="salir">Salir</button>'+
+    '<button class="gvv-btn prim" data-r="gen">🎼 Generar lectura →</button></div>';
+  host.appendChild(root);
+  /* (5-nov, Iago) tras las rondas: generar la lectura de esta carta o salir */
+  root.querySelector('[data-r=salir]').onclick=()=>{ const x=document.getElementById('introClose'); if(x) x.click(); };
+  root.querySelector('[data-r=gen]').onclick=()=>{ try{ window.__gveGenerate(card); }catch(e){} };
+  const paper=root.querySelector('.gvv-paper'), lienzo=paper.querySelector('.gvv-pp'), lampara=paper.querySelector('.gvv-pulso i');
+  const chips=root.querySelector('.gvv-chips'), bPlay=root.querySelector('[data-r=play]'), tiras=root.querySelector('.gvv-rondas');
+  const rng=root.querySelector('input[type=range]'), rv=root.querySelector('.gvv-tempo b');
+  const TODAS=-1;
+  const st={i:0,ay:{ritmo:true,notas:true,linea:true},bpm:56,D:null,sonando:-2};
+  let paradas=[];
+  const pintaRondas=(act,iv)=>{ const rs=gvvRondas(st.ay), cad=st.i===TODAS;
+    const pre=cad&&iv!=null?'<span class="gvv-ronda on">'+vars[iv].label+'</span>':'';
+    tiras.innerHTML=pre+((!cad||iv===0||iv==null)?'<span class="gvv-ronda'+(act===-1?' on':'')+'">claqueta</span>':'')+rs.map((r,j)=>'<span class="gvv-ronda'+(act===j?' on':'')+(act!=null&&act>j?' hecha':'')+'">'+(j+1)+' · '+gvvNombreRonda(r)+'</span>').join(''); };
+  const marcaChips=()=>chips.querySelectorAll('.gvv-chip').forEach((b,k)=>{ const kk=k<vars.length?k:TODAS; b.classList.toggle('on',kk===st.i); b.classList.toggle('suena',kk===st.sonando); });
+  const stop=()=>{ paradas.forEach(f=>{ try{ f(); }catch(e){} }); paradas=[]; st.sonando=-2; bPlay.textContent='▶'; pintaRondas(null); marcaChips(); };
+  const dibuja=k=>{ st.D=gvvDibuja(lienzo,vars[k],{lineasVisibles:true}); };
+  vars.forEach((v,k)=>{ const b=document.createElement('button'); b.className='gvv-chip'; b.textContent=v.label; b.onclick=()=>{ stop(); st.i=k; dibuja(k); marcaChips(); }; chips.appendChild(b); });
+  if(vars.length>1){ const b=document.createElement('button'); b.className='gvv-chip'; b.textContent='▶▶ Todas seguidas'; b.onclick=()=>{ stop(); st.i=TODAS; dibuja(0); marcaChips(); }; chips.appendChild(b); }
+  dibuja(0); marcaChips(); pintaRondas(null);
+  function toca(k,t0,cadena){
+    st.sonando=cadena?k:st.i; marcaChips();
+    const parar=gvvSecuencia(st.D,{bpm:st.bpm,rondas:gvvRondas(st.ay),lampara,t0,sinClaqueta:cadena&&k>0,
+      alRonda:j=>pintaRondas(j,cadena?k:null),
+      alCasiFin:(cadena&&k+1<vars.length)?tF=>{ dibuja(k+1); toca(k+1,tF,true); }:null,
+      alFin:()=>{ if(!(cadena&&k+1<vars.length)){ paradas=[]; st.sonando=-2; bPlay.textContent='▶'; pintaRondas(null); marcaChips(); } }});
+    paradas.push(parar);
+  }
+  bPlay.onclick=()=>{ if(paradas.length){ stop(); return; }
+    if(st.i===TODAS){ dibuja(0); toca(0,null,true); } else toca(st.i,null,false);
+    bPlay.textContent='❚❚'; };
+  ['ritmo','notas','linea'].forEach(k=>{ const b=root.querySelector('[data-r='+k+']');
+    b.onclick=()=>{ st.ay[k]=!st.ay[k]; b.classList.toggle('on',st.ay[k]); stop(); }; });
+  rng.oninput=()=>{ st.bpm=+rng.value; rv.textContent=st.bpm; };
+  rng.onchange=()=>stop();
+  return function(){ stop(); };
+};
+
+
+
+/* registrar 2.1–2.8 (la 2.9 tendrá intro propia, pendiente)
+   (5-nov-2026) si la carta ya tiene vídeo (VIDEOS_GVE) y esta cuenta puede verlo: vídeo → rondas (y al final: generar lectura o salir) */
 Object.keys(GDEFS).forEach(aid=>{
-  window.CARD_INTROS[aid]={spq:SPQ, slides:function(card){ return [
+  window.CARD_INTROS[aid]={spq:SPQ, slides:function(card){
+    const v=VIDEOS_GVE[aid];
+    if(v && (!v.prueba || window.__GVV.tester)) return [
+      {type:'gvxVideo', card, video:v},
+      {type:'gvxBucle', card}
+    ];
+    return [
     {type:'gvxCover', card, def:GDEFS[aid]},
     {type:'gvxMetodo', card, def:GDEFS[aid]}
   ]; }};
