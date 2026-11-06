@@ -3643,6 +3643,32 @@ function genLessonGP1(worldId, cards, seed, second){
   else if(cfgA.clefMode==='none'){ clefs=['none','none','none','none']; }
   else { clefs=['treble','treble','bass','bass']; }   // 2 frases en sol + 2 en fa (MISMA dificultad — Iago)
   const switchIdx=2;
+  // (6-nov-2026, Iago) VARIAS CARTAS con formato propio a la vez (1.8 sin compás · 1.6 cambios constantes ·
+  //  1.9 fraccionarios): cada una se queda SU pentagrama — 1º sin compás, 2º cambios constantes, 3º fraccionario —
+  //  y los demás pentagramas siguen con el resto de cartas (dispares, dosillos, tresillos, cinquillos…).
+  //  Con una sola de esas cartas activa (sola), todo sigue como antes.
+  const ROLES=[null,null,null,null]; let ROLES_ON=false, timeNoMeter=null, timeFrac=null;
+  if(!useCombine && !cfgA.fusaN && !cfgA.special && (cfgA.activeCards||[]).length>1){
+    const isFracCard=(c)=>(c.cells||[]).some(x=>x.fracSig);
+    const specials=cfgA.activeCards.filter(c=>c.noMeter||c.constMeter||isFracCard(c));
+    const others=cfgA.activeCards.filter(c=>!(c.noMeter||c.constMeter||isFracCard(c)));
+    if(specials.length && (others.length || specials.length>1)){
+      ROLES_ON=true;
+      const fracTs=[], nmTs=[];
+      cfgA.activeCards.forEach(c=>(c.cells||[]).forEach(cell=>{ if(!cell.ts) return; if(cell.fracSig) fracTs.push(cell.ts); else if(c.noMeter) nmTs.push(cell.ts); }));
+      if(cfgA.noMeter){ ROLES[0]='sinCompas'; timeNoMeter=nmTs.length?pick(nmTs):'4/4'; }
+      if(cfgA.constMeter){ ROLES[1]='cambios';
+        // en ese pentagrama los cambios de compás también pasan por los DISPARES del resto de cartas (5/8, 7/8, 8/8, 10/8…)
+        const dsp=new Set(); others.forEach(c=>(c.cells||[]).forEach(cell=>{ const t=cell.ts; if(!t||cell.fracSig) return; const [n,d]=t.split('/').map(Number); if(d===8 && n%3!==0) dsp.add(t); }));
+        cfgA.constPoolMix=[...new Set((cfgA.constPool||[]).concat([...dsp]))]; }
+      if(fracTs.length){ ROLES[2]='fracc'; timeFrac=pick([...new Set(fracTs)]); }
+      // compases de los pentagramas «normales»: solo los del resto de cartas (sin fraccionarios ni los de 1.8)
+      const ms2=new Set(); others.forEach(c=>(c.cells||[]).forEach(cell=>{ if(cell.ts && !cell.equiv && !cell.fracSig) ms2.add(cell.ts); }));
+      if(ms2.size) cfgA.meterPool=[...ms2];
+      else cfgA.meterPool=(cfgA.meterPool||[]).filter(t=>!fracTs.includes(t));
+      if(!cfgA.meterPool.length) cfgA.meterPool=(W.meterPool&&W.meterPool.length)?W.meterPool.slice():['2/4'];
+    }
+  }
   const pickMeter=(cfg)=>pick(cfg.meterPool);
 
   // compases A/B
@@ -3678,6 +3704,9 @@ function genLessonGP1(worldId, cards, seed, second){
     if(isBlancaWorld && !useCombine && b2n[timeB] && rand()<0.5){ timeB=b2n[timeB]; }
   }
 
+  // (6-nov-2026) con varias cartas de formato propio, el último pentagrama va en 5/8 o 7/8 si se puede:
+  //  ahí caben las cartas 1.1–1.4 (dosillos, tresillos, cinquillos) y la 1.7
+  if(ROLES_ON){ const pref=cfgA.meterPool.filter(t=>t==='5/8'||t==='7/8'); if(pref.length) timeB=pick(pref); }
   // Mezcla SIMPLE (binario) + COMPUESTO (ternario), mismo pulso: el COMPUESTO va SIEMPRE en las dos primeras frases
   //  y el SIMPLE en las dos últimas; además la lección se RALENTIZA para que el compuesto no quede demasiado rápido.
   let simpleSlow5=false, mixSlow=false;
@@ -3694,7 +3723,7 @@ function genLessonGP1(worldId, cards, seed, second){
   const buildPhrases=()=>clefs.map((clef,i)=>{
     const inB = (i>=switchIdx);
     const cfg = (useCombine && inB) ? cfgB : cfgA;
-    const time=inB?timeB:timeA;
+    const time = ROLES[i]==='sinCompas' ? timeNoMeter : (ROLES[i]==='fracc' ? timeFrac : (inB?timeB:timeA));
     const isLast=(i===clefs.length-1);
     const slow=cfg.slow;
     const{num:tNum,den:tDen}=meterInfo(time);
@@ -3709,7 +3738,7 @@ function genLessonGP1(worldId, cards, seed, second){
       if(cfg.fusaN) mc=(capQ<=2)?3:2;                                   // 3.3: compases densísimos → frases cortas
       if((cfg.activeCards||[]).some(cc=>cc.fusaE) && (time==='2/8'||time==='3/8')) mc=3; }   // 3.2: frases de 3 (4 pentagramas anchos)
     // CAMBIOS CONSTANTES DE COMPÁS (figura=figura): cada compás elige su métrica
-    const cmPool=(cfg.constMeter && !useCombine)?cfg.constPool:null;
+    const cmPool = ROLES_ON ? (ROLES[i]==='cambios' ? (cfg.constPoolMix||cfg.constPool) : null) : ((cfg.constMeter && !useCombine)?cfg.constPool:null);
     let cmPrev=null; const nextCm=()=>{ let t,g=0; do{ t=prPick(cmPool); }while(t===cmPrev && g++<8); cmPrev=t; return t; };
     if(cmPool) mc=4;
     if(!cmPool){ const _adj=(i>=switchIdx)?mcAdjB:mcAdjA; if(_adj) mc=Math.max(2,mc-_adj); }   // 2ª pasada: frases más cortas, misma dificultad
@@ -3811,6 +3840,7 @@ function genLessonGP1(worldId, cards, seed, second){
     }
     if(FUSAE) measures.forEach(mm=>{ if(mm && String(mm.time).split('/')[1]==='8') mm.e8pulse=true; });
     const ph={clef,keysig,time:(cmPool&&measures[0])?measures[0].time:time,measures,dense:!!slow,nMeasures:mc,valid:measures.every(validateMeasure)};
+    if(ROLES[i]==='sinCompas') ph.noMeter=true;   // (6-nov-2026) este pentagrama, sin cifra de compás
     ph.semiStop=null;   // (la "paradita" de semifrase era de 2º GP; en 4º GE no se aplica)
     return ph;
   });
@@ -3838,7 +3868,7 @@ function genLessonGP1(worldId, cards, seed, second){
 
   const L={trimKey:'gp1', worldId, cards:cards.slice(), keysig,tonic,modo,phrases,timeA,timeB,switchIdx, gp1:true, simpleSlow5, mixSlow, fusaN:!!cfgA.fusaN,
            conjunctM4:!!(cfgA.clave||cfgA.claveH||cfgA.claveN),
-           noMeter:!!(cfgA.noMeter && !useCombine),
+           noMeter:!!(cfgA.noMeter && !useCombine && !ROLES_ON), roles:ROLES_ON?ROLES.slice():null,
            combine:useCombine, worldB:useCombine?second.worldId:null, cardsB:useCombine?second.cards.slice():null};
   let melOk=false;
   for(let a=0;a<40 && !melOk;a++){
@@ -4234,7 +4264,8 @@ function renderLesson(container,L){
   for(let li=0; li<lines.length-1; li++){
     const cur=lines[li], nx=lines[li+1], lastIdx=cur.ms.length-1;
     const clefChange = nx.clef!==cur.clef;
-    const meterChange = nx.ms[0].time !== cur.ms[lastIdx].time;
+    const _noM=(ln)=>!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter);   // (6-nov-2026) pentagrama sin compás: sin cortesía
+    const meterChange = nx.ms[0].time !== cur.ms[lastIdx].time && !_noM(cur) && !_noM(nx);
     let extra=0; if(clefChange) extra+=26;
     if(meterChange){ const nxM=nx.ms[0]; const stx=nxM.fracSig?nxM.fracSig[0]:(nxM.sigText||nxM.time);
       const dg=Math.max.apply(null,stx.split('/').map(x=>String(x).length));
@@ -4260,7 +4291,8 @@ function renderLesson(container,L){
       const first=(j===0); const w=lw[li][j];
       const stave=new VF.Stave(x,y,w);
       if(first){ if(clef!=='none'){ stave.addClef(clef).addKeySignature(ln.keysig); } }
-      const showTime=(!L.noMeter)&&((prevTime===null)||(m.time!==prevTime)); if(showTime) stave.addTimeSignature(m.fracSig?m.fracSig[0]:(m.sigText||m.time)); prevTime=m.time;
+      const _pNo=!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter);   // (6-nov-2026) pentagrama sin compás (el siguiente vuelve a poner su cifra)
+      const showTime=(!L.noMeter)&&!_pNo&&((prevTime===null)||(m.time!==prevTime)); if(showTime) stave.addTimeSignature(m.fracSig?m.fracSig[0]:(m.sigText||m.time)); prevTime=_pNo?null:m.time;
       const fracShown=showTime&&!!m.fracSig;
       if(li===lines.length-1 && j===ln.ms.length-1) stave.setEndBarType(VF.Barline.type.END);
       if(fracShown){ try{ stave.setNoteStartX(stave.getNoteStartX()+26); }catch(e){} }   // sitio para la fracción (SIEMPRE tras el último modificador)
@@ -4323,7 +4355,8 @@ function renderLesson(container,L){
     //  se anuncia aquí en pequeño: equivalencia de pulso (figuras dibujadas), clave de cortesía y/o compás de cortesía.
     const nx=lines[li+1];
     if(nx && lastStave){
-      const curMeter=ln.ms[ln.ms.length-1].time, nextMeter=nx.ms[0].time;
+      const _nmC=!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter)||!!(L.phrases[nx.pi]&&L.phrases[nx.pi].noMeter);
+      const curMeter=ln.ms[ln.ms.length-1].time, nextMeter=_nmC?curMeter:nx.ms[0].time;   // (6-nov-2026) sin compás: ni cifra ni equivalencia de cortesía
       const topY=lastStave.getYForLine(0);
       let gx = x - (ln._endExtra||0) + 4;                 // DENTRO del último compás, antes de la barra
       // clave de cortesía
