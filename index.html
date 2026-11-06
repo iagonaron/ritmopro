@@ -4994,6 +4994,9 @@ function clearWorldCycles(){ gp1WorldCycles=[]; }
 function renderSetupWorlds(){
   const host=document.getElementById('setupWorlds'); if(!host) return; clearWorldCycles(); host.innerHTML='';
   const uno = gp1Mode!=='combina';
+  // (6-nov-2026, Iago) en la pantalla general de «Un mundo» (sin mundo abierto) no hay nada que generar: fuera el botón.
+  // Dentro de un mundo y en «Combina mundos» sigue estando. (Se oculta con display, así .click() programático sigue valiendo.)
+  { const _go=document.getElementById('setupGo'); if(_go) _go.style.display=(uno && !gp1WorldId)?'none':''; }
 
   // MODO "UN MUNDO" con un mundo elegido → vista enfocada: solo ese mundo y sus cartas (las demás ya no se deslizan)
   if(uno && gp1WorldId){
