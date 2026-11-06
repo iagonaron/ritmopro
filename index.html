@@ -3635,19 +3635,22 @@ function genLessonGP1(worldId, cards, seed, second){
   const modoNat = modo==='mayor'?'mayor':'menor_natural';
 
   // claves de los 4 pentagramas (clave de Do alterna alto/tenor; resto sol/fa 2+2)
-  let clefs;
-  if(cfgA.clefMode==='do3do4'){ const a=rand()<0.5; clefs=a?['alto','alto','tenor','tenor']:['tenor','tenor','alto','alto']; }
+  // (6-nov-2026, Iago) 5 PENTAGRAMAS: 3 en sol + 2 en fa, en bloque (3+2 o 2+3, al azar). Las claves de do, igual (3+2 / 2+3).
+  let clefs; const tres1 = rand()<0.5;
+  const bloque=(a,b)=> tres1 ? [a,a,a,b,b] : [b,b,a,a,a];
+  if(cfgA.clefMode==='do3do4'){ clefs = rand()<0.5 ? bloque('alto','tenor') : bloque('tenor','alto'); }
   else if(cfgA.clefMode==='historic'){ const arr=['soprano','mezzo-soprano','baritone-f','french'];
     for(let i=arr.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); const t=arr[i];arr[i]=arr[j];arr[j]=t; }
-    clefs=arr; }
-  else if(cfgA.clefMode==='none'){ clefs=['none','none','none','none']; }
-  else { clefs=['treble','treble','bass','bass']; }   // 2 frases en sol + 2 en fa (MISMA dificultad — Iago)
-  const switchIdx=2;
+    clefs=arr.concat([arr[3]]); }
+  else if(cfgA.clefMode==='none'){ clefs=['none','none','none','none','none']; }
+  else { clefs=bloque('treble','bass'); }   // 3 en sol + 2 en fa (MISMA dificultad — Iago)
+  const switchIdx = (cfgA.clefMode==='historic') ? 2 : (tres1 ? 3 : 2);   // el cambio de compás va con el cambio de clave
+  const blockOf=(i)=> i<switchIdx ? [0,switchIdx-1] : [switchIdx,clefs.length-1];
   // (6-nov-2026, Iago) VARIAS CARTAS con formato propio a la vez (1.8 sin compás · 1.6 cambios constantes ·
   //  1.9 fraccionarios): cada una se queda SU pentagrama — 1º sin compás, 2º cambios constantes, 3º fraccionario —
   //  y los demás pentagramas siguen con el resto de cartas (dispares, dosillos, tresillos, cinquillos…).
   //  Con una sola de esas cartas activa (sola), todo sigue como antes.
-  const ROLES=[null,null,null,null]; let ROLES_ON=false, timeNoMeter=null, timeFrac=null;
+  const ROLES=[null,null,null,null,null]; let ROLES_ON=false, timeNoMeter=null, timeFrac=null;
   if(!useCombine && !cfgA.fusaN && !cfgA.special && (cfgA.activeCards||[]).length>1){
     const isFracCard=(c)=>(c.cells||[]).some(x=>x.fracSig);
     const specials=cfgA.activeCards.filter(c=>c.noMeter||c.constMeter||isFracCard(c));
@@ -3755,7 +3758,7 @@ function genLessonGP1(worldId, cards, seed, second){
     for(let c=0;c<mc;c++){
       const last=(c===mc-1);
       const bTime = cmPool ? nextCm() : time;   // cambios constantes: métrica propia por compás
-      const stopPhrase=(i%2===1);   // frases 2 y 4: punto y aparte (figura de pulso + silencio)
+      const _bk=blockOf(i); const stopPhrase=(i===_bk[1]) || ((i-_bk[0])%2===1);   // punto y aparte cada 2 frases y al final de cada bloque de clave
       if(last && stopPhrase){
         if(is12_8 && !cmPool) measures.push(make12_8Tail(cfg.activeCards, prPick, isLast, buildScale(tonic,modoNat,clef,keysig), TONIC_PC[tonic]));
         else { let _cm=makeCadenceMeasure(bTime,false);
@@ -3839,6 +3842,8 @@ function genLessonGP1(worldId, cards, seed, second){
       }
     }
     if(FUSAE) measures.forEach(mm=>{ if(mm && String(mm.time).split('/')[1]==='8') mm.e8pulse=true; });
+    { const fs=measures.find(mm=>mm&&mm.fracSig);   // (6-nov-2026) el compás de cadencia conserva la cifra fraccionaria de su frase
+      if(fs) measures.forEach(mm=>{ if(mm && !mm.fracSig && mm.time===fs.time){ mm.fracSig=fs.fracSig.slice(); if(fs.sigText) mm.sigText=fs.sigText; } }); }
     const ph={clef,keysig,time:(cmPool&&measures[0])?measures[0].time:time,measures,dense:!!slow,nMeasures:mc,valid:measures.every(validateMeasure)};
     if(ROLES[i]==='sinCompas') ph.noMeter=true;   // (6-nov-2026) este pentagrama, sin cifra de compás
     ph.semiStop=null;   // (la "paradita" de semifrase era de 2º GP; en 4º GE no se aplica)
@@ -3966,11 +3971,12 @@ function genLessonComb(worldIds, seed){
   const [keysig,tonic,modo]=pick(KEY_POOL_WIDE);  // 2º GP: hasta 4 alteraciones
   const modoNat = modo==='mayor'?'mayor':'menor_natural';
   const K = worldIds.length>=3 ? 3 : 2;           // nº de bloques métricos
-  const nPh = K===3 ? 5 : 4;                      // nº de frases
+  const nPh = 5;                                  // (6-nov-2026, Iago) siempre 5 pentagramas: 3 sol + 2 fa en bloque
+  const tres1 = rand()<0.5;
   const times=combPickMeters(cfg, K, rand);
-  const split = K===2 ? [2,2] : pick([[2,2,1],[2,1,2],[1,2,2]]);
+  const split = K===2 ? (tres1?[3,2]:[2,3]) : pick([[2,2,1],[2,1,2],[1,2,2]]);
   const phraseTime=[], blockOf=[]; split.forEach((n,bi)=>{ for(let i=0;i<n;i++){ phraseTime.push(times[bi]); blockOf.push(bi); } });
-  const clefs = nPh===5 ? ['treble','treble','treble','bass','bass'] : ['treble','treble','bass','bass'];   // la fa va IGUAL que la sol (Iago)
+  const clefs = tres1 ? ['treble','treble','treble','bass','bass'] : ['bass','bass','treble','treble','treble'];   // la fa va IGUAL que la sol (Iago)
 
   const mcAdj=[0,0,0];   // DOBLE PASADA: recorte de compases por BLOQUE si la frase queda apretada
   const buildPhrases=()=>clefs.map((clef,i)=>{
@@ -6566,7 +6572,7 @@ try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return acti
 
 
 /* ============================================================
-   (6-nov-2026, Iago) EXAMEN A/B — SOLO CUENTA PROTESTER / TESTER
+   (6-nov-2026, Iago) EXAMEN A/B — SOLO CUENTA PROTESTER / TESTER (o navegador con la marca de profesor lm_profe)
    · «Generar examen»: ventana con los modelos A y B; marca la lección que tienes delante como A o como B.
    · «Editar»: A = alturas (↑↓ por la escala, ⇧↑↓ semitono, ←→ moverse; clic en una nota),
                R = ritmo por pulso (←→ pulso, ⇧→ ampliar, 1–9 eligen ritmo, 0 = silencio),
@@ -6578,8 +6584,9 @@ try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return acti
    Para quitarlo todo: borrar este bloque (de «EXAMEN A/B» a «FIN EXAMEN A/B»).
    ============================================================ */
 (function(){
-  const KEY='ritmopro_examen_v1';
-  const esTester=()=>!!(window.__GVV&&window.__GVV.tester);
+  const KEY='ritmopro_examen_v1', PDF_PREF='Examen-ritmo-entonado-';
+  // cuenta Tester/Protester (por el enlace con ?cuenta=) o navegador de Iago (marca «lm_profe» que deja el Diario en *.lmathome.es)
+  const esTester=()=>!!(window.__GVV&&window.__GVV.tester) || /(?:^|;\s*)lm_profe=[0-9a-f]{64}(?:;|$)/.test(document.cookie||'');
   const clone=o=>JSON.parse(JSON.stringify(o));
   const loadEx=()=>{ try{ return JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ return {}; } };
   const saveEx=(o)=>{ try{ localStorage.setItem(KEY,JSON.stringify(o)); return true; }catch(e){ return false; } };
@@ -6751,7 +6758,7 @@ try{ window.RITMO={get lesson(){return currentLesson;}, get active(){return acti
       doc.setDrawColor(170); doc.setLineWidth(0.2); if(doc.setLineDashPattern) doc.setLineDashPattern([2,2],0);
       doc.line(6,half,PW-6,half); if(doc.setLineDashPattern) doc.setLineDashPattern([],0);
     }
-    const nombre='Examen-ritmo-entonado-'+tri+'T'+(models.length===2?'-AB':'-'+models[0])+'.pdf';
+    const nombre=PDF_PREF+tri+'T'+(models.length===2?'-AB':'-'+models[0])+'.pdf';
     doc.save(nombre); toast('PDF descargado: '+nombre);
     try{ renderCurrent(); }catch(e){}
   }
