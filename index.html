@@ -4286,7 +4286,7 @@ function renderLesson(container,L){
     let extra=0; if(clefChange) extra+=26;
     if(meterChange){ const nxM=nx.ms[0]; const stx=nxM.fracSig?nxM.fracSig[0]:(nxM.sigText||nxM.time);
       const dg=Math.max.apply(null,stx.split('/').map(x=>String(x).length));
-      extra += 6+13*dg + (nxM.fracSig?20:0); }
+      extra += 6+13*dg + (nxM.fracSig?31:0); }
     if(extra) extra+=6;
     cur._endExtra=extra; cur._endClef=clefChange; cur._endMeter=meterChange;
     if(extra) lw[li][lastIdx]+=extra;
@@ -4405,7 +4405,7 @@ function renderLesson(container,L){
         digits(nn, gx+(wMax-wN)*6.5, lastStave.getYForLine(1));
         digits(dd, gx+(wMax-wD)*6.5, lastStave.getYForLine(3));
         if(nxM.fracSig){ try{ ctx.save(); ctx.setFont('Georgia',11,'bold'); ctx.setFillStyle('#1a2233');
-          ctx.fillText(nxM.fracSig[1], gx+wMax*13+2, lastStave.getYForLine(1)+4); ctx.restore(); }catch(e){} }
+          ctx.fillText(nxM.fracSig[1], gx+wMax*13+13, lastStave.getYForLine(1)+4);   /* (7-nov-2026, Iago: «no se ve el menos») +13: el «−» caía encima del «2» */ ctx.restore(); }catch(e){} }
       }
       // equivalencia de pulso (encima, a la derecha) si cambia el tipo métrico
       if(nextMeter!==curMeter){

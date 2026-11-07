@@ -10,3 +10,4 @@ Antes de subir nada: mira el último commit y añade aquí tu huella (quién ere
 - 2026-11-05 17:20 · Conversación «VÍDEOS DIDÁCTICOS DE RITMO · GVE en varios pulsos» · HECHO (17:25, commit bf476a9)
   - Sube intros/gve-2-1 … gve-2-8 (carpeta nueva, vídeo MP4 ligero) y en index.html SOLO el bloque de intros 2.1–2.8 (<script> de VIDEOS_GVE/VARIANTES_GVE y el registro de CARD_INTROS): vídeo → rondas → «Generar lectura» / «Salir». Abierto a todos (permiso de Iago 5-nov 16:52).
   - Último commit visto: 7aa80ad.
+- 7-nov 08:15 · Mantenimiento · HECHO · index.html: en el compás de cortesía fraccionario (fin de pentagrama) el «−¼» se dibujaba encima del «2» y no se veía el menos; ahora va 13 px más a la derecha y se reserva más hueco (31 en vez de 20).
