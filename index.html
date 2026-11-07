@@ -4169,21 +4169,25 @@ function drawPulseTicks(ctx,m,vf,stave){
 let RHYTHM_XHEADS=false;   // true en la fase de ritmo aislado: cabezas en "x" (esquema rítmico de percusión)
 let XHEAD_POS=[];          // centro {cx,cy,rad} de cada cabeza SONANTE en orden de lectura (para colorear precisión)
 let BARLINE_POS=[];        // {x,yTop,yBot} de la barra izquierda de cada compás (orden de lectura) para la 2ª pasada
-function buildNoteVF(n,clef,keysig){ let sn;
+function buildNoteVF(n,clef,keysig,st){ let sn;   /* (7-nov-2026, Iago) st = alteraciones vigentes en el compás: el becuadro que anula un ♯/♭ anterior, y n.cortesia = alteración de precaución entre paréntesis */
   if(n.barline){ return new VF.BarNote(); }   // barra interior (barrados sobre la línea divisoria)
   if(clef==='none') clef='treble';            // lectura sin clave: posiciones de sol, sin dibujar clave
   const base=durBase(n.dur), dots=durDots(n.dur);
   if(n.rest){ sn=new VF.StaveNote({clef,keys:[restCenter[clef]],duration:base+'r'}); for(let di=0;di<dots;di++)VF.Dot.buildAndAttach([sn]); }
   else{ const kk = RHYTHM_XHEADS ? (n.key+'/x2') : n.key;
     sn=new VF.StaveNote({clef,keys:[kk],duration:base,auto_stem:true}); for(let di=0;di<dots;di++)VF.Dot.buildAndAttach([sn]);
-    if(!RHYTHM_XHEADS){ const acc=accidentalFor(n.key,keysig); if(acc) sn.addModifier(new VF.Accidental(acc),0); } }
+    if(!RHYTHM_XHEADS){
+      if(st){ const mm=String(n.key).match(/^([a-g])(#|b)?\/(\d)/); if(mm){ const k=mm[1]+mm[3], want=mm[2]||'n', inKey=(KEY_ACCIDENTALS[keysig]||{})[mm[1]]||'n';
+          const cur=(k in st)?st[k]:inKey; st[k]=want;
+          if(want!==cur || n.cortesia){ const a=new VF.Accidental(want); if(want===cur && n.cortesia) a.setAsCautionary(); sn.addModifier(a,0); } } }
+      else { const acc=accidentalFor(n.key,keysig); if(acc) sn.addModifier(new VF.Accidental(acc),0); } } }
   return sn; }
 function voiceOf(m){ const [num,den]=m.time.split('/').map(Number); return new VF.Voice({num_beats:num,beat_value:den}).setStrict(false); }
 /* ancho REAL del compás = modificadores (clave/armadura/compás) + ancho mínimo de notas medido por el Formatter + holgura */
 function measureWidth(ctx,m,clef,keysig,first,showTime){
   const st=new VF.Stave(0,0,500); if(first && clef!=='none'){st.addClef(clef).addKeySignature(keysig);} if(showTime)st.addTimeSignature(m.fracSig?m.fracSig[0]:(m.sigText||m.time)); st.setContext(ctx);
   const leftMod=st.getNoteStartX();
-  const vf=m.notes.map(n=>buildNoteVF(n,clef,keysig)); const v=voiceOf(m); v.addTickables(vf);
+  const _st={}; const vf=m.notes.map(n=>buildNoteVF(n,clef,keysig,_st)); const v=voiceOf(m); v.addTickables(vf);
   let minW; try{ const fmt=new VF.Formatter(); fmt.joinVoices([v]); minW=fmt.preCalculateMinTotalWidth([v]); }catch(e){ minW=54+24*m.notes.length; }
   const pad = m.notes.length*5 + (m.groupInfo?16:0) + (m.fracSig&&showTime?26:0);   // aire extra por figura (y por la fracción pequeña)
   return Math.ceil(leftMod+Math.max(minW,60)+22+pad);
@@ -4326,6 +4330,7 @@ function renderLesson(container,L){
       const showTime=(!L.noMeter)&&!_pNo&&((prevTime===null)||(m.time!==prevTime)); if(showTime) stave.addTimeSignature(m.fracSig?m.fracSig[0]:(m.sigText||m.time)); prevTime=_pNo?null:m.time;
       const fracShown=showTime&&!!m.fracSig;
       if(li===lines.length-1 && j===ln.ms.length-1) stave.setEndBarType(VF.Barline.type.END);
+      if(_pNo){ if(j>0) stave.setBegBarType(VF.Barline.type.NONE); if(j<ln.ms.length-1) stave.setEndBarType(VF.Barline.type.NONE); }   /* (7-nov-2026, Iago) pentagrama sin compás: sin barras dentro */
       if(fracShown){ try{ stave.setNoteStartX(stave.getNoteStartX()+26); }catch(e){} }   // sitio para la fracción (SIEMPRE tras el último modificador)
       stave.setContext(ctx).draw();
       if(fracShown){ try{ ctx.save(); ctx.setFont('Georgia',12,'bold'); ctx.setFillStyle('#1a2233');
@@ -4333,7 +4338,8 @@ function renderLesson(container,L){
       try{ BARLINE_POS.push({x:stave.getX(), yTop:stave.getYForLine(0)-8, yBot:stave.getYForLine(4)+8}); }catch(e){ BARLINE_POS.push({x,yTop:y,yBot:y+80}); }
       if(j===ln.ms.length-1){ lastStave=stave; }   // último compás del sistema (para los avisos de cambio)
       prevMeasTime=m.time;
-      const vf=m.notes.map(n=>buildNoteVF(n,clef,ln.keysig));
+      if(!_pNo || j===0) ln._accSt={};   /* (7-nov-2026) las alteraciones duran el compás (en el pentagrama sin compás, todo él) */
+      const vf=m.notes.map(n=>buildNoteVF(n,clef,ln.keysig,ln._accSt));
       // silencios de semicorchea/fusa DENTRO de un corchete: bajarlos para que el corchete no se los pise
       (m.beams||[]).forEach(g=>{ const sounding=g.filter(k=>{const nn=m.notes[k];return nn&&!nn.rest&&db(nn.dur)<1;}); if(sounding.length<2) return;
         g.forEach(k=>{ const nn=m.notes[k]; if(nn&&nn.rest&&['16','32','64'].includes(durBase(nn.dur))){
