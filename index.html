@@ -3636,7 +3636,9 @@ function genLessonGP1(worldId, cards, seed, second){
 
   // claves de los 4 pentagramas (clave de Do alterna alto/tenor; resto sol/fa 2+2)
   // (6-nov-2026, Iago) 5 PENTAGRAMAS: 3 en sol + 2 en fa, en bloque (3+2 o 2+3, al azar). Las claves de do, igual (3+2 / 2+3).
-  let clefs; const tres1 = rand()<0.5;
+  /* (7-nov-2026, Iago) MUNDO 1 = FORMA DEL EXAMEN DEL 1T (canónica, «para que desde ya puedan practicar con unas condiciones
+     muy parecidas a las del examen»): 3 pentagramas en sol (sin compás · cambios constantes · fraccionario) y 2 en fa. */
+  let clefs; const _t1 = rand()<0.5; const tres1 = (worldId==='m1' && !combine) ? true : _t1;
   const bloque=(a,b)=> tres1 ? [a,a,a,b,b] : [b,b,a,a,a];
   if(cfgA.clefMode==='do3do4'){ clefs = rand()<0.5 ? bloque('alto','tenor') : bloque('tenor','alto'); }
   else if(cfgA.clefMode==='historic'){ const arr=['soprano','mezzo-soprano','baritone-f','french'];
@@ -3664,7 +3666,9 @@ function genLessonGP1(worldId, cards, seed, second){
         // en ese pentagrama los cambios de compás también pasan por los DISPARES del resto de cartas (5/8, 7/8, 8/8, 10/8…)
         const dsp=new Set(); others.forEach(c=>(c.cells||[]).forEach(cell=>{ const t=cell.ts; if(!t||cell.fracSig) return; const [n,d]=t.split('/').map(Number); if(d===8 && n%3!==0) dsp.add(t); }));
         cfgA.constPoolMix=[...new Set((cfgA.constPool||[]).concat([...dsp]))]; }
-      if(fracTs.length){ ROLES[2]='fracc'; timeFrac=pick([...new Set(fracTs)]); }
+      if(fracTs.length){ ROLES[2]='fracc'; const fu=[...new Set(fracTs)];
+        /* (7-nov-2026, Iago) «prefiero que sea fraccionario de suma que no de resta»: (2+¼)/4 tres de cada cuatro veces */
+        timeFrac = (worldId==='m1' && fu.includes('9/16') && rand()<0.75) ? '9/16' : pick(fu); }
       // compases de los pentagramas «normales»: solo los del resto de cartas (sin fraccionarios ni los de 1.8)
       const ms2=new Set(); others.forEach(c=>(c.cells||[]).forEach(cell=>{ if(cell.ts && !cell.equiv && !cell.fracSig) ms2.add(cell.ts); }));
       if(ms2.size) cfgA.meterPool=[...ms2];
