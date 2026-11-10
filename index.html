@@ -5246,7 +5246,8 @@ function renderSetupCards(){
     host.appendChild(grid);
   });
 
-  if(hint) hint.textContent='Pulsa una carta para activarla o desactivarla. Pasa el ratón por encima para ver ejemplos.';
+  if(hint) hint.textContent=gp1SlotCards('A').length ? 'Pulsa una carta para activarla o desactivarla. Pasa el ratón por encima para ver ejemplos.'
+                                                     : 'Sin marcar ninguna carta, «Generar lectura» usa el mundo entero. Pulsa una carta si quieres solo esa.';
 }
 
 function toggleSetupCard(slot,cid){
@@ -6546,10 +6547,17 @@ const sgo=document.getElementById('setupGo'); if(sgo) sgo.onclick=()=>{
     }
     enterAppGP1(); return;
   }
-  const aCards=gp1SlotCards('A')||[];
+  let aCards=gp1SlotCards('A')||[];
+  /* (10-nov-2026, Iago: «que yo pueda seleccionar el mundo 1 y ya generar directamente», sin marcar las cartas una a una)
+     con el mundo elegido y ninguna carta marcada, la lectura usa TODAS las cartas del mundo (las que se pueden marcar) */
+  if(!aCards.length && gp1WorldId){
+    const Wd=gp1World(gp1WorldId); let todas=[], multi=false;
+    (Wd&&Wd.cards||[]).forEach(c=>{ if(c.pending||c.base||c.introOnly||c.exclusive) return; if(c.multi){ if(multi) return; multi=true; } todas.push(c.id); });
+    if(todas.length){ gp1SetSlotCards('A',todas); gp1CardsByWorld[gp1WorldId]=todas.slice(); aCards=todas; }
+  }
   if(!aCards.length){
     const hint=document.getElementById('setupCardHint');
-    if(hint){ hint.textContent='Selecciona al menos una carta para generar la lectura.'; hint.classList.add('warn'); }
+    if(hint){ hint.textContent=gp1WorldId?'Selecciona al menos una carta para generar la lectura.':'Elige un mundo para generar la lectura.'; hint.classList.add('warn'); }
     return;
   }
   enterAppGP1();
