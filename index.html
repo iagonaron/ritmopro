@@ -3748,6 +3748,9 @@ function genLessonGP1(worldId, cards, seed, second){
     const cmPool = ROLES_ON ? (ROLES[i]==='cambios' ? (cfg.constPoolMix||cfg.constPool) : null) : ((cfg.constMeter && !useCombine)?cfg.constPool:null);
     let cmPrev=null; const nextCm=()=>{ let t,g=0; do{ t=prPick(cmPool); }while(t===cmPrev && g++<8); cmPrev=t; return t; };
     if(cmPool) mc=4;
+    /* (10-nov-2026, Iago: «cabe más música, más ancho») lección SOLO de la 1.8 (sin compás): sin barras, cada pentagrama
+       ocupa toda la tarjeta, así que lleva más música (3 «compases» de relleno en vez de 2) */
+    if(cfgA.noMeter && !useCombine && !ROLES_ON && mc<3) mc=3;
     if(!cmPool){ const _adj=(i>=switchIdx)?mcAdjB:mcAdjA; if(_adj) mc=Math.max(2,mc-_adj); }   // 2ª pasada: frases más cortas, misma dificultad
     const pr=makeRand(seed+i*101+1);
     const prPick=pickF(pr);
@@ -4277,6 +4280,15 @@ function renderLesson(container,L){
     return has(L.worldId,L.cards) || (L.combine&&has(L.worldB,L.cardsB));
   }catch(e){ return false; } })();
   container.innerHTML=''; XHEAD_POS=[]; BARLINE_POS=[];
+  /* (10-nov-2026, Iago: «no está aprovechando muy bien el espacio») si se dibuja con el recuadro aún oculto (ancho 0,
+     p. ej. al generar la lección desde el final de una intro), la partitura no se estira a la tarjeta y se queda estrecha
+     en el centro: en cuanto el recuadro tenga ancho, se vuelve a dibujar la misma lección. */
+  try{ container.__lastL=L; if(container.__ro){ container.__ro.disconnect(); container.__ro=null; }
+    if(!(container.clientWidth>0) && window.ResizeObserver){ const ro=new ResizeObserver(()=>{ if(container.clientWidth>0){ ro.disconnect(); container.__ro=null;
+      if(container.__lastL===L){ try{ renderLesson(container,L); }catch(e){} } } }); container.__ro=ro; ro.observe(container); } }catch(e){}
+  /* (10-nov-2026, Iago: «las secciones que sean música sin compás, que no haya barras de compás») sin compás = la frase
+     marcada como tal (forma del examen) O la lección entera de la 1.8 (L.noMeter), que antes se quedaba con sus barras */
+  const _sinCompas=(pi)=>!!L.noMeter||!!(L.phrases[pi]&&L.phrases[pi].noMeter);
   const r=new VF.Renderer(container,VF.Renderer.Backends.SVG); r.resize(100,100); const ctx=r.getContext();
   const PAD=14,lineTop=26,lineH=136;
   // LÍNEAS: UNA por frase, siempre (Iago: "me gusta ver 4 pentagramas siempre")
@@ -4289,7 +4301,7 @@ function renderLesson(container,L){
   for(let li=0; li<lines.length-1; li++){
     const cur=lines[li], nx=lines[li+1], lastIdx=cur.ms.length-1;
     const clefChange = nx.clef!==cur.clef;
-    const _noM=(ln)=>!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter);   // (6-nov-2026) pentagrama sin compás: sin cortesía
+    const _noM=(ln)=>_sinCompas(ln.pi);   // (6-nov-2026) pentagrama sin compás: sin cortesía
     const meterChange = nx.ms[0].time !== cur.ms[lastIdx].time && !_noM(cur) && !_noM(nx);
     let extra=0; if(clefChange) extra+=26;
     if(meterChange){ const nxM=nx.ms[0]; const stx=nxM.fracSig?nxM.fracSig[0]:(nxM.sigText||nxM.time);
@@ -4330,7 +4342,7 @@ function renderLesson(container,L){
       const first=(j===0); const w=lw[li][j];
       const stave=new VF.Stave(x,y,w);
       if(first){ if(clef!=='none'){ stave.addClef(clef).addKeySignature(ln.keysig); } }
-      const _pNo=!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter);   // (6-nov-2026) pentagrama sin compás (el siguiente vuelve a poner su cifra)
+      const _pNo=_sinCompas(ln.pi);   // (6-nov-2026) pentagrama sin compás (el siguiente vuelve a poner su cifra) · (10-nov) también la lección entera de la 1.8
       const showTime=(!L.noMeter)&&!_pNo&&((prevTime===null)||(m.time!==prevTime)); if(showTime) stave.addTimeSignature(m.fracSig?m.fracSig[0]:(m.sigText||m.time)); prevTime=_pNo?null:m.time;
       const fracShown=showTime&&!!m.fracSig;
       if(li===lines.length-1 && j===ln.ms.length-1) stave.setEndBarType(VF.Barline.type.END);
@@ -4396,7 +4408,7 @@ function renderLesson(container,L){
     //  se anuncia aquí en pequeño: equivalencia de pulso (figuras dibujadas), clave de cortesía y/o compás de cortesía.
     const nx=lines[li+1];
     if(nx && lastStave){
-      const _nmC=!!(L.phrases[ln.pi]&&L.phrases[ln.pi].noMeter)||!!(L.phrases[nx.pi]&&L.phrases[nx.pi].noMeter);
+      const _nmC=_sinCompas(ln.pi)||_sinCompas(nx.pi);
       const curMeter=ln.ms[ln.ms.length-1].time, nextMeter=_nmC?curMeter:nx.ms[0].time;   // (6-nov-2026) sin compás: ni cifra ni equivalencia de cortesía
       const topY=lastStave.getYForLine(0);
       let gx = x - (ln._endExtra||0) + 4;                 // DENTRO del último compás, antes de la barra
