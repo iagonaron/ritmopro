@@ -325,6 +325,17 @@ footer .lock{color:var(--gold1);}
 .pc-btn.play{color:#1a1407;background:linear-gradient(135deg,#7dd3a0,#46b478);border:none;}
 .pc-btn.stop{color:#fff;background:linear-gradient(135deg,#ff7a8c,#dc2626);border:none;}
 .pc-btn:disabled{opacity:.4;cursor:not-allowed;}
+/* (13-nov-2026, Iago) reproducir VERDE; «Siguiente» solo con contorno verde */
+.pc-btn.play{color:#06281b;background:linear-gradient(135deg,#3ddc97,#16a367);border:none;box-shadow:0 8px 22px rgba(34,201,138,.30);}
+#phaseNextTop.pc-btn.primary{color:var(--green);background:transparent;border:2px solid var(--green);box-shadow:none;}
+#phaseNextTop.pc-btn.primary:hover{background:rgba(34,201,138,.14);}
+/* (13-nov-2026) LA PIEL (piel/apps/ritmo.css) pinta ▶ y las cartas en neutro y «Siguiente» en verde lleno con !important: aquí se pide lo contrario con más especificidad, y sin degradados (colores lisos, como la piel) */
+html.lm-fam-ritmo:not(.lm-sin-piel) #phasePlayTop.pc-btn.play,
+html.lm-fam-ritmo:not(.lm-sin-piel) #phasePlayTop.pc-btn.play:hover,
+html.lm-fam-ritmo:not(.lm-sin-piel) .cartas-listen .listen-card .lc-play,
+html.lm-fam-ritmo:not(.lm-sin-piel) .cartas-listen .listen-card .lc-play:hover{ background:var(--lm-verde-f) !important; color:#fff !important; border-color:transparent !important; }
+html.lm-fam-ritmo:not(.lm-sin-piel) #phaseNextTop.pc-btn.primary{ background:transparent !important; border:1px solid var(--lm-verde) !important; color:var(--lm-verde) !important; }
+html.lm-fam-ritmo:not(.lm-sin-piel) #phaseNextTop.pc-btn.primary:hover{ background:rgba(34,197,94,.14) !important; filter:none !important; }
 .tempo-ctl{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted2);}
 .tempo-ctl input{accent-color:var(--gold1);}
 .ref-ctl{display:inline-flex;align-items:center;gap:4px;flex-wrap:nowrap;font-size:11px;color:var(--muted2);}
@@ -534,6 +545,9 @@ footer .lock{color:var(--gold1);}
 .listen-card .lc-ex svg{width:100%;height:auto;max-height:78px;display:block;}
 .listen-card .lc-play{position:relative;align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;font-size:17px;color:#06281b;background:linear-gradient(135deg,var(--gold-soft),var(--gold2));box-shadow:0 6px 16px rgba(34,201,138,.24);transition:transform .08s;}
 .listen-card .lc-play:hover{transform:translateY(-1px);}
+.listen-card .lc-play.on{background:linear-gradient(135deg,#7ef0c0,#13a06b);}
+/* (13-nov-2026, Iago) play de las cartas en verde */
+.listen-card .lc-play{background:linear-gradient(135deg,#3ddc97,#16a367);}
 .listen-card .lc-play.on{background:linear-gradient(135deg,#7ef0c0,#13a06b);}
 .listen-card .lc-wave{position:absolute;inset:0;border-radius:50%;border:2.5px solid var(--green);pointer-events:none;animation:lcwave .56s cubic-bezier(.2,.7,.3,1) forwards;}
 @keyframes lcwave{from{transform:scale(1);opacity:.7;}to{transform:scale(2.3);opacity:0;}}
@@ -1119,7 +1133,7 @@ window.SuiteTiempo=(function(){
           <span class="setup-q">¿Qué quieres trabajar?</span>
           <div class="setup-mode">
             <button class="setup-tab on" data-mode="uno">Un mundo</button>
-            <button class="setup-tab" data-mode="combina">Combina mundos<span class="beta-tag">beta</span></button>
+            <button class="setup-tab" data-mode="combina">Combina mundos</button>
           </div>
         </div>
         <div class="setup-topright">
@@ -5025,7 +5039,8 @@ function playCardLoop(card, btn){
     cardLoop.loopStartWall=performance.now()+30; cardLoop.lastPulse=-1; cardLoop.lastNote=-2;
     // AUDIO: ritmo. La 2ª nota de una ligadura NO se percute (el sonido lo mantiene la 1ª).
     const tied=new Set((m.ties||[]).map(p=>p[1]));
-    let acc=0; m.notes.forEach((n,i)=>{ if(!n.rest && !tied.has(i)) knock(t0+acc*spq, 0.62); acc+=durs[i]; });
+    const tieNext={}; (m.ties||[]).forEach(p=>{ tieNext[p[0]]=p[1]; });
+    let acc=0; m.notes.forEach((n,i)=>{ if(!n.rest && !tied.has(i)){ let d=durs[i], k=i, guard=0; while(tieNext[k]!=null && guard++<8){ k=tieNext[k]; d+=durs[k]; } rhFigura(t0+acc*spq, d*spq*0.97, 0.5); } acc+=durs[i]; });
     // CAMBIO DE IMAGEN: un pelín más tarde (tras ver la última nota en verde), entra la siguiente variación SIN oscurecer
     if(N>1){
       const lastOn = pulses.length ? pulses[pulses.length-1] : cap*0.5;
@@ -5171,7 +5186,7 @@ function renderSetupCards(){
     if(hint){
       if(n>=3) hint.textContent='Tres mundos: lectura de 5 frases con dos cambios de compás. Pulsa «Generar lectura».';
       else if(n===2) hint.textContent='Dos mundos: lectura de 4 frases con un cambio de compás. Pulsa «Generar lectura».';
-      else if(n===1) hint.textContent='Elige al menos otro mundo para combinar.';
+      else if(n===1) hint.textContent='Un solo mundo: la lectura usa todas sus cartas. Pulsa «Generar lectura» (o elige otro mundo para combinar).';
       else hint.textContent='';
     }
     return;
@@ -5398,6 +5413,31 @@ function padChord(midis,t0,dur,gain){ const G=gain||0.055; const n=midis.length;
   midis.forEach((mi,i)=>{ pianoHit(mi, t0+i*strum, dur-i*strum, G*(i===n-1?1.0:0.8)); }); }
 
 // percusión SECA y neutra (tick corto, sin resonancia ni cuerpo grave)
+/* (13-nov-2026, Iago) SONIDO DE RITMO COMO EL DE LOS QUIZ («Sigue el ritmo»): golpe + cuerpo grave (110 Hz) que dura toda la figura
+   (cartas) o mientras se mantiene pulsada la barra / el pad (ritmo aislado). Un toque corto suena como en el quiz. */
+const RH_FREQ=110, RH_SUST=0.13, RH_TOPE=8; let RH_VOCES={};
+function rhAtaque(t0,out,peak){ const c=ac(); const aLen=Math.floor(c.sampleRate*0.012); const ab=c.createBuffer(1,aLen,c.sampleRate); const ad=ab.getChannelData(0);
+  for(let i=0;i<aLen;i++) ad[i]=(Math.random()*2-1)*Math.pow(1-i/aLen,2.0);
+  const as=c.createBufferSource(); as.buffer=ab; const af=c.createBiquadFilter(); af.type='bandpass'; af.frequency.value=850; af.Q.value=.6;
+  const ag=c.createGain(); ag.gain.value=peak; as.connect(af); af.connect(ag); ag.connect(out); as.start(t0); as.stop(t0+0.03); }
+function rhFigura(t0,durSec,peak){ const c=ac(); if(!c) return; const m=master(); peak=peak||0.5; rhAtaque(t0,m,peak);
+  const o=c.createOscillator(); o.type='sine'; o.frequency.value=RH_FREQ; const g=c.createGain(); o.connect(g); g.connect(m);
+  const lvl=peak*0.42, cola=RH_SUST*0.5, tA=t0+Math.max(durSec,RH_SUST)-cola;
+  g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(lvl,t0+0.008); g.gain.setValueAtTime(lvl,tA); g.gain.exponentialRampToValueAtTime(0.0001,tA+cola);
+  o.start(t0); o.stop(tA+cola+0.03); reg(o); }
+function rhTapIni(id){ const c=ac(); if(!c) return; const m=master(); const t0=c.currentTime, peak=0.5; rhAtaque(t0,m,peak);
+  const o=c.createOscillator(); o.type='sine'; o.frequency.value=RH_FREQ; const g=c.createGain(); o.connect(g); g.connect(m);
+  const lvl=peak*0.42; g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(lvl,t0+0.008); o.start(t0); reg(o);
+  if(RH_VOCES[id]) rhTapFin(id);
+  const v={o:o,g:g,t0:t0,nivel:lvl,fin:false,tope:0}; v.tope=setTimeout(()=>{ if(RH_VOCES[id]===v) rhTapFin(id); },RH_TOPE*1000); RH_VOCES[id]=v; }
+function rhTapFin(id){ const v=RH_VOCES[id]; if(!v) return; delete RH_VOCES[id]; if(v.fin) return; v.fin=true; clearTimeout(v.tope);
+  const c=AC; if(!c) return; const cola=RH_SUST*0.5, tA=Math.max(c.currentTime+0.005,v.t0+cola);
+  try{ v.g.gain.setValueAtTime(v.nivel,tA); v.g.gain.exponentialRampToValueAtTime(0.0001,tA+cola); v.o.stop(tA+cola+0.03); }catch(e){} }
+function rhTapTodo(){ Object.keys(RH_VOCES).forEach(rhTapFin); }
+window.addEventListener('keyup',e=>{ if(e.code==='Space') rhTapFin('kbd'); });
+window.addEventListener('pointerup',e=>rhTapFin('p'+e.pointerId),true); window.addEventListener('pointercancel',e=>rhTapFin('p'+e.pointerId),true);
+window.addEventListener('blur',rhTapTodo); window.addEventListener('pagehide',rhTapTodo);
+document.addEventListener('visibilitychange',()=>{ if(document.hidden) rhTapTodo(); });
 function knock(t0,gain){ const c=ac(); if(!c)return; const m=master(); const len=Math.floor(c.sampleRate*0.018); const b=c.createBuffer(1,len,c.sampleRate); const d=b.getChannelData(0); for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2); const s=c.createBufferSource(); s.buffer=b;
   const hp=c.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=900; hp.Q.value=0.5;
   const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=5200; lp.Q.value=0.5;
@@ -5644,7 +5684,7 @@ function setPlayState(p){ isPlaying=p; const b=activePlayBtn; if(!b) return;
 function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; (document.getElementById('scoreWrap')||document.getElementById('lessonArea')).appendChild(cd); } return cd; }
 function showCountdown(cd,n){ cd.textContent=n; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); }
 function hideCountdown(){ const cd=document.getElementById('countIn'); if(cd)cd.classList.remove('show'); }
-function stopPlayer(){ if(liveT){ clearTimeout(liveT); liveT=null; } if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio(); stopPiano(); playAnchor=null; tapCapture=false; hideBarlineHL();
+function stopPlayer(){ if(typeof rhTapTodo==='function') rhTapTodo(); if(liveT){ clearTimeout(liveT); liveT=null; } if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio(); stopPiano(); playAnchor=null; tapCapture=false; hideBarlineHL();
   if(typeof stopCardLoop==='function') stopCardLoop();
   document.querySelectorAll('#score .vf-gold').forEach(e=>e.classList.remove('vf-gold'));
   document.querySelectorAll('#score .vf-ring').forEach(e=>e.remove()); setPlayState(false); }
@@ -5936,7 +5976,7 @@ function playScaleChords(){ ensurePiano(); stopPlayer(); const c=ac(); if(!c||!c
   scaleResetT=setTimeout(()=>{ scaleOn=false; const b=document.getElementById('phaseScaleTop'); if(b) b.classList.add('glow'); }, Math.max(300,(t-c.currentTime)*1000+80));
 }
 function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false;
+  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false; vtIni('fases');
   document.getElementById('barActions').style.display='none';   // ocultar acciones
   document.getElementById('phaseTop').style.display='flex';     // Siguiente + ✕ (derecha)
   document.getElementById('phaseSteps').style.display='flex';   // pasos (izquierda)
@@ -5945,7 +5985,7 @@ function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson)
   document.getElementById('phaseControls').style.display='flex';
   showPhase();
 }
-function closeStudy(){ stopPlayer(); studyMode=false; directEntry=false; clearRhythmPads();
+function closeStudy(){ vtFin(); stopPlayer(); studyMode=false; directEntry=false; clearRhythmPads();
   if(FM_EL&&FM_EL.__stop){ FM_EL.__stop(); FM_EL=null; }
   const sw=document.getElementById('scoreWrap'); if(sw) sw.style.display='';
   if(currentLesson){ try{ renderLesson(document.getElementById('score'), currentLesson); }catch(e){} }
@@ -5967,7 +6007,7 @@ function closeStudy(){ stopPlayer(); studyMode=false; directEntry=false; clearRh
    Reproducir y Salir arriba (donde la ✕); barra inferior idéntica a la fase de entonación. */
 function openAccompaniment(){
   if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); studyMode=true; directEntry=true;
+  phaseList=phasesFor(); studyMode=true; directEntry=true; vtIni('directa');
   let ei=phaseList.findIndex(p=>p.kind==='entonacion'); if(ei<0) ei=phaseList.length-1;
   phaseIdx=ei;
   document.getElementById('barActions').style.display='none';
@@ -6026,14 +6066,14 @@ function showPhase(){ stopPlayer(); if(voiceCdTimer){ clearInterval(voiceCdTimer
     // todas las fases informativas: tarjeta simple que se cierra SOLO con la ✕ (entonación ya no elige voz)
     const isCartas=(ph.kind==='cartas');
     const tt = isCartas ? 'Escucha las cartas' : ph.banner.t;
-    let dd = isCartas ? 'Pulsa ▶ en cada carta para oír su ritmo en bucle.' : ph.banner.d;
+    let dd = isCartas ? 'Escucha las cartas que quieras (es opcional): pulsa ▶ en cada una y sonará en bucle.' : ph.banner.d;
     if(ph.kind==='ritmo'){ const tap = isTouchDevice()
-      ? 'Toca tú el ritmo con los pads verdes (abajo a izquierda y derecha): usa la mano que prefieras o alterna manos en los pasajes rápidos. Las figuras se iluminan al sonar.'
-      : 'Toca tú el ritmo pulsando la barra espaciadora. Las figuras se iluminan al sonar.';
+      ? 'Toca tú el ritmo con los pads verdes (abajo a izquierda y derecha; si mantienes el dedo, el sonido se mantiene): usa la mano que prefieras o alterna manos en los pasajes rápidos. Las figuras se iluminan al sonar.'
+      : 'Toca tú el ritmo pulsando la barra espaciadora (si la mantienes pulsada, el sonido se mantiene). Las figuras se iluminan al sonar.';
       dd = (currentLesson&&currentLesson.fusaN) ? (ph.banner.d+' '+tap) : tap; }
-    card.innerHTML=`<button class="pb-x" title="Cerrar">✕</button>${ph.banner.k?`<p class="pb-k">${ph.banner.k}</p>`:''}<p class="pb-t">${tt}</p><p class="pb-d">${dd}</p>`;
-    card.querySelector('.pb-x').onclick=closeCard;
+    card.innerHTML=`${ph.banner.k?`<p class="pb-k">${ph.banner.k}</p>`:''}<p class="pb-t">${tt}</p><p class="pb-d">${dd}</p>`;
     if(ph.kind==='ritmo' && !isTouchDevice()){ const sp=document.createElement('div'); sp.className='kbd-space'; sp.innerHTML='<div class="key">espacio</div><div class="lbl">púlsala al ritmo</div>'; card.appendChild(sp); }
+    { const okw=document.createElement('div'); okw.className='pb-ok'; okw.innerHTML='<button class="pb-go">Entendido</button>'; okw.firstChild.onclick=closeCard; card.appendChild(okw); }   // (13-nov-2026, Iago) «Entendido» en lugar de la ✕
   }
   scrim.appendChild(card); host.appendChild(scrim);
   }
@@ -6283,8 +6323,9 @@ function startTapCapture(sched, bpm){
   tapTol = Math.min(0.20, Math.max(0.09, pulseSec*0.42));
   tapCapture = true;
 }
-function rhythmTap(padEl){
+function rhythmTap(padEl,id){
   if(!tapCapture) return; const c=ac(); if(!c) return;
+  rhTapIni(id!=null?id:'kbd');                                   // (13-nov-2026) suena (y se mantiene mientras se mantiene pulsado), como en el quiz
   tapTimes.push(c.currentTime);                                  // SOLO el instante de la pulsación (la duración/mantener NO cuenta)
   if(padEl){ padEl.classList.add('hit'); setTimeout(()=>padEl.classList.remove('hit'),90); }
 }
@@ -6383,7 +6424,7 @@ function buildRhythmPads(){
   const wrap=document.createElement('div'); wrap.className='rhythm-pads';
   const ico='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/></svg>';
   ['l','r'].forEach(side=>{ const b=document.createElement('button'); b.className='rpad '+side; b.innerHTML=ico;
-    b.addEventListener('pointerdown',(e)=>{ e.preventDefault(); rhythmTap(b); }); wrap.appendChild(b); });
+    b.addEventListener('pointerdown',(e)=>{ e.preventDefault(); rhythmTap(b,'p'+e.pointerId); }); wrap.appendChild(b); });
   sw.appendChild(wrap);
 }
 
@@ -6450,6 +6491,42 @@ function refSet(sched){ const set=new Set();
   sched.notes.forEach(nt=>{ const key=refMode==='penta'?('p'+nt.pi):('m'+nt.pi+'_'+nt.mi); if(!seen.has(key)){ seen.add(key); set.add(nt.onsetQ); } });
   return set;
 }
+
+/* ===== (13-nov-2026, Iago) TIEMPO VÁLIDO de «estudiar por fases» y «prueba directa» → suite_actividad_terminada (UNA vez, al salir) =====
+   · solo cuenta dentro de esas dos secuencias; más de 30 s sin tocar nada (sin sonar nada) ese rato no cuenta; pestaña oculta, tampoco
+   · cada fase vale min(tiempo activo, reproducción + cortesía): escucha ≤ 2 min; aislado ≤ 2 min; lectura = reproducción + 2 min;
+     entonación = reproducción + 120 s. Prueba directa = reproducción + 2 min (una sola vez).
+   · tope 15 min si se reprodujo la entonación (≥10 s), 12 min si no; prueba directa 12 min. El mínimo de 3 min lo aplica Supabase.
+   · se manda al salir del estudio o al cerrar la pestaña; solo si hay ≥ 30 s válidos y la cuenta viene del portal (cookie lm_cta_gp o ?cuenta=). */
+const VT_APP='ritmo-gp', VT_COOKIE='lm_cta_gp', VT_CORT_ENT=120, VT_QUIETO=30000;
+const VT_SB='https://woiptkyrxkbpnvioypit.supabase.co', VT_AN='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvaXB0a3lyeGticG52aW95cGl0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NzI2ODYsImV4cCI6MjA5MjA0ODY4Nn0.B2nKgj5rD0rkdLeMIrd9KgD8lUPWsBT4Y7aCtmnvbjA';
+let VT=null;
+function vtCuenta(){ try{ const m=document.cookie.match(new RegExp('(?:^|;\\s*)'+VT_COOKIE+'=([0-9a-fA-F-]{36})')); if(m) return m[1];
+  const q=new URLSearchParams(location.search).get('cuenta'); if(q&&/^[0-9a-f-]{36}$/i.test(q)) return q; }catch(e){} return null; }
+function vtClave(){ const ph=phaseList[phaseIdx]; const k=ph&&ph.kind; return k==='cartas'?'escucha':k==='ritmo'?'aislado':k==='lectura'?'lectura':k==='entonacion'?'entonacion':null; }
+function vtIni(modo){ vtFin(); const n=performance.now(); VT={modo:modo,last:n,lastAct:n,act:{},rep:{}}; }
+function vtTick(){ if(!VT) return; const now=performance.now(); let dt=(now-VT.last)/1000; VT.last=now; if(document.hidden||dt<=0) return; dt=Math.min(dt,2);
+  const k=vtClave(); if(!k) return;
+  const bucle=!!(typeof cardLoop!=='undefined'&&cardLoop&&!cardLoop.stopped)&&(now-VT.lastAct)<=120000;   // el bucle de una carta solo cuenta si hay actividad en los últimos 2 min (dejarlo abierto no vale)
+  const suena=!!isPlaying||!!tapCapture||bucle;
+  if(suena||(now-VT.lastAct)<=VT_QUIETO) VT.act[k]=(VT.act[k]||0)+dt;
+  if(suena) VT.rep[k]=(VT.rep[k]||0)+dt; }
+function vtCalc(){ const A=VT.act, R=VT.rep, f={}; let total=0, max=720;
+  if(VT.modo==='directa'){ f['f:directa']=Math.min(A.entonacion||0,(R.entonacion||0)+120); total=f['f:directa']; }
+  else { f['f:escucha']=Math.min(A.escucha||0,120); f['f:aislado']=Math.min(A.aislado||0,120);
+    f['f:lectura']=Math.min(A.lectura||0,(R.lectura||0)+120); f['f:entonacion']=Math.min(A.entonacion||0,(R.entonacion||0)+VT_CORT_ENT);
+    total=f['f:escucha']+f['f:aislado']+f['f:lectura']+f['f:entonacion']; if((R.entonacion||0)>=10) max=900; }
+  total=Math.min(total,max); Object.keys(f).forEach(k=>{ f[k]=Math.round(f[k]); });
+  return {total:Math.round(total), max:max, maximo:total>=max-1, det:f}; }
+function vtFin(final){ if(!VT) return; vtTick(); const r=vtCalc(), modo=VT.modo; VT=null;
+  if(r.total<30 || window.__SUITE_ALUMNO) return; const cta=vtCuenta(); if(!cta) return;
+  const det=Object.assign({max:r.max, maximo:r.maximo, modo:modo}, r.det);
+  try{ fetch(VT_SB+'/rest/v1/rpc/suite_actividad_terminada',{method:'POST',keepalive:true,
+    headers:{'Content-Type':'application/json',apikey:VT_AN,Authorization:'Bearer '+VT_AN},
+    body:JSON.stringify({p_cuenta_id:cta,p_app:VT_APP,p_segundos:r.total,p_detalle:det})}).catch(()=>{}); }catch(e){} }
+['pointerdown','keydown','touchstart','wheel'].forEach(ev=>document.addEventListener(ev,()=>{ if(VT) VT.lastAct=performance.now(); },{passive:true,capture:true}));
+setInterval(vtTick,1000);
+window.addEventListener('pagehide',()=>vtFin(true));
 function nextPhase(){ stopPlayer(); if(phaseIdx<phaseList.length-1){ phaseIdx++; showPhase(); } else { closeStudy(); } }
 
 /* ============================== TRIMESTRE / WIRING ============================== */
@@ -6540,6 +6617,11 @@ document.querySelectorAll('.setup-tab').forEach(t=>{ t.onclick=()=>setGp1Mode(t.
 const gpb=document.getElementById('gp1Back'); if(gpb) gpb.onclick=()=>{ document.getElementById('gp1Step').style.display='none'; setGp1Wide(false); document.getElementById('courseStep').style.display='block'; };
 const sgo=document.getElementById('setupGo'); if(sgo) sgo.onclick=()=>{
   if(gp1Mode==='combina'){
+    if(gp1CombWorlds.length===1){   // (13-nov-2026, Iago) con un solo mundo seleccionado, la lectura se genera con TODAS las cartas de ese mundo
+      const wid=gp1CombWorlds[0], Wd1=gp1World(wid); let todas1=[], multi1=false;
+      (Wd1&&Wd1.cards||[]).forEach(c=>{ if(c.pending||c.base||c.introOnly||c.exclusive) return; if(c.multi){ if(multi1) return; multi1=true; } todas1.push(c.id); });
+      if(todas1.length){ gp1Mode='uno'; gp1WorldId=wid; gp1CombWorlds=[]; gp1SetSlotCards('A',todas1); gp1CardsByWorld[wid]=todas1.slice(); enterAppGP1(); return; }
+    }
     if(gp1CombWorlds.length<2){
       const hint=document.getElementById('setupCardHint');
       if(hint){ hint.textContent='Elige al menos dos mundos para combinar.'; hint.classList.add('warn'); }
@@ -6592,7 +6674,7 @@ document.addEventListener('keydown',(e)=>{
     if(document.querySelector('#phaseBannerHost .tap-fb')) return;            // tarjeta de resultado abierta: el espacio no hace nada
     const scrim=document.querySelector('#phaseBannerHost .phase-cardscrim');
     if(scrim){ if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } scrim.remove(); return; }   // 1er espacio: quitar el cartel (no arranca aún)
-    if(tapCapture){ rhythmTap(); return; }                                    // tocando el ritmo
+    if(tapCapture){ rhythmTap(null,'kbd'); return; }                                    // tocando el ritmo
     const b=activePlayBtn; if(b && b.offsetParent!==null) b.click();          // ahora sí: arranca el ejercicio
     return;
   }
