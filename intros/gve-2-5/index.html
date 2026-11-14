@@ -78,7 +78,16 @@
   </div>
 </div>
 <audio id="audio" preload="auto"></audio>
-<script>window.VIDEO_MP4 = 'gve-2-5.mp4'; window.VIDEO_BYTES = 3163706;</script>
+<script>/* (14-nov-2026) calidad Teoría PRO: 1440p60, y 1080p60 de respaldo para equipos justos (el aula: Chrome antiguo,
+   pocos núcleos o pantalla de 1080). Forzar: ?hd=1440 o ?hd=1080. */
+(function () { var q = new URLSearchParams(location.search), f = q.get('hd');
+  var m = navigator.userAgent.match(/Chrom(?:e|ium)\/(\d+)/), v = m ? +m[1] : 999;
+  var px = Math.max(screen.width, screen.height) * (window.devicePixelRatio || 1);
+  var justo = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory && navigator.deviceMemory <= 4) || v < 100 || px <= 1920;
+  var alta = f ? f === '1440' : !justo;
+  window.VIDEO_CALIDAD = alta ? '1440p60' : '1080p60';
+  window.VIDEO_MP4 = alta ? 'gve-2-5_1440.mp4' : 'gve-2-5_60.mp4'; window.VIDEO_BYTES = alta ? 12930547 : 9392380;
+})();</script>
 <script>window.INTRO_CFG = { salir: '#', ejercicios: '#', siguiente: 'ejemplo' };</script>
 <script src="bravura-datos.js"></script>
 <script src="datos.js"></script>
