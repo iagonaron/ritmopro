@@ -4585,7 +4585,7 @@ function renderLesson(container,L){
         try{ const bx=sn.getNoteHeadBeginX(), ex=sn.getNoteHeadEndX(); cx=(bx+ex)/2; const ys=sn.getYs&&sn.getYs(); if(ys&&ys.length)cy=ys[0]; rad=Math.max(7,(ex-bx)/2+2.5); }catch(e){}
         XHEAD_POS.push({cx,cy,rad});
         if(RHYTHM_XHEADS && (n.dur==='h'||n.dur==='hd'||n.dur==='w'||n.dur==='wd')){
-          ctx.save(); ctx.setLineWidth(1.7); ctx.setStrokeStyle('#15324a'); ctx.beginPath(); ctx.arc(cx,cy,rad+1.5,0,Math.PI*2,false); ctx.stroke(); ctx.restore();
+          /* (20-nov-2026 17:38, Iago) blancas y redondas en modo X: la X DENTRO de su cabeza sin rellenar (blanca con plica, redonda sin ella) */ try{ const _w=(n.dur==='w'||n.dur==='wd'), _g=new VF.Glyph(_w?'noteheadWhole':'noteheadHalf', (VF.Tables&&VF.Tables.NOTATION_FONT_SCALE)||39), _gw=(_g.getMetrics().width||12); ctx.save(); ctx.setFillStyle('#111'); _g.render(ctx, cx-_gw/2, cy); ctx.restore(); }catch(_e){ ctx.save(); ctx.setLineWidth(1.7); ctx.setStrokeStyle('#15324a'); ctx.beginPath(); ctx.arc(cx,cy,rad+1.5,0,Math.PI*2,false); ctx.stroke(); ctx.restore(); }
         }
       });
       x+=w;
@@ -14741,5 +14741,5 @@ Object.keys(M1DEFS).forEach(function(aid){
 })();
 </script>
 <!-- (20-nov-2026, Iago) ajustes comunes del estudio por fases (los mismos que el visor de lecciones del libro). Deshacer: borrar esta línea -->
-<script src="https://ge.lmathome.es/piel/estudio-comun.js?v=4"></script>
+<script src="https://ge.lmathome.es/piel/estudio-comun.js?v=5"></script>
 </body></html>
