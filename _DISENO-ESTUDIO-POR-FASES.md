@@ -184,3 +184,20 @@ compás). Desaparecen «Todas» y «Pulso».
 - Solo se ve en pantalla: no se guarda en ningún sitio.
 
 **Cartel de la fase 3:** texto más sencillo, con las palabras clave en negrita.
+
+## 7. Precisiones de Iago del 20-nov (10:47–10:51)
+
+**Fase 3 · Entonación:** se estudia libremente.
+- Sin micrófono: el cartel solo tiene «Entendido» y en la barra de abajo ya no aparece el chip del micrófono.
+- Tienes Pistas y la ayuda del piano.
+- Las notas que tocará el piano según la ayuda elegida se ven en azul: la 1.ª de cada pentagrama o la de cada compás; con
+  «Sin ayuda», ninguna.
+- Las notas en azul, sean pistas o ayuda del piano, suenan al pulsarlas siempre que quieras, sin gastar pistas.
+- El cartel lo explica todo.
+- Al pulsar «Pistas», todas las notas parpadean (en azul claro) hasta que eliges 3 o vuelves a pulsar «Pistas». Las elegidas
+  se quedan en azul fuerte.
+
+**Fase 4 · Realización final:**
+- El micrófono se activa aquí: el botón del cartel es «Activar el micrófono y empezar».
+- No hay pistas ni ninguna nota premarcada en azul; solo se ilumina la figura que toca cantar.
+- El piano ayuda según cómo va saliendo, y al final da el porcentaje de acierto.

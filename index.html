@@ -445,6 +445,7 @@ body.rp-ent #phasePlayTop.stop{background:#dc2626!important;border-color:#dc2626
 #phaseTop .rp-patron-b.on{background:var(--rp-acento,#16a34a);border-color:var(--rp-acento,#16a34a)}
 #phaseTop .rp-patron-b.on svg{color:#fff}
 #score g.vf-stavenote.rp-va .vf-notehead path{fill:#2563eb!important;stroke:#2563eb!important}
+#score g.vf-stavenote.rp-va{cursor:pointer}
 #phaseTop .rp-dif-b{display:inline-flex;align-items:center;gap:7px;height:40px;box-sizing:border-box;padding:0 13px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;font:800 14px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);cursor:pointer;margin-right:8px}
 #phaseTop .rp-dif-b:hover{border-color:rgba(255,255,255,.75)}
 @media (max-width:1279px){ #phaseTop .rp-dif-b{width:40px;padding:0;justify-content:center} #phaseTop .rp-dif-b span{display:none} }   /* en pantallas estrechas, solo el icono (el texto, al pasar el ratón) */
@@ -6001,7 +6002,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
 const PHASE_DEFS=[
   {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:180,bolsa:'perc'},
   {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 2 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:120,bolsa:'ritmo'},
-  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. El <b>acompañamiento</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
+  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. Las notas en <b>azul</b>, por pistas o por ayuda del piano, puedes <b>pulsarlas siempre que quieras para escucharlas</b>. El <b>acompañamiento</b> y el <b>micrófono</b> llegan en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
 /* 3.3 (fusas y semifusas en pulso grande): MÉTODO PROPIO de 4 pasos (Iago) */
@@ -6663,7 +6664,7 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
     };
     // ---- ABAJO: solo configuración (referencia de entonación + velocidad/subdivisión) ----
     if(ph.kind==='metro'){ bar.appendChild(buildFusaMetroBar()); }
-    if(ph.kind==='entonacion'){ bar.appendChild(rpMicChip()); bar.appendChild(rpAyudaSel()); }   // (20-nov-2026) el micrófono, listo para la realización final · cuánta ayuda de piano
+    if(ph.kind==='entonacion'){ bar.appendChild(rpAyudaSel()); }   // (20-nov-2026, 10:51, Iago) cuánta ayuda de piano · SIN micrófono en la fase 3 (llega en la realización final)
     const fusaFixed=(currentLesson&&currentLesson.fusaN&&ph.kind!=='entonacion');   // 3.3: el método fija el tempo (el módulo es el control)
     if(!fusaFixed) bar.appendChild(velSubBlock());
   }
@@ -6779,8 +6780,7 @@ function rpCartel(host, ph){
   if(ph.kind==='ritmo' && !isTouchDevice()){ const sp=document.createElement('div'); sp.className='kbd-space'; sp.innerHTML='<div class="key">espacio</div><div class="lbl">púlsala al ritmo</div>'; card.appendChild(sp); }
   if(!(currentLesson&&currentLesson.fusaN&&ph.kind!=='entonacion')) card.appendChild(rpVelAviso());   // (20-nov-2026) la velocidad, desde el primer cartel
   const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go';
-  if(ph.kind==='entonacion'){ go.innerHTML=RP_MIC_SVG+' Activar el micrófono y empezar'; go.onclick=()=>{ scrim.remove(); rpPideMic(); }; }
-  else { go.textContent='Entendido'; go.onclick=()=>scrim.remove(); }
+  go.textContent='Entendido'; go.onclick=()=>scrim.remove();   // (20-nov-2026, 10:51) el micrófono se pide en la realización final, no en la fase 3
   okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
 }
 function rpCartelAbierto(){ return !!document.querySelector('.rp-cartel'); }
@@ -7013,7 +7013,7 @@ document.addEventListener('click',(e)=>{
   const i=collectNoteEls().indexOf(g); if(i<0) return;
   const nt=buildSchedule(currentLesson).notes[i]; if(!nt || nt.midi==null) return;
   const st=rpPistasState();
-  if(i in st.fijas){ rpTocaPista(nt.midi); return; }
+  if((i in st.fijas) || g.classList.contains('rp-va')){ rpTocaPista(nt.midi); return; }   // (20-nov-2026, 10:51) las azules (pistas o ayuda del piano) suenan al pulsarlas
   if(rpPistaModo && st.left>0){ st.fijas[i]=nt.midi; st.left--; rpPistaModo=st.left>0; rpPistasPinta(); rpPistasUI(); rpTocaPista(nt.midi); }   // (20-nov-2026, 10:31) sigue activo: 3 clics seguidos; otra pulsación en «Pistas» para salir
 }, true);
 /* ---------- piano de verdad: si aún no ha llegado, se espera un poco antes de sonar ---------- */
@@ -7645,10 +7645,10 @@ function rpEntrarPrueba(desde){
     const scrim=document.createElement('div'); scrim.className='phase-cardscrim rp-cartel';
     const card=document.createElement('div'); card.className='phase-banner';
     const k=[rpMotivo, (PR.desde==='fases'?'Fase 4':'')].filter(Boolean).join(' · '); rpMotivo='';
-    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha. Al empezar solo oirás la tónica; después, el piano se adapta a cómo lo hagas, pentagrama a pentagrama: si vas bien, te deja solo; si te cuesta, te irá dando notas, y las que va a tocar se marcan antes en azul. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
+    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha. Al empezar solo oirás la <b>tónica</b>; después, el piano se adapta a cómo lo hagas, pentagrama a pentagrama: si vas bien, te deja solo; si te cuesta, te irá dando notas. Se ilumina la figura que debes cantar en cada momento. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
     if(!(currentLesson&&currentLesson.fusaN)) card.appendChild(rpVelAviso());
-    const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go'; go.textContent='Entendido';
-    go.onclick=()=>scrim.remove(); okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
+    const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go'; go.innerHTML=RP_MIC_SVG+' Activar el micrófono y empezar';
+    go.onclick=()=>{ scrim.remove(); rpPideMic(); }; okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
   }
   rpMicEstado(RPMIC.ready?'ok':'pide');
   rpInitMic().then(()=>rpMicEstado('ok')).catch(()=>rpMicEstado('error'));
@@ -7705,10 +7705,10 @@ async function rpEmpezar(){
       if(!(p.pi===0 && p.pos===0)) PR.helpGiven++;     // la primerísima nota es un regalo: no cuenta como ayuda
       const dur=Math.min(1.0, Math.max(0.25, p.n.t1-p.n.t0));
       pianoHit(p.n.midi, Math.max(ac().currentTime+0.01, PR.body+p.n.t0), dur, 0.17);
-      const g=PR.els[p.n.i]; if(g){ g.classList.add('rp-ayuda'); setTimeout(()=>g.classList.remove('rp-ayuda'),700); }
+      // (20-nov-2026, 10:51) sin marca azul: solo se ilumina la figura que suena (la que deberías cantar)
     }, Math.max(0,ms)));
   });
-  PR.nPts=pts.length; PR.pts=pts; rpMarcaAyuda(0);
+  PR.nPts=pts.length; PR.pts=pts;   // (20-nov-2026, 10:51, Iago) en la fase 4 NO se premarca ninguna nota en azul
   PR.anal=setInterval(rpAnaliza,60);
 }
 function rpAnaliza(){
@@ -7734,7 +7734,7 @@ function rpAnaliza(){
     const pct=Math.round(100*green/ns.length), pocaVoz=vozN<ns.length*0.2;
     if(pct<30 && !pocaVoz && s<Math.max(...pis)){ rpFin(true,false); return; }
     const sig=pis[pis.indexOf(s)+1]; if(sig==null) continue;
-    PR.nivel[sig]= pct>=90?'none' : pct>=70?'sysStart' : pct>=50?'every2' : 'every1'; rpMarcaAyuda(sig);
+    PR.nivel[sig]= pct>=90?'none' : pct>=70?'sysStart' : pct>=50?'every2' : 'every1';
   }
 }
 function rpResuelve(){
