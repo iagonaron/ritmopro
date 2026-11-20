@@ -201,3 +201,14 @@ compás). Desaparecen «Todas» y «Pulso».
 - El micrófono se activa aquí: el botón del cartel es «Activar el micrófono y empezar».
 - No hay pistas ni ninguna nota premarcada en azul; solo se ilumina la figura que toca cantar.
 - El piano ayuda según cómo va saliendo, y al final da el porcentaje de acierto.
+
+## 8. Decisión de Iago del 20-nov 10:55 (manda sobre §6 y §7 en esto)
+
+**Ritmo entonado (GP) y visores de lecciones de ritmo de la campana (GE y GP), fase 3:**
+- ▶ SÍ toca el acompañamiento: los acordes, sin la melodía.
+- Suena junto con la ayuda del piano que se elija abajo (Sin ayuda · Cada pentagrama · Cada compás).
+- No hay micrófono hasta la realización final.
+
+**Entonación at home (GE), 5 minutos de estudio:**
+- Ni acompañamiento ni selector de ayuda del piano.
+- Solo Tónica · Escala · Arpegio. Las lecciones de entonación las sacan ellos mentalmente.

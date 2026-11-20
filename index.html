@@ -6002,7 +6002,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
 const PHASE_DEFS=[
   {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:180,bolsa:'perc'},
   {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 2 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:120,bolsa:'ritmo'},
-  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. Las notas en <b>azul</b>, por pistas o por ayuda del piano, puedes <b>pulsarlas siempre que quieras para escucharlas</b>. El <b>acompañamiento</b> y el <b>micrófono</b> llegan en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
+  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>acompañamiento</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. Las notas en <b>azul</b>, por pistas o por ayuda del piano, puedes <b>pulsarlas siempre que quieras para escucharlas</b>. El <b>micrófono</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
 /* 3.3 (fusas y semifusas en pulso grande): MÉTODO PROPIO de 4 pasos (Iago) */
@@ -6642,12 +6642,12 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
       if(ph.kind==='ritmo'){ const r2=(tapRound===2); o.gold=!r2; o.ring=!r2; o.barlineGuide=r2; }   // 1ª pasada: cabezas · 2ª pasada: barras de compás
       else if(ph.kind==='lectura'){ o.gold=true; }
       else if(ph.kind==='metro'){ o.gold=true; }
-      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; o.pianoHelp=rpAyudaEnt; }   // (20-nov-2026, 10:31) pulso + tónica + la ayuda de piano elegida abajo (sin acompañamiento)
+      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; o.pianoHelp=rpAyudaEnt; }   // (20-nov-2026, 10:55) acompañamiento + tónica + la ayuda de piano elegida abajo
       return o; };
     phasePlay=(resume)=>{ if(!PIANO){ ensurePiano(); }
       const opts=buildOpts(); const bpm=bpmNow(); const sched=buildSchedule(currentLesson,bpm); opts.schedule=sched; opts.bpm=bpm;
       if(resume && resume.startQ){ opts.startQ=resume.startQ; opts.noLead=true; }
-      if(ph.kind==='entonacion'){ opts.melody=false; }   // (20-nov-2026, 10:31, Iago) en el estudio NO suena el acompañamiento: es de la realización final
+      if(ph.kind==='entonacion'){ opts.accompaniment=buildAccompaniment(currentLesson); opts.melody=false; }   // (20-nov-2026, 10:55, Iago, manda sobre lo de las 10:31) en Ritmo entonado la fase 3 SÍ tiene acompañamiento (sin la melodía) + la ayuda del piano elegida
       opts.elements=collectNoteEls();
       if(opts.gold||opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }   // (20-nov-2026, Iago) los silencios también se iluminan
       if(ph.kind==='ritmo'){
