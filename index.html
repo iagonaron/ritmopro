@@ -6001,7 +6001,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
 const PHASE_DEFS=[
   {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:180,bolsa:'perc'},
   {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 2 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:120,bolsa:'ritmo'},
-  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas», toca las notas (parpadean) y, para salir antes, vuelve a pulsar «Pistas». Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>. El <b>acompañamiento</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
+  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. El <b>acompañamiento</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
 /* 3.3 (fusas y semifusas en pulso grande): MÉTODO PROPIO de 4 pasos (Iago) */
@@ -6793,9 +6793,19 @@ const RP_AYUDAS=[['none','Sin ayuda','El piano no toca ninguna nota de la lecci�
 function rpAyudaSel(){
   const sg=document.createElement('div'); sg.className='seg rp-ayudasel'; sg.innerHTML='<span class="seg-l">Ayuda del piano</span>';
   RP_AYUDAS.forEach(([v,t,tip])=>{ const b=document.createElement('button'); b.type='button'; b.className='rp-ay tipw'+(rpAyudaEnt===v?' on':''); b.textContent=t; b.setAttribute('data-tip',tip); b.title=tip;
-    b.onclick=()=>{ rpAyudaEnt=v; sg.querySelectorAll('.rp-ay').forEach(x=>x.classList.toggle('on',x===b)); try{ liveRetrigger(); }catch(e){} };
+    b.onclick=()=>{ rpAyudaEnt=v; sg.querySelectorAll('.rp-ay').forEach(x=>x.classList.toggle('on',x===b)); rpAyudaPinta(); try{ liveRetrigger(); }catch(e){} };
     sg.appendChild(b); });
   return sg;
+}
+/* (20-nov-2026, 10:47, Iago) «si tienes seleccionado cada pentagrama, la primera de cada pentagrama en azul; si es cada compás,
+   la primera de cada compás»: en la fase 3, las notas que va a tocar el piano se ven en azul (las mismas que en play()) */
+function rpAyudaPinta(){
+  if(!currentLesson) return; const ent=studyMode && !PR.on && (phaseList[phaseIdx]||{}).kind==='entonacion';
+  const els=collectNoteEls(), notes=buildSchedule(currentLesson).notes; const vistos=new Set();
+  notes.forEach((nt,i)=>{ let si=false;
+    if(ent && !nt.tied){ const k = rpAyudaEnt==='phrase' ? 'p'+nt.pi : rpAyudaEnt==='measure' ? 'm'+nt.pi+'_'+nt.mi : null;
+      if(k && !vistos.has(k)){ vistos.add(k); si=true; } }
+    if(els[i]) els[i].classList.toggle('rp-va', si); });
 }
 /* aviso de la velocidad en cada cartel, con la barra dibujada (Iago: «que te lo diga desde el primer momento, con el icono de la tortuga») */
 function rpVelAviso(extra){ const d=document.createElement('div'); d.className='rp-velaviso';
@@ -6961,7 +6971,7 @@ function rpTrasFase(ph){
   const st=document.getElementById('phaseScaleTop'); if(st && ph.kind==='entonacion'){ st.style.display='none'; st.onclick=null; }
   rpPistaModo=false;
   rpEntTools(ph.kind==='entonacion'); rpPatronBtn(ph.kind==='lectura'); rpDifBtn();
-  if(ph.kind==='entonacion'){ rpPistasPinta(); rpPistasUI(); if(RPMIC.ready) rpMicEstado('ok'); }
+  if(ph.kind==='entonacion'){ rpPistasPinta(); rpPistasUI(); rpAyudaPinta(); if(RPMIC.ready) rpMicEstado('ok'); }
   rpRelojUI();
 }
 /* Tónica · Escala · Arpegio · Pistas (arriba, en la fase de entonación) */
