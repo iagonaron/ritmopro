@@ -445,6 +445,22 @@ body.rp-ent #phasePlayTop.stop{background:#dc2626!important;border-color:#dc2626
 #phaseTop .rp-patron-b.on{background:var(--rp-acento,#16a34a);border-color:var(--rp-acento,#16a34a)}
 #phaseTop .rp-patron-b.on svg{color:#fff}
 #score g.vf-stavenote.rp-va .vf-notehead path{fill:#2563eb!important;stroke:#2563eb!important}
+#phaseTop .rp-dif-b{display:inline-flex;align-items:center;gap:7px;height:40px;box-sizing:border-box;padding:0 13px;border-radius:10px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;font:800 14px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);cursor:pointer;margin-right:8px}
+#phaseTop .rp-dif-b:hover{border-color:rgba(255,255,255,.75)}
+@media (max-width:1279px){ #phaseTop .rp-dif-b{width:40px;padding:0;justify-content:center} #phaseTop .rp-dif-b span{display:none} }   /* en pantallas estrechas, solo el icono (el texto, al pasar el ratón) */
+.rp-dif-scrim{position:fixed;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;background:rgba(5,10,18,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.rp-dif-card{width:min(560px,92vw);box-sizing:border-box;padding:20px 22px;border-radius:14px;background:rgba(17,26,41,.97);border:1px solid rgba(255,255,255,.14);color:#fff;font-family:var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);box-shadow:0 18px 60px rgba(0,0,0,.5)}
+.rp-dif-k{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.rp-dif-t{margin:0 0 14px;font-size:20px;font-weight:900}
+.rp-dif-escala{display:grid;grid-template-columns:repeat(11,1fr);gap:6px}
+.rp-dif-escala button{height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:var(--lm-neutro,#243044);color:#fff;font:800 16px/1 inherit;cursor:pointer;padding:0}
+.rp-dif-escala button.mid{border:1.5px solid rgba(255,255,255,.55)}
+.rp-dif-escala button.on{background:var(--rp-acento,#16a34a);border-color:var(--rp-acento,#16a34a)}
+.rp-dif-ley{display:flex;justify-content:space-between;margin:7px 2px 0;font-size:12px;color:rgba(255,255,255,.6)}
+.rp-dif-res{margin:14px 0 0;font-size:16px;min-height:22px}
+.rp-dif-res b{font-size:22px}
+.rp-dif-ok{display:flex;justify-content:flex-end;margin-top:14px}
+.rp-dif-x{height:40px;padding:0 18px;border-radius:10px;border:0;background:var(--rp-acento,#16a34a);color:#fff;font:800 14px/1 inherit;cursor:pointer}
 body.rp-ent .rp-oido{border:1.5px solid #3b82f6;background:rgba(37,99,235,.16)}
 body.rp-ent .rp-oido button{background:transparent!important;color:#fff;font-weight:800;border-right-color:rgba(59,130,246,.45)}
 body.rp-ent .rp-oido button:hover{background:rgba(59,130,246,.3)!important}
@@ -5985,7 +6001,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
 const PHASE_DEFS=[
   {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:180,bolsa:'perc'},
   {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 2 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:120,bolsa:'ritmo'},
-  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Ahora tienes 3 minutos para practicar la entonación. Puedes pulsar Tónica, Escala y Arpegio siempre que quieras. Con Pistas puedes elegir hasta 3 notas: durante estos 3 minutos, al pulsarlas, oirás cómo suenan. Con ▶ suena el acompañamiento para que cantes encima. Cuando termine el tiempo llegará la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
+  {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas», toca las notas (parpadean) y, para salir antes, vuelve a pulsar «Pistas». Con ▶ suenan el <b>pulso</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>. El <b>acompañamiento</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
 /* 3.3 (fusas y semifusas en pulso grande): MÉTODO PROPIO de 4 pasos (Iago) */
@@ -6177,7 +6193,7 @@ function playScaleChords(){ ensurePiano(); stopPlayer(); const c=ac(); if(!c||!c
   scaleResetT=setTimeout(()=>{ scaleOn=false; const b=document.getElementById('phaseScaleTop'); if(b) b.classList.add('glow'); }, Math.max(300,(t-c.currentTime)*1000+80));
 }
 function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false; vtIni('fases'); ensurePiano(); velLevel=0; rpSubFase=null;
+  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false; vtIni('fases'); ensurePiano(); velLevel=0; rpSubFase=null; rpDifPulsado=false;
   document.getElementById('barActions').style.display='none';   // ocultar acciones
   document.getElementById('phaseTop').style.display='flex';     // Siguiente + ✕ (derecha)
   document.getElementById('phaseSteps').style.display='flex';   // pasos (izquierda)
@@ -6187,7 +6203,7 @@ function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson)
   showPhase();
 }
 function closeStudy(){ vtFin(); rpSalirPrueba(); stopPlayer(); studyMode=false; directEntry=false; clearRhythmPads(); rpEncaja();   /* deshace el ajuste a pantalla ANTES de volver a dibujar la lección */
-  rpSoltarMic(); rpAnotarQuitar(); rpEntTools(false); rpPatronBtn(false); document.body.classList.remove('rp-ent'); { const sw0=document.getElementById('scoreWrap'); if(sw0) sw0.classList.remove('agotado'); document.body.classList.remove('rp-agotado'); } rpRelojUI();
+  rpSoltarMic(); rpAnotarQuitar(); rpEntTools(false); rpPatronBtn(false); rpDifBtn(); document.querySelectorAll('.rp-dif-scrim').forEach(x=>x.remove()); document.body.classList.remove('rp-ent'); { const sw0=document.getElementById('scoreWrap'); if(sw0) sw0.classList.remove('agotado'); document.body.classList.remove('rp-agotado'); } rpRelojUI();
   if(FM_EL&&FM_EL.__stop){ FM_EL.__stop(); FM_EL=null; }
   const sw=document.getElementById('scoreWrap'); if(sw) sw.style.display='';
   if(currentLesson){ try{ renderLesson(document.getElementById('score'), currentLesson); }catch(e){} }
@@ -6209,7 +6225,7 @@ function closeStudy(){ vtFin(); rpSalirPrueba(); stopPlayer(); studyMode=false; 
    Reproducir y Salir arriba (donde la ✕); barra inferior idéntica a la fase de entonación. */
 function openAccompaniment(){
   if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); studyMode=true; directEntry=true; vtIni('directa'); velLevel=0; rpSubFase=null;
+  phaseList=phasesFor(); studyMode=true; directEntry=true; vtIni('directa'); velLevel=0; rpSubFase=null; rpDifPulsado=false;
   let ei=phaseList.findIndex(p=>p.kind==='entonacion'); if(ei<0) ei=phaseList.length-1;
   phaseIdx=ei;
   document.getElementById('barActions').style.display='none';
@@ -6625,12 +6641,12 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
       if(ph.kind==='ritmo'){ const r2=(tapRound===2); o.gold=!r2; o.ring=!r2; o.barlineGuide=r2; }   // 1ª pasada: cabezas · 2ª pasada: barras de compás
       else if(ph.kind==='lectura'){ o.gold=true; }
       else if(ph.kind==='metro'){ o.gold=true; }
-      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; o.pianoHelp=rpAyudaEnt; }   // (20-nov-2026) acompañamiento + la ayuda de piano elegida abajo
+      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; o.pianoHelp=rpAyudaEnt; }   // (20-nov-2026, 10:31) pulso + tónica + la ayuda de piano elegida abajo (sin acompañamiento)
       return o; };
     phasePlay=(resume)=>{ if(!PIANO){ ensurePiano(); }
       const opts=buildOpts(); const bpm=bpmNow(); const sched=buildSchedule(currentLesson,bpm); opts.schedule=sched; opts.bpm=bpm;
       if(resume && resume.startQ){ opts.startQ=resume.startQ; opts.noLead=true; }
-      if(ph.kind==='entonacion'){ opts.accompaniment=buildAccompaniment(currentLesson); opts.melody=false; }
+      if(ph.kind==='entonacion'){ opts.melody=false; }   // (20-nov-2026, 10:31, Iago) en el estudio NO suena el acompañamiento: es de la realización final
       opts.elements=collectNoteEls();
       if(opts.gold||opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }   // (20-nov-2026, Iago) los silencios también se iluminan
       if(ph.kind==='ritmo'){
@@ -6752,7 +6768,7 @@ function rpTextoFase(ph){
   const sc=rpTieneSinCompas()?' En la música sin compás suena siempre la subdivisión en corcheas.':'';
   if(ph.kind==='lectura') return ph.banner.d+' Aquí, por defecto, no suena la subdivisión: solo el pulso.'+sc
       +(rpTieneDispares()?' Si te atascas con los compases dispares, pulsa «Revelar patrón»: verás cada pulso de 3 corcheas (△) y de 2 (U).':'');
-  if(ph.kind==='entonacion') return ph.banner.d+' Abajo eliges cuánta ayuda te da el piano cuando suena el acompañamiento: todas las notas, la primera de cada pulso, la de cada compás o la de cada pentagrama. Suena solo el pulso.'+sc;
+  if(ph.kind==='entonacion') return ph.banner.d+sc;
   return ph.banner.d;
 }
 function rpCartel(host, ph){
@@ -6769,13 +6785,13 @@ function rpCartel(host, ph){
 }
 function rpCartelAbierto(){ return !!document.querySelector('.rp-cartel'); }
 
-/* (20-nov-2026, 10:12, Iago) FASE 3 · «que puedas seleccionar cuánta ayuda quieres: todas, la primera de cada pulso, la primera de
-   cada compás y la primera de cada pentagrama», abajo, en la barra de velocidad y subdivisión */
+/* (20-nov-2026, Iago) FASE 3 · ayuda del piano, abajo, en la barra de velocidad y subdivisión. Recapitulación de las 10:31 (manda):
+   solo «Sin ayuda · Cada pentagrama · Cada compás» (la 1.ª nota de cada pentagrama / compás); ni «todas» ni «pulso» */
 let rpAyudaEnt='phrase';
-const RP_AYUDAS=[['all','Todas','El piano toca todas las notas de la lección'],['pulse','Pulso','El piano toca la primera nota de cada pulso (si la hay)'],
-                 ['measure','Compás','El piano toca la primera nota de cada compás'],['phrase','Pentagrama','El piano toca la primera nota de cada pentagrama']];
+const RP_AYUDAS=[['none','Sin ayuda','El piano no toca ninguna nota de la lección (solo la tónica al empezar)'],
+                 ['phrase','Cada pentagrama','El piano toca la primera nota de cada pentagrama'],['measure','Cada compás','El piano toca la primera nota de cada compás']];
 function rpAyudaSel(){
-  const sg=document.createElement('div'); sg.className='seg rp-ayudasel'; sg.innerHTML='<span class="seg-l">Piano</span>';
+  const sg=document.createElement('div'); sg.className='seg rp-ayudasel'; sg.innerHTML='<span class="seg-l">Ayuda del piano</span>';
   RP_AYUDAS.forEach(([v,t,tip])=>{ const b=document.createElement('button'); b.type='button'; b.className='rp-ay tipw'+(rpAyudaEnt===v?' on':''); b.textContent=t; b.setAttribute('data-tip',tip); b.title=tip;
     b.onclick=()=>{ rpAyudaEnt=v; sg.querySelectorAll('.rp-ay').forEach(x=>x.classList.toggle('on',x===b)); try{ liveRetrigger(); }catch(e){} };
     sg.appendChild(b); });
@@ -6824,6 +6840,34 @@ function rpPatronPinta(v){
     base+=meterCapQ(m.time);
   }));
   svg.appendChild(G);
+}
+/* (20-nov-2026, 10:31, Iago) SOLO Tester/Protester: botón «Dificultad» (0–10; 5 = intermedio) para puntuar la lección en cualquier
+   momento del estudio; si no se ha pulsado, sale al final de la realización final. Solo en pantalla (los alumnos lo apuntan en su
+   libro): NO se guarda en ningún sitio. */
+let rpDifPulsado=false;
+function rpEsTesterCuenta(){ return !!(window.__GVV && window.__GVV.tester); }
+const RP_DIF_ICO='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3.5 17.5a8.5 8.5 0 1 1 17 0"/><path d="M12 17.5l4.2-5.6"/><circle cx="12" cy="17.5" r="1.3" fill="currentColor"/></svg>';
+function rpDifBtn(){
+  let b=document.getElementById('rpDif'); const cl=document.getElementById('phaseClose');
+  if(!studyMode || !rpEsTesterCuenta() || !cl){ if(b) b.remove(); return; }
+  if(!b){ b=document.createElement('button'); b.id='rpDif'; b.type='button'; b.className='rp-dif-b'; b.innerHTML=RP_DIF_ICO+'<span>Dificultad</span>';
+    b.title='Puntuar la dificultad de esta lección (0–10). Solo en pantalla: no se guarda.'; b.onclick=()=>rpDifAbrir(); }
+  if(b.nextSibling!==cl) cl.parentNode.insertBefore(b, cl);
+}
+function rpDifAbrir(){
+  rpDifPulsado=true; document.querySelectorAll('.rp-dif-scrim').forEach(x=>x.remove());
+  const sc=document.createElement('div'); sc.className='rp-dif-scrim';
+  const card=document.createElement('div'); card.className='rp-dif-card';
+  card.innerHTML='<p class="rp-dif-k">Dificultad · solo en pantalla, no se guarda</p><p class="rp-dif-t">¿Qué dificultad tiene esta lección?</p>'
+    +'<div class="rp-dif-escala"></div><div class="rp-dif-ley"><span>0 · muy fácil</span><span>5 · intermedio</span><span>10 · muy difícil</span></div>'
+    +'<p class="rp-dif-res">Elige un número del 0 al 10.</p><div class="rp-dif-ok"><button type="button" class="rp-dif-x">Cerrar</button></div>';
+  const esc=card.querySelector('.rp-dif-escala'), res=card.querySelector('.rp-dif-res');
+  for(let i=0;i<=10;i++){ const x=document.createElement('button'); x.type='button'; x.textContent=i; if(i===5) x.classList.add('mid');
+    x.onclick=()=>{ esc.querySelectorAll('button').forEach(y=>y.classList.toggle('on',y===x)); res.innerHTML='Dificultad: <b>'+i+'</b> / 10 · apúntala en tu libro'; };
+    esc.appendChild(x); }
+  card.querySelector('.rp-dif-x').onclick=()=>sc.remove();
+  sc.addEventListener('click',e=>{ if(e.target===sc) sc.remove(); });
+  sc.appendChild(card); document.body.appendChild(sc);
 }
 /* FASE 4 · «que se marquen en azul las notas que va a tocar el piano» (según la ayuda que le toque a cada pentagrama) */
 function rpMarcaAyuda(pi){
@@ -6916,7 +6960,7 @@ function rpTrasFase(ph){
   rpAnotarMontar_(); setTimeout(rpEncaja,0);
   const st=document.getElementById('phaseScaleTop'); if(st && ph.kind==='entonacion'){ st.style.display='none'; st.onclick=null; }
   rpPistaModo=false;
-  rpEntTools(ph.kind==='entonacion'); rpPatronBtn(ph.kind==='lectura');
+  rpEntTools(ph.kind==='entonacion'); rpPatronBtn(ph.kind==='lectura'); rpDifBtn();
   if(ph.kind==='entonacion'){ rpPistasPinta(); rpPistasUI(); if(RPMIC.ready) rpMicEstado('ok'); }
   rpRelojUI();
 }
@@ -6960,7 +7004,7 @@ document.addEventListener('click',(e)=>{
   const nt=buildSchedule(currentLesson).notes[i]; if(!nt || nt.midi==null) return;
   const st=rpPistasState();
   if(i in st.fijas){ rpTocaPista(nt.midi); return; }
-  if(rpPistaModo && st.left>0){ st.fijas[i]=nt.midi; st.left--; rpPistaModo=false; rpPistasPinta(); rpPistasUI(); rpTocaPista(nt.midi); }
+  if(rpPistaModo && st.left>0){ st.fijas[i]=nt.midi; st.left--; rpPistaModo=st.left>0; rpPistasPinta(); rpPistasUI(); rpTocaPista(nt.midi); }   // (20-nov-2026, 10:31) sigue activo: 3 clics seguidos; otra pulsación en «Pistas» para salir
 }, true);
 /* ---------- piano de verdad: si aún no ha llegado, se espera un poco antes de sonar ---------- */
 function rpEsperaPiano(ms){ ensurePiano(); if(PIANO) return Promise.resolve(true);
@@ -7578,7 +7622,7 @@ function rpEntrarPrueba(desde){
   renderPhaseSteps();
   const playTop=document.getElementById('phasePlayTop'), st=document.getElementById('phaseScaleTop'), nx=document.getElementById('phaseNextTop');
   if(st){ st.style.display='none'; st.onclick=null; } if(nx) nx.style.display='none';
-  rpEntTools(false); rpPatronBtn(false); if(rpSubFase!=='prueba'){ rpSubFase='prueba'; subMode='pulso'; }
+  rpEntTools(false); rpPatronBtn(false); rpDifBtn(); if(rpSubFase!=='prueba'){ rpSubFase='prueba'; subMode='pulso'; }
   if(playTop){ playTop.style.display='inline-flex'; activePlayBtn=playTop; setPlayState(false); playTop.onclick=()=>rpEmpezar(); playTop.setAttribute('data-tip','Empezar / parar. También con la barra espaciadora'); }
   phasePlay=()=>rpEmpezar();
   // abajo: el micrófono y la velocidad
@@ -7728,6 +7772,7 @@ function rpResultado(pct, micProb, cortada, ayuda){
   if(pct>=70 && !cortada) acts.appendChild(btn('b-go','Nueva lección', ()=>{ closeStudy(); generateLesson(); }));
   acts.appendChild(btn('b-re','Ver la partitura', ()=>{}));
   host.appendChild(card); makeDraggable(card);
+  if(rpEsTesterCuenta() && !rpDifPulsado) setTimeout(()=>{ if(studyMode) rpDifAbrir(); }, 700);   // (20-nov-2026) Dificultad: si no se pulsó, al final
 }
 
 /* ============================== TRIMESTRE / WIRING ============================== */

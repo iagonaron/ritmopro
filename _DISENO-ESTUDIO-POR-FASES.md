@@ -160,3 +160,27 @@ Todas siguen siendo la referencia para otras pantallas de estudio.
 
 **Generar examen / Editar:** solo los ve el profesor (cuentas Tester/Protester o el navegador con la marca del Diario), y nunca
 dentro del estudio ni de la prueba directa.
+
+## 6. Recapitulación de Iago del 20-nov 10:31 (manda sobre lo anterior)
+
+Fuente común: `iagonaron/lmpro/_ESTUDIO-POR-FASES-UNIFICADO.md`. Aplicado aquí lo que toca a Ritmo entonado (§4 y §6 de ese fichero):
+
+**Estudio de entonación (fase 3):**
+- No suena el acompañamiento: ni acordes ni melodía entera. El acompañamiento es de la realización final.
+- ▶ da el pulso, la tónica en la cuenta atrás y la ayuda del piano que se elija.
+
+**Ayuda del piano:** solo tres opciones, «Sin ayuda · Cada pentagrama · Cada compás» (la 1.ª nota de cada pentagrama o de cada
+compás). Desaparecen «Todas» y «Pulso».
+
+**Pistas:**
+- Se pulsa «Pistas» y se queda activo, con las notas parpadeando.
+- Se eligen las 3 notas con 3 clics seguidos, sin volver al botón.
+- Otra pulsación en «Pistas» sirve para salir antes.
+
+**Solo Tester / Protester · botón «Dificultad»:**
+- Va arriba, junto al ✕, en todas las fases. En pantallas estrechas sale solo el icono.
+- Abre una escala de 0 a 10 (5 = intermedio).
+- Si no se ha pulsado, sale sola al final de la realización final.
+- Solo se ve en pantalla: no se guarda en ningún sitio.
+
+**Cartel de la fase 3:** texto más sencillo, con las palabras clave en negrita.
