@@ -110,3 +110,53 @@ portal) y devuelve `refit()`.
 - **Notas al final:** verde = afinada, ámbar = cerca, rojo = desafinada.
 - **Estética:** la de la piel actual (LMEAVathome/piel/apps/ritmo.css): colores lisos, sin degradados, cuadrados de 40 px
   y rectángulos con esquinas suaves.
+
+## 5. Mejoras del 20-nov (10:06–10:12, Iago)
+
+Todas siguen siendo la referencia para otras pantallas de estudio.
+
+**Pantalla:**
+- La barra de abajo (velocidad, subdivisión y, en la fase 3, el piano) se ve siempre sin bajar. La partitura se ajusta al alto
+  que quede, aunque salga algo más pequeña (`rpEncaja` cuenta con `#phaseControls`).
+
+**Velocidad:**
+- La que elige el alumno se mantiene en todas las fases, salvo que la cambie. Solo se pone en estándar al empezar el estudio.
+- Cada cartel lo avisa con la barra dibujada: 🐢 ● ● ● ● ● 🐇 + «Abajo, en la barra de Velocidad…» (`rpVelAviso`).
+
+**Subdivisión por defecto** (`rpSubDefecto`):
+- Fase 1, en corcheas.
+- Ritmo con la mano, entonación y realización final: solo el pulso.
+- Excepción: en el pentagrama sin compás suenan siempre corcheas, y en los siguientes vuelve el pulso.
+- Los carteles lo dicen.
+
+**Claqueta por compás** (`subClicks` + `sched.measInfo`):
+- La rejilla de subdivisión empieza en cada parte fuerte.
+- En el compás fraccionario (2+¼)/4 suena el golpe de la semicorchea de más, también con solo pulso.
+
+**Cuenta atrás 3-2-1:**
+- Va en el centro de la pantalla: un cuadro de 150 px de cristal oscuro, borde del color de la fase y número blanco de 96 px.
+- Cada número dura un pulso. Si se para, la cuenta pendiente se cancela.
+
+**Silencios:** también se iluminan al sonar, igual que las notas.
+
+**Fase 2 · «Revelar patrón»** (solo si hay compases dispares):
+- Dibuja un △ sobre cada pulso de 3 corcheas y una U sobre los de 2, en verde `#16a34a`, por encima de las notas y de las
+  barras de corchete.
+- Con el mismo botón se oculta.
+
+**Fase 3 · ayuda del piano:**
+- Abajo hay un selector: «Piano: Todas · Pulso · Compás · Pentagrama» (la primera nota de cada pulso, de cada compás o de cada
+  pentagrama). Por defecto, Pentagrama.
+- El cartel lo anuncia.
+- Las pistas siguen iluminadas en azul.
+
+**Fase 4 · realización final:**
+- Al empezar solo suena la tónica. Luego, la ayuda se adapta por pentagramas.
+- Las notas que va a tocar el piano se marcan antes en azul `#2563eb` (`rpMarcaAyuda`).
+
+**Botones de arriba:**
+- «Pasar a la siguiente fase / a la realización final» va relleno del color de la fase, con letra blanca.
+- El reloj es más grande (20 px, negrita, blanco con borde del color de la fase). En el visor del portal no hay reloj.
+
+**Generar examen / Editar:** solo los ve el profesor (cuentas Tester/Protester o el navegador con la marca del Diario), y nunca
+dentro del estudio ni de la prueba directa.

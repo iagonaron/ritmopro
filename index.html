@@ -423,9 +423,28 @@ body.rp-ent #phaseTop,body.rp-ent #phaseSteps,body.rp-ent #phaseControls,body.rp
 body.rp-ent #phaseSteps .phase-step.cur{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}
 body.rp-ent #phasePlayTop,body.rp-ent #phasePlayTop.play{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important;box-shadow:none!important}
 body.rp-ent #phasePlayTop.stop{background:#dc2626!important;border-color:#dc2626!important}
-body.rp-ent #phaseNextTop{background:transparent!important;border:1.5px solid #3b82f6!important;color:#93c5fd!important;box-shadow:none!important}
-body.rp-ent .rp-reloj{border-color:#3b82f6;color:#93c5fd}
-body.rp-ent .rp-reloj.poco{border-color:#dc2626;color:#fca5a5}
+/* (20-nov-2026, 10:12, Iago) «pasar a la realización final, que se vea más · y el tiempo también» (todas las fases, con su color) */
+#phaseTop #phaseNextTop{background:var(--rp-acento,#16a34a)!important;border:1.5px solid var(--rp-acento,#16a34a)!important;color:#fff!important;font-weight:800!important;box-shadow:none!important;opacity:1!important}
+#phaseTop #phaseNextTop:hover{filter:brightness(1.08)}
+#phaseTop .rp-reloj{height:40px;box-sizing:border-box;padding:0 14px;border:1.5px solid var(--rp-acento-c,#22c55e)!important;background:rgba(11,19,32,.78)!important;color:#fff!important;font:900 20px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif)!important;font-variant-numeric:tabular-nums}
+#phaseTop .rp-reloj svg{color:var(--rp-acento-c,#22c55e)}
+#phaseTop .rp-reloj.poco{border-color:#dc2626!important;background:rgba(127,29,29,.6)!important;color:#fff!important}
+#phaseTop .rp-reloj.poco svg{color:#fca5a5}
+/* ayuda de piano (fase 3), aviso de velocidad en los carteles, revelar patrón (fase 2), azul anticipado (fase 4) */
+.rp-ayudasel{display:inline-flex;align-items:center;gap:4px}
+.rp-ayudasel .rp-ay{height:32px;padding:0 10px;border-radius:8px;border:1px solid rgba(255,255,255,.14);background:var(--lm-neutro,#243044);color:#fff;font:700 13px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);cursor:pointer}
+.rp-ayudasel .rp-ay.on{background:var(--rp-acento,#2563eb);border-color:var(--rp-acento,#2563eb)}
+.rp-velaviso{display:flex;align-items:center;gap:12px;margin:14px 0 4px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
+.rp-va-bar{flex:none;display:inline-flex;align-items:center;gap:5px;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.rp-va-bar i{display:block;width:16px;height:8px;border-radius:4px;background:rgba(255,255,255,.2)}
+.rp-va-bar i.on{background:var(--rp-acento,#16a34a)}
+.rp-va-e{font-size:17px;line-height:1}
+.rp-va-t{font-size:14px;line-height:1.4;color:rgba(255,255,255,.88)}
+#phaseTop .rp-patron-b{display:inline-flex;align-items:center;gap:7px;height:40px;box-sizing:border-box;padding:0 14px;border-radius:10px;border:1.5px solid var(--rp-acento-c,#22c55e);background:rgba(11,19,32,.78);color:#fff;font:800 14px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);cursor:pointer;margin-right:8px}
+#phaseTop .rp-patron-b svg{color:#4ade80}
+#phaseTop .rp-patron-b.on{background:var(--rp-acento,#16a34a);border-color:var(--rp-acento,#16a34a)}
+#phaseTop .rp-patron-b.on svg{color:#fff}
+#score g.vf-stavenote.rp-va .vf-notehead path{fill:#2563eb!important;stroke:#2563eb!important}
 body.rp-ent .rp-oido{border:1.5px solid #3b82f6;background:rgba(37,99,235,.16)}
 body.rp-ent .rp-oido button{background:transparent!important;color:#fff;font-weight:800;border-right-color:rgba(59,130,246,.45)}
 body.rp-ent .rp-oido button:hover{background:rgba(59,130,246,.3)!important}
@@ -485,6 +504,10 @@ html.lm-fam-ritmo:not(.lm-sin-piel) #phaseNextTop.pc-btn.primary:hover{ backgrou
 .prep-dot.lit{border-color:var(--gold1);background:linear-gradient(135deg,var(--gold-soft),var(--gold2));color:#1a1407;transform:scale(1.12);}
 .countin{position:absolute;top:6px;left:14px;font-size:38px;font-weight:900;color:var(--gold2);opacity:0;pointer-events:none;z-index:6;line-height:1;}
 .countin.show{animation:cdpop .42s ease;}
+/* (20-nov-2026, Iago) «la cuenta atrás, en el centro de la pantalla» */
+#countIn.countin{position:fixed;left:50%;top:50%;top:50dvh;width:150px;height:150px;margin:-75px 0 0 -75px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;border-radius:24px;background:rgba(11,19,32,.84);border:2px solid var(--rp-acento-c,#22c55e);color:#fff!important;font:900 96px/1 var(--lm-fuente,"Helvetica Neue",Helvetica,Arial,sans-serif);z-index:90;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 10px 40px rgba(0,0,0,.45)}
+#countIn.countin.show{animation-name:rpCuenta;animation-duration:.9s;animation-timing-function:ease;animation-fill-mode:forwards}
+@keyframes rpCuenta{0%{opacity:0;transform:scale(1.18)}12%{opacity:1;transform:scale(1)}88%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.96)}}
 @keyframes cdpop{0%{opacity:0;transform:scale(1.25);}28%{opacity:.95;transform:scale(1);}100%{opacity:0;transform:scale(.92);}}
 .velsub{display:inline-flex;gap:10px;align-items:center;flex-wrap:nowrap;padding:4px 0;transition:box-shadow .2s,transform .2s;border-radius:12px;}
 .velsub.pulse{animation:vspulse 0.8s ease 2;}
@@ -5791,7 +5814,7 @@ function voiceLead(prevVoices, pcs){
   return voices;
 }
 function buildSchedule(L, basePulseBPM){
-  const notes=[],pulses=[],downbeats=[],rests=[]; let base=0;
+  const notes=[],pulses=[],downbeats=[],rests=[],measInfo=[]; let base=0;
   // tempo por compás (si se pasa basePulseBPM): secPerQ local y tiempo acumulado al inicio de cada compás
   const tm = basePulseBPM ? tempoMap(L, basePulseBPM) : null;
   const mStartSec=[]; const mStartQ=[];
@@ -5800,6 +5823,7 @@ function buildSchedule(L, basePulseBPM){
   L.phrases.forEach((p,pi)=>{ p.measures.forEach((m,mi)=>{
     downbeats.push(base);
     pulseOnsetsQ(m).forEach(q=>pulses.push(base+q));
+    measInfo.push({q:base, cap:meterCapQ(m.time), onsets:pulseOnsetsQ(m), noMeter:!!L.noMeter||!!p.noMeter});   // (20-nov-2026) para la claqueta por compás
     const real=m.groupInfo?groupRealBeats(m.groupInfo):null; let gi=0,acc=0; const idxMap={};
     m.notes.forEach((n,k)=>{ const isG=m.groupInfo&&m.groupInfo.idx.includes(k); const durQ=isG?real[gi++]:db(n.dur);
       if(!n.rest){ const o={midi:n.midi,onsetQ:base+acc,durQ,pi,mi,k,key:n.key};
@@ -5812,7 +5836,7 @@ function buildSchedule(L, basePulseBPM){
   // convierte un onset GLOBAL en negras a segundos, respetando el secPerQ de cada compás (tempo variable)
   function qToSec(qGlobal){ if(!tm) return null; let i=mStartQ.length-1; for(let z=0;z<mStartQ.length;z++){ if(qGlobal>=mStartQ[z]-1e-9) i=z; else break; } return mStartSec[i] + (qGlobal-mStartQ[i])*tm[i].secPerQ; }
   const totalSec = tm ? qToSec(base) : null;
-  return {notes,pulses,downbeats,rests,totalQ:base, totalSec, tm, mStartSec, mStartQ, qToSec};
+  return {notes,pulses,downbeats,rests,measInfo,totalQ:base, totalSec, tm, mStartSec, mStartQ, qToSec};
 }
 
 /* reproductor genérico (rítmico/melódico/claqueta) con resaltado dorado opcional */
@@ -5823,10 +5847,12 @@ let isPlaying=false, activePlayBtn=null;
 function setPlayState(p){ isPlaying=p; const b=activePlayBtn; if(!b) return;
   b.classList.toggle('stop',p); b.classList.toggle('play',!p);
   b.innerHTML = p ? '⏸' : '▶'; b.title = p ? 'Pausa' : 'Reproducir'; }
-function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; (document.getElementById('scoreWrap')||document.getElementById('lessonArea')).appendChild(cd); } return cd; }
+function ensureCountdown(){ let cd=document.getElementById('countIn'); if(!cd){ cd=document.createElement('div'); cd.id='countIn'; cd.className='countin'; } if(cd.parentNode!==document.body) document.body.appendChild(cd); return cd; }   /* (20-nov-2026, Iago) en el centro de la pantalla */
 function showCountdown(cd,n){ cd.textContent=n; cd.classList.remove('show'); void cd.offsetWidth; cd.classList.add('show'); }
 function hideCountdown(){ const cd=document.getElementById('countIn'); if(cd)cd.classList.remove('show'); }
-function stopPlayer(){ if(typeof rhTapTodo==='function') rhTapTodo(); if(liveT){ clearTimeout(liveT); liveT=null; } if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio(); stopPiano(); playAnchor=null; tapCapture=false; hideBarlineHL();
+let CD_TIMERS=[];   /* (20-nov-2026) al parar, la cuenta atrás pendiente también se cancela (si no, salía un «1» suelto en el centro) */
+function cancelaCuenta(){ CD_TIMERS.forEach(t=>clearTimeout(t)); CD_TIMERS=[]; hideCountdown(); }
+function stopPlayer(){ cancelaCuenta(); if(typeof rhTapTodo==='function') rhTapTodo(); if(liveT){ clearTimeout(liveT); liveT=null; } if(player.stop)player.stop(); if(player.raf)cancelAnimationFrame(player.raf); player.stop=null; player.raf=null; killAudio(); stopPiano(); playAnchor=null; tapCapture=false; hideBarlineHL();
   if(typeof stopCardLoop==='function') stopCardLoop();
   document.querySelectorAll('#score .vf-gold').forEach(e=>e.classList.remove('vf-gold'));
   document.querySelectorAll('#score .vf-ring').forEach(e=>e.remove()); setPlayState(false); }
@@ -5876,7 +5902,8 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
     else { for(let i=0;i<lead;i++) pianoHit(tMidi, t0+i*stepDur, stepDur*0.85, 0.12); }
   }
   // numeritos de claqueta (descendentes), discretos
-  if(lead>0 && opts.countIn){ const cd=ensureCountdown(); for(let i=0;i<lead;i++){ const n=lead-i, ti=t0+i*stepDur; if(n<=3) setTimeout(()=>showCountdown(cd,n),Math.max(0,(ti-c.currentTime)*1000)); } setTimeout(()=>hideCountdown(),Math.max(0,(t0+leadDur-c.currentTime)*1000)); }
+  if(lead>0 && opts.countIn){ const cd=ensureCountdown(); cd.style.animationDuration=Math.max(0.45,Math.min(1.6,stepDur))+'s';   /* (20-nov-2026) cada número dura un pulso */
+    for(let i=0;i<lead;i++){ const n=lead-i, ti=t0+i*stepDur; if(n<=3) CD_TIMERS.push(setTimeout(()=>showCountdown(cd,n),Math.max(0,(ti-c.currentTime)*1000))); } CD_TIMERS.push(setTimeout(()=>hideCountdown(),Math.max(0,(t0+leadDur-c.currentTime)*1000))); }
   // metrónomo del CUERPO: pulsos + SUBDIVISIÓN (si el alumno la marcó) DESDE startQ; subdivide ya con la lección
   if(opts.metronome){ subClicks(sched).forEach(s=>{ if(s.q<startQ-1e-6) return; click(at(s.q), s.accent, s.sub2?0.2:(s.sub?0.42:1)); }); }
   const els=opts.elements||[];
@@ -5900,11 +5927,12 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   }
   // AYUDA DEL PIANO ("Prueba directa")
   if(opts.pianoHelp && opts.pianoHelp!=='none'){
-    const seenPhrase=new Set(), seenMeasure=new Set();
+    const seenPhrase=new Set(), seenMeasure=new Set(), pulsoSet=new Set((sched.pulses||[]).map(q=>Math.round(q*16)));
     sched.notes.forEach(nt=>{
       if(nt.tied || nt.onsetQ<startQ-1e-6) return;
       let play=false;
       if(opts.pianoHelp==='all') play=true;
+      else if(opts.pianoHelp==='pulse') play=pulsoSet.has(Math.round(nt.onsetQ*16));   // (20-nov-2026) la nota que empieza en cada pulso, si la hay
       else if(opts.pianoHelp==='phrase'){ if(!seenPhrase.has(nt.pi)){ seenPhrase.add(nt.pi); play=true; } }
       else if(opts.pianoHelp==='measure'){ const key=nt.pi*100+nt.mi; if(!seenMeasure.has(key)){ seenMeasure.add(key); play=true; } }
       if(play){ const a0=at(nt.onsetQ); const dur=Math.max(0.16,(at(nt.onsetQ+nt.durQ)-a0)*0.95); pianoHit(nt.midi, a0, dur, 0.09); }
@@ -6083,6 +6111,11 @@ function basePulseBPMNow(){
   return Math.max(8, std + velLevel*VEL_STEP);
 }
 function subStepQ(){ return subMode==='corchea'?0.5 : subMode==='semicorchea'?0.25 : null; }
+/* (20-nov-2026, Iago) subdivisión por defecto en el estudio: fase 1 (percusión) en CORCHEAS; ritmo con la mano, entonación y
+   realización final, solo el PULSO. Excepción: en la música sin compás suenan siempre corcheas (ver subClicks). Se pone al entrar
+   en cada fase; si el alumno la cambia dentro de la fase, se respeta hasta la siguiente. */
+let rpSubFase=null;
+function rpSubDefecto(ph){ if(!studyMode||!ph) return; const k=phaseIdx+':'+ph.kind; if(rpSubFase===k) return; rpSubFase=k; subMode=(ph.kind==='ritmo')?'corchea':'pulso'; }
 function phraseOct(pi){ if(voiceMode==='real'||!currentLesson) return 0; const clef=currentLesson.phrases[pi].clef;
   if(voiceMode==='agudo') return (clef==='bass'||clef==='tenor')?12:0;   // sube las claves graves a la zona aguda
   return (clef==='treble'||clef==='alto')?-12:0; }                       // grave: baja las claves agudas
@@ -6102,6 +6135,19 @@ function subClicks(sched){
     return sched.pulses.map(q=>({q, accent:dset.has(Math.round(q*4))}));  // pasos 3-4: SOLO el pulso grande
   }
   const step=subStepQ();
+  /* (20-nov-2026, Iago) por COMPÁS: los pulsos de cada compás + la rejilla de subdivisión empezando en cada parte fuerte (así un
+     compás con una semicorchea de más no descoloca los siguientes) · en la música SIN COMPÁS, siempre corcheas · en el compás
+     fraccionario (2+¼)/4 con solo pulso, suena también el golpe de la semicorchea de más */
+  if(sched.measInfo && sched.measInfo.length){
+    const out=[], seen=new Set(); const add=(q,o)=>{ const k=Math.round(q*16); if(seen.has(k)) return; seen.add(k); out.push(Object.assign({q},o)); };
+    sched.measInfo.forEach(mm=>{
+      mm.onsets.forEach((o,i)=>add(mm.q+o,{accent:i===0}));
+      const st=mm.noMeter ? ((step && step<0.5)?step:0.5) : step;
+      if(st){ for(let k=0; k*st<mm.cap-1e-6; k++) add(mm.q+k*st,{sub:true}); }
+      else { const last=mm.onsets.length?mm.onsets[mm.onsets.length-1]:0; if(mm.cap-last>1+1e-6) add(mm.q+last+1,{sub:true}); }
+    });
+    return out.sort((a,b)=>a.q-b.q);
+  }
   if(step==null){
     // PULSO (por defecto): la claqueta marca solo los pulsos reales del compás (negra c/puntillo en 6/8, agrupación en 5/8...)
     return sched.pulses.map(q=>({q, accent: dset.has(Math.round(q*4))}));
@@ -6131,7 +6177,7 @@ function playScaleChords(){ ensurePiano(); stopPlayer(); const c=ac(); if(!c||!c
   scaleResetT=setTimeout(()=>{ scaleOn=false; const b=document.getElementById('phaseScaleTop'); if(b) b.classList.add('glow'); }, Math.max(300,(t-c.currentTime)*1000+80));
 }
 function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false; vtIni('fases'); ensurePiano();
+  phaseList=phasesFor(); phaseIdx=0; studyMode=true; directEntry=false; vtIni('fases'); ensurePiano(); velLevel=0; rpSubFase=null;
   document.getElementById('barActions').style.display='none';   // ocultar acciones
   document.getElementById('phaseTop').style.display='flex';     // Siguiente + ✕ (derecha)
   document.getElementById('phaseSteps').style.display='flex';   // pasos (izquierda)
@@ -6141,7 +6187,7 @@ function openStudy(){ if(!currentLesson){ generateLesson(); } if(!currentLesson)
   showPhase();
 }
 function closeStudy(){ vtFin(); rpSalirPrueba(); stopPlayer(); studyMode=false; directEntry=false; clearRhythmPads(); rpEncaja();   /* deshace el ajuste a pantalla ANTES de volver a dibujar la lección */
-  rpSoltarMic(); rpAnotarQuitar(); rpEntTools(false); document.body.classList.remove('rp-ent'); { const sw0=document.getElementById('scoreWrap'); if(sw0) sw0.classList.remove('agotado'); document.body.classList.remove('rp-agotado'); } rpRelojUI();
+  rpSoltarMic(); rpAnotarQuitar(); rpEntTools(false); rpPatronBtn(false); document.body.classList.remove('rp-ent'); { const sw0=document.getElementById('scoreWrap'); if(sw0) sw0.classList.remove('agotado'); document.body.classList.remove('rp-agotado'); } rpRelojUI();
   if(FM_EL&&FM_EL.__stop){ FM_EL.__stop(); FM_EL=null; }
   const sw=document.getElementById('scoreWrap'); if(sw) sw.style.display='';
   if(currentLesson){ try{ renderLesson(document.getElementById('score'), currentLesson); }catch(e){} }
@@ -6163,7 +6209,7 @@ function closeStudy(){ vtFin(); rpSalirPrueba(); stopPlayer(); studyMode=false; 
    Reproducir y Salir arriba (donde la ✕); barra inferior idéntica a la fase de entonación. */
 function openAccompaniment(){
   if(!currentLesson){ generateLesson(); } if(!currentLesson) return; ac();
-  phaseList=phasesFor(); studyMode=true; directEntry=true; vtIni('directa');
+  phaseList=phasesFor(); studyMode=true; directEntry=true; vtIni('directa'); velLevel=0; rpSubFase=null;
   let ei=phaseList.findIndex(p=>p.kind==='entonacion'); if(ei<0) ei=phaseList.length-1;
   phaseIdx=ei;
   document.getElementById('barActions').style.display='none';
@@ -6194,7 +6240,7 @@ function allEvents(L){ const ev=[]; let base=0;
   L.phrases.forEach((p,pi)=>p.measures.forEach((m,mi)=>{
     const real=m.groupInfo?groupRealBeats(m.groupInfo):null; let gi=0,acc=0;
     m.notes.forEach((n,k)=>{ const isG=m.groupInfo&&m.groupInfo.idx.includes(k); const durQ=isG?real[gi++]:db(n.dur);
-      ev.push({onsetQ:base+acc,durQ,rest:!!n.rest}); acc+=durQ; });
+      ev.push({onsetQ:base+acc,durQ,rest:!!n.rest,tied:!n.rest&&n.tieFrom!=null}); acc+=durQ; });
     base+=meterCapQ(m.time);
   }));
   return ev; // 1:1 con collectAllEls() (todas las figuras en orden)
@@ -6202,7 +6248,9 @@ function allEvents(L){ const ev=[]; let base=0;
 function bpmNow(){ return basePulseBPMNow(); }   // pulso base por minuto del 1er compás (estándar ± nivel, o mitad si extrema)
 
 function showPhase(){ if(PR.on) rpSalirPrueba(); stopPlayer(); if(voiceCdTimer){ clearInterval(voiceCdTimer); voiceCdTimer=null; } if(cardCdTimer){ clearInterval(cardCdTimer); cardCdTimer=null; } voiceBanner=null; const ph=phaseList[phaseIdx];
-  velLevel=0;   // cada fase ARRANCA en velocidad estándar por defecto (los botones 🐇/🐢 son ajustes puntuales)
+  /* (20-nov-2026, Iago) «la velocidad que marque el alumno se mantiene hasta el final, salvo que diga lo contrario»: ya no se
+     vuelve a la estándar en cada fase (se pone en estándar al empezar el estudio, en openStudy / openAccompaniment) */
+  rpSubDefecto(ph);   // subdivisión por defecto de cada fase
   tapRound=1;   // el ritmo aislado empieza por la 1ª pasada (con ayuda de cabezas)
   renderPhaseSteps();
   // "Siguiente" arriba a la derecha: visible salvo en la última fase; barra inferior oculta en "cartas"
@@ -6577,14 +6625,14 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
       if(ph.kind==='ritmo'){ const r2=(tapRound===2); o.gold=!r2; o.ring=!r2; o.barlineGuide=r2; }   // 1ª pasada: cabezas · 2ª pasada: barras de compás
       else if(ph.kind==='lectura'){ o.gold=true; }
       else if(ph.kind==='metro'){ o.gold=true; }
-      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; }   // (20-nov-2026) acompañamiento sin la melodía
+      else if(ph.kind==='entonacion'){ o.gold=true; o.tonicRef=true; o.pianoHelp=rpAyudaEnt; }   // (20-nov-2026) acompañamiento + la ayuda de piano elegida abajo
       return o; };
     phasePlay=(resume)=>{ if(!PIANO){ ensurePiano(); }
       const opts=buildOpts(); const bpm=bpmNow(); const sched=buildSchedule(currentLesson,bpm); opts.schedule=sched; opts.bpm=bpm;
       if(resume && resume.startQ){ opts.startQ=resume.startQ; opts.noLead=true; }
       if(ph.kind==='entonacion'){ opts.accompaniment=buildAccompaniment(currentLesson); opts.melody=false; }
       opts.elements=collectNoteEls();
-      if(opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }
+      if(opts.gold||opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }   // (20-nov-2026, Iago) los silencios también se iluminan
       if(ph.kind==='ritmo'){
         const host=document.getElementById('phaseBannerHost'); if(host) host.querySelectorAll('.tap-fb').forEach(x=>x.remove());
         play({...opts, onEnd:()=>finishTapExercise()});
@@ -6599,7 +6647,7 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
     };
     // ---- ABAJO: solo configuración (referencia de entonación + velocidad/subdivisión) ----
     if(ph.kind==='metro'){ bar.appendChild(buildFusaMetroBar()); }
-    if(ph.kind==='entonacion') bar.appendChild(rpMicChip());   // (20-nov-2026) el micrófono, listo para la realización final
+    if(ph.kind==='entonacion'){ bar.appendChild(rpMicChip()); bar.appendChild(rpAyudaSel()); }   // (20-nov-2026) el micrófono, listo para la realización final · cuánta ayuda de piano
     const fusaFixed=(currentLesson&&currentLesson.fusaN&&ph.kind!=='entonacion');   // 3.3: el método fija el tempo (el módulo es el control)
     if(!fusaFixed) bar.appendChild(velSubBlock());
   }
@@ -6696,10 +6744,15 @@ function rpTextoFase(ph){
     const tap=isTouchDevice()
       ? 'Toca el ritmo con los pads verdes (abajo, a izquierda y derecha; si mantienes el dedo, el sonido se mantiene).'
       : 'Toca el ritmo con la barra espaciadora (si la mantienes pulsada, el sonido se mantiene).';
-    return ((currentLesson&&currentLesson.fusaN&&ph.banner.d)?ph.banner.d+' ':'')+tap+' Las figuras se iluminan al sonar.'
+    return ((currentLesson&&currentLesson.fusaN&&ph.banner.d)?ph.banner.d+' ':'')+tap+' Las figuras y los silencios se iluminan al sonar.'
       +' Haz tus anotaciones en la partitura, como en las lecciones del portal: escribir, patrones △/U, alertas e intervalos. Las tendrás también en las fases siguientes.'
+      +' Por defecto suena la subdivisión en corcheas.'
       +' Puedes estar aquí hasta 3 minutos y pasar a la siguiente fase cuando quieras.';
   }
+  const sc=rpTieneSinCompas()?' En la música sin compás suena siempre la subdivisión en corcheas.':'';
+  if(ph.kind==='lectura') return ph.banner.d+' Aquí, por defecto, no suena la subdivisión: solo el pulso.'+sc
+      +(rpTieneDispares()?' Si te atascas con los compases dispares, pulsa «Revelar patrón»: verás cada pulso de 3 corcheas (△) y de 2 (U).':'');
+  if(ph.kind==='entonacion') return ph.banner.d+' Abajo eliges cuánta ayuda te da el piano cuando suena el acompañamiento: todas las notas, la primera de cada pulso, la de cada compás o la de cada pentagrama. Suena solo el pulso.'+sc;
   return ph.banner.d;
 }
 function rpCartel(host, ph){
@@ -6708,12 +6761,77 @@ function rpCartel(host, ph){
   const k=[rpMotivo, ph.banner.k].filter(Boolean).join(' · '); rpMotivo='';
   card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">'+ph.banner.t+'</p><p class="pb-d">'+rpTextoFase(ph)+'</p>';
   if(ph.kind==='ritmo' && !isTouchDevice()){ const sp=document.createElement('div'); sp.className='kbd-space'; sp.innerHTML='<div class="key">espacio</div><div class="lbl">púlsala al ritmo</div>'; card.appendChild(sp); }
+  if(!(currentLesson&&currentLesson.fusaN&&ph.kind!=='entonacion')) card.appendChild(rpVelAviso());   // (20-nov-2026) la velocidad, desde el primer cartel
   const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go';
   if(ph.kind==='entonacion'){ go.innerHTML=RP_MIC_SVG+' Activar el micrófono y empezar'; go.onclick=()=>{ scrim.remove(); rpPideMic(); }; }
   else { go.textContent='Entendido'; go.onclick=()=>scrim.remove(); }
   okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
 }
 function rpCartelAbierto(){ return !!document.querySelector('.rp-cartel'); }
+
+/* (20-nov-2026, 10:12, Iago) FASE 3 · «que puedas seleccionar cuánta ayuda quieres: todas, la primera de cada pulso, la primera de
+   cada compás y la primera de cada pentagrama», abajo, en la barra de velocidad y subdivisión */
+let rpAyudaEnt='phrase';
+const RP_AYUDAS=[['all','Todas','El piano toca todas las notas de la lección'],['pulse','Pulso','El piano toca la primera nota de cada pulso (si la hay)'],
+                 ['measure','Compás','El piano toca la primera nota de cada compás'],['phrase','Pentagrama','El piano toca la primera nota de cada pentagrama']];
+function rpAyudaSel(){
+  const sg=document.createElement('div'); sg.className='seg rp-ayudasel'; sg.innerHTML='<span class="seg-l">Piano</span>';
+  RP_AYUDAS.forEach(([v,t,tip])=>{ const b=document.createElement('button'); b.type='button'; b.className='rp-ay tipw'+(rpAyudaEnt===v?' on':''); b.textContent=t; b.setAttribute('data-tip',tip); b.title=tip;
+    b.onclick=()=>{ rpAyudaEnt=v; sg.querySelectorAll('.rp-ay').forEach(x=>x.classList.toggle('on',x===b)); try{ liveRetrigger(); }catch(e){} };
+    sg.appendChild(b); });
+  return sg;
+}
+/* aviso de la velocidad en cada cartel, con la barra dibujada (Iago: «que te lo diga desde el primer momento, con el icono de la tortuga») */
+function rpVelAviso(extra){ const d=document.createElement('div'); d.className='rp-velaviso';
+  let dots=''; for(let i=-2;i<=2;i++) dots+='<i'+(i===velLevel?' class="on"':'')+'></i>';
+  d.innerHTML='<span class="rp-va-bar"><span class="rp-va-e">🐢</span>'+dots+'<span class="rp-va-e">🐇</span></span><span class="rp-va-t">Abajo, en la barra de <b>Velocidad</b>, puedes ir más lento o más rápido. La que elijas se mantiene hasta el final, salvo que la cambies.'+(extra?' '+extra:'')+'</span>';
+  return d; }
+function rpTieneDispares(){ try{ return currentLesson.phrases.some(p=>p.measures.some(m=>m.grouping&&m.grouping.length)); }catch(e){ return false; } }
+function rpTieneSinCompas(){ try{ return !!currentLesson.noMeter || currentLesson.phrases.some(p=>p.noMeter); }catch(e){ return false; } }
+/* FASE 2 · «Revelar patrón» (compases dispares): dibuja sobre cada pulso un △ (3 corcheas) o una U (2 corcheas), como en clase */
+const RP_PT_ICO='<svg viewBox="0 0 26 20" aria-hidden="true" width="22" height="17"><path d="M2.6 15.6h8.6L6.9 8Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><path d="M15 8v7.6h8.6V8" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/></svg>';
+function rpPatronBtn(on){
+  let b=document.getElementById('rpPatron'); const play=document.getElementById('phasePlayTop');
+  if(!on || !rpTieneDispares() || !play){ if(b) b.remove(); return; }
+  if(!b){ b=document.createElement('button'); b.id='rpPatron'; b.type='button'; b.className='rp-patron-b';
+    b.onclick=()=>{ const v=!b.classList.contains('on'); b.classList.toggle('on',v); b.innerHTML=RP_PT_ICO+(v?' Ocultar patrón':' Revelar patrón'); rpPatronPinta(v); }; }
+  b.classList.remove('on'); b.innerHTML=RP_PT_ICO+' Revelar patrón';
+  if(b.nextSibling!==play) play.parentNode.insertBefore(b, play);
+}
+function rpPatronPinta(v){
+  const svg=document.querySelector('#score svg'); if(!svg) return;
+  svg.querySelectorAll('g.rp-patron').forEach(g=>g.remove()); if(!v || !currentLesson) return;
+  const els=collectAllEls(), ev=allEvents(currentLesson); if(els.length!==ev.length) return;
+  const bbs=sel=>[...svg.querySelectorAll(sel)].map(x=>{ try{ return x.getBBox(); }catch(e){ return null; } }).filter(Boolean);
+  const staves=bbs('g.vf-stave'), beams=bbs('g.vf-beam');
+  const NS='http://www.w3.org/2000/svg', G=document.createElementNS(NS,'g'); G.setAttribute('class','rp-patron');
+  let idx=0, base=0;
+  currentLesson.phrases.forEach(ph=>ph.measures.forEach(m=>{
+    const n=m.notes.length, mEls=els.slice(idx,idx+n), mEv=ev.slice(idx,idx+n); idx+=n;
+    if(m.grouping && m.grouping.length){ let acc=0;
+      m.grouping.forEach(gs=>{ const a=base+acc, b=a+gs*0.5; acc+=gs*0.5;
+        const sel=mEls.filter((e,i)=>mEv[i].onsetQ>=a-1e-6 && mEv[i].onsetQ<b-1e-6); if(!sel.length) return;
+        let x0=1e9,x1=-1e9,y0=1e9; sel.forEach(e=>{ try{ const bb=e.getBBox(); x0=Math.min(x0,bb.x); x1=Math.max(x1,bb.x+bb.width); y0=Math.min(y0,bb.y); }catch(_){} });
+        if(x1<x0) return; const cx=(x0+x1)/2;
+        beams.forEach(bm=>{ if(bm.x<x1 && bm.x+bm.width>x0 && bm.y<y0 && bm.y>y0-80) y0=Math.min(y0,bm.y); });   // por encima de las barras de corchete
+        let st=null, best=1e9; staves.forEach(sb=>{ if(cx<sb.x-2 || cx>sb.x+sb.width+2) return; const d=Math.abs((sb.y+sb.height/2)-(y0+24)); if(d<best){ best=d; st=sb; } });
+        const yb=Math.min(y0, st?st.y:y0)-7;
+        const path=document.createElementNS(NS,'path');
+        path.setAttribute('d', gs===3 ? `M${cx-7} ${yb}L${cx+7} ${yb}L${cx} ${yb-12}Z` : `M${cx-7} ${yb-12}L${cx-7} ${yb}L${cx+7} ${yb}L${cx+7} ${yb-12}`);
+        path.setAttribute('fill','none'); path.setAttribute('stroke','#16a34a'); path.setAttribute('stroke-width','2.4'); path.setAttribute('stroke-linejoin','round'); path.setAttribute('stroke-linecap','round');
+        G.appendChild(path); });
+    }
+    base+=meterCapQ(m.time);
+  }));
+  svg.appendChild(G);
+}
+/* FASE 4 · «que se marquen en azul las notas que va a tocar el piano» (según la ayuda que le toque a cada pentagrama) */
+function rpMarcaAyuda(pi){
+  const lvl=PR.nivel[pi]||'none';
+  (PR.pts||[]).forEach(p=>{ if(p.pi!==pi) return; let suena=false;
+    if(lvl==='every1') suena=true; else if(lvl==='every2') suena=(p.pos%2===0); else if(lvl==='sysStart') suena=(p.pos===0);
+    const g=PR.els&&PR.els[p.n.i]; if(g) g.classList.toggle('rp-va', suena); });
+}
 
 /* ---------- reloj de la fase (al lado de «Pasar a la siguiente fase») ---------- */
 let rpUlt=performance.now();
@@ -6776,7 +6894,10 @@ function rpEncaja(){
   const n=x=>parseFloat(x)||0;
   const top=rS.top+window.scrollY, extraSw=rS.height-rC.height;
   const padV=n(csC.paddingTop)+n(csC.paddingBottom), padHc=n(csC.paddingLeft)+n(csC.paddingRight), padHw=n(csW.paddingLeft)+n(csW.paddingRight), padHa=n(csA.paddingLeft)+n(csA.paddingRight);
-  const hSvg=H-top-extraSw-12-padV;
+  /* (20-nov-2026, 10:06, Iago) «prefiero que se vea la barra de abajo (velocidad, subdivisión…) sin scrollear, aunque la partitura sea más pequeña» */
+  const pc=document.getElementById('phaseControls'); let abajo=12, pcH=0;
+  if(pc && getComputedStyle(pc).display!=='none' && pc.offsetHeight>0){ pcH=pc.offsetHeight; abajo+=pcH+Math.max(0,Math.min(40,pc.getBoundingClientRect().top-rS.bottom)); }
+  const hSvg=H-top-extraSw-abajo-padV;
   const wSvgW=(W-2*M)-padHa-padHw-padHc, wSvgH=hSvg*v[2]/v[3];
   const wSvg=Math.max(Math.min(wSvgW,wSvgH), Math.min(wSvgW,480));
   const swW=Math.round(wSvg+padHc+padHw), appW=Math.min(W-2*M, Math.max(swW+padHa, FILA));
@@ -6785,7 +6906,7 @@ function rpEncaja(){
   B.classList.add('rp-tit');
   const tb=document.querySelector('.app-topbar .ritmo-home'), tw=tb?tb.getBoundingClientRect().width:9999;
   if(!(tw>0 && 18+tw+14 <= (W-appW)/2+n(csA.paddingLeft))) B.classList.remove('rp-tit');
-  if(!rpEncaja._re && Math.abs(sw.getBoundingClientRect().top+window.scrollY-top)>2){ rpEncaja._re=true; try{ rpEncaja(); }finally{ rpEncaja._re=false; } return; }   // la fila de arriba cambió de alto: otra pasada
+  if(!rpEncaja._re && (Math.abs(sw.getBoundingClientRect().top+window.scrollY-top)>2 || (pc && Math.abs((pc.offsetHeight||0)-pcH)>2))){ rpEncaja._re=true; try{ rpEncaja(); }finally{ rpEncaja._re=false; } return; }   // la fila de arriba cambió de alto: otra pasada
   if(RP_ANOT_CTL && RP_ANOT_CTL.refit) requestAnimationFrame(()=>RP_ANOT_CTL && RP_ANOT_CTL.refit && RP_ANOT_CTL.refit());
 }
 window.addEventListener('resize',()=>{ clearTimeout(rpEncaja._t); rpEncaja._t=setTimeout(rpEncaja,120); });
@@ -6795,7 +6916,7 @@ function rpTrasFase(ph){
   rpAnotarMontar_(); setTimeout(rpEncaja,0);
   const st=document.getElementById('phaseScaleTop'); if(st && ph.kind==='entonacion'){ st.style.display='none'; st.onclick=null; }
   rpPistaModo=false;
-  rpEntTools(ph.kind==='entonacion');
+  rpEntTools(ph.kind==='entonacion'); rpPatronBtn(ph.kind==='lectura');
   if(ph.kind==='entonacion'){ rpPistasPinta(); rpPistasUI(); if(RPMIC.ready) rpMicEstado('ok'); }
   rpRelojUI();
 }
@@ -7457,7 +7578,7 @@ function rpEntrarPrueba(desde){
   renderPhaseSteps();
   const playTop=document.getElementById('phasePlayTop'), st=document.getElementById('phaseScaleTop'), nx=document.getElementById('phaseNextTop');
   if(st){ st.style.display='none'; st.onclick=null; } if(nx) nx.style.display='none';
-  rpEntTools(false);
+  rpEntTools(false); rpPatronBtn(false); if(rpSubFase!=='prueba'){ rpSubFase='prueba'; subMode='pulso'; }
   if(playTop){ playTop.style.display='inline-flex'; activePlayBtn=playTop; setPlayState(false); playTop.onclick=()=>rpEmpezar(); playTop.setAttribute('data-tip','Empezar / parar. También con la barra espaciadora'); }
   phasePlay=()=>rpEmpezar();
   // abajo: el micrófono y la velocidad
@@ -7470,7 +7591,8 @@ function rpEntrarPrueba(desde){
     const scrim=document.createElement('div'); scrim.className='phase-cardscrim rp-cartel';
     const card=document.createElement('div'); card.className='phase-banner';
     const k=[rpMotivo, (PR.desde==='fases'?'Fase 4':'')].filter(Boolean).join(' · '); rpMotivo='';
-    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha y el piano te dará la primera nota. Según cómo lo vayas haciendo, frase a frase, te ayudará más o menos. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
+    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha. Al empezar solo oirás la tónica; después, el piano se adapta a cómo lo hagas, pentagrama a pentagrama: si vas bien, te deja solo; si te cuesta, te irá dando notas, y las que va a tocar se marcan antes en azul. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
+    if(!(currentLesson&&currentLesson.fusaN)) card.appendChild(rpVelAviso());
     const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go'; go.textContent='Entendido';
     go.onclick=()=>scrim.remove(); okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
   }
@@ -7492,7 +7614,7 @@ function rpMicEstado(e){ const el=document.getElementById('rpMic'); if(!el) retu
   if(e==='ok') rpMicMedidor=setInterval(()=>{ const n=document.querySelector('#rpMic .rp-mic-n i'); if(!n||!studyMode||!RPMIC.ready){ clearInterval(rpMicMedidor); rpMicMedidor=null; return; }
     const r=rpRawRms(); n.style.width=Math.min(100,Math.round(Math.sqrt(r)*260))+'%'; },120);
 }
-function rpLimpiaColores(){ document.querySelectorAll('#score g.vf-stavenote').forEach(g=>g.classList.remove('rp-ok','rp-casi','rp-mal','rp-ayuda')); }
+function rpLimpiaColores(){ document.querySelectorAll('#score g.vf-stavenote').forEach(g=>g.classList.remove('rp-ok','rp-casi','rp-mal','rp-ayuda','rp-va')); }
 function rpCortaTodo(){ (PR.timers||[]).forEach(id=>clearTimeout(id)); PR.timers=[]; if(PR.anal){ clearInterval(PR.anal); PR.anal=null; } }
 
 async function rpEmpezar(){
@@ -7509,7 +7631,7 @@ async function rpEmpezar(){
   play(opts); setPlayState(true);
   const A=playAnchor; if(!A){ setPlayState(false); return; }
   PR.running=true; PR.cortada=false; PR.els=els; PR.body=A.accStart; PR.inicio=A.accStart; PR.acc={}; PR.revisado={}; PR.helpGiven=0;
-  PR.nivel={}; PR.nivel[0]='sysStart';
+  PR.nivel={}; PR.nivel[0]='none';   // (20-nov-2026, Iago) «al principio solo vas a escuchar la tónica; luego el piano se adecuará»
   const q2s=(q)=>A.qToSec(q)-A.baseSec;
   // notas puntuables: las ligadas se juntan con la nota de la que salen
   PR.notes=[];
@@ -7532,7 +7654,7 @@ async function rpEmpezar(){
       const g=PR.els[p.n.i]; if(g){ g.classList.add('rp-ayuda'); setTimeout(()=>g.classList.remove('rp-ayuda'),700); }
     }, Math.max(0,ms)));
   });
-  PR.nPts=pts.length;
+  PR.nPts=pts.length; PR.pts=pts; rpMarcaAyuda(0);
   PR.anal=setInterval(rpAnaliza,60);
 }
 function rpAnaliza(){
@@ -7558,7 +7680,7 @@ function rpAnaliza(){
     const pct=Math.round(100*green/ns.length), pocaVoz=vozN<ns.length*0.2;
     if(pct<30 && !pocaVoz && s<Math.max(...pis)){ rpFin(true,false); return; }
     const sig=pis[pis.indexOf(s)+1]; if(sig==null) continue;
-    PR.nivel[sig]= pct>=90?'none' : pct>=70?'sysStart' : pct>=50?'every2' : 'every1';
+    PR.nivel[sig]= pct>=90?'none' : pct>=70?'sysStart' : pct>=50?'every2' : 'every1'; rpMarcaAyuda(sig);
   }
 }
 function rpResuelve(){
@@ -7583,6 +7705,7 @@ function rpFin(cortada, abandonada){
   const conVoz=hasta.filter(n=>n.voiced).length, micProb=conVoz<Math.max(1,hasta.length*0.15);
   if(!micProb && typeof VT!=='undefined' && VT){ VT.micOk=true; VT.prueba=(VT.prueba||0)+sonado; }
   if(abandonada){ rpLimpiaColores(); return; }
+  document.querySelectorAll('#score g.vf-stavenote.rp-va').forEach(g=>g.classList.remove('rp-va'));
   PR.notes.forEach(n=>n.els.forEach(i=>{ const g=PR.els[i]; if(g) g.classList.add(n.res==='green'?'rp-ok':n.res==='amber'?'rp-casi':'rp-mal'); }));
   const pct=Math.round(100*PR.notes.filter(n=>n.res==='green').length/Math.max(1,PR.notes.length));
   rpResultado(pct, micProb, cortada, rpAyudaTxt());
