@@ -22,7 +22,7 @@ Antes de subir nada: mira el último commit y añade aquí tu huella (quién ere
     justos como el del aula; forzar con ?hd=1440 / ?hd=1080). Mismo contenido. No toca el index.html de la raíz.
   - Último commit visto: 903b2c3. Subido por tandas, las 8 intros. Para volver al vídeo de antes en una carta: git revert de su commit
     (o en su index.html, VIDEO_MP4 al fichero que se quiera).
-- 2026-11-20 08:45 · Conversación «Ritmo entonado con micrófono + reparto azul/verde» · EN CURSO
+- 2026-11-20 08:45 · Conversación «Ritmo entonado con micrófono + reparto azul/verde» · HECHO 09:58 · commit fd6f623 (Iago vio las pantallas y dio el OK). Diseño reutilizable en _DISENO-ESTUDIO-POR-FASES.md. Deshacer: index.html de cfaab1b
   - Va a tocar en index.html: estudio por fases (fase 1 percusión sin límite + anotar · fase 2 ritmo con la mano 2 min · fase 3 entonación 3 min con tónica/escala/arpegio · al acabar, partitura en blanco), «Prueba entonada» con micrófono (motor de Entonación at home) también desde «Prueba directa», y el bloque TIEMPO VÁLIDO (VT_*, p_detalle por fases).
   - Fuera de este repo: Supabase (_suite_area_de, _suite_min_areas, suite_pulso_listar, multiplicador; copias en suite_backups_funciones 57–62) y en LMEAVathome piel/pulso.js y piel/avisos/actitud/real.html.
   - No se publica index.html hasta que Iago vea la pantalla. Último commit visto: 3f51461.

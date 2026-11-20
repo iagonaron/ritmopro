@@ -7,6 +7,10 @@ nombres de función o el comentario «(20-nov-2026».
 
 ## 1. Las 4 fases
 
+> **Diferencia con el visor de lecciones del portal (Iago, 20-nov 09:56):** aquí, en Ritmo entonado at home, cada fase tiene su
+> tiempo (3′ · 2′ · 3′) con reloj y paso automático. En el visor del portal NO hay tiempos: el alumno está en cada fase lo que
+> quiera, sin reloj, y pasa de fase solo con «Pasar a la siguiente fase».
+
 | Fase | Nombre | Tiempo | Qué hace |
 |---|---|---|---|
 | 1 | Percusión | 3 min | Percute con la barra espaciadora (cabezas en X) y anota |
