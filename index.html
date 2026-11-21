@@ -4436,7 +4436,10 @@ function rltPlaceName(svg,name){
 function claveRuletaLesson(container,svg,L){
   if(L.__rltName){ rltPlaceName(svg,L.__rltName); return; }   // re-render (fases): nombre ya decidido
   const NAMES=['do','re','mi','fa','sol','la','si'];
-  const target=Math.floor(Math.random()*7);
+  let target=Math.floor(Math.random()*7);
+  /* (21-nov-2026, Iago 17:09) con sin-clave.js la primera nota ya tiene nombre real (nunca el de sol ni el de fa en 4.ª): la ruleta cae ahí */
+  try{ if(L.__sinClave){ let n0=null; L.phrases[0].measures.some(m=>m.notes.some(n=>{ if(!n.rest&&!n.barline&&n._keyReal){ n0=n; return true; } return false; }));
+    if(n0){ const ix='cdefgab'.indexOf(n0._keyReal.charAt(0)); if(ix>=0) target=ix; } } }catch(e){}
   container.style.position='relative';
   const ov=document.createElement('div');
   ov.style.cssText='position:absolute;inset:0;display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;background:rgba(255,252,244,.94);z-index:8;border-radius:12px;opacity:0;transition:opacity .35s ease;';
@@ -4492,6 +4495,7 @@ function renderLesson(container,L){
     const _noM=(ln)=>_sinCompas(ln.pi);   // (6-nov-2026) pentagrama sin compás: sin cortesía
     const meterChange = nx.ms[0].time !== cur.ms[lastIdx].time && !_noM(cur) && !_noM(nx);
     let extra=0; if(clefChange) extra+=26;
+    if(nx.clef==='none' && cur.clef!=='none') extra+=36;   /* (21-nov-2026, Iago 17:09) sin clave: hueco para la nota de referencia y su nombre */
     if(meterChange){ const nxM=nx.ms[0]; const stx=nxM.fracSig?nxM.fracSig[0]:(nxM.sigText||nxM.time);
       const dg=Math.max.apply(null,stx.split('/').map(x=>String(x).length));
       extra += 6+13*dg + (nxM.fracSig?31:0); }
@@ -4602,7 +4606,24 @@ function renderLesson(container,L){
       const topY=lastStave.getYForLine(0);
       let gx = x - (ln._endExtra||0) + 4;                 // DENTRO del último compás, antes de la barra
       // clave de cortesía
-      if(nx.clef!==ln.clef){ try{ const code=CLEF_GLYPH[nx.clef]; if(code){ const cy = nx.clef==='treble'?lastStave.getYForLine(3): nx.clef==='bass'?lastStave.getYForLine(1):lastStave.getYForLine(2); VF.Glyph.renderGlyph(ctx, gx, cy, 28, code); gx+=24; } }catch(e){} }
+      /* (21-nov-2026, Iago 17:09) SIN CLAVE: clave tachada + la primera nota de la parte sin clave, con su nombre debajo */
+      if(nx.clef==='none' && ln.clef!=='none'){ try{
+        const P=L.phrases[nx.pi]; let n0=null; P.measures.some(m=>m.notes.some(n=>{ if(!n.rest&&!n.barline&&n.key){ n0=n; return true; } return false; }));
+        const cy=lastStave.getYForLine(3); VF.Glyph.renderGlyph(ctx, gx, cy, 28, 'gClef');
+        ctx.save(); ctx.setStrokeStyle('#1a2233'); ctx.setLineWidth(1.8); ctx.beginPath(); ctx.moveTo(gx-2, lastStave.getYForLine(4)+9); ctx.lineTo(gx+19, lastStave.getYForLine(0)-9); ctx.stroke(); ctx.restore();
+        gx+=26;
+        if(n0){ const m=/^([a-g])(#|b|n)?\/(\d)$/.exec(n0.key); if(m){ const Dd=(+m[3])*7+'cdefgab'.indexOf(m[1]); const line=(38-Dd)/2; const ny=lastStave.getYForLine(line);
+          if(m[2]==='#'||m[2]==='b'){ VF.Glyph.renderGlyph(ctx, gx, ny, 34, m[2]==='#'?'accidentalSharp':'accidentalFlat'); gx+=9; }
+          ctx.save(); ctx.setStrokeStyle('#1a2233'); ctx.setLineWidth(1.2);
+          for(let l=-1; l>=Math.ceil(line-0.01); l--){ const yy=lastStave.getYForLine(l); ctx.beginPath(); ctx.moveTo(gx-3,yy); ctx.lineTo(gx+14,yy); ctx.stroke(); }
+          for(let l=5; l<=Math.floor(line+0.01); l++){ const yy=lastStave.getYForLine(l); ctx.beginPath(); ctx.moveTo(gx-3,yy); ctx.lineTo(gx+14,yy); ctx.stroke(); }
+          ctx.restore();
+          VF.Glyph.renderGlyph(ctx, gx, ny, 38, 'noteheadBlack');
+          const nom=(typeof window.rpNombreNota==='function')?window.rpNombreNota(n0._keyReal||n0.key):'';
+          ctx.save(); ctx.setFont('Arial',11,'bold'); ctx.setFillStyle('#1a2233'); const yN=Math.max(lastStave.getYForLine(4), ny)+20; ctx.fillText(nom, gx+5-nom.length*3.2, yN); ctx.restore();
+          gx+=26; } }
+      }catch(e){ console.warn('[sin clave] aviso',e); } }
+      else if(nx.clef!==ln.clef){ try{ const code=CLEF_GLYPH[nx.clef]; if(code){ const cy = nx.clef==='treble'?lastStave.getYForLine(3): nx.clef==='bass'?lastStave.getYForLine(1):lastStave.getYForLine(2); VF.Glyph.renderGlyph(ctx, gx, cy, 28, code); gx+=24; } }catch(e){} }
       // compás de cortesía
       if(nextMeter!==curMeter){
         const nxM=nx.ms[0];
@@ -14749,7 +14770,8 @@ Object.keys(M1DEFS).forEach(function(aid){
 <!-- (20-nov-2026, Iago) ajustes comunes del estudio por fases (los mismos que el visor de lecciones del libro). Deshacer: borrar esta línea -->
 <!-- (21-nov-2026, Iago) Combina mundos con forma de examen (2, 3 o 4 mundos, o solo el mundo 2 lleno de grupos) + matices y articulación en las lecciones generadas. + la claqueta sigue a las equivalencias (pulso-relativo.js). Deshacer: borrar estas tres líneas -->
 <script src="combina-examen.js?v=1"></script>
-<script src="matices.js?v=1"></script>
+<script src="sin-clave.js?v=1"></script><!-- (21-nov-2026, Iago 17:09) sin clave con nota de referencia. Deshacer: borrar esta línea (y el bloque «SIN CLAVE» de renderLesson queda sin efecto) -->
+<script src="matices.js?v=2"></script>
 <script src="pulso-relativo.js?v=1"></script>
 <script src="dado.js?v=1"></script><!-- (21-nov-2026, Iago) el dado para todos los alumnos; «Prueba directa» solo para él. Deshacer: borrar esta línea -->
 <script src="https://ge.lmathome.es/piel/estudio-comun.js?v=10"></script>
