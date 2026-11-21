@@ -68,12 +68,43 @@
         var alturas = {}; xs.forEach(function(x){ alturas[x.n.midi] = 1; }); return Object.keys(alturas).length >= 2; };
       var pon = function(xs){ xs.forEach(function(x){ enSl[u(x)] = 1; marca(x); }); M.slur.push([[xs[0].pi, xs[0].mi, xs[0].k], [xs[xs.length - 1].pi, xs[xs.length - 1].mi, xs[xs.length - 1].k]]); };
       var intenta = function(xs){ while (xs.length >= 2 && !sirve(xs)) xs = xs.slice(0, -1); if (xs.length >= 2) { pon(xs); return xs.length; } return 0; };
+      /* SÍNCOPAS (21-nov-2026, Iago 18:52: «las síncopas las ligues y no hagas ligaduras que deshagan lo visual de las síncopas»).
+         Corta-larga-corta (la larga del doble y cruzando la parte), también con ligadura de unión o con la última corta partida
+         (♪ ♩ ♬). En compases compuestos e irregulares, solo la de semicorchea (♬ dentro de la corchea). Cada una lleva SU ligadura
+         y sus notas no entran en las ligaduras de frase (ninguna la parte). */
+      var enSinc = {};
+      for (var ps = 0; ps < n; ps++) L.phrases[ps].measures.forEach(function(m, mi){
+        var t = m.time || L.phrases[ps].time; if (!t || typeof t !== 'string') return; var nd = t.split('/').map(Number), num = nd[0], den = nd[1];
+        var soloSemi = (den === 8 && num % 3 === 0) || ((den === 8 || den === 16) && num !== 2 && num !== 4);
+        var us = [], pos = 0, ok = true;
+        m.notes.forEach(function(nn, k){ if (nn.barline) return; var d = DUR[nn.dur]; if (d == null) { ok = false; return; }
+          var cont = nn.tieFrom != null || (m.ties || []).some(function(pp){ return pp[1] === k; });
+          if (cont && us.length && !us[us.length - 1].rest) { us[us.length - 1].d += d; us[us.length - 1].ks.push(k); }
+          else us.push({ p: pos, d: d, ks: [k], rest: !!nn.rest });
+          pos += d; });
+        if (!ok) return;
+        var gidx = ((m.groupInfo && m.groupInfo.idx) ? m.groupInfo.idx : []).concat.apply([], (m.tuplets || []).map(function(tp){ return tp.idx || []; }));   // (no dentro de tresillos, cinquillos…)
+        for (var a = 0; a + 2 < us.length; a++) {
+          var u0 = us[a], u1 = us[a + 1], sd = u0.d;
+          if (u0.rest || u1.rest || Math.abs(u1.d - 2 * sd) > 1e-6 || (soloSemi && sd > 0.25 + 1e-6)) continue;
+          var q0 = u0.p / (2 * sd); if (Math.abs(q0 - Math.round(q0)) > 1e-6) continue;
+          var acc = 0, b = a + 2, ks = [];
+          while (b < us.length && acc < sd - 1e-6 && !us[b].rest) { acc += us[b].d; ks = ks.concat(us[b].ks); b++; }
+          if (Math.abs(acc - sd) > 1e-6) continue;
+          var todos = u0.ks.concat(u1.ks, ks);
+          if (todos.some(function(k){ return gidx.indexOf(k) >= 0; })) continue;
+          todos.forEach(function(k){ enSinc[ps + '.' + mi + '.' + k] = 1; });
+          var xs = todos.filter(function(k){ var nn = m.notes[k]; return nn.tieFrom == null && !(m.ties || []).some(function(pp){ return pp[1] === k; }); })
+                        .map(function(k){ return { pi: ps, mi: mi, k: k, n: m.notes[k], m: m }; });
+          if (sirve(xs)) pon(xs);   // (si son todas la misma nota, sin ligadura: parecería de unión; pero tampoco la corta ninguna)
+          a = b - 1; }
+      });
       for (var pi = 0; pi < n; pi++) {
         var tramos = [[]], grupoDe = {};
         L.phrases[pi].measures.forEach(function(m, mi){
           (m.beams || []).forEach(function(bm, gi){ (bm || []).forEach(function(k){ grupoDe[mi + '.' + k] = mi + ':' + gi; }); });
           m.notes.forEach(function(nn, k){ if (nn.barline) return;
-            if (nn.rest) { if (tramos[tramos.length - 1].length) tramos.push([]); return; }
+            if (nn.rest || enSinc[pi + '.' + mi + '.' + k]) { if (tramos[tramos.length - 1].length) tramos.push([]); return; }   // las síncopas cortan las ideas
             if (nn.tieFrom != null) return;   // continuación de una ligadura de unión: no corta, no es extremo
             tramos[tramos.length - 1].push({ pi: pi, mi: mi, k: k, n: nn, m: m, g: grupoDe[mi + '.' + k] || ('s' + mi + '.' + k) }); }); });
         var total = 0; tramos.forEach(function(t){ total += t.length; }); var tope = Math.ceil(total * 0.75), cubiertas = 0;

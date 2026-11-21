@@ -40,3 +40,6 @@ Antes de subir nada: mira el último commit y añade aquí tu huella (quién ere
 - 2026-11-21 18:45 · Conversación «Examen ampliación 2GP» (Claude) · HECHO (esta subida) · Iago 18:38: «Publica las ligaduras en las dos apps».
   - matices.js: LIGADURAS DE EXPRESIÓN por ideas musicales (frases, semifrases, motivos), como en Ritmo 4 y Ritmo 6 de Tordesillas; dibujo que salva cabezas, plicas, barras y NO TAPA los números/corchetes de grupos de valoración especial (si no cabe, esa ligadura no se dibuja). index.html: matices.js?v=3 (para no quedarse con la versión en caché).
   - Deshacer: matices.js del commit 4eecaec (y v=2 en index.html) o «Revert» del commit.
+- 2026-11-21 19:05 · Conversación «Examen ampliación 2GP» (Claude) · HECHO (esta subida) · Iago 19:01: «Publica las síncopas en las dos apps».
+  - matices.js: cada SÍNCOPA (corta-larga-corta; también ligada o con la última corta partida; en compuestos/irregulares solo la de semicorchea) lleva su propia ligadura y ninguna ligadura de frase la corta. index.html: matices.js?v=4.
+  - Deshacer: matices.js del commit 47d0a1f (y v=3) o «Revert».
