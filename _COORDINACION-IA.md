@@ -43,3 +43,6 @@ Antes de subir nada: mira el último commit y añade aquí tu huella (quién ere
 - 2026-11-21 19:05 · Conversación «Examen ampliación 2GP» (Claude) · HECHO (esta subida) · Iago 19:01: «Publica las síncopas en las dos apps».
   - matices.js: cada SÍNCOPA (corta-larga-corta; también ligada o con la última corta partida; en compuestos/irregulares solo la de semicorchea) lleva su propia ligadura y ninguna ligadura de frase la corta. index.html: matices.js?v=4.
   - Deshacer: matices.js del commit 47d0a1f (y v=3) o «Revert».
+- 2026-11-21 19:25 · Conversación «Examen ampliación 2GP» (Claude) · HECHO (esta subida) · Iago 19:21: «Publica la clave de do y el arreglo de ligaduras».
+  - matices.js: cada ligadura solo mira números/corchetes/barras de SU pentagrama (antes cogía el corchete de un tresillo del pentagrama vecino y salía una ligadura en S); ninguna empieza ni acaba a mitad de un grupo de valoración especial; control final (punta a más de 30 px de su nota → no se dibuja). index.html: matices.js?v=5.
+  - Deshacer: matices.js del commit d233077 (y v=4) o «Revert».

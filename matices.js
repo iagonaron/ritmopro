@@ -106,7 +106,14 @@
           m.notes.forEach(function(nn, k){ if (nn.barline) return;
             if (nn.rest || enSinc[pi + '.' + mi + '.' + k]) { if (tramos[tramos.length - 1].length) tramos.push([]); return; }   // las síncopas cortan las ideas
             if (nn.tieFrom != null) return;   // continuación de una ligadura de unión: no corta, no es extremo
-            tramos[tramos.length - 1].push({ pi: pi, mi: mi, k: k, n: nn, m: m, g: grupoDe[mi + '.' + k] || ('s' + mi + '.' + k) }); }); });
+            var tg = null; if (m.groupInfo && (m.groupInfo.idx || []).indexOf(k) >= 0) tg = mi + ':G'; (m.tuplets || []).forEach(function(tp, ti){ if ((tp.idx || []).indexOf(k) >= 0) tg = mi + ':T' + ti; });
+            tramos[tramos.length - 1].push({ pi: pi, mi: mi, k: k, n: nn, m: m, tg: tg, g: grupoDe[mi + '.' + k] || ('s' + mi + '.' + k) }); }); });
+        tramos.forEach(function(t){ t.forEach(function(x, i){ x.t = t; x.ti = i; }); });
+        // (Iago 19:13) ninguna ligadura empieza ni acaba a mitad de un tresillo, cinquillo…: lo abarca entero o no lo toca
+        var entero = function(xs){ if (!xs.length) return xs; var a3 = 0, b3 = xs.length - 1;
+          while (a3 < xs.length && xs[a3].tg && xs[a3].ti > 0 && xs[a3].t[xs[a3].ti - 1].tg === xs[a3].tg) a3++;
+          while (b3 >= a3 && xs[b3].tg && xs[b3].ti + 1 < xs[b3].t.length && xs[b3].t[xs[b3].ti + 1].tg === xs[b3].tg) b3--;
+          return xs.slice(a3, b3 + 1); };
         var total = 0; tramos.forEach(function(t){ total += t.length; }); var tope = Math.ceil(total * 0.75), cubiertas = 0;
         tramos.forEach(function(t){
           // 1) cortar el tramo en ideas
@@ -127,9 +134,9 @@
             if (r() < 0.2) return;   // alguna idea sin ligadura (despegada: ahí caben los picados)
             if (id.length >= 6 && r() < 0.25) {
               var a2 = 0; while (a2 < id.length) { var b2 = a2; while (b2 + 1 < id.length && id[b2 + 1].g === id[a2].g) b2++;
-                if (b2 > a2 && id[a2].g.charAt(0) !== 's') cubiertas += intenta(id.slice(a2, Math.min(id.length, b2 + 2)));   // el grupo y su nota de llegada
+                if (b2 > a2 && id[a2].g.charAt(0) !== 's') cubiertas += intenta(entero(id.slice(a2, Math.min(id.length, b2 + 2))));   // el grupo y su nota de llegada
                 a2 = b2 + 1; } return; }
-            if (id.length >= 3 || (id.length === 2 && r() < 0.3)) { if (r() < 0.88) cubiertas += intenta(id.slice()); } }); });
+            if (id.length >= 3 || (id.length === 2 && r() < 0.3)) { if (r() < 0.88) cubiertas += intenta(entero(id.slice())); } }); });
       }
       // picados: un grupo de 2-3 notas iguales (corcheas, negras o semicorcheas sueltas) en casi cada pentagrama
       var nStG = Math.max(3, n - 1), grupos = 0;
@@ -206,7 +213,11 @@
       var obst = []; (function busca(el){ Array.prototype.forEach.call(el.children, function(c){ var cl = c.getAttribute('class') || '';
         if (cl) return; if (c.tagName === 'g') { busca(c); return; } if (['path','rect','text'].indexOf(c.tagName) < 0) return;
         try { var ob = c.getBBox(); if (ob.width < 120 && ob.height < 40 && (ob.width > 0 || ob.height > 0)) obst.push(ob); } catch (e) {} }); })(svg);
+      // (Iago 19:13) filas de pentagrama: cada ligadura solo mira los números, corchetes y barras de SU pentagrama (no los del de al lado)
+      var filas = []; staves.forEach(function(sb){ if (!filas.some(function(f){ return Math.abs(f.y - sb.y) < 4; })) filas.push({ y: sb.y, h: sb.height }); });
+      var filaDe = function(yc){ var bi = -1, bd = 1e9; filas.forEach(function(f, i){ var d = yc < f.y ? f.y - yc : (yc > f.y + f.h ? yc - (f.y + f.h) : 0); if (d < bd) { bd = d; bi = i; } }); return bi; };
       (M.slur || []).forEach(function(t){ var a = info(t[0]), b = info(t[1]); if (!a || !b || Math.abs(a.st.y - b.st.y) > 4) return;
+        var miFila = filaDe(a.st.y + a.st.height / 2); var deMiFila = function(bb){ return filaDe(bb.y + bb.height / 2) === miFila; };
         var i0 = idx[t[0].join('.')], i1 = idx[t[1].join('.')];
         var arr = 0, abj = 0, dir = {};
         for (var k0 = i0; k0 <= i1; k0++) { var d0 = dirPlica(els[k0]); if (d0 > 0) { arr++; dir[k0] = 1; } else if (d0 < 0) { abj++; dir[k0] = -1; } }
@@ -220,15 +231,15 @@
           var cima = function(k){ var eb = els[k].getBBox(), y = eb.y, hb = cabeza(els[k]); plicas.forEach(function(p){ if (p.x >= hb.x - 2.5 && p.x <= hb.x + hb.width + 2.5 && hb.y + hb.height / 2 >= p.y - 4 && hb.y + hb.height / 2 <= p.y + p.height + 4) y = Math.min(y, p.y); }); return y; };
           y1 = (dir[i0] === 1 ? cima(i0) : a.b.y) - 3; y2 = (dir[i1] === 1 ? cima(i1) : b.b.y) - 3;
           for (var k3 = i0 + 1; k3 < i1; k3++) pts.push({ x: cen(els[k3].getBBox()), y: cima(k3) - 3 });
-          beams.forEach(function(bb){ if (bb.x + bb.width < x1 || bb.x > x2 || bb.y > a.st.y + a.st.height + 40 || bb.y + bb.height < a.st.y - 40) return; pts.push({ x: Math.max(x1, bb.x), y: bb.y - 3 }); pts.push({ x: Math.min(x2, bb.x + bb.width), y: bb.y - 3 }); });
+          beams.forEach(function(bb){ if (!deMiFila(bb) || bb.x + bb.width < x1 || bb.x > x2 || bb.y > a.st.y + a.st.height + 40 || bb.y + bb.height < a.st.y - 40) return; pts.push({ x: Math.max(x1, bb.x), y: bb.y - 3 }); pts.push({ x: Math.min(x2, bb.x + bb.width), y: bb.y - 3 }); });
         }
         // (Iago 18:38: «no tapar el número de valoración especial») si un extremo cae bajo un corchete o número de grupo, la ligadura arranca por fuera
-        var mg = 5;
-        obst.forEach(function(ob){ var cy = ob.y + ob.height / 2; if (cy < a.st.y - 60 || cy > a.st.y + a.st.height + 60) return;
+        var mg = 5, y1o = y1, y2o = y2;
+        obst.forEach(function(ob){ var cy = ob.y + ob.height / 2; if (!deMiFila(ob) || cy < a.st.y - 60 || cy > a.st.y + a.st.height + 60) return;
           [[x1, 1], [x2, 2]].forEach(function(e){ if (ob.x > e[0] + 7 || ob.x + ob.width < e[0] - 7) return;
             if (dy < 0) { var ye = e[1] === 1 ? y1 : y2; if (cy < ye + 8) { if (e[1] === 1) y1 = Math.min(y1, ob.y - mg); else y2 = Math.min(y2, ob.y - mg); } }
             else { var ye2 = e[1] === 1 ? y1 : y2; if (cy > ye2 - 8) { if (e[1] === 1) y1 = Math.max(y1, ob.y + ob.height + mg); else y2 = Math.max(y2, ob.y + ob.height + mg); } } }); });
-        obst.forEach(function(ob){ if (ob.x + ob.width < x1 - 4 || ob.x > x2 + 4) return; var cy = ob.y + ob.height / 2;
+        obst.forEach(function(ob){ if (!deMiFila(ob) || ob.x + ob.width < x1 - 4 || ob.x > x2 + 4) return; var cy = ob.y + ob.height / 2;
           if (dy < 0) { if (cy < a.st.y - 50 || cy > a.st.y + a.st.height + 10 || ob.y + ob.height > Math.max(y1, y2) + 12) return; pts.push({ x: Math.max(x1, ob.x - 3), y: ob.y - mg }); pts.push({ x: Math.min(x2, ob.x + ob.width + 3), y: ob.y - mg }); }
           else { if (cy < a.st.y || cy > a.st.y + a.st.height + 50 || ob.y < Math.min(y1, y2) - 12) return; pts.push({ x: Math.max(x1, ob.x - 3), y: ob.y + ob.height + mg }); pts.push({ x: Math.min(x2, ob.x + ob.width + 3), y: ob.y + ob.height + mg }); } });
         // altura justa para salvarlo todo: y(t) = base suave entre y1 e y2 + 3t(1-t)·h (puntos de control a 1/3 y 2/3: x lineal en t)
@@ -243,6 +254,7 @@
           var mejor = [y1, y2, hh];
           for (var lv = 0; lv <= 14; lv += 2) { [[y1 + dy * lv, y2 + dy * lv]].concat([[sube(x1, y1 + dy * lv), sube(x2, y2 + dy * lv)]]).forEach(function(c){ var h4 = altura(c[0], c[1]) + Math.abs(c[0] - y1) * 0.15 + Math.abs(c[1] - y2) * 0.15; if (h4 < mejor[2]) mejor = [c[0], c[1], h4]; }); }
           y1 = mejor[0]; y2 = mejor[1]; hh = altura(y1, y2); }
+        if (Math.abs(y1 - y1o) > 30 || Math.abs(y2 - y2o) > 30 || x2 - x1 < 8) { (window.__rpSlurRara = (window.__rpSlurRara || 0) + 1); return; }   /* (Iago 19:13) punta lejos de su nota o ligadura rara: no se dibuja */
         if (hh > 46) { (window.__rpSlurSkip = (window.__rpSlurSkip || 0) + 1); return; }   /* no cabe sin tapar números o pisar el pentagrama de al lado: mejor sin ligadura */ var h = hh * dy, c1 = x1 + largo / 3, c2 = x1 + 2 * largo / 3, gr = 1.6 * dy;
         var p = add('path', { d: 'M' + x1 + ' ' + y1 + ' C' + c1 + ' ' + (y1 + h) + ' ' + c2 + ' ' + (y2 + h) + ' ' + x2 + ' ' + y2 + ' C' + c2 + ' ' + (y2 + h + gr) + ' ' + c1 + ' ' + (y1 + h + gr) + ' ' + x1 + ' ' + y1 + ' Z', fill: col });
         try { slurBoxes.push({ b: p.getBBox(), sy: a.st.y }); } catch (e) {} });
