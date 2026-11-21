@@ -4387,13 +4387,16 @@ function measureWidth(ctx,m,clef,keysig,first,showTime){
 /* dibuja una figura de nota pequeña (negra/blanca, con puntillo) centrada en (cx, baseY) — para las equivalencias */
 function drawNoteFig(ctx, cx, baseY, pulseDurQ){
   const filled = pulseDurQ < 1.75;                 // negra (1) y negra c/p (1.5) rellenas; blanca (2) y blanca c/p (3) huecas
-  const dotted = (pulseDurQ===1.5 || pulseDurQ===3);
+  /* (21-nov-2026, Iago: «cuidado con las equivalencias») la corchea con puntillo (pulso de 6/16, 12/16) salía como negra
+     y la redonda (3/1, 2/1) como blanca: ahora corchea con puntillo = cabeza + plica + banderola + puntillo, y redonda sin plica */
+  const dotted = (pulseDurQ===0.75 || pulseDurQ===1.5 || pulseDurQ===3 || pulseDurQ===6);
+  const whole = pulseDurQ>=4;
   ctx.save(); ctx.setFillStyle('#1a2233'); ctx.setStrokeStyle('#1a2233'); ctx.setLineWidth(1.3);
   ctx.beginPath(); ctx.arc(cx, baseY, 3.1, 0, Math.PI*2, false);
   if(filled) ctx.fill(); else ctx.stroke();
-  ctx.fillRect(cx+2.3, baseY-14, 1.3, 14);          // plica
+  if(!whole) ctx.fillRect(cx+2.3, baseY-14, 1.3, 14);          // plica
   if(dotted){ ctx.beginPath(); ctx.arc(cx+7, baseY, 1.25, 0, Math.PI*2, false); ctx.fill(); }
-  if(pulseDurQ<0.75){   // (6-nov-2026) corchea: con su banderola (antes se veía como una negra)
+  if(pulseDurQ<0.9){   // (6-nov-2026) corchea: con su banderola (antes se veía como una negra) · (21-nov) también la corchea con puntillo
     const sx=cx+3.6, top=baseY-14;
     try{ ctx.beginPath(); ctx.moveTo(sx-0.4,top); ctx.bezierCurveTo(sx+1.2,top+3.6,sx+7.2,top+5.4,sx+5.2,top+11.5);
       ctx.bezierCurveTo(sx+5.6,top+7.4,sx+2.4,top+5.6,sx-0.4,top+4.6); ctx.closePath(); ctx.fill(); }catch(e){} }
@@ -4402,7 +4405,7 @@ function drawNoteFig(ctx, cx, baseY, pulseDurQ){
 /* (6-nov-2026, Iago) equivalencia «figura = figura» con aire: el «=» ya no pisa la segunda figura */
 function drawEquiv(ctx, xEnd, baseY, qa, qb){
   let ex=xEnd-62; drawNoteFig(ctx,ex,baseY,qa);
-  ex += (qa<0.75||qa===1.5||qa===3) ? 15 : 11;
+  ex += (qa<0.9||qa===1.5||qa===3||qa===6) ? 15 : 11;
   ctx.save(); ctx.setFont('Arial',13,'bold'); ctx.setFillStyle('#1a2233'); ctx.fillText('=',ex,baseY+4); ctx.restore();
   ex += 18; drawNoteFig(ctx,ex,baseY,qb);
 }
@@ -4618,7 +4621,9 @@ function renderLesson(container,L){
       // equivalencia de pulso (encima, a la derecha) si cambia el tipo métrico
       if(nextMeter!==curMeter){
         const _kaM=ln.ms[ln.ms.length-1], _kbM=nx.ms[0];
-        const ka=_kaM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(curMeter), kb=_kbM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(nextMeter); const baseY=topY-7;
+        const ka=_kaM.fracSig?{regular:true,pulseDurQ:1}:(_kaM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(curMeter)), kb=_kbM.fracSig?{regular:true,pulseDurQ:1}:(_kbM.e8pulse?{regular:true,pulseDurQ:0.5}:meterKind(nextMeter));   /* (21-nov-2026) el fraccionario (2+¼)/4 va a negra, como en el audio */ let baseY=topY-7;
+        /* (21-nov-2026) si las últimas notas suben por encima del pentagrama, el cartel de equivalencia sube con ellas (no se pisan) */
+        try{ const sv=ctx.svg||(container&&container.querySelector('svg')); if(sv) sv.querySelectorAll('g.vf-stavenote, g.vf-beam').forEach(el=>{ const b=el.getBBox(); if(b.x+b.width>x-78 && b.x<x+4 && b.y<baseY+6 && b.y+b.height>topY-45) baseY=Math.min(baseY, b.y-8); }); }catch(e){}
         const M1EQ=!L.comb && ((L.worldId==='m1')||(L.combine&&L.worldB==='m1'));
         if(M1EQ){   // MUNDO 1: la corchea manda — ♪ = ♪ en todo cambio con pulso distinto
           if(!(ka.regular&&kb.regular) || ka.pulseDurQ!==kb.pulseDurQ){ drawEquiv(ctx,x,baseY,0.5,0.5); }
@@ -5282,7 +5287,7 @@ function renderSetupWorlds(){
       grid.appendChild(r); trows[lab]=r.querySelector('.gp1-trimcards'); }
     return trows[lab]; };
   GP1_WORLDS.forEach((Wd,wi)=>{
-    if(gp1Mode==='combina' && (Wd.clave || !Wd.cards.some(gp1CombUsableCard))) return;   // mundo de claves (y sin cartas combinables): fuera
+    if(gp1Mode==='combina' && !Wd.cards.some(c=>c.clave||c.claveH||c.claveN) && !Wd.cards.some(gp1CombUsableCard)) return;   /* (21-nov-2026, Iago) el mundo 4 (claves) también se combina: combina-examen.js */   // mundo de claves (y sin cartas combinables): fuera
     if(Wd.special==='combine') return;   // el mundo de "cambios de compás" sobra: la generación ya alterna compases
     let badge='', on=false;
     if(gp1Mode==='combina'){ on=gp1CombWorlds.includes(Wd.id); badge=on?'✓':''; }
@@ -5352,12 +5357,13 @@ function renderSetupCards(){
       else {
         const names=gp1CombWorlds.map(id=>gp1World(id).name);
         const nc=gp1CombConfig(gp1CombWorlds).activeCards.length;
-        descEl.innerHTML=`<b>Mundos elegidos (${n}):</b> ${names.join(' · ')}<br><span style="color:var(--muted)">Entran en juego sus <b>${nc} cartas combinables</b> (las de formato propio quedan fuera).</span>`;
+        descEl.innerHTML=`<b>Mundos elegidos (${n}):</b> ${names.join(' · ')}<br><span style="color:var(--muted)">Un pentagrama por carta, variando de una lectura a otra; los grupos de valoración especial ocupan dos pentagramas.</span>`;   /* (21-nov-2026) combina-examen.js */
       }
     }
     if(hint){
-      if(n>=3) hint.textContent='Tres mundos: lectura de 5 frases con dos cambios de compás. Pulsa «Generar lectura».';
-      else if(n===2) hint.textContent='Dos mundos: lectura de 4 frases con un cambio de compás. Pulsa «Generar lectura».';
+      if(n>=4) hint.textContent='Cuatro mundos: lectura de 7 pentagramas, con dificultades de todo el curso. Pulsa «Generar lectura».';
+      else if(n===3) hint.textContent='Tres mundos: lectura de 6 pentagramas. Pulsa «Generar lectura».';
+      else if(n===2) hint.textContent='Dos mundos: lectura de 5 pentagramas. Pulsa «Generar lectura».';
       else if(n===1) hint.textContent='Un solo mundo: la lectura usa todas sus cartas. Pulsa «Generar lectura» (o elige otro mundo para combinar).';
       else hint.textContent='';
     }
@@ -5957,7 +5963,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   }
   sched.notes.forEach(nt=>{ if(nt.tied || nt.onsetQ<startQ-1e-6) return;
     const a0=at(nt.onsetQ), dur=Math.max(0.08,(at(nt.onsetQ+nt.durQ)-a0)*0.92); const oc=(opts.tesitura?phraseOct(nt.pi):0);
-    if(opts.melody) pianoHit(nt.midi+oc,a0,dur,0.13);
+    if(opts.melody) pianoHit(nt.midi+oc,a0,(nt.stac?Math.min(dur,0.16):dur),0.13*(nt.vel||1));   /* (21-nov-2026) matices y articulación (matices.js): volumen y picado */
     if(opts.rhythm) knock(a0);
     if(opts.refSet && opts.refSet.has(nt.onsetQ)) pianoHit(nt.midi+oc,a0,Math.min(0.7,dur),opts.melody?0.14:0.27);
   });
@@ -14741,5 +14747,9 @@ Object.keys(M1DEFS).forEach(function(aid){
 })();
 </script>
 <!-- (20-nov-2026, Iago) ajustes comunes del estudio por fases (los mismos que el visor de lecciones del libro). Deshacer: borrar esta línea -->
+<!-- (21-nov-2026, Iago) Combina mundos con forma de examen (2, 3 o 4 mundos, o solo el mundo 2 lleno de grupos) + matices y articulación en las lecciones generadas. + la claqueta sigue a las equivalencias (pulso-relativo.js). Deshacer: borrar estas tres líneas -->
+<script src="combina-examen.js?v=1"></script>
+<script src="matices.js?v=1"></script>
+<script src="pulso-relativo.js?v=1"></script>
 <script src="https://ge.lmathome.es/piel/estudio-comun.js?v=10"></script>
 </body></html>
