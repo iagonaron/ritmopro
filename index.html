@@ -6027,16 +6027,16 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
    siguiente fase». Si se acaba el tiempo, sale el cartel de la fase siguiente. El tiempo es POR LECCIÓN.
    lim = segundos · bolsa = de qué tiempo descuenta (las fases que comparten bolsa comparten minutos). */
 const PHASE_DEFS=[
-  {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:180,bolsa:'perc'},
-  {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 2 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:120,bolsa:'ritmo'},
+  {id:'ritmo',name:'Percusión',banner:{k:'Fase 1',t:'Percusión',d:''},kind:'ritmo',lim:120,bolsa:'perc'},
+  {id:'lectura',name:'Ritmo con la mano',banner:{k:'Fase 2',t:'Ritmo con la mano',d:'Ahora tienes 3 minutos para ponerle nombre a las notas que estabas percutiendo. Procura utilizar la mano marcando el pulso, o la forma que hemos trabajado en clase para cada dificultad. Tus anotaciones siguen ahí.'},kind:'lectura',lim:180,bolsa:'ritmo'},
   {id:'entona',name:'Entonación',banner:{k:'Fase 3',t:'Entonación',d:'Tienes <b>3 minutos</b> para practicar la entonación. Pulsa <b>Tónica</b>, <b>Escala</b> y <b>Arpegio</b> cuando quieras. Con <b>Pistas</b> eliges hasta <b>3 notas</b> para oír cómo suenan: pulsa «Pistas» y <b>todas las notas parpadean</b>; toca las 3 que quieras (se quedan en <b>azul</b>) o vuelve a pulsar «Pistas» para parar. Con ▶ suenan el <b>acompañamiento</b> y la <b>ayuda del piano</b> que elijas abajo: sin ayuda, la primera nota de <b>cada pentagrama</b> o la de <b>cada compás</b>; las notas que tocará el piano se ven en <b>azul</b>. Las notas en <b>azul</b>, por pistas o por ayuda del piano, puedes <b>pulsarlas siempre que quieras para escucharlas</b>. El <b>micrófono</b> llega en la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function lessonHasGroups(){ return currentLesson && currentLesson.phrases && currentLesson.phrases.some(p=>p.measures.some(m=>m.groupInfo)); }
 /* 3.3 (fusas y semifusas en pulso grande): MÉTODO PROPIO de 4 pasos (Iago) */
 const FUSAN_PHASES=[
-  {id:'ritmo',lim:180,bolsa:'perc',name:'1 · Percusión a corcheas',banner:{k:'PASO 1 · PIENSA EN CORCHEAS',t:'Percusión · todo a corcheas',d:'Muy despacio. Marca TODO a corcheas (como en la 3.2)… pero con los gestos de brazo de los pulsos grandes que vendrán. La claqueta subdivide por ti: corcheas claras y semicorcheas sutiles.'},kind:'ritmo'},
-  {id:'lectura',name:'2 · Lectura · acentúa',banner:{k:'PASO 2 · SIENTE EL PULSO GRANDE',t:'Lectura · acentúa la primera de cada pulso',d:'Misma velocidad. Tú ya NO subdivides: acentúa la primera nota de cada pulso real para ir sintiéndolo (la claqueta seguirá subdividiendo por ti). Todavía no entones: lee. Los pasos 2 y 3 tienen 2 minutos entre los dos.'},kind:'lectura',lim:120,bolsa:'ritmo'},
-  {id:'metro',name:'3 · Metrónomo · escalones',banner:{k:'PASO 3 · SUBE ESCALONES',t:'El metrónomo de escalones',d:'La claqueta ya solo marca el PULSO GRANDE; la luz parpadea la subdivisión. Sube velocidad con el botón + a tu ritmo (lo honesto es una pasada por escalón). La primera nota de cada pulso es sagrada: cuando vayas rápido y empieces a trabarte, las notas acentuadas serán tu ancla.'},kind:'metro',lim:120,bolsa:'ritmo'},
+  {id:'ritmo',lim:120,bolsa:'perc',name:'1 · Percusión a corcheas',banner:{k:'PASO 1 · PIENSA EN CORCHEAS',t:'Percusión · todo a corcheas',d:'Muy despacio. Marca TODO a corcheas (como en la 3.2)… pero con los gestos de brazo de los pulsos grandes que vendrán. La claqueta subdivide por ti: corcheas claras y semicorcheas sutiles.'},kind:'ritmo'},
+  {id:'lectura',name:'2 · Lectura · acentúa',banner:{k:'PASO 2 · SIENTE EL PULSO GRANDE',t:'Lectura · acentúa la primera de cada pulso',d:'Misma velocidad. Tú ya NO subdivides: acentúa la primera nota de cada pulso real para ir sintiéndolo (la claqueta seguirá subdividiendo por ti). Todavía no entones: lee. Los pasos 2 y 3 tienen 2 minutos entre los dos.'},kind:'lectura',lim:180,bolsa:'ritmo'},
+  {id:'metro',name:'3 · Metrónomo · escalones',banner:{k:'PASO 3 · SUBE ESCALONES',t:'El metrónomo de escalones',d:'La claqueta ya solo marca el PULSO GRANDE; la luz parpadea la subdivisión. Sube velocidad con el botón + a tu ritmo (lo honesto es una pasada por escalón). La primera nota de cada pulso es sagrada: cuando vayas rápido y empieces a trabarte, las notas acentuadas serán tu ancla.'},kind:'metro',lim:180,bolsa:'ritmo'},
   {id:'entona',name:'4 · Entonación',banner:{k:'PASO 4 · AHORA SÍ',t:'Entonación',d:'Con la velocidad conquistada, ahora sí: practica la entonación. Tienes 3 minutos: usa Tónica, Escala y Arpegio, y hasta 3 Pistas. Después llegará la realización final.'},kind:'entonacion',lim:180,bolsa:'ent'},
 ];
 function phasesFor(){
@@ -6715,7 +6715,7 @@ function refSet(sched){ const set=new Set();
 }
 
 /* ===== (20-nov-2026, Iago) TIEMPO VÁLIDO, desde hoy (sustituye a las reglas del 13-nov; «ya no hay tiempo de cortesía: es el tiempo que hayan estado»):
-   · f:percusion = fase 1 (como mucho sus 3 min) · f:ritmo = fase 2 (como mucho sus 2 min)   → VERDE
+   · f:percusion = fase 1 (como mucho sus 2 min) · f:ritmo = fase 2 (como mucho sus 3 min) [24-nov: antes 3+2]   → VERDE
    · f:entonacion = estudio de entonación (como mucho 3 min), SOLO si en esta sesión hizo una prueba entonada con el micrófono funcionando
    · f:prueba = lo que sonó en las pruebas entonadas en las que se le oyó                                              → AZUL
    · más de 30 s sin tocar nada y sin que suene nada no cuenta; pestaña oculta tampoco. Tope 15 min. El mínimo de 3 min lo aplica Supabase.
@@ -6772,7 +6772,7 @@ function nextPhase(){ stopPlayer(); if(phaseIdx<phaseList.length-1){ phaseIdx++;
      en la prueba (se guarda en memoria con la lección).
    Para quitarlo: borrar este bloque y volver a la versión anterior de PHASE_DEFS (git revert del commit).
    ===================================================================================================== */
-const RP_LIM={perc:180, ritmo:120, ent:180};
+const RP_LIM={perc:120, ritmo:180, ent:180};   // (24-nov-2026, Iago: «pon mejor 2 + 3 en fases 1 y 2») antes perc:180, ritmo:120
 function rpBolsa(L){ L=L||currentLesson; if(!L) return {perc:0,ritmo:0,ent:0}; if(!L.__bolsa) L.__bolsa={perc:0,ritmo:0,ent:0}; return L.__bolsa; }
 function rpQueda(b){ return Math.max(0,(RP_LIM[b]||0)-(rpBolsa()[b]||0)); }
 function rpAgotada(b){ return !!b && rpQueda(b)<=0.001; }
@@ -6791,7 +6791,7 @@ function rpTextoFase(ph){
     return ((currentLesson&&currentLesson.fusaN&&ph.banner.d)?ph.banner.d+' ':'')+tap+' Las figuras y los silencios se iluminan al sonar.'
       +' Haz tus anotaciones en la partitura, como en las lecciones del portal: escribir, patrones △/U, alertas e intervalos. Las tendrás también en las fases siguientes.'
       +' Por defecto suena la subdivisión en corcheas.'
-      +' Puedes estar aquí hasta 3 minutos y pasar a la siguiente fase cuando quieras.';
+      +' Puedes estar aquí hasta 2 minutos y pasar a la siguiente fase cuando quieras.';
   }
   const sc=rpTieneSinCompas()?' En la música sin compás suena siempre la subdivisión en corcheas.':'';
   if(ph.kind==='lectura') return ph.banner.d+' Aquí, por defecto, no suena la subdivisión: solo el pulso.'+sc

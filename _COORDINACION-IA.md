@@ -46,3 +46,5 @@ Antes de subir nada: mira el último commit y añade aquí tu huella (quién ere
 - 2026-11-21 19:25 · Conversación «Examen ampliación 2GP» (Claude) · HECHO (esta subida) · Iago 19:21: «Publica la clave de do y el arreglo de ligaduras».
   - matices.js: cada ligadura solo mira números/corchetes/barras de SU pentagrama (antes cogía el corchete de un tresillo del pentagrama vecino y salía una ligadura en S); ninguna empieza ni acaba a mitad de un grupo de valoración especial; control final (punta a más de 30 px de su nota → no se dibuja). index.html: matices.js?v=5.
   - Deshacer: matices.js del commit d233077 (y v=4) o «Revert».
+
+- 24-nov-2026 18:4x · Claude (conversación larga de Iago, «ampliación/campana») · HECHO · index.html: fases 1 y 2 pasan de 3+2 a 2+3 min (Percusión 2, Ritmo con la mano 3; también los pasos de las cartas de fusas). RP_LIM perc 120 / ritmo 180. Deshacer: volver al commit 2f2d3bc.
