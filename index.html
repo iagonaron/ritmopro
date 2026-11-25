@@ -5900,6 +5900,18 @@ function stopPlayer(){ cancelaCuenta(); if(typeof rhTapTodo==='function') rhTapT
   if(typeof stopCardLoop==='function') stopCardLoop();
   document.querySelectorAll('#score .vf-gold').forEach(e=>e.classList.remove('vf-gold'));
   document.querySelectorAll('#score .vf-ring').forEach(e=>e.remove()); setPlayState(false); }
+// (24-nov-2026, Iago, 00k) «quiero que me lo aplique ya desde el siguiente pulso»: al cambiar velocidad/subdivisión en plena reproducción no se para
+/* nada: lo que suena acaba justo en ese pulso, lo que estaba programado después ya no llega a sonar y la reproducción nueva
+   (mismo punto de la lección, tempo nuevo) entra exactamente en ese instante. Sin hueco, sin cuenta atrás nueva. */
+function playSoftStop(t){ CD_TIMERS.forEach(x=>clearTimeout(x)); CD_TIMERS=[]; if(liveT){ clearTimeout(liveT); liveT=null; }
+  if(player.stop) player.stop(); if(player.raf) cancelAnimationFrame(player.raf); player.stop=null; player.raf=null;
+  const c=ac(); const tt=Math.max(c?c.currentTime:0, t||0);
+  LIVE.forEach(n=>{ try{ n.stop(tt); }catch(e){} }); LIVE=[];
+  if(PIANO){ try{ PIANO.stop(tt); }catch(e){} }
+  playAnchor=null; }
+/* aplica a unas opciones de play() lo que trae un cambio en caliente (punto de arranque, momento exacto, golpes que faltan) */
+function rsAplica(o, r){ if(!r) return o; if(r.startQ!=null) o.startQ=r.startQ; if(r.noLead) o.noLead=true;
+  if(r.swap){ o.__swap=true; o.t0At=r.t0At; if(r.leadLeft!=null) o.leadLeft=r.leadLeft; } return o; }
 // dibuja (o quita) un círculo verde alrededor de la cabeza de la nota activa: hace visible la "x" del ritmo aislado
 function setNoteRing(el,on){
   if(!el) return; let r=el.querySelector('circle.vf-ring');
@@ -5910,10 +5922,10 @@ function setNoteRing(el,on){
       }catch(e){} } }
   else if(r){ r.remove(); }
 }
-function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, refSet, startQ, noLead, onEnd}
-  stopPlayer(); const c=ac(); if(!c){ opts.onEnd&&opts.onEnd(); return; }
+function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, refSet, startQ, noLead, onEnd} · (00k) __swap, t0At, leadLeft
+  if(opts.__swap) playSoftStop(opts.t0At); else stopPlayer(); const c=ac(); if(!c){ opts.onEnd&&opts.onEnd(); return; }
   ensurePiano();
-  const spq=60/opts.bpm; const t0=c.currentTime+((opts.noLead||(opts.startQ||0)>1e-6)?0.05:0.18); const sched=opts.schedule;
+  const spq=60/opts.bpm; const t0=(opts.__swap && opts.t0At!=null) ? opts.t0At : c.currentTime+((opts.noLead||(opts.startQ||0)>1e-6)?0.05:0.18); const sched=opts.schedule;
   const hasMap = !!sched.qToSec && sched.totalSec!=null;
   const qToSec = hasMap ? sched.qToSec : (q=>q*(60/opts.bpm));
   const startQ = Math.max(0, opts.startQ||0);          // reanudar desde esta negra (cambios en vivo); 0 = desde el principio
@@ -5931,11 +5943,12 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
     if(kind==='ritmo'||kind==='lectura'){ stepDur=stepDur/(pulseDurQ===1.5?3:2); lead=4; }
     else lead=(pulseDurQ===1.5)?2:3;
   }
+  const leadFull=lead; if(opts.leadLeft!=null) lead=Math.max(0,Math.min(leadFull,opts.leadLeft)); const leadOff=leadFull-lead;   // (24-nov-2026, Iago, 00k) cambio en la cuenta atrás: siguen los golpes que faltan
   const leadDur=lead*stepDur;
   const bodyStart=t0+leadDur;
   const at=(q)=> bodyStart + sOf(q);
   // CLAQUETA de entrada
-  for(let i=0;i<lead;i++) click(t0+i*stepDur,i===0);
+  for(let i=0;i<lead;i++) click(t0+i*stepDur,(i+leadOff)===0);
   // TÓNICA de referencia (entonación / prueba directa): ALTURA REAL (en la octava de la melodía)
   if(lead>0 && opts.tonicRef && currentLesson){
     const tpc=TONIC_PC[currentLesson.tonic]??9; let tMidi;
@@ -5948,6 +5961,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   // numeritos de claqueta (descendentes), discretos
   if(lead>0 && opts.countIn){ const cd=ensureCountdown(); cd.style.animationDuration=Math.max(0.45,Math.min(1.6,stepDur))+'s';   /* (20-nov-2026) cada número dura un pulso */
     for(let i=0;i<lead;i++){ const n=lead-i, ti=t0+i*stepDur; if(n<=3) CD_TIMERS.push(setTimeout(()=>showCountdown(cd,n),Math.max(0,(ti-c.currentTime)*1000))); } CD_TIMERS.push(setTimeout(()=>hideCountdown(),Math.max(0,(t0+leadDur-c.currentTime)*1000))); }
+  if(opts.__swap && lead===0) CD_TIMERS.push(setTimeout(()=>hideCountdown(), Math.max(0,(t0-c.currentTime)*1000)));   // (24-nov-2026, Iago, 00k) si aún se veía el «1»
   // metrónomo del CUERPO: pulsos + SUBDIVISIÓN (si el alumno la marcó) DESDE startQ; subdivide ya con la lección
   if(opts.metronome){ subClicks(sched).forEach(s=>{ if(s.q<startQ-1e-6) return; click(at(s.q), s.accent, s.sub2?0.2:(s.sub?0.42:1)); }); }
   const els=opts.elements||[];
@@ -5991,7 +6005,7 @@ function play(opts){ // opts: {schedule, bpm, melody, rhythm, metronome, gold, r
   const totalSecRel = (hasMap ? sched.totalSec : sched.totalQ*spq) - baseSec;
   const endAt=bodyStart+totalSecRel+0.1;
   // ancla para aplicar cambios en vivo desde el próximo pulso
-  playAnchor={ accStart:bodyStart, baseSec, qToSec, pulses:(sched.pulses||[]).slice(), totalQ:sched.totalQ, leadStart:t0 };
+  playAnchor={ accStart:bodyStart, baseSec, qToSec, pulses:(sched.pulses||[]).slice(), totalQ:sched.totalQ, t0, stepDur, lead, leadFull, startQ, leadStart:t0 };
   // resaltado verde (rAF) respetando el tempo variable y el offset
   const useAll = opts.goldEls && opts.goldEvents && opts.goldEls.length;
   const gEls = useAll ? opts.goldEls : els;
@@ -6498,14 +6512,17 @@ function currentPlayQ(){ if(!playAnchor) return null; const c=ac(); if(!c) retur
 }
 // un cambio de velocidad/subdivisión/referencia EN PLENA reproducción: el PULSO ACTUAL se completa con los ajustes
 // antiguos y el cambio entra en el SIGUIENTE pulso (sin reiniciar la claqueta ni cortar bruscamente lo que suena)
-function liveRetrigger(){ if(!isPlaying || !phasePlay) return; if(PR.on) return;   // (20-nov-2026) en la prueba entonada, la velocidad nueva vale para la siguiente
-  const pos=currentPlayQ();
-  if(!pos || pos.inLead || pos.q==null){ if(liveT){clearTimeout(liveT);liveT=null;} stopPlayer(); phasePlay(); return; }
-  const c=ac(); if(!c){ stopPlayer(); phasePlay({startQ:pos.q}); return; }
-  const tNext = playAnchor.accStart + (playAnchor.qToSec(pos.q)-playAnchor.baseSec);
-  const delay = Math.max(0,(tNext - c.currentTime))*1000;
-  if(liveT) clearTimeout(liveT);
-  liveT=setTimeout(()=>{ liveT=null; if(!isPlaying) return; stopPlayer(); phasePlay({startQ:pos.q}); }, delay);
+function liveRetrigger(){ if(!isPlaying || !phasePlay || !playAnchor) return;   // (24-nov-2026, Iago, 00k) en TODAS las ventanas (también ejecución y realización final)
+  const c=ac(); if(!c) return; const A=playAnchor, M=0.07, now=c.currentTime;
+  if(liveT){ clearTimeout(liveT); liveT=null; }
+  if(A.lead>0 && now < A.accStart - M){   // en la cuenta atrás: no vuelve a empezar; los golpes que faltan, ya al tempo nuevo
+    let i=Math.ceil((now+M-A.t0)/A.stepDur - 1e-6); if(i<0) i=0;
+    if(i<A.lead){ phasePlay({swap:true, t0At:A.t0+i*A.stepDur, leadLeft:A.lead-i}); return; }
+  }
+  const abs=q=>A.accStart+(A.qToSec(q)-A.baseSec);
+  const q=A.pulses.find(p=>p>=(A.startQ||0)-1e-9 && abs(p)>now+M);   // el siguiente pulso que aún no ha sonado
+  if(q==null) return;   // ya no quedan pulsos: vale para la próxima vez
+  phasePlay({swap:true, t0At:abs(q), startQ:q, noLead:true});
 }
 /* ===== RITMO AISLADO INTERACTIVO: el alumno TOCA el ritmo (barra espaciadora o pads) ===== */
 function isTouchDevice(){ try{ return ('ontouchstart' in window) || (navigator.maxTouchPoints||0) > 0; }catch(e){ return false; } }
@@ -6538,19 +6555,23 @@ function startTapCapture(sched, bpm){
     att.push({nt,idx,pk:pulseIdxOf(nt.onsetQ),group:[idx]}); });
   const dens={}; att.forEach(o=>{ dens[o.pk]=(dens[o.pk]||0)+1; });
   const T=(q)=> playAnchor.accStart + (playAnchor.qToSec(q)-playAnchor.baseSec);
-  tapExpected = att.map(o=>({ t:T(o.nt.onsetQ), si:o.idx, group:o.group.slice(), w:(dens[o.pk]||1), pk:o.pk, p:0 }));
+  tapExpected = att.map(o=>({ t:T(o.nt.onsetQ), q:o.nt.onsetQ, si:o.idx, group:o.group.slice(), w:(dens[o.pk]||1), pk:o.pk, p:0 }));
   // PULSOS (para colorear por pulso y penalizar exceso de golpes "metralleta")
   const pkOrder=[...new Set(att.map(o=>o.pk))].sort((a,b)=>a-b);
   const pkMap={}; tapPulses=[];
   pkOrder.forEach((pk,ord)=>{ pkMap[pk]=ord;
     const tS=T(pulseQs[pk]); const tE=(pk+1<pulseQs.length)?T(pulseQs[pk+1]):Infinity;
-    tapPulses.push({tStart:tS, tEnd:tE, exp:[], heads:[]}); });
+    tapPulses.push({tStart:tS, tEnd:tE, q:pulseQs[pk], qE:(pk+1<pulseQs.length)?pulseQs[pk+1]:Infinity, exp:[], heads:[]}); });
   tapExpected.forEach((o,ei)=>{ const ord=pkMap[o.pk]; tapPulses[ord].exp.push(ei); o.group.forEach(gi=>tapPulses[ord].heads.push(gi)); });
   const pulseSec = 60/bpm;
   tapPulseStarts = pulseQs.map(q=>T(q));   // inicio (en s) de CADA pulso, incluidos los de silencio (para topar la penalización por pulso)
   tapTol = Math.min(0.20, Math.max(0.09, pulseSec*0.42));
   tapCapture = true;
 }
+function tapFusiona(p){ const cut=p.cut-1e-9; tapTimes=p.times;   // (24-nov-2026, Iago, 00k)
+  tapExpected.forEach((o,i)=>{ const v=p.exp&&p.exp[i]; if(v && o.q<cut) o.t=v.t; });
+  tapPulses.forEach((o,i)=>{ const v=p.pul&&p.pul[i]; if(!v) return; if(o.q<cut) o.tStart=v.tStart; if(o.qE<cut) o.tEnd=v.tEnd; });
+  const pq=(playAnchor?playAnchor.pulses:[]).slice().sort((a,b)=>a-b); (p.st||[]).forEach((t,i)=>{ if(pq[i]!=null && pq[i]<cut && i<tapPulseStarts.length) tapPulseStarts[i]=t; }); }
 function rhythmTap(padEl,id){
   if(!tapCapture) return; const c=ac(); if(!c) return;
   rhTapIni(id!=null?id:'kbd');                                   // (13-nov-2026) suena (y se mantiene mientras se mantiene pulsado), como en el quiz
@@ -6673,15 +6694,17 @@ function buildPhaseControls(ph){ const bar=document.getElementById('phaseControl
       return o; };
     phasePlay=(resume)=>{ if(!PIANO){ ensurePiano(); }
       const opts=buildOpts(); const bpm=bpmNow(); const sched=buildSchedule(currentLesson,bpm); opts.schedule=sched; opts.bpm=bpm;
-      if(resume && resume.startQ){ opts.startQ=resume.startQ; opts.noLead=true; }
+      rsAplica(opts, resume);   // (24-nov-2026, Iago, 00k)
       if(ph.kind==='entonacion'){ opts.accompaniment=buildAccompaniment(currentLesson); opts.melody=false; }   // (20-nov-2026, 10:55, Iago, manda sobre lo de las 10:31) en Ritmo entonado la fase 3 SÍ tiene acompañamiento (sin la melodía) + la ayuda del piano elegida
       opts.elements=collectNoteEls();
       if(opts.gold||opts.accompaniment){ opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(currentLesson); }   // (20-nov-2026, Iago) los silencios también se iluminan
       if(ph.kind==='ritmo'){
-        const host=document.getElementById('phaseBannerHost'); if(host) host.querySelectorAll('.tap-fb').forEach(x=>x.remove());
+        const host=document.getElementById('phaseBannerHost'); if(host && !(resume&&resume.swap)) host.querySelectorAll('.tap-fb').forEach(x=>x.remove());
+        const prevTap=(resume&&resume.swap&&resume.startQ!=null)?{times:tapTimes.slice(), exp:tapExpected, pul:tapPulses, st:tapPulseStarts, cut:resume.startQ}:null;
         play({...opts, onEnd:()=>finishTapExercise()});
         setPlayState(true);
         startTapCapture(sched, bpm);                       // playAnchor ya está fijado por play()
+        if(prevTap) tapFusiona(prevTap);   // (24-nov-2026, Iago, 00k) lo ya percutido se conserva; lo que queda se mide con el tempo nuevo
       } else {
         const onEnd=(ph.kind==='metro') ? ()=>{ setPlayState(false); try{ fmMarkPassed(); }catch(e){} } : ()=>setPlayState(false);
         play({...opts, onEnd});
@@ -6837,7 +6860,7 @@ function rpAyudaPinta(){
 /* aviso de la velocidad en cada cartel, con la barra dibujada (Iago: «que te lo diga desde el primer momento, con el icono de la tortuga») */
 function rpVelAviso(extra){ const d=document.createElement('div'); d.className='rp-velaviso';
   let dots=''; for(let i=-2;i<=2;i++) dots+='<i'+(i===velLevel?' class="on"':'')+'></i>';
-  d.innerHTML='<span class="rp-va-bar"><span class="rp-va-e">🐢</span>'+dots+'<span class="rp-va-e">🐇</span></span><span class="rp-va-t">Abajo, en la barra de <b>Velocidad</b>, puedes ir más lento o más rápido. La que elijas se mantiene hasta el final, salvo que la cambies.'+(extra?' '+extra:'')+'</span>';
+  d.innerHTML='<span class="rp-va-bar"><span class="rp-va-e">🐢</span>'+dots+'<span class="rp-va-e">🐇</span></span><span class="rp-va-t">Abajo, en la barra de <b>Velocidad</b>, puedes ir más lento o más rápido. La que elijas se mantiene hasta el final, salvo que la cambies. Si la cambias mientras suena, se aplica desde el <b>siguiente pulso</b>, sin volver a empezar.'+(extra?' '+extra:'')+'</span>';
   return d; }
 function rpTieneDispares(){ try{ return currentLesson.phrases.some(p=>p.measures.some(m=>m.grouping&&m.grouping.length)); }catch(e){ return false; } }
 function rpTieneSinCompas(){ try{ return !!currentLesson.noMeter || currentLesson.phrases.some(p=>p.noMeter); }catch(e){ return false; } }
@@ -7661,7 +7684,7 @@ function rpEntrarPrueba(desde){
   if(st){ st.style.display='none'; st.onclick=null; } if(nx) nx.style.display='none';
   rpEntTools(false); rpPatronBtn(false); rpDifBtn(); if(rpSubFase!=='prueba'){ rpSubFase='prueba'; subMode='pulso'; }
   if(playTop){ playTop.style.display='inline-flex'; activePlayBtn=playTop; setPlayState(false); playTop.onclick=()=>rpEmpezar(); playTop.setAttribute('data-tip','Empezar / parar. También con la barra espaciadora'); }
-  phasePlay=()=>rpEmpezar();
+  phasePlay=(r)=>{ if(r&&r.swap){ rpPrSwap(r); } else rpEmpezar(); };
   // abajo: el micrófono y la velocidad
   const bar=document.getElementById('phaseControls'); bar.innerHTML=''; bar.style.display='flex';
   bar.appendChild(rpMicChip());
@@ -7672,10 +7695,10 @@ function rpEntrarPrueba(desde){
     const scrim=document.createElement('div'); scrim.className='phase-cardscrim rp-cartel';
     const card=document.createElement('div'); card.className='phase-banner';
     const k=[rpMotivo, (PR.desde==='fases'?'Fase 4':'')].filter(Boolean).join(' · '); rpMotivo='';
-    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha. Al empezar solo oirás la <b>tónica</b>; después, el piano se adapta a cómo lo hagas, pentagrama a pentagrama: si vas bien, te deja solo; si te cuesta, te irá dando notas. Se ilumina la figura que debes cantar en cada momento. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
+    card.innerHTML=(k?'<p class="pb-k">'+k+'</p>':'')+'<p class="pb-t">Realización final</p><p class="pb-d">Canta la lección con el acompañamiento: el micrófono te escucha. Al pulsar el botón, en cuanto el micrófono esté listo empieza <b>sola</b> la cuenta atrás. Al empezar solo oirás la <b>tónica</b>; después, el piano se adapta a cómo lo hagas, pentagrama a pentagrama: si vas bien, te deja solo; si te cuesta, te irá dando notas. Se ilumina la figura que debes cantar en cada momento. Canta en la octava que te sea cómoda. Al final verás cada nota en verde (afinada), ámbar (cerca) o rojo, y una puntuación: es una estimación, no cuenta para tus notas de clase.</p>';
     if(!(currentLesson&&currentLesson.fusaN)) card.appendChild(rpVelAviso());
     const okw=document.createElement('div'); okw.className='pb-ok'; const go=document.createElement('button'); go.className='pb-go'; go.innerHTML=RP_MIC_SVG+' Activar el micrófono y empezar';
-    go.onclick=()=>{ scrim.remove(); rpPideMic(); }; okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
+    go.onclick=()=>{ scrim.remove(); try{ const c=ac(); if(c&&c.state==='suspended') c.resume(); }catch(e){} rpEmpezar(); }; /* (24-nov-2026, Iago, 00k) la cuenta atrás arranca sola en cuanto el micrófono está listo */ okw.appendChild(go); card.appendChild(okw); scrim.appendChild(card); host.appendChild(scrim);
   }
   rpMicEstado(RPMIC.ready?'ok':'pide');
   rpInitMic().then(()=>rpMicEstado('ok')).catch(()=>rpMicEstado('error'));
@@ -7706,25 +7729,44 @@ async function rpEmpezar(){
   await rpEsperaPiano(4000);   // (20-nov-2026, Iago) acordes y apoyos con piano de verdad
   if(RP_ANOT_CTL) RP_ANOT_CTL.suelta();
   rpLimpiaColores();
-  const L=currentLesson, bpm=bpmNow(), sched=buildSchedule(L,bpm), els=collectNoteEls();
+  rpArranca(null);
+}
+function rpPrOpts(){ const L=currentLesson, bpm=bpmNow(), sched=buildSchedule(L,bpm), els=collectNoteEls();
   const opts={metronome:true, countIn:3, tonicRef:true, gold:true, schedule:sched, bpm, accompaniment:buildAccompaniment(L), elements:els, onEnd:()=>{ if(PR.running) rpFin(false,false); }};
-  opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(L);
-  play(opts); setPlayState(true);
+  opts.goldEls=collectAllEls(); opts.goldEvents=allEvents(L); return opts; }
+/* (24-nov-2026, Iago, 00k) cambio de velocidad/subdivisión EN PLENA realización final: no se para; las notas que faltan, la ayuda del piano y
+   la escucha del micrófono pasan al tempo nuevo desde el siguiente pulso (lo ya cantado se queda como estaba) */
+function rpPrSwap(r){ if(!PR.running) return;
+  if(r.leadLeft!=null){ const lat=(PR.body||0)-(PR.ref||PR.body||0); rpCortaTodo(); rpArranca(r); PR.body+=lat; return; }   // aún en la cuenta atrás
+  const opts=rpPrOpts(); play(rsAplica(opts,r)); setPlayState(true);
+  const A=playAnchor; if(!A) return; const cut=r.startQ-1e-9, abs=q=>A.accStart+(A.qToSec(q)-A.baseSec);
+  PR.notes.forEach(n=>{ if(n.onsetQ>=cut) n.t0=abs(n.onsetQ)-PR.ref; if(n.endQ>cut+2e-9) n.t1=abs(n.endQ)-PR.ref; });
+  (PR.timers||[]).forEach(id=>clearTimeout(id)); PR.timers=[];
+  rpProgramaAyuda((PR.pts||[]).filter(p=>p.n.onsetQ>=cut), PR.ref);
+}
+function rpArranca(r){
+  const opts=rpPrOpts(), sched=opts.schedule, els=opts.elements;
+  play(rsAplica(opts,r)); setPlayState(true);
   const A=playAnchor; if(!A){ setPlayState(false); return; }
-  PR.running=true; PR.cortada=false; PR.els=els; PR.body=A.accStart; PR.inicio=A.accStart; PR.acc={}; PR.revisado={}; PR.helpGiven=0;
+  PR.running=true; PR.cortada=false; PR.els=els; PR.body=A.accStart; PR.ref=A.accStart; PR.inicio=A.accStart; PR.acc={}; PR.revisado={}; PR.helpGiven=0;
   PR.nivel={}; PR.nivel[0]='none';   // (20-nov-2026, Iago) «al principio solo vas a escuchar la tónica; luego el piano se adecuará»
   const q2s=(q)=>A.qToSec(q)-A.baseSec;
   // notas puntuables: las ligadas se juntan con la nota de la que salen
   PR.notes=[];
   sched.notes.forEach((nt,i)=>{ const t0=q2s(nt.onsetQ), t1=q2s(nt.onsetQ+nt.durQ);
-    if(nt.tied){ const last=PR.notes[PR.notes.length-1]; if(last){ last.els.push(i); last.t1=Math.max(last.t1,t1); } return; }
-    PR.notes.push({i, midi:nt.midi, pi:nt.pi, mi:nt.mi, onsetQ:nt.onsetQ, t0, t1, els:[i], res:null, voiced:false}); });
+    if(nt.tied){ const last=PR.notes[PR.notes.length-1]; if(last){ last.els.push(i); last.t1=Math.max(last.t1,t1); last.endQ=Math.max(last.endQ,nt.onsetQ+nt.durQ); } return; }
+    PR.notes.push({i, midi:nt.midi, pi:nt.pi, mi:nt.mi, onsetQ:nt.onsetQ, endQ:nt.onsetQ+nt.durQ, t0, t1, els:[i], res:null, voiced:false}); });
   // puntos de apoyo del piano: 1.ª nota de cada compás (en los pentagramas sin compás, cada 4 pulsos de negra)
   const c=ac(); const pts=[]; const vistos={};
   PR.notes.forEach(n=>{ const key=n.pi+'_'+n.mi; if(!(key in vistos)){ vistos[key]=n.onsetQ; pts.push({n, pi:n.pi, seg:key}); }
     else if(n.onsetQ-vistos[key]>=4-1e-6){ vistos[key]=n.onsetQ; pts.push({n, pi:n.pi, seg:key+'+'}); } });
   const posEnPenta={}; pts.forEach(p=>{ posEnPenta[p.pi]=(posEnPenta[p.pi]==null)?0:posEnPenta[p.pi]+1; p.pos=posEnPenta[p.pi]; });
-  pts.forEach(p=>{ const when=PR.body+p.n.t0; const ms=(when-0.09-c.currentTime)*1000;
+  rpProgramaAyuda(pts, PR.body);
+  PR.nPts=pts.length; PR.pts=pts;   // (20-nov-2026, 10:51, Iago) en la fase 4 NO se premarca ninguna nota en azul
+  PR.anal=setInterval(rpAnaliza,60);
+}
+function rpProgramaAyuda(pts, ref){ const c=ac();
+  pts.forEach(p=>{ const when=ref+p.n.t0; const ms=(when-0.09-c.currentTime)*1000;
     PR.timers.push(setTimeout(()=>{ if(!PR.running) return;
       const lvl=PR.nivel[p.pi]||'none'; let suena=false;
       if(lvl==='every1') suena=true; else if(lvl==='every2') suena=(p.pos%2===0); else if(lvl==='sysStart') suena=(p.pos===0);
@@ -7735,8 +7777,6 @@ async function rpEmpezar(){
       // (20-nov-2026, 10:51) sin marca azul: solo se ilumina la figura que suena (la que deberías cantar)
     }, Math.max(0,ms)));
   });
-  PR.nPts=pts.length; PR.pts=pts;   // (20-nov-2026, 10:51, Iago) en la fase 4 NO se premarca ninguna nota en azul
-  PR.anal=setInterval(rpAnaliza,60);
 }
 function rpAnaliza(){
   if(!PR.running) return; const c=ac(); const tSec=c.currentTime-PR.body; if(tSec<0) return;
